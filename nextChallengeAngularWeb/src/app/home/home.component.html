@@ -1,26 +1,21 @@
 <div id="page-contents">
-    <div class="container">
-        <div class="row">
-
-            <!-- Side Bar Left
+  <div class="container">
+    <div class="row">
+      <!-- Side Bar Left
                 ================================================= -->
-            <app-navigation-menu *ngIf="desktopScreen" ></app-navigation-menu>
+      <app-navigation-menu *ngIf="desktopScreen"></app-navigation-menu>
 
-            <!-- Home Content
+      <!-- Home Content
                 ================================================= -->
-            <div class="col-md-7" id="home-content">
+      <div class="col-md-7" id="home-content">
+        <router-outlet></router-outlet>
+      </div>
 
-
-                <router-outlet></router-outlet>
-
-
-            </div>
-
-            <!-- Newsfeed Common Side Bar Right
+      <!-- Newsfeed Common Side Bar Right
                 ================================================= -->
-            <div class="col-md-2 static">
-                <app-suggestions *ngIf="desktopScreen" ></app-suggestions>
-            </div>
-        </div>
+      <div class="col-md-2 static">
+        <app-suggestions *ngIf="desktopScreen"></app-suggestions>
+      </div>
     </div>
+  </div>
 </div>

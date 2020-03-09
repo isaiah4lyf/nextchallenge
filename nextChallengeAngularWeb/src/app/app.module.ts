@@ -15,6 +15,15 @@ import { DefaultComponent } from './home/default/default.component';
 import { PlayComponent } from './home/play/play.component';
 import { BuyAttemptsComponent } from './home/buy-attempts/buy-attempts.component';
 import { SessionsComponent } from './home/sessions/sessions.component';
+import { LeaderboardsComponent } from './home/leaderboards/leaderboards.component';
+import { PrizesComponent } from './home/prizes/prizes.component';
+import { SettingsComponent } from './home/settings/settings.component';
+import { ContactComponent } from './home/contact/contact.component';
+import { HelpComponent } from './home/help/help.component';
+import { FriendRequestsComponent } from './home/friend-requests/friend-requests.component';
+import { ChatComponent } from './home/chat/chat.component';
+import { NotificationsComponent } from './home/notifications/notifications.component';
+import { OpenChatComponent } from './home/open-chat/open-chat.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +39,16 @@ import { SessionsComponent } from './home/sessions/sessions.component';
     DefaultComponent,
     PlayComponent,
     BuyAttemptsComponent,
-    SessionsComponent
+    SessionsComponent,
+    LeaderboardsComponent,
+    PrizesComponent,
+    SettingsComponent,
+    ContactComponent,
+    HelpComponent,
+    FriendRequestsComponent,
+    ChatComponent,
+    NotificationsComponent,
+    OpenChatComponent
   ],
   imports: [
     BrowserModule,
