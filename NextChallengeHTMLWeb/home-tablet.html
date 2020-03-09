@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is social network html5 template available in themeforest......" />
+    <meta name="keywords" content="Social Network, Social Media, Make Friends, Newsfeed, Profile Page" />
+    <meta name="robots" content="index, follow" />
+    <title>News Feed | Check what your friends are doing</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style-tablet.css" />
+    <link rel="stylesheet" href="css/ionicons.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link href="css/emoji.css" rel="stylesheet">
+
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="images/fav.png" />
+</head>
+
+<body>
+
+    <!-- Header
+    ================================================= -->
+    <header id="header">
+        <nav class="navbar navbar-default navbar-fixed-top menu" id="navnav" style="background-color: white;">
+            <div class="container">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index-register.html"><img
+                            style="width: 38px;height: 22px; margin-top: 0px" src="images/logo (2).png"
+                            alt="logo" /></a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right main-menu">
+                        <li>
+                            <img src="icons/play.svg" alt="" />
+                        </li>
+                        <li>
+                            <img src="icons/friends.svg" alt="" />
+                        </li>
+                        <li>
+                            <img src="icons/notification.svg" alt="" />
+                        </li>
+                        <li>
+                            <img src="icons/chat.svg" alt="" />
+                        </li>
+                        <li style="margin-left: 45px;">
+                            <img style="width: 28px; height: 28px; margin-left: -45px; " src="icons/user profile.svg" alt="" />
+                        </li>
+                    </ul>
+
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container -->
+        </nav>
+    </header>
+    <!--Header End-->
+    <div class="tab-dropdown">
+        <div class="arrow-down-div"  id="tab-dropdown-arrow-down-div"><div style="margin-left: 50%;">
+            <table >
+                <tr>
+                    <td style="padding-right: 10px;">
+                        <img src="icons/bullet-list.svg" style="width: 13px; height: 13px;" alt="" />
+                    </td>
+                    <td  style="padding-right: 10px;">
+                        <img src="icons/down-arrow.svg" id="tab-dropdown-arrow-down-icon"  style="width: 13px; height: 13px;" alt="" />
+                    </td>
+                    <td>               
+                         <img src="icons/bullet-list-opposite.svg" style="width: 13px; height: 13px;" alt="" />          
+                    </td>
+                </tr>
+            </table>
+
+        </div></div>
+        <div class="container tab-dropdown-content" style="display: none;">
+            <form>
+                <div class="form-group">
+                    <i class="icon ion-android-search"></i>
+                    <input type="text" class="form-control search" placeholder="Search friends, photos, videos">
+                </div>
+            </form>
+            <br/>
+            <!-- Newsfeed Common Side Bar Left
+                ================================================= -->
+                <div class="col-md-3 static"  style="text-align: left;">
+                    <div class="profile-card">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo" />
+                        <h5><a href="timeline.html" class="text-white">Sarah Cruiz</a></h5>
+                        <i class="ion ion-leaf"></i> 1,299 attempts
+                    </div>
+                    <!--profile card ends-->
+                    <ul class="nav-news-feed" style="margin-top: -25px; margin-left: -15px;">
+                        <li><i class="icon ion-ios-play-outline"></i>
+                            <div><a href="newsfeed.html">Play</a></div>
+                        </li>
+                        <li><i class="icon ion-ios-paper"></i>
+                            <div><a href="newsfeed-people-nearby.html">Leaderboards</a></div>
+                        </li>
+                        <li><i class="icon ion-android-cart"></i>
+                            <div><a href="newsfeed-friends.html">Buy attempts</a></div>
+                        </li>
+                        <li><i class="icon ion-trophy"></i>
+                            <div><a href="newsfeed-messages.html">Prizes</a></div>
+                        </li>
+                        <li><i class="icon ion-android-settings"></i>
+                            <div><a href="newsfeed-images.html">Settings</a></div>
+                        </li>
+                        <li><i class="icon ion-help"></i>
+                            <div><a href="newsfeed-videos.html">Help</a></div>
+                        </li>
+                        <li><i class="icon ion-ios-paper-outline"></i>
+                            <div><a href="newsfeed-videos.html">Terms and Conditions</a></div>
+                        </li>
+                        <li><i class="icon ion-ios-telephone"></i>
+                            <div><a href="newsfeed-videos.html">Contact</a></div>
+                        </li>
+                    </ul>
+                    <!--news-feed links ends-->
+                </div>
+
+            <!-- Newsfeed Common Side Bar Right
+                ================================================= -->
+            <div class="col-md-2 static">
+                <div class="suggestions" id="sticky-sidebar">
+                    <h4 class="grey">Who to Challenge</h4>
+                    <div class="follow-user">
+                        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                        <div>
+                            <h5><a href="timeline.html">Diana Amber</a></h5>
+                            <a href="#" class="text-green">Challenge</a>
+                        </div>
+                    </div>
+                    <div class="follow-user">
+                        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                        <div>
+                            <h5><a href="timeline.html">Cris Haris</a></h5>
+                            <a href="#" class="text-green">Challenge</a>
+                        </div>
+                    </div>
+                    <div class="follow-user">
+                        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                        <div>
+                            <h5><a href="timeline.html">Brian Walton</a></h5>
+                            <a href="#" class="text-green">Challenge</a>
+                        </div>
+                    </div>
+                    <div class="follow-user">
+                        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                        <div>
+                            <h5><a href="timeline.html">Olivia Steward</a></h5>
+                            <a href="#" class="text-green">Challenge</a>
+                        </div>
+                    </div>
+                    <div class="follow-user">
+                        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                        <div>
+                            <h5><a href="timeline.html">Sophia Page</a></h5>
+                            <a href="#" class="text-green">Challenge</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="page-contents">
+        <div class="container">
+            <div class="row">
+
+
+                <!-- Home Content
+                ================================================= -->
+                <div class="col-md-7">
+                    <!-- Post Create Box
+                    ================================================= -->
+                    <div class="create-post" >
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-md" />
+                                    <textarea name="texts" id="exampleTextarea" cols="500" rows="1"  class="form-control"
+                                        placeholder="Write what you wish"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="tools">
+                                    <ul class="publishing-tools list-inline">
+                                        <li><a href="#"><i class="ion-compose"></i></a></li>
+                                        <li><a href="#"><i class="ion-images"></i></a></li>
+                                        <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                                        <li><a href="#"><i class="ion-map"></i></a></li>
+                                    </ul>
+                                    <button class="btn btn-primary pull-right" style="width: 200px;">Publish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Post Create Box End-->
+
+
+                    <!-- Post Content
+                    ================================================= -->
+                    <div class="post-content">
+                        <img src="http://placehold.it/1920x1160" alt="" class="img-responsive post-image" />
+                        <div class="post-container">
+                            <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
+                            <div class="post-detail">
+                                <div class="user-info">
+                                    <h5><a href="timeline.html" class="profile-link">Anna Young</a> <span
+                                            class="following">following</span></h5>
+                                    <p class="text-muted">Published a photo about 4 hour ago</p>
+                                </div>
+                                <div class="reaction">
+                                    <a class="btn text-green"><i class="icon ion-thumbsup"></i> 2</a>
+                                    <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-text">
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+                                        voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+                                </div>
+                                <div class="line-divider"></div>
+                                <div class="post-comment">
+                                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                                    <p><a href="timeline.html" class="profile-link">Julia </a>At vero eos et accusamus
+                                        et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+                                        atque corrupti quos dolores et quas molestias excepturi sint occaecati
+                                        cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia
+                                        animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                                <div class="post-comment">
+                                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                                    <input type="text" class="form-control" placeholder="Post a comment">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!--preloader-->
+    <div id="spinner-wrapper">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts
+    ================================================= -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.sticky-kit.min.js"></script>
+    <script src="js/jquery.scrollbar.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
