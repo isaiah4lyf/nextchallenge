@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule }   from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +26,16 @@ import { FriendRequestsComponent } from './home/friend-requests/friend-requests.
 import { ChatComponent } from './home/chat/chat.component';
 import { NotificationsComponent } from './home/notifications/notifications.component';
 import { OpenChatComponent } from './home/open-chat/open-chat.component';
+import { IndexComponent } from './index/index.component';
+import { TimelineComponent } from './profile/timeline/timeline.component';
+import { AboutComponent } from './profile/about/about.component';
+import { GalleryComponent } from './profile/gallery/gallery.component';
+import { FriendsComponent } from './profile/friends/friends.component';
+import { AboutViewComponent } from './profile/about/about-view/about-view.component';
+import { AboutEditComponent } from './profile/about/about-edit/about-edit.component';
+import { AppService } from './services/app.service';
+import { LoginComponent } from './index/login/login.component';
+import { RegisterComponent } from './index/register/register.component';
 
 @NgModule({
   declarations: [
@@ -48,13 +60,24 @@ import { OpenChatComponent } from './home/open-chat/open-chat.component';
     FriendRequestsComponent,
     ChatComponent,
     NotificationsComponent,
-    OpenChatComponent
+    OpenChatComponent,
+    IndexComponent,
+    TimelineComponent,
+    AboutComponent,
+    GalleryComponent,
+    FriendsComponent,
+    AboutViewComponent,
+    AboutEditComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule      
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

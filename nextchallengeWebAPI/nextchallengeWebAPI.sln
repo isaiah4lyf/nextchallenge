@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29505.145
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nextchallengeWebAPI", "nextchallengeWebAPI\nextchallengeWebAPI.csproj", "{A11619C7-103A-410D-9309-58F31BBED921}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A11619C7-103A-410D-9309-58F31BBED921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11619C7-103A-410D-9309-58F31BBED921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A11619C7-103A-410D-9309-58F31BBED921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A11619C7-103A-410D-9309-58F31BBED921}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90C97A3F-1150-40B8-895C-1F7439E02900}
+	EndGlobalSection
+EndGlobal

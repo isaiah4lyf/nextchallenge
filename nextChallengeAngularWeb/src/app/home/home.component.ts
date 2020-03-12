@@ -1,21 +1,28 @@
-import { HostListener, Component, OnInit } from '@angular/core';
+import { HostListener, Component, OnInit } from "@angular/core";
+import { AppService } from ".././services/app.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-  mobileScreen = document.body.offsetWidth < 992;
-  desktopScreen = document.body.offsetWidth >= 992;
-  
-  constructor() { }
+  mobileScreen =
+    document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+  desktopScreen =
+    document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
+
+  constructor(private _appService: AppService) {}
 
   ngOnInit(): void {
+
+
   }
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResized(event): void {
-      this.mobileScreen = document.body.offsetWidth < 992;
-      this.desktopScreen = document.body.offsetWidth >= 992;
+    this.mobileScreen =
+      document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+    this.desktopScreen =
+      document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
   }
 }

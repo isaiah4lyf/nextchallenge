@@ -10,7 +10,7 @@ export class PostComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-      this.profileRoute = this.router.url === '/profile';
+      this.profileRoute = this.router.url.includes('/profile');
   }
 
 }

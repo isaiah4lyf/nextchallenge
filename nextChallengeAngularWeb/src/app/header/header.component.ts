@@ -7,20 +7,18 @@ import * as $ from 'jquery';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  mobileScreen = document.body.offsetWidth < 992;
-  desktopScreen = document.body.offsetWidth >= 992;
+  mobileScreen = document.body.offsetWidth + window.innerWidth-$(window).width() < 992;
+  desktopScreen = document.body.offsetWidth + window.innerWidth-$(window).width() >= 992;
 
   constructor() { }
 
   ngOnInit(): void {
 
-
-
   }
 
   @HostListener('window:resize', ['$event'])
   onResized(event): void {
-      this.mobileScreen = document.body.offsetWidth < 992;
-      this.desktopScreen = document.body.offsetWidth >= 992;
+      this.mobileScreen = document.body.offsetWidth + window.innerWidth-$(window).width() < 992;
+      this.desktopScreen = document.body.offsetWidth + window.innerWidth-$(window).width() >= 992;
   }
 }

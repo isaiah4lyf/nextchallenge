@@ -14,7 +14,13 @@ import { ContactComponent } from "./home/contact/contact.component";
 import { HelpComponent } from "./home/help/help.component";
 import { FriendRequestsComponent } from "./home/friend-requests/friend-requests.component";
 import { NotificationsComponent } from "./home/notifications/notifications.component";
-import {ChatComponent } from "./home/chat/chat.component";
+import { ChatComponent } from "./home/chat/chat.component";
+import { OpenChatComponent } from "./home/open-chat/open-chat.component";
+import { IndexComponent } from "./index/index.component";
+import { TimelineComponent } from "./profile/timeline/timeline.component";
+import { AboutComponent } from "./profile/about/about.component";
+import { GalleryComponent } from "./profile/gallery/gallery.component";
+import {FriendsComponent } from "./profile/friends/friends.component";
 
 const routes: Routes = [
   {
@@ -37,11 +43,27 @@ const routes: Routes = [
       { path: "contact", component: ContactComponent },
       { path: "friendrequests", component: FriendRequestsComponent },
       { path: "notifications", component: NotificationsComponent },
-      { path: "chat", component: NotificationsComponent }
+      { path: "chat", component: ChatComponent },
+      { path: "chat/:id", component: OpenChatComponent }
     ]
   },
-  { path: "profile", component: ProfileComponent },
-  { path: "help", component: HelpComponent }
+  {
+    path: "profile/:id",
+    component: ProfileComponent,
+    children: [
+      {
+        path: "",
+        redirectTo: "timeline",
+        pathMatch: "full"
+      },
+      { path: "timeline", component: TimelineComponent },
+      { path: "about", component: AboutComponent },
+      { path: "gallery", component: GalleryComponent },
+      { path: "friends", component: FriendsComponent }
+    ]
+  },
+  { path: "help", component: HelpComponent },
+  { path: "login", component: IndexComponent }
 ];
 
 @NgModule({

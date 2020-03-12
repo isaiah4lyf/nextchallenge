@@ -1,0 +1,4 @@
+<app-about-edit *ngIf="isProfileEdit; else elseBlock"></app-about-edit>
+<ng-template #elseBlock>
+    <app-about-view  ></app-about-view>
+</ng-template>
