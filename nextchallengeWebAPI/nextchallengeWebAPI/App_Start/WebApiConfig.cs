@@ -11,10 +11,11 @@ namespace nextchallengeWebAPI
         public static void Register(HttpConfiguration config)
         {
 
-            var corsAttr = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(corsAttr);
 
             // Web API configuration and services
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
 
             // Web API routes
             config.MapHttpAttributeRoutes();

@@ -1,14 +1,16 @@
 <!-- Post Content
                   ================================================= -->
-<div class="post-content">
-    <div *ngIf="profileRoute"  class="post-date hidden-xs hidden-sm">
+<div class="post-content" >
+    <div *ngIf="profileRoute" class="post-date hidden-xs hidden-sm">
         <h5>Sarah</h5>
         <p class="text-grey">10/21/2016</p>
-    </div><!--Post Date End-->
-    <img src="http://placehold.it/1920x1160" alt="" class="img-responsive post-image" />
+    </div>
+    <!--Post Date End-->
+    <video *ngIf='fileType == "video"' class="post-video" style="width: 100%; height: auto; max-height: 500px;" controls> <source [src]='post["Files"][0]["FileBaseUrls"][0]' type="video/mp4"> </video>
+    <img  *ngIf='fileType == "image"' style="width: 100%; height: auto; max-height: 500px;" [src]='post["Files"][0]["FileBaseUrls"][0]' alt="" class="img-responsive post-image router-link" [routerLink]="postLink" />
     <div class="post-container">
         <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
-        <div class="post-detail">
+        <div class="post-detail router-link" [routerLink]="postLink" >
             <table style="width: 100%;">
                 <tr>
                     <td>
@@ -26,23 +28,21 @@
                 </tr>
             </table>
         </div>
-        <div class="post-text"  >
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+        <div class="post-text router-link" [routerLink]="postLink" >
+            <p>{{post["PostContent"]}}</p>
         </div>
-        <div class="line-divider"></div>
-        <div class="post-comment">
+        <div class="line-divider router-link" [routerLink]="postLink"></div>
+        <div class="post-comment" >
             <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-            <p>
+            <p class="post-text" > 
                 <a href="timeline.html" class="profile-link">Julia <br /></a>
                 <img src="http://placehold.it/1920x1160" alt="" class="img-responsive post-image" />
+                <span class="router-link" [routerLink]="postLink">
                 At vero eos et accusamus
                 et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
                 atque corrupti quos dolores et quas molestias excepturi sint occaecati
                 cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia
-                animi, id est laborum et dolorum fuga.<br />
+                animi, id est laborum et dolorum fuga.<br /> </span>
                 <span class="text-muted" style="font-size: 11px;">about 4 hour ago</span>
             </p>
         </div>

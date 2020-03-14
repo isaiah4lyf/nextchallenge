@@ -36,6 +36,8 @@ import { AboutEditComponent } from './profile/about/about-edit/about-edit.compon
 import { AppService } from './services/app.service';
 import { LoginComponent } from './index/login/login.component';
 import { RegisterComponent } from './index/register/register.component';
+import { PostViewComponent } from './home/post-view/post-view.component';
+import { CommentComponent } from './home/post-view/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { RegisterComponent } from './index/register/register.component';
     AboutViewComponent,
     AboutEditComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    PostViewComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,8 @@ import { AppService } from ".././services/app.service";
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
+  private UserData = null;
+
   mobileScreen =
     document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
   desktopScreen =
@@ -15,8 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private _appService: AppService) {}
 
   ngOnInit(): void {
-
-
+    this.UserData = this._appService.getUserData();
   }
   @HostListener("window:resize", ["$event"])
   onResized(event): void {

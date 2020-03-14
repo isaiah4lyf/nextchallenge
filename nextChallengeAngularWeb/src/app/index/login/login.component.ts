@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AppService } from "../.././services/app.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -8,15 +9,19 @@ import { AppService } from "../.././services/app.service";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
-  constructor(private _appService: AppService) {}
+  loginSpinner = false;
 
-  ngOnInit(): void {
-    //alert(this._appService._userID);
-  }
+  constructor(private _appService: AppService, private router: Router) {}
+
+  ngOnInit(): void {}
   login(form: NgForm) {
+    this.loginSpinner = true;
     this._appService.login(form).subscribe(data => {
-      alert(data[0]["FirstName"]);
+      if (data != null) {
+        this._appService.setUserData(data);
+        this.router.navigate(["/home"]);
+      }
+      this.loginSpinner = false;
     });
   }
-
 }

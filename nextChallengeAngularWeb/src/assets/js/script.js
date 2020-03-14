@@ -2,6 +2,7 @@
 var currentUrl = "";
 $(document).bind("DOMSubtreeModified", function() {
   if (currentUrl !== window.location.href) {
+    $('#gender').val('Gender');
     console.log(window.location.href);
     currentUrl = window.location.href;
     //Preloader

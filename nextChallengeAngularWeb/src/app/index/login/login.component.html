@@ -2,7 +2,7 @@
 <p class="text-muted">Log into your account</p>
 
 <!--Login Form-->
-<form #User="ngForm" name="Login_form" id='Login_form' (ngSubmit)="login(User)" >
+<form #User="ngForm" name="Login_form" id='Login_form' (ngSubmit)="login(User)">
     <div class="row">
         <div class="form-group col-xs-12">
             <label for="my-email" class="sr-only">Email</label>
@@ -21,3 +21,6 @@
     <p><a href="#">Forgot Password?</a></p>
     <button class="btn btn-primary">Login Now</button>
 </form>
+<div id="spinner-wrapper" *ngIf="loginSpinner" >
+    <div class="spinner" style="z-index: 9;"></div>
+</div>

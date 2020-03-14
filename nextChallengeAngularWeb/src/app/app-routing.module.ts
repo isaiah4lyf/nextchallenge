@@ -20,7 +20,8 @@ import { IndexComponent } from "./index/index.component";
 import { TimelineComponent } from "./profile/timeline/timeline.component";
 import { AboutComponent } from "./profile/about/about.component";
 import { GalleryComponent } from "./profile/gallery/gallery.component";
-import {FriendsComponent } from "./profile/friends/friends.component";
+import { FriendsComponent } from "./profile/friends/friends.component";
+import { PostViewComponent } from './home/post-view/post-view.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
       { path: "friendrequests", component: FriendRequestsComponent },
       { path: "notifications", component: NotificationsComponent },
       { path: "chat", component: ChatComponent },
-      { path: "chat/:id", component: OpenChatComponent }
+      { path: "chat/:id", component: OpenChatComponent },
+      { path: "post/:id", component: PostViewComponent }
     ]
   },
   {
@@ -63,7 +65,8 @@ const routes: Routes = [
     ]
   },
   { path: "help", component: HelpComponent },
-  { path: "login", component: IndexComponent }
+  { path: "login", component: IndexComponent },
+  { path: "**", redirectTo: "login", pathMatch: "full" }
 ];
 
 @NgModule({

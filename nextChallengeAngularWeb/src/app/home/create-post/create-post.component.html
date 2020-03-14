@@ -1,24 +1,33 @@
 <div class="create-post" style="margin-top: -16px;">
+  <form #createPostForm="ngForm" (ngSubmit)="createPost(createPostForm,filePreviewImg,fileInput,createPostSpinnerRef, filePreviewVid)">
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
-          <img src="http://placehold.it/300x300" alt="" class="profile-photo-md" />
-          <textarea name="texts" id="exampleTextarea" cols="500" rows="1" class="form-control"
+          <textarea type="text" name="PostContent" id="exampleTextarea" cols="500" rows="3" class="form-control"
             placeholder="Write what you wish"
-            style="border: none !important;	background-color: rgb(250, 250, 250); border-radius: 0;"></textarea>
+            style="border: none !important;	background-color: rgb(250, 250, 250); border-radius: 0;" ngModel></textarea>
         </div>
       </div>
+      <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files" #fileInput type="file" style="display: none;" ngModel/>
       <div class="col-md-12">
+        <div class="video-wrapper"  >
+          <img #filePreviewImg src="" alt="" filePreviewVidclass="img-responsive post-image" style="display: none; width: 100%; height: auto; max-height: 500px;" />
+          <video #filePreviewVid class="post-video" style="display: none; width: 100%; height: auto; max-height: 500px;" controls> <source src="" type="video/mp4"> </video>
+        </div>
         <div class="tools">
           <ul class="publishing-tools list-inline">
-            <li><a href="#"><i class="ion-compose"></i></a></li>
-            <li><a href="#"><i class="ion-images"></i></a></li>
-            <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-            <li><a href="#"><i class="ion-map"></i></a></li>
+            <li><a><i class="ion-android-happy"></i></a></li>
+            <li><a (click)="clikImages(fileInput)"><i class="ion-images"></i></a></li>
+            <li><a (click)="clikVideos(fileInput)"><i class="ion-ios-videocam"></i></a></li>
+            <li><a><i class="ion-map"></i></a></li>
           </ul>
-          <button class="btn btn-primary pull-right">publish</button>
+          <button type="submit" class="btn btn-primary pull-right">publish</button>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Post Create Box End-->
+  </form>
+</div>
+<!-- Post Create Box End-->
+<div #createPostSpinnerRef id="spinner-wrapper" style="display: none;" >
+  <div class="spinner" style="z-index: 9;"></div>
+</div>
