@@ -48,7 +48,7 @@ namespace nextchallengeWebAPI.Controllers
             await Request.Content.ReadAsMultipartAsync(provider);
 
             List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now.AddHours(2);
+            DateTime datetime = DateTime.Now;
             foreach (MultipartFileData file in provider.FileData)
             {
                 FileUpload fileUpload = new FileUpload();
@@ -82,6 +82,9 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionPosts = database.GetCollection<Post>("Posts");
             var collectionUsers = database.GetCollection<User>("Users");
+            var collectionComments = database.GetCollection<Comment>("Comments");
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLike");
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
 
             List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
                     join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
@@ -90,14 +93,19 @@ namespace nextchallengeWebAPI.Controllers
                     {
                         _id = p._id,
                         PostContent = p.PostContent,
+                        FileType = p.FileType,
                         UserID = p.UserID,
                         CreateDateTime = p.CreateDateTime,
+                        DateTimeNow = DateTime.Now,
                         Files = p.Files,
                         Users = (List<User>)user
                     }).Take(4).ToList();
             for (int i = 0; i < posts.Count; i++)
             {
                 posts.ElementAt(i).Comments = retrievecomments(posts.ElementAt(i)._id.ToString());
+                posts.ElementAt(i).CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
             }
             return posts;
         }
@@ -107,6 +115,9 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionPosts = database.GetCollection<Post>("Posts");
             var collectionUsers = database.GetCollection<User>("Users");
+            var collectionComments = database.GetCollection<Comment>("Comments");
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLike");
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
             ObjectId objecto = ObjectId.Parse(postid);
             Post post = collectionPosts.Find(new BsonDocument("_id", objecto)).FirstOrDefault();
 
@@ -118,14 +129,19 @@ namespace nextchallengeWebAPI.Controllers
                     {
                         _id = p._id,
                         PostContent = p.PostContent,
+                        FileType = p.FileType,
                         UserID = p.UserID,
                         CreateDateTime = p.CreateDateTime,
+                        DateTimeNow = DateTime.Now,
                         Files = p.Files,
                         Users = (List<User>)user
                     }).Take(4).ToList();
             for (int i = 0; i < posts.Count; i++)
             {
                 posts.ElementAt(i).Comments = retrievecomments(posts.ElementAt(i)._id.ToString());
+                posts.ElementAt(i).CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
             }
             return posts;
         }
@@ -135,6 +151,9 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionPosts = database.GetCollection<Post>("Posts");
             var collectionUsers = database.GetCollection<User>("Users");
+            var collectionComments = database.GetCollection<Comment>("Comments");
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLike");
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
             ObjectId objecto = ObjectId.Parse(postid);
 
             PostDetailed post = (from p in collectionPosts.AsQueryable()
@@ -145,12 +164,17 @@ namespace nextchallengeWebAPI.Controllers
                     {
                         _id = p._id,
                         PostContent = p.PostContent,
+                        FileType = p.FileType,
                         UserID = p.UserID,
                         CreateDateTime = p.CreateDateTime,
+                        DateTimeNow = DateTime.Now,
                         Files = p.Files,
                         Users = (List<User>)user
                     }).FirstOrDefault();
             post.Comments = retrievecomments(post._id.ToString());
+            post.CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == post._id));
+            post.LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == post._id));
+            post.DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == post._id));
             return post;
         }
         [Route("api/index/createcomment")]
@@ -166,7 +190,7 @@ namespace nextchallengeWebAPI.Controllers
             await Request.Content.ReadAsMultipartAsync(provider);
 
             List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now.AddHours(2);
+            DateTime datetime = DateTime.Now;
             foreach (MultipartFileData file in provider.FileData)
             {
                 FileUpload fileUpload = new FileUpload();
@@ -210,12 +234,14 @@ namespace nextchallengeWebAPI.Controllers
                     {
                         _id = c._id,
                         PostID = c.PostID,
+                        FileType = c.FileType,
                         CommentContent = c.CommentContent,
                         UserID = c.UserID,
                         CreateDateTime = c.CreateDateTime,
+                        DateTimeNow = DateTime.Now,
                         Files = c.Files,
                         Users = (List<User>)user
-                    }).Take(4).ToList();
+                    }).Take(8).ToList();
         }
         [Route("api/index/retrievecommentsafter")]
         [HttpGet]
@@ -234,36 +260,146 @@ namespace nextchallengeWebAPI.Controllers
                     {
                         _id = c._id,
                         PostID = c.PostID,
+                        FileType = c.FileType,
                         CommentContent = c.CommentContent,
                         UserID = c.UserID,
                         CreateDateTime = c.CreateDateTime,
+                        DateTimeNow = DateTime.Now,
                         Files = c.Files,
                         Users = (List<User>)user
-                    }).Take(4).ToList();
+                    }).Take(8).ToList();
         }
-        [Route("api/index/retrievecomment")]
+        [Route("api/index/retrievecommentslatest")]
         [HttpGet]
-        public CommentDetailed retrievecomment(string commentid)
+        public List<CommentDetailed> retrievecommentslatest(string commentid, string postid)
         {
             var collectionComments = database.GetCollection<Comment>("Comments");
             var collectionUsers = database.GetCollection<User>("Users");
-            ObjectId objecto = ObjectId.Parse(commentid);
+            if (commentid != "none")
+            {
+                ObjectId objecto = ObjectId.Parse(commentid);
+                Comment comment = collectionComments.Find(new BsonDocument("_id", objecto)).FirstOrDefault();
 
-            return (from c in collectionComments.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on c.UserID equals u._id into user
-                    where c._id == objecto
-                    orderby c.CreateDateTime descending
-                    select new CommentDetailed()
-                    {
-                        _id = c._id,
-                        PostID = c.PostID,
-                        CommentContent = c.CommentContent,
-                        UserID = c.UserID,
-                        CreateDateTime = c.CreateDateTime,
-                        Files = c.Files,
-                        Users = (List<User>)user
-                    }).FirstOrDefault();
+                return (from c in collectionComments.AsQueryable()
+                                                  join u in collectionUsers.AsQueryable() on c.UserID equals u._id into user
+                                                  where c.PostID == ObjectId.Parse(postid) && c.CreateDateTime > comment.CreateDateTime
+                                                  orderby c.CreateDateTime descending
+                                                  select new CommentDetailed()
+                                                  {
+                                                      _id = c._id,
+                                                      PostID = c.PostID,
+                                                      FileType = c.FileType,
+                                                      CommentContent = c.CommentContent,
+                                                      UserID = c.UserID,
+                                                      CreateDateTime = c.CreateDateTime,
+                                                      DateTimeNow = DateTime.Now,
+                                                      Files = c.Files,
+                                                      Users = (List<User>)user
+                                                  }).ToList();
+            }
+            else
+            {
+                return (from c in collectionComments.AsQueryable()
+                                                  join u in collectionUsers.AsQueryable() on c.UserID equals u._id into user
+                                                  where c.PostID == ObjectId.Parse(postid) 
+                                                  orderby c.CreateDateTime descending
+                                                  select new CommentDetailed()
+                                                  {
+                                                      _id = c._id,
+                                                      PostID = c.PostID,
+                                                      FileType = c.FileType,
+                                                      CommentContent = c.CommentContent,
+                                                      UserID = c.UserID,
+                                                      CreateDateTime = c.CreateDateTime,
+                                                      DateTimeNow = DateTime.Now,
+                                                      Files = c.Files,
+                                                      Users = (List<User>)user
+                                                  }).ToList();
+
+            }
+
         }
+        [Route("api/index/retrievecommentlatest")]
+        [HttpGet]
+        public CommentDetailed retrievecommentlatest(string postid,string topofcommentid)
+        {
+            var collectionComments = database.GetCollection<Comment>("Comments");
+            var collectionUsers = database.GetCollection<User>("Users");
+            ObjectId objecto = ObjectId.Parse(postid);
+            if (topofcommentid == null || topofcommentid == "")
+            {
+                return (from c in collectionComments.AsQueryable()
+                        join u in collectionUsers.AsQueryable() on c.UserID equals u._id into user
+                        where c.PostID == objecto 
+                        orderby c.CreateDateTime descending
+                        select new CommentDetailed()
+                        {
+                            _id = c._id,
+                            PostID = c.PostID,
+                            FileType = c.FileType,
+                            CommentContent = c.CommentContent,
+                            UserID = c.UserID,
+                            CreateDateTime = c.CreateDateTime,
+                            DateTimeNow = DateTime.Now,
+                            Files = c.Files,
+                            Users = (List<User>)user
+                        }).Take(1).FirstOrDefault();
+            }
+            else
+            {
+                Comment comment = collectionComments.Find(c => c._id == ObjectId.Parse(topofcommentid)).FirstOrDefault();
+                return (from c in collectionComments.AsQueryable()
+                        join u in collectionUsers.AsQueryable() on c.UserID equals u._id into user
+                        where c.PostID == objecto && c.CreateDateTime > comment.CreateDateTime
+                        orderby c.CreateDateTime descending
+                        select new CommentDetailed()
+                        {
+                            _id = c._id,
+                            PostID = c.PostID,
+                            FileType = c.FileType,
+                            CommentContent = c.CommentContent,
+                            UserID = c.UserID,
+                            CreateDateTime = c.CreateDateTime,
+                            DateTimeNow = DateTime.Now,
+                            Files = c.Files,
+                            Users = (List<User>)user
+                        }).Take(1).FirstOrDefault();
+            }
 
+        }
+        [Route("api/index/dislikepost")]
+        [HttpPost]
+        public int dislikepost(string postid,string userid)
+        {
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
+            collectionPostDisLikes.InsertOne(new PostDisLike() { PostID = ObjectId.Parse(postid), UserID = ObjectId.Parse(userid), CreateDateTime = DateTime.Now });
+            return Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == ObjectId.Parse(postid)));
+        }
+        [Route("api/index/deletepostdislike")]
+        [HttpDelete]
+        public int deletepostdislike(string postid, string userid)
+        {
+            PostDisLike postDisLike = new PostDisLike() { PostID = ObjectId.Parse(postid), UserID = ObjectId.Parse(userid) };
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
+            collectionPostDisLikes.DeleteOne(d => d.PostID == postDisLike.PostID && d.UserID == postDisLike.UserID);
+            return Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == postDisLike.PostID));
+        }
+        [Route("api/index/likepost")]
+        [HttpPost]
+        public int likepost(string postid, string userid)
+        {
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLike");
+            collectionPostLikes.InsertOne(new PostLike() { PostID = ObjectId.Parse(postid), UserID = ObjectId.Parse(userid), CreateDateTime = DateTime.Now });
+            return Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == ObjectId.Parse(postid)));
+        }
+        [Route("api/index/deletepostlike")]
+        [HttpDelete]
+        public int deletepostlike(string postid, string userid)
+        {
+            PostLike postDisLike = new PostLike() { PostID = ObjectId.Parse(postid), UserID = ObjectId.Parse(userid) };
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLike");
+            collectionPostLikes.DeleteOne(d => d.PostID == postDisLike.PostID && d.UserID == postDisLike.UserID);
+            return Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == postDisLike.PostID));
+        }
     }
 }

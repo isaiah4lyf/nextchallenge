@@ -3,13 +3,15 @@
     <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
     <p class="post-text">
         <a href="timeline.html" class="profile-link">Julia <br /></a>
-        <img src="http://placehold.it/1920x1160" alt="" class="img-responsive post-image" />
         <span>
-            At vero eos et accusamus
-            et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati
-            cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia
-            animi, id est laborum et dolorum fuga.<br /> </span>
-        <span class="text-muted" style="font-size: 11px;">about 4 hour ago</span>
+            {{comment["CommentContent"]}}
+            <br />
+        </span>
+        <video *ngIf='comment["FileType"] == "video"' class="post-video"
+            style="width: 100%; height: auto; max-height: 500px;" controls>
+            <source [src]='comment["Files"][0]["FileBaseUrls"][0]' type="video/mp4"> </video>
+        <img *ngIf='comment["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
+            [src]='comment["Files"][0]["FileBaseUrls"][0]' alt="" class="img-responsive post-image" />
+        <span class="text-muted" style="font-size: 11px;">{{commentDate}}</span>
     </p>
 </div>

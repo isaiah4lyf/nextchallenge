@@ -13,8 +13,11 @@ export class PostViewComponent implements OnInit {
   public fileType = "none";
   public postLink = "";
   public postLoaded = false;
-  public comments: any;
+  public comments = null;
   private UserData = null;
+  private latestPostCheck: any;
+  private topCommentId = "none";
+  private commentsTemp: any;
 
   constructor(private route: ActivatedRoute, private _appService: AppService) {}
 
@@ -24,10 +27,37 @@ export class PostViewComponent implements OnInit {
       .retrievepost(this.route.snapshot.paramMap.get("id"))
       .subscribe(data => {
         this.post = data;
-        if (this.post["Files"].length > 0)
-          this.fileType = this.post["Files"][0]["FileType"];
         this.postLoaded = true;
       });
+    this._appService
+      .retrievecomments(this.route.snapshot.paramMap.get("id"))
+      .subscribe(data => {
+        this.comments = data;
+        if (this.comments.length > 0)
+          this.topCommentId = this.comments[0]["_id"];
+
+        this.latestPostCheck = setInterval(() => {
+          this._appService
+            .retrievecommentslatest(
+              this.topCommentId,
+              this.route.snapshot.paramMap.get("id")
+            )
+            .subscribe(data => {
+              console.log(data);
+              this.commentsTemp = data;
+              this.commentsTemp.forEach(element => {
+                this.comments.unshift(element);
+              });
+              if (this.commentsTemp.length > 0)
+                this.topCommentId = this.commentsTemp[0]["_id"];
+            });
+        }, 2000);
+      });
+  }
+  ngOnDestroy() {
+    if (this.latestPostCheck) {
+      clearInterval(this.latestPostCheck);
+    }
   }
   createComment(form: NgForm, filePreviewImg, fileInput, filePreviewVid) {
     let formData = new FormData();
@@ -35,7 +65,7 @@ export class PostViewComponent implements OnInit {
     formData.append("File", fileInput.files[0]);
     formData.append("FileType", this.fileType);
     formData.append("UserID", this.UserData["_id"]);
-    formData.append("PostID",this.route.snapshot.paramMap.get("id"));
+    formData.append("PostID", this.route.snapshot.paramMap.get("id"));
     filePreviewImg.style.display = "none";
     filePreviewVid.style.display = "none";
     this._appService.createComment(form, formData);

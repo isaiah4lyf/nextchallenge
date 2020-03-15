@@ -2,10 +2,10 @@
                   ================================================= -->
 <div class="post-content" *ngIf="postLoaded" style="min-height: 100vh; padding-bottom: 50px;">
     <!--Post Date End-->
-    <video *ngIf='fileType == "video"' class="post-video" style="width: 100%; height: auto; max-height: 500px;"
+    <video *ngIf='post["FileType"] == "video"' class="post-video" style="width: 100%; height: auto; max-height: 500px;"
         controls>
         <source [src]='post["Files"][0]["FileBaseUrls"][0]' type="video/mp4"> </video>
-    <img *ngIf='fileType == "image"' style="width: 100%; height: auto; max-height: 500px;"
+    <img *ngIf='post["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
         [src]='post["Files"][0]["FileBaseUrls"][0]' alt="" class="img-responsive post-image" />
     <div class="post-container">
         <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
@@ -30,13 +30,11 @@
         <div class="post-text">
             <p>{{post["PostContent"]}}</p>
         </div>
-        <app-comment></app-comment>
-        <app-comment></app-comment>
-        <app-comment></app-comment>
+        <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
     </div>
 </div>
 <div class="send-message" id="session-submit"
-    style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: rgb(250, 250, 250); border-left: 1px solid #f1f2f2; border-right: 1px solid #f1f2f2;">
+    style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: #f8f8f8; border-left: 1px solid #f1f2f2; border-right: 1px solid #f1f2f2;">
 
     <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 105%; margin-left: -2.5%;">
         <form #createCommentForm="ngForm"
@@ -45,8 +43,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <textarea type="text" name="CommentContent" id="exampleTextarea" cols="500" rows="3"
-                            class="form-control" placeholder="Write what you wish"
-                            style="border: none !important;	background-color: rgb(250, 250, 250); border-radius: 0;"
+                            class="form-control" placeholder="Type a comment"
+                            style="border: none !important;	background-color: #f8f8f8; border-radius: 0;"
                             ngModel></textarea>
                     </div>
                 </div>
@@ -67,7 +65,7 @@
                             <li><a (click)="clikVideos(fileInput)"><i class="ion-ios-videocam"></i></a></li>
                             <li><a><i class="ion-map"></i></a></li>
                         </ul>
-                        <button type="submit" class="btn btn-primary pull-right">publish</button>
+                        <button type="submit" class="btn btn-primary pull-right">comment</button>
                     </div>
                 </div>
             </div>

@@ -203,6 +203,8 @@
     <Compile Include="Models\FileUpload.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostDetailed.cs" />
+    <Compile Include="Models\PostDisLike.cs" />
+    <Compile Include="Models\PostLike.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

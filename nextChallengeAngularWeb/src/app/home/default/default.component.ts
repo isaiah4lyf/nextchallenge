@@ -17,8 +17,10 @@ export class DefaultComponent implements OnInit {
   ngOnInit(): void {
     this._appService.retrieveposts().subscribe(data => {
       this.posts = data;
-      this.lastPostID = data[this.posts.length - 1]["_id"];
-      this.postsRequested = false;
+      if (this.posts.length > 0) {
+        this.lastPostID = data[this.posts.length - 1]["_id"];
+        this.postsRequested = false;
+      }
     });
   }
   @HostListener("window:scroll", ["$event"])
