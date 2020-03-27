@@ -11,6 +11,35 @@ import { Router } from "@angular/router";
 export class CreatePostComponent implements OnInit {
   private fileType = "none";
   private UserData = null;
+  public emojis = [
+    "+1",
+    "-1",
+    "ant",
+    "100",
+    "stuck_out_tongue",
+    "stuck_out_tongue_closed_eyes",
+    "stuck_out_tongue_winking_eye",
+    "sun_with_face",
+    "sunflower",
+    "sunglasses",
+    "sunny",
+    "sunrise",
+    "surfer",
+    "sushi",
+    "suspect",
+    "suspension_railway",
+    "sweat",
+    "sweat_drops",
+    "sweat_smile",
+    "sweet_potato",
+    "swimmer",
+    "symbols",
+    "syringe",
+    "tada",
+    "tanabata_tree",
+    "tangerine",
+    "taurus"
+  ];
   constructor(private _appService: AppService) {}
 
   ngOnInit(): void {
@@ -21,10 +50,11 @@ export class CreatePostComponent implements OnInit {
     filePreviewImg,
     fileInput,
     createPostSpinnerRef,
-    filePreviewVid
+    filePreviewVid,
+    textarea
   ) {
     let formData = new FormData();
-    formData.append("PostContent", form.value["PostContent"]);
+    formData.append("PostContent", textarea.innerHTML);
     formData.append("File", fileInput.files[0]);
     formData.append("FileType", this.fileType);
     formData.append("UserID", this.UserData["_id"]);
@@ -32,6 +62,19 @@ export class CreatePostComponent implements OnInit {
     filePreviewImg.style.display = "none";
     filePreviewVid.style.display = "none";
     this._appService.createPost(form, formData, createPostSpinnerRef);
+  }
+  emojiClick(textarea, emoji) {
+    textarea.innerHTML +=
+      '<img  style="width: 18px; width: 18px;" class="" src="assets/css/emoji/' +
+      emoji +
+      '.png" />';
+  }
+  emojisClick(emojisRef) {
+    if (emojisRef.style.display == "none") {
+      emojisRef.style.display = "block";
+    } else {
+      emojisRef.style.display = "none";
+    }
   }
   clikImages(element) {
     element.click();

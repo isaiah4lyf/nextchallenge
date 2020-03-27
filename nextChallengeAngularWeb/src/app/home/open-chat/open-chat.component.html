@@ -3,125 +3,58 @@
     <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" style="margin: 8px;" />
     <div style="height: 5px;"></div>
     <h5>
-        <b style="font-weight: bolder;">Linda Lohan</b>
+        <b style="font-weight: bolder;">{{touserName}}</b>
         <div class="text-green" style="margin-top: 2px; font-size: 12px;"><i>online</i></div>
     </h5>
 
 </div>
 <!--Chat Messages in Right-->
 <div class="tab-content"
-    style="border-left: solid 1px silver; border-right: solid 1px silver; padding: 10px; min-height: 120vh; padding-top: 40px;">
+    style="border-left: solid 1px silver; border-right: solid 1px silver; padding: 10px; min-height: 120vh; padding-top: 40px; padding-bottom: 80px;">
     <div class="tab-pane active" id="contact-1">
         <div class="chat-body">
             <ul class="chat-message">
-                <li class="left">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Linda Lohan</h5>
-                            <small class="text-muted">3 days ago</small>
-                        </div>
-                        <p>Hi honey, how are you doing???? Long time no see. Where have you been?</p>
-                    </div>
-                </li>
-                <li class="right">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Sarah Cruiz</h5>
-                            <small class="text-muted">3 days ago</small>
-                        </div>
-                        <p>I have been on vacation</p>
-                    </div>
-                </li>
-                <li class="right">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Sarah Cruiz</h5>
-                            <small class="text-muted">3 days ago</small>
-                        </div>
-                        <p>it was a great time for me. we had a lot of fun <i class="em em-blush"></i></p>
-                    </div>
-                </li>
-                <li class="left">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Linda Lohan</h5>
-                            <small class="text-muted">3 days ago</small>
-                        </div>
-                        <p>that's cool I wish I were you <i class="em em-expressionless"></i></p>
-                    </div>
-                </li>
-                <li class="right">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Sarah Cruiz</h5>
-                            <small class="text-muted">3 days ago</small>
-                        </div>
-                        <p><i class="em em-hand"></i></p>
-                    </div>
-                </li>
-                <li class="left">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Linda Lohan</h5>
-                            <small class="text-muted">a min ago</small>
-                        </div>
-                        <p>Hi there, how are you</p>
-                    </div>
-                </li>
-                <li class="left">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Linda Lohan</h5>
-                            <small class="text-muted">a min ago</small>
-                        </div>
-                        <p>Hi there, how are you</p>
-                    </div>
-                </li>
-                <li class="left">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-                    <div class="chat-item">
-                        <div class="chat-item-header">
-                            <h5>Linda Lohan</h5>
-                            <small class="text-muted">a min ago</small>
-                        </div>
-                        <p>Hi there, how are you</p>
-                    </div>
-                </li>
+                <app-message *ngFor="let message of messages" [message]="message"></app-message>
             </ul>
         </div>
     </div>
 </div>
 <div class="send-message" id="session-submit"
     style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
-
     <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 105%; margin-left: -2.5%;">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <textarea name="texts" id="exampleTextarea" cols="500" rows="2" class="form-control"
-                        placeholder="Type message"
-                        style="border: none !important; background: rgb(250, 250, 250); border-radius: 0;"></textarea>
+        <form #createMessageForm="ngForm"
+            (ngSubmit)="createMessage(createMessageForm,filePreviewImg,fileInput, filePreviewVid)">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <textarea type="text" name="MessageContent" id="exampleTextarea" cols="500" rows="2"
+                            class="form-control" placeholder="Type a comment"
+                            style="border: none !important;	background-color: rgb(250, 250, 250); border-radius: 0;"
+                            ngModel></textarea>
+                    </div>
+                </div>
+                <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files" #fileInput
+                    type="file" style="display: none;" ngModel />
+                <div class="col-md-12">
+                    <div class="video-wrapper">
+                        <img #filePreviewImg src="" alt="" class="img-responsive post-image"
+                            style="display: none; width: 100%; height: auto; max-height: 500px;" />
+                        <video #filePreviewVid class="post-video"
+                            style="display: none; width: 100%; height: auto; max-height: 500px;" controls>
+                            <source src="" type="video/mp4"> </video>
+                    </div>
+                    <div class="tools">
+                        <ul class="publishing-tools list-inline">
+                            <li><a><i class="ion-android-happy"></i></a></li>
+                            <li><a (click)="clikImages(fileInput)"><i class="ion-images"></i></a></li>
+                            <li><a (click)="clikVideos(fileInput)"><i class="ion-ios-videocam"></i></a></li>
+                            <li><a><i class="ion-map"></i></a></li>
+                        </ul>
+                        <button #sumbitbutton type="submit" style="display: none;"></button>
+                        <i (click)="sumbitbutton.click()" class="icon ion-ios-paperplane pull-right router-link" style="font-size: 32px; color: #444; position: relative; left: -15px;"></i>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="tools">
-                    <ul class="publishing-tools list-inline">
-                        <li><a href="#"><i class="ion-compose"></i></a></li>
-                        <li><a href="#"><i class="ion-images"></i></a></li>
-                        <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-                        <li><a href="#"><i class="ion-map"></i></a></li>
-                    </ul>
-                    <i class="icon ion-ios-paperplane pull-right router-link" style="font-size: 32px; color: #444; position: relative; left: -15px;"></i>
-
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>

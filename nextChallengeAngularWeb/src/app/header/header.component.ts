@@ -1,4 +1,5 @@
 import { HostListener, Component, OnInit } from '@angular/core';
+import { AppService } from ".././services/app.service";
 import * as $ from 'jquery';
 
 @Component({
@@ -7,13 +8,17 @@ import * as $ from 'jquery';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  private UserData = null;
+  public profileLink = "";
+
   mobileScreen = document.body.offsetWidth + window.innerWidth-$(window).width() < 992;
   desktopScreen = document.body.offsetWidth + window.innerWidth-$(window).width() >= 992;
 
-  constructor() { }
+  constructor(    private _appService: AppService) { }
 
   ngOnInit(): void {
-
+    this.UserData = this._appService.getUserData();
+    this.profileLink = "/" + this.UserData["Email"].split('@')[0];
   }
 
   @HostListener('window:resize', ['$event'])

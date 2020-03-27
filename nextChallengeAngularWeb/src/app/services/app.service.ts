@@ -22,15 +22,15 @@ export class AppService {
   };
   private UserData = null;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
   login(form: NgForm) {
     return this.http.get(
       this.configUrl +
-        "login?email=" +
-        form.value.Email +
-        "&password=" +
-        form.value.Password
+      "login?email=" +
+      form.value.Email +
+      "&password=" +
+      form.value.Password
     );
   }
 
@@ -58,6 +58,12 @@ export class AppService {
     }
     return this.UserData;
   }
+  retrieveUserDataWithName(name) {
+    return this.http.get(
+      this.configUrl + "retrieveuser?name=" + name,
+      this.httpOptions
+    );
+  }
   createPost(form: NgForm, formData: FormData, createPostSpinnerRef) {
     this.http.post(this.configUrl + "createpost", formData).subscribe(data => {
       setTimeout(() => {
@@ -66,18 +72,25 @@ export class AppService {
       }, 1000);
     });
   }
-  retrieveposts() {
-    return this.http.get(this.configUrl + "retrieveposts", this.httpOptions);
-  }
-  retrievepostsafter(lastPostId) {
+  retrieveposts(userid) {
     return this.http.get(
-      this.configUrl + "retrievepostsafter?postid=" + lastPostId,
+      this.configUrl + "retrieveposts?userid=" + userid,
       this.httpOptions
     );
   }
-  retrievepost(postid) {
+  retrievepostsafter(lastPostId, userid) {
     return this.http.get(
-      this.configUrl + "retrievepost?postid=" + postid,
+      this.configUrl +
+      "retrievepostsafter?postid=" +
+      lastPostId +
+      "&userid=" +
+      userid,
+      this.httpOptions
+    );
+  }
+  retrievepost(postid, userid) {
+    return this.http.get(
+      this.configUrl + "retrievepost?postid=" + postid + "&userid=" + userid,
       this.httpOptions
     );
   }
@@ -99,30 +112,30 @@ export class AppService {
   retrievecommentsafter(commentid, postid) {
     return this.http.get(
       this.configUrl +
-        "retrievecommentsafter?commentid=" +
-        commentid +
-        "&postid=" +
-        postid,
+      "retrievecommentsafter?commentid=" +
+      commentid +
+      "&postid=" +
+      postid,
       this.httpOptions
     );
   }
   retrievecommentslatest(commentid, postid) {
     return this.http.get(
       this.configUrl +
-        "retrievecommentslatest?commentid=" +
-        commentid +
-        "&postid=" +
-        postid,
+      "retrievecommentslatest?commentid=" +
+      commentid +
+      "&postid=" +
+      postid,
       this.httpOptions
     );
   }
   retrievecommentlatest(postid, topofcommentid) {
     return this.http.get(
       this.configUrl +
-        "retrievecommentlatest?postid=" +
-        postid +
-        "&topofcommentid=" +
-        topofcommentid,
+      "retrievecommentlatest?postid=" +
+      postid +
+      "&topofcommentid=" +
+      topofcommentid,
       this.httpOptions
     );
   }
@@ -130,19 +143,23 @@ export class AppService {
     let createdatetime = new Date(datetime);
     let currentdatetime = new Date(datetimecurrent);
     const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
       "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
     ];
+    let yesterday =
+      createdatetime.getFullYear() == currentdatetime.getFullYear() &&
+      createdatetime.getMonth() == currentdatetime.getMonth() &&
+      currentdatetime.getDate() - createdatetime.getDate() == 1;
     let aboutMins =
       createdatetime.getFullYear() == currentdatetime.getFullYear() &&
       createdatetime.getMonth() == currentdatetime.getMonth() &&
@@ -150,7 +167,7 @@ export class AppService {
       (createdatetime.getHours() == currentdatetime.getHours() ||
         (currentdatetime.getHours() - createdatetime.getHours() == 1 &&
           currentdatetime.getMinutes() + 60 - createdatetime.getMinutes() <
-            60));
+          60));
     let aboutHours =
       createdatetime.getFullYear() == currentdatetime.getFullYear() &&
       createdatetime.getMonth() == currentdatetime.getMonth() &&
@@ -176,6 +193,8 @@ export class AppService {
       return horDif == 1
         ? "about " + horDif + " hour ago"
         : "about " + horDif + " hours ago";
+    } else if (yesterday) {
+      return "Yesterday" + " at " + createdatetime.getHours() + ":" + minutes;
     } else {
       return (
         createdatetime.getDate() +
@@ -189,5 +208,103 @@ export class AppService {
         minutes
       );
     }
+  }
+  likepost(postid, userid) {
+    this.http
+      .post(
+        this.configUrl + "likepost?postid=" + postid + "&userid=" + userid,
+        this.httpOptions
+      )
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+  deletepostlike(postid, userid) {
+    this.http
+      .delete(
+        this.configUrl +
+        "deletepostlike?postid=" +
+        postid +
+        "&userid=" +
+        userid,
+        this.httpOptions
+      )
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+  dislikepost(postid, userid) {
+    this.http
+      .post(
+        this.configUrl + "dislikepost?postid=" + postid + "&userid=" + userid,
+        this.httpOptions
+      )
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+  deletepostdislike(postid, userid) {
+    this.http
+      .delete(
+        this.configUrl +
+        "deletepostdislike?postid=" +
+        postid +
+        "&userid=" +
+        userid,
+        this.httpOptions
+      )
+      .subscribe(data => {
+        console.log(data);
+      });
+  }
+  createmessge(formData: FormData) {
+    this.http
+      .post(this.configUrl + "createmessage", formData)
+      .subscribe(data => { });
+  }
+  retrievemessages(userone, usertwo) {
+    return this.http.get(
+      this.configUrl +
+      "retrievemessages?userone=" +
+      userone +
+      "&usertwo=" +
+      usertwo,
+      this.httpOptions
+    );
+  }
+  retrievemessagesafter(userone, usertwo, lastmessageid) {
+    return this.http.get(
+      this.configUrl +
+      "retrievemessagesafter?userone=" +
+      userone +
+      "&usertwo=" +
+      usertwo +
+      "&lastmessageid=" +
+      lastmessageid,
+      this.httpOptions
+    );
+  }
+  retrieveactivechats(userid) {
+    return this.http.get(
+      this.configUrl + "retrieveactivechats?userid=" + userid,
+      this.httpOptions
+    );
+  }
+  uploadfiles(formData: FormData, callBackFunction, extraParam, extraParam1) {
+    this.http.post(this.configUrl + "uploadfiles", formData).subscribe(data => {
+      callBackFunction(data, extraParam, extraParam1);
+    });
+  }
+  retrieveleaderboards(userid, orderby, page, prevPages) {
+    return this.http.post(
+      this.configUrl +
+      "retrieveleaderboards?userid=" +
+      userid +
+      "&orderby=" +
+      orderby +
+      "&page=" +
+      page, prevPages,
+      this.httpOptions
+    );
   }
 }

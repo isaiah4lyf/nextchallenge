@@ -26,15 +26,15 @@
                     <td align="right" valign="top">
                         <div class="reaction">
                             <a class="btn router-link" style="color: silver;" [routerLink]="postLink" ><i class="icon ion-chatboxes"></i> {{commentsCount}}</a>
-                            <a class="btn text-green" (click)="like()" ><i class="icon ion-thumbsup"></i> {{likesCount}}</a>
-                            <a class="btn text-red" (click)="dislike()" ><i class="fa fa-thumbs-down"></i> {{disLikesCount}}</a>
+                            <a [class]="postLikedClass" (click)="like()" ><i class="icon ion-thumbsup"></i> {{likesCount}}</a>
+                            <a [class]="postDisLikedClass" (click)="dislike()" ><i class="fa fa-thumbs-down"></i> {{disLikesCount}}</a>
                         </div>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="post-text router-link" [routerLink]="postLink">
-            <p>{{post["PostContent"]}}</p>
+            <p #postContent ></p>
         </div>
         <app-comment *ngIf="comments.length > 0" [comment]="comments[0]"></app-comment>
         <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 110%; margin-left: -5%;">

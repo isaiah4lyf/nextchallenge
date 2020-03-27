@@ -1,15 +1,143 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit } from "@angular/core";
+import { AppService } from "../.././services/app.service";
 @Component({
-  selector: 'app-leaderboards',
-  templateUrl: './leaderboards.component.html',
-  styleUrls: ['./leaderboards.component.css']
+  selector: "app-leaderboards",
+  templateUrl: "./leaderboards.component.html",
+  styleUrls: ["./leaderboards.component.css"]
 })
 export class LeaderboardsComponent implements OnInit {
-
-  constructor() { }
+  public Leaderboards: any;
+  public LeaderboardsTemp: any;
+  public page = 0;
+  public orderby = "weekly";
+  public pageNext = true;
+  public pagePrev = false;
+  public currentUserInList = false;
+  public prevPages = [];
+  public UserData = null;
+  constructor(private _appService: AppService) { }
 
   ngOnInit(): void {
+    this.UserData = this._appService.getUserData();
+    this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+      this.Leaderboards = data;
+      this.Leaderboards.forEach(element => {
+        if (!element["AddedLast"]) {
+          this.prevPages.push(element["UserID"]);
+        }
+      });
+    });
   }
-
+  previousClick() {
+    if (this.pagePrev) {
+      this.pagePrev = false;
+      this.page--;
+      let prevPagesItemsCount = this.prevPages.length % 10 == 0 ? this.prevPages.length - 20 :
+        this.prevPages.length - (10 + this.prevPages.length % 10);
+      let prevPagesTemp = [];
+      for (let i = 0; i < prevPagesItemsCount; i++) {
+        prevPagesTemp.push(this.prevPages[i]);
+      }
+      this.prevPages = prevPagesTemp;
+      this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages)
+        .subscribe(data => {
+          this.Leaderboards = data;
+          this.pagePrev = this.page > 0;
+          this.pageNext = this.Leaderboards.length >= 10
+          this.currentUserInList = this.Leaderboards[this.Leaderboards.length - 1]["UserID"] == this.UserData["_id"];
+          this.Leaderboards.forEach(element => {
+            if (!element["AddedLast"]) {
+              this.prevPages.push(element["UserID"]);
+            }
+          });
+        });
+    }
+  }
+  nextClick() {
+    if (this.pageNext) {
+      this.pageNext = false;
+      this.page++;
+      this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages)
+        .subscribe(data => {
+          this.LeaderboardsTemp = data;
+          if (this.LeaderboardsTemp.length == 1) {
+            this.page--;
+          } else {
+            this.Leaderboards = data;
+            this.Leaderboards.forEach(element => {
+              if (!element["AddedLast"]) {
+                this.prevPages.push(element["UserID"]);
+              }
+            });
+            this.pagePrev = this.page > 0;
+            this.pageNext = this.Leaderboards.length > 10;
+            this.currentUserInList = this.Leaderboards[this.Leaderboards.length - 1]["UserID"] == this.UserData["_id"];
+          }
+        });
+    }
+  }
+  orberbyWeekly() {
+    this.page = 0;
+    this.orderby = "weekly";
+    this.pageNext = true;
+    this.pagePrev = false;
+    this.currentUserInList = false;
+    this.prevPages = [];
+    this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+      this.Leaderboards = data;
+      this.Leaderboards.forEach(element => {
+        if (!element["AddedLast"]) {
+          this.prevPages.push(element["UserID"]);
+        }
+      });
+    });
+  }
+  orberbyWeekend() {
+    this.page = 0;
+    this.orderby = "weekend";
+    this.pageNext = true;
+    this.pagePrev = false;
+    this.currentUserInList = false;
+    this.prevPages = [];
+    this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+      this.Leaderboards = data;
+      this.Leaderboards.forEach(element => {
+        if (!element["AddedLast"]) {
+          this.prevPages.push(element["UserID"]);
+        }
+      });
+    });
+  }
+  orberbyStreak() {
+    this.page = 0;
+    this.orderby = "streak";
+    this.pageNext = true;
+    this.pagePrev = false;
+    this.currentUserInList = false;
+    this.prevPages = [];
+    this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+      this.Leaderboards = data;
+      this.Leaderboards.forEach(element => {
+        if (!element["AddedLast"]) {
+          this.prevPages.push(element["UserID"]);
+        }
+      });
+    });
+  }
+  orberbyTotal() {
+    this.page = 0;
+    this.orderby = "total";
+    this.pageNext = true;
+    this.pagePrev = false;
+    this.currentUserInList = false;
+    this.prevPages = [];
+    this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+      this.Leaderboards = data;
+      this.Leaderboards.forEach(element => {
+        if (!element["AddedLast"]) {
+          this.prevPages.push(element["UserID"]);
+        }
+      });
+    });
+  }
 }

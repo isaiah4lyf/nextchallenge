@@ -1,0 +1,16 @@
+.current-user-leaderboard {
+  background-color: silver !important;
+  color: white;
+}
+.leaderboard-margin {
+  padding-bottom: 30px;
+}
+.leaderboard-margin2 {
+  padding-bottom: 30px;
+}
+.leaderboard-active-tab {
+  background-color: silver;
+  color: white;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}

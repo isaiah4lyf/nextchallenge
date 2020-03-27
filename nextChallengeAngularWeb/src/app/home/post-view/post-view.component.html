@@ -14,14 +14,15 @@
                 <tr>
                     <td>
                         <div class="user-info">
-                            <h5><a href="timeline.html" class="profile-link">Anna Young</a></h5>
-                            <p class="text-muted" style="font-size: 11px;">about 4 hour ago</p>
+                            <h5><a href="timeline.html" class="profile-link">{{post["Users"][0]["FirstName"]}} {{post["Users"][0]["LastName"]}} </a></h5>
+                            <p class="text-muted =" style="font-size: 11px;" >{{postDate}}</p>
                         </div>
                     </td>
                     <td align="right" valign="top">
                         <div class="reaction">
-                            <a class="btn text-green"><i class="icon ion-thumbsup"></i> 2</a>
-                            <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                            <a class="btn" style="color: silver;"  ><i class="icon ion-chatboxes"></i> {{commentsCount}}</a>
+                            <a [class]="postLikedClass" (click)="like()" ><i class="icon ion-thumbsup"></i> {{likesCount}}</a>
+                            <a [class]="postDisLikedClass" (click)="dislike()" ><i class="fa fa-thumbs-down"></i> {{disLikesCount}}</a>
                         </div>
                     </td>
                 </tr>

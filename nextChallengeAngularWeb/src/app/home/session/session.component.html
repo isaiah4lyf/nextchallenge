@@ -1,109 +1,55 @@
 <div
-    style="border-left: solid 1px silver; padding: 10px; border-right: solid 1px silver; padding: 10px; min-height: 130vh; margin-top: -30px; padding-top: 30px; padding-bottom: 30px;">
-    <div class="post-content">
-        <img src="http://placehold.it/1920x1160" alt="" class="img-responsive post-image" />
-        <div class="post-container" style="padding-bottom: 0;">
-            <table style="width: 100%;">
-                <tr>
-                    <td>
-                        <h5><a href="timeline.html" class="profile-link">Anna Young</a></h5>
-                    </td>
-                    <td align="right">
-                        <div class="reaction pull-right">
-                            <a class="btn text-green"><i class="icon ion-thumbsup"></i> 2</a>
-                            <a class="btn text-red" style="margin-right: 10px;"><i class="fa fa-thumbs-down"></i> 0</a>
-                            <span style="border-radius: 2px; height: 15px; width: 15px; ">1</span>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-
-            <div class="line-divider"></div>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
-            <div class="line-divider"></div>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 25px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-            <label style="width: 15px; height: 15px; border: solid 1px silver; margin-right: 5px;"></label>
-        </div>
-    </div>
-    <ul class="chat-message">
-
-        <li class="left">
-            <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-            <div class="chat-item">
-                <div class="chat-item-header" style="border: none;">
-                    <h5>Richard Bell</h5>
-                    <small class="text-muted" style="margin-top: -3px;">2 days ago</small>
-                </div>
-            </div>
-        </li>
-        <li class="left">
-            <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-            <div class="chat-item">
-                <div class="chat-item-header" style="border: none;">
-                    <h5>Richard Bell</h5>
-                    <small class="text-muted" style="margin-top: -3px;">2 days ago</small>
-                </div>
-            </div>
-        </li>
-        <li class="right">
-            <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
-            <div class="chat-item">
-                <div class="chat-item-header">
-                    <h5>Sarah Cruiz</h5>
-                    <small class="text-muted">2 days ago</small>
-                </div>
-                <p>I gotta go</p>
-            </div>
-        </li>
-        <li class="left">
-            <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-            <div class="chat-item">
-                <div class="chat-item-header" style="border: none;">
-                    <h5>Richard Bell</h5>
-                    <small class="text-muted" style="margin-top: -3px;">2 days ago</small>
-                </div>
-            </div>
-        </li>
-    </ul>
+  style="border-left: solid 1px silver; padding: 10px; border-right: solid 1px silver; padding: 10px; min-height: 130vh; margin-top: -30px; padding-top: 30px; padding-bottom: 300px;">
+  <div *ngFor="let sessionContent of sessionContents">
+    <app-session-challenge [challenge]="sessionContent" *ngIf="sessionContent['Command'] == 'SESSION_CHALLENGE'">
+    </app-session-challenge>
+    <app-session-answer *ngIf="sessionContent['Command'] == 'CORRECT_ANSWER'" [answer]="sessionContent">
+    </app-session-answer>
+    <app-session-message [message]='sessionContent'
+      *ngIf="sessionContent['Command'] == 'MESSAGE' || sessionContent['Command'] == 'CORRECT' || sessionContent['Command'] == 'INCORRECT_ANSWER' || sessionContent['Command'] == 'MESSAGE_LOCAL'">
+    </app-session-message>
+  </div>
 </div>
 <div class="send-message" id="session-submit"
-    style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
+  style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
 
-    <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 105%; margin-left: -2.5%;">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <textarea name="texts" id="exampleTextarea" cols="500" rows="2" class="form-control"
-                        placeholder="Type answer"
-                        style="border: none !important; background: rgb(250, 250, 250); border-radius: 0;"></textarea>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <img src="http://placehold.it/1920x1160" alt="" class="img-responsive post-image" />
-                <div class="tools">
-                    <ul class="publishing-tools list-inline">
-                        <li><a href="#"><i class="ion-compose"></i></a></li>
-                        <li><a href="#"><i class="ion-images"></i></a></li>
-                        <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-                        <li><a href="#"><i class="ion-map"></i></a></li>
-                    </ul>
-                    <i class="icon ion-ios-paperplane pull-right router-link" style="font-size: 32px; color: #444; position: relative; left: -15px;"></i>
-
-                </div>
-            </div>
+  <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 105%; margin-left: -2.5%;">
+    <form #createPostForm="ngForm" style="margin-top: -16px; width: 100%;"
+      (ngSubmit)="createMessage(createPostForm,filePreviewImg,fileInput, filePreviewVid,textarea)">
+      <div class="row">
+        <div class="col-md-12">
+          <div #textarea id="exampleTextarea" data-text="Type answer" 
+            style="padding-left: 8px; padding-top: 2px; width: 99% !important; margin-left: 0.5%; border: none; background: rgb(250, 250, 250); border-radius: 0; border-top: solid 2px #f1f2f2;"
+            class="textarea" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false"
+            autocomplete="off" autocorrect="off" autocapitalize="off">
+          </div>
         </div>
-    </div>
+        <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files" #fileInput
+          type="file" style="display: none;" ngModel />
+        <div class="col-md-12">
+          <div class="video-wrapper">
+            <img #filePreviewImg src="" alt="" filePreviewVidclass="img-responsive post-image"
+              style="display: none; width: 100%; height: auto; max-height: 500px;" />
+            <video #filePreviewVid class="post-video"
+              style="display: none; width: 100%; height: auto; max-height: 500px;" controls>
+              <source src="" type="video/mp4"> </video>
+          </div>
+          <div class="tools">
+            <div #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
+              <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;" class=""
+                src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
+            </div>
+            <ul class="publishing-tools list-inline">
+              <li><a class="router-link" (click)="emojisClick(emojisRef)"><i class="ion-android-happy"></i></a></li>
+              <li><a class="router-link" (click)="clikImages(fileInput)"><i class="ion-images"></i></a></li>
+              <li><a class="router-link" (click)="clikVideos(fileInput)"><i class="ion-ios-videocam"></i></a></li>
+            </ul>
+            <button #sumbitbutton type="submit" style="display: none;"></button>
+            <i (click)="sumbitbutton.click()" class="icon ion-ios-paperplane pull-right router-link"
+              style="font-size: 32px; color: #444; position: relative; left: -15px;"></i>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

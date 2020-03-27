@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container" style="margin-top: 10px;">
+<div class="container" style="margin-top: 10px;" *ngIf="profileDataLoaded">
 
     <!-- Timeline
     ================================================= -->
@@ -18,10 +18,14 @@
                     </div>
                     <div class="col-md-9">
                         <ul class="list-inline profile-menu">
-                            <li><a class="router-link"  routerLink="timeline" routerLinkActive="active">Timeline</a></li>
-                            <li><a class="router-link"routerLink="{{aboutLink}}" routerLinkActive="active">About</a></li>
-                            <li><a class="router-link"routerLink="{{galleryLink}}" routerLinkActive="active">Gallery</a></li>
-                            <li><a class="router-link"routerLink="{{friendsLink}}" routerLinkActive="active">Friends</a></li>
+                            <li><a class="router-link" routerLink="{{timelineLink}}"
+                                    routerLinkActive="active">Timeline</a></li>
+                            <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a>
+                            </li>
+                            <li><a class="router-link" routerLink="{{galleryLink}}"
+                                    routerLinkActive="active">Gallery</a></li>
+                            <li><a class="router-link" routerLink="{{friendsLink}}"
+                                    routerLinkActive="active">Friends</a></li>
                         </ul>
                         <ul class="follow-me list-inline">
                             <li>1,299 people following her</li>
@@ -41,10 +45,13 @@
                 </div>
                 <div class="mobile-menu">
                     <ul class="list-inline">
-                        <li><a class="router-link" routerLink="{{timelineLink}}" > Timeline</a></li>
-                        <li><a class="router-link" routerLink="{{aboutLink}}" >About</a></li>
-                        <li><a class="router-link"routerLink="{{galleryLink}}" routerLinkActive="active">Gallery</a></li>
-                        <li><a class="router-link"routerLink="{{friendsLink}}" routerLinkActive="active">Friends</a></li>
+                        <li><a class="router-link" routerLink="{{timelineLink}}" routerLinkActive="active"> Timeline</a>
+                        </li>
+                        <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a></li>
+                        <li><a class="router-link" routerLink="{{galleryLink}}" routerLinkActive="active">Gallery</a>
+                        </li>
+                        <li><a class="router-link" routerLink="{{friendsLink}}" routerLinkActive="active">Friends</a>
+                        </li>
                     </ul>
                     <button class="btn-primary">Add Friend</button>
                 </div>
@@ -54,7 +61,26 @@
         </div>
         <div id="page-contents">
             <div class="row">
-                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <!--Edit Profile Menu-->
+                    <ul class="edit-menu" *ngIf='router.url.endsWith("/about/basic-info") || router.url.endsWith("/about/edu-work") || router.url.endsWith("/about/interests") 
+                    || router.url.endsWith("/about/settings") || router.url.endsWith("/about/change-password") && UserData["Email"].split("@")[0] == route.snapshot.paramMap.get("id")'>
+                        <li class="router-link" routerLink="{{aboutBasicInfoLink}}" routerLinkActive="active"><i
+                                class="icon ion-ios-information-outline"></i><a>Basic Information</a></li>
+                        <li class="router-link" routerLink="{{aboutEduWorkLink}}" routerLinkActive="active"><i
+                                class="icon ion-ios-briefcase-outline"></i><a>Education
+                                and Work</a></li>
+                        <li class="router-link" routerLink="{{aboutInterestLink}}" routerLinkActive="active"><i
+                                class="icon ion-ios-heart-outline"></i><a>My
+                                Interests</a></li>
+                        <li class="router-link" routerLink="{{aboutSettingsLink}}" routerLinkActive="active"><i
+                                class="icon ion-ios-settings"></i><a>Account
+                                Settings</a></li>
+                        <li class="router-link" routerLink="{{aboutChangePasswordLink}}" routerLinkActive="active"><i
+                                class="icon ion-ios-locked-outline"></i><a>Change
+                                Password</a></li>
+                    </ul>
+                </div>
                 <div class="col-md-7">
 
                     <router-outlet></router-outlet>

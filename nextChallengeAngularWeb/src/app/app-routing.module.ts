@@ -21,7 +21,12 @@ import { TimelineComponent } from "./profile/timeline/timeline.component";
 import { AboutComponent } from "./profile/about/about.component";
 import { GalleryComponent } from "./profile/gallery/gallery.component";
 import { FriendsComponent } from "./profile/friends/friends.component";
-import { PostViewComponent } from './home/post-view/post-view.component';
+import { PostViewComponent } from "./home/post-view/post-view.component";
+import { AboutEditComponent } from "./profile/about/about-edit/about-edit.component";
+import { EduWorkComponent } from "./profile/about/edu-work/edu-work.component";
+import { InterestsComponent } from "./profile/about/interests/interests.component";
+import { ProfileSettingsComponent } from "./profile/about/settings/settings.component";
+import { ChangePasswordComponent } from "./profile/about/change-password/change-password.component";
 
 const routes: Routes = [
   {
@@ -49,8 +54,10 @@ const routes: Routes = [
       { path: "post/:id", component: PostViewComponent }
     ]
   },
+  { path: "help", component: HelpComponent },
+  { path: "login", component: IndexComponent },
   {
-    path: "profile/:id",
+    path: ":id",
     component: ProfileComponent,
     children: [
       {
@@ -59,13 +66,22 @@ const routes: Routes = [
         pathMatch: "full"
       },
       { path: "timeline", component: TimelineComponent },
-      { path: "about", component: AboutComponent },
+      {
+        path: "about",
+        component: AboutComponent,
+        children: [
+          { path: "basic-info", component: AboutEditComponent },
+          { path: "edu-work", component: EduWorkComponent },
+          { path: "interests", component: InterestsComponent },
+          { path: "settings", component: ProfileSettingsComponent },
+          { path: "change-password", component: ChangePasswordComponent }
+        ]
+      },
       { path: "gallery", component: GalleryComponent },
       { path: "friends", component: FriendsComponent }
     ]
   },
-  { path: "help", component: HelpComponent },
-  { path: "login", component: IndexComponent },
+
   { path: "**", redirectTo: "login", pathMatch: "full" }
 ];
 

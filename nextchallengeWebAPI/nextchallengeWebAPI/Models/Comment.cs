@@ -18,4 +18,17 @@ namespace nextchallengeWebAPI.Models
         public DateTime CreateDateTime { set; get; }
         public List<FileUpload> Files { get; set; }
     }
+    public class CommentDetailed
+    {
+        [XmlIgnore]
+        public ObjectId _id { get; set; }
+        public ObjectId PostID { get; set; }
+        public string CommentContent { get; set; }
+        public string FileType { set; get; }
+        public ObjectId UserID { set; get; }
+        public DateTime CreateDateTime { set; get; }
+        public DateTime DateTimeNow { set; get; }
+        public List<FileUpload> Files { get; set; }
+        public List<User> Users { set; get; }
+    }
 }

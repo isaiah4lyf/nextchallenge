@@ -1,0 +1,33 @@
+<li class="right" *ngIf="message['FromUserID'] == UserData['_id']; else elseBlock">
+    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
+    <div class="chat-item">
+        <div class="chat-item-header">
+            <h5>{{message['FromUsers'][0]["FirstName"]}} {{message['FromUsers'][0]["LastName"]}}</h5>
+            <small class="text-muted">{{message['CreateDateTime']}}</small>
+        </div>
+        <p>{{message['MessageContent']}}</p>
+        <img *ngIf="message['FileType'] == 'image'" [src]="message['Files'][0]['FileBaseUrls'][0]" alt=""
+            class="img-responsive post-image" style="width: 100%; height: auto; max-height: 500px;" />
+        <video *ngIf="message['FileType'] == 'video'" class="post-video"
+            style="width: 100%; height: auto; max-height: 500px;" controls>
+            <source [src]="message['Files'][0]['FileBaseUrls'][0]" type="video/mp4"> </video>
+    </div>
+</li>
+<ng-template #elseBlock>
+    <li class="left">
+        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+        <div class="chat-item">
+            <div class="chat-item-header">
+                <h5>{{message['ToUsers'][0]["FirstName"]}} {{message['FromUsers'][0]["LastName"]}}</h5>
+                <small class="text-muted">{{message['CreateDateTime']}}</small>
+            </div>
+            <p>{{message['MessageContent']}}</p>
+            <img *ngIf="message['FileType'] == 'image'" [src]="message['Files'][0]['FileBaseUrls'][0]" alt=""
+                class="img-responsive post-image"
+                style="width: 100%; height: auto; max-height: 500px;" />
+            <video *ngIf="message['FileType'] == 'video'" class="post-video"
+                style="width: 100%; height: auto; max-height: 500px;" controls>
+                <source [src]="message['Files'][0]['FileBaseUrls'][0]" type="video/mp4"> </video>
+        </div>
+    </li>
+</ng-template>

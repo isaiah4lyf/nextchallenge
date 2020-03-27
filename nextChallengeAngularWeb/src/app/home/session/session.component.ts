@@ -1,15 +1,178 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { AppService } from "../.././services/app.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-session',
-  templateUrl: './session.component.html',
-  styleUrls: ['./session.component.css']
+  selector: "app-session",
+  templateUrl: "./session.component.html",
+  styleUrls: ["./session.component.css"]
 })
 export class SessionComponent implements OnInit {
-
-  constructor() { }
+  public emojis = ["+1", "-1", "ant", "100"];
+  private fileType = "none";
+  public sessionContents = [];
+  public sessionSocket: any;
+  public self = this;
+  public sessionsCount = 0;
+  public MessageLocalIdInc = 0;
+  public element: HTMLElement;
+  constructor(private _appService: AppService) {}
 
   ngOnInit(): void {
+    this.sessionSocket = new WebSocket(
+      "ws://" + "localhost" + ":" + "8080" + "/_df$socket$/session"
+    );
+    this.sessionSocket.onopen = this.processOpen;
+    this.sessionSocket.onmessage = this.processMessage;
+    this.sessionSocket.onerror = this.processError;
+    this.sessionSocket.onclose = this.processClose;
   }
 
+  processOpen = message => {
+    let messageData = {
+      Command: "JOIN_GAME_SESSION",
+      CommandJsonData: JSON.stringify({
+        UserId: "5e6cd6154842ce64b4c5cf15",
+        SessionId: 0
+      })
+    };
+    this.sessionSocket.send(JSON.stringify(messageData));
+  };
+  processMessage = message => {
+    let messageData = JSON.parse(message.data);
+    if (messageData.Command === "REMAINING_TIME") {
+      this.element = document.getElementById(
+        "session-challenge-" + (this.sessionsCount - 1)
+      ) as HTMLElement;
+      this.element.innerText = String(messageData.CommandJsonData - 1);
+    } else {
+      let data = JSON.parse(messageData.CommandJsonData);
+      data["Command"] = String(messageData.Command);
+      if (messageData.Command === "SESSION_CHALLENGE") {
+        data["challnegeId"] = "session-challenge-" + this.sessionsCount;
+        this.sessionsCount++;
+      }
+      this.sessionContents.push(data);
+      console.log(data);
+    }
+  };
+  processError = message => {};
+  processClose = message => {};
+
+  createMessage(
+    form: NgForm,
+    filePreviewImg,
+    fileInput,
+    filePreviewVid,
+    textarea
+  ) {
+    let msg = {
+      Command: "MESSAGE_LOCAL",
+      Message: textarea.innerHTML,
+      MessageLocalId: "message-local-" + String(this.MessageLocalIdInc),
+      FileType: this.fileType,
+      fileUrl:
+        fileInput.files.length == 0
+          ? ""
+          : window.URL.createObjectURL(fileInput.files[0])
+    };
+    this.sessionContents.push(msg);
+    this.MessageLocalIdInc++;
+    if (this.fileType != "none") {
+      let formData = new FormData();
+      formData.append("FileType", this.fileType);
+      formData.append("File", fileInput.files[0]);
+      formData.append("FileUploaderID", "5e6d10044842ce46dc5ed185");
+      this._appService.uploadfiles(
+        formData,
+        this.filesUploadCallBack,
+        this.MessageLocalIdInc,
+        textarea.innerHTML
+      );
+    } else {
+      let messageData = {
+        Command: "",
+        CommandJsonData: JSON.stringify({
+          UserId: "5e6d10044842ce46dc5ed185",
+          sessionId: 0,
+          Message: textarea.innerHTML
+        })
+      };
+      this.sessionSocket.send(JSON.stringify(messageData));
+    }
+    filePreviewImg.style.display = "none";
+    filePreviewVid.style.display = "none";
+    fileInput.value = "";
+    textarea.innerHTML = "";
+    if (this.fileType == "none") {
+      setTimeout(() => {
+        let dateTime = new Date();
+        let element = document.getElementById(
+          "message-local-" + String(this.MessageLocalIdInc - 1)
+        ) as HTMLElement;
+        element.innerHTML =
+          dateTime.toLocaleString().split(",")[1] +
+          ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+      }, 100);
+    }
+    this.fileType = "none";
+  }
+  filesUploadCallBack = (result, extraParam,extraParam1): void => {
+    let data = JSON.parse(result.toString());
+    let dateTime = new Date(data[0]["UploadDateTime"]);
+    let element = document.getElementById(
+      "message-local-" + String(extraParam - 1)
+    ) as HTMLElement;
+    element.innerHTML =
+      dateTime.toLocaleString().split(",")[1] +
+      ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+    let messageData = {
+      Command: "INCORRECT_ANSWER",
+      CommandJsonData: JSON.stringify({
+        UserId: "5e6d10044842ce46dc5ed185",
+        sessionId: 0,
+        Message:  JSON.stringify({
+          Message: extraParam1,
+          Files: JSON.stringify(data)
+        })
+      })
+    };
+    this.sessionSocket.send(JSON.stringify(messageData));
+  };
+  emojiClick(textarea, emoji) {
+    textarea.innerHTML +=
+      '<img  style="width: 18px; width: 18px;" class="" src="assets/css/emoji/' +
+      emoji +
+      '.png" />';
+  }
+  emojisClick(emojisRef) {
+    if (emojisRef.style.display == "none") {
+      emojisRef.style.display = "block";
+    } else {
+      emojisRef.style.display = "none";
+    }
+  }
+  clikImages(element) {
+    element.click();
+  }
+  clikVideos(element) {
+    element.click();
+  }
+  inputFileChalge(fileInput, filePreviewImg, filePreviewVid) {
+    let mimeType = fileInput.files[0]["type"];
+    if (mimeType.split("/")[0] === "video") {
+      filePreviewImg.style.display = "none";
+      filePreviewVid.style.display = "block";
+      filePreviewVid.src = window.URL.createObjectURL(fileInput.files[0]);
+      this.fileType = "video";
+    } else if (mimeType.split("/")[0] === "image") {
+      filePreviewVid.style.display = "none";
+      filePreviewImg.style.display = "block";
+      filePreviewImg.src = window.URL.createObjectURL(fileInput.files[0]);
+      this.fileType = "image";
+    } else {
+      this.fileType = "none";
+    }
+  }
 }

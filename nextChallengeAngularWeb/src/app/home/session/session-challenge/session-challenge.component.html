@@ -1,0 +1,26 @@
+<div class="post-content" style="margin-bottom: 5px;">
+    <img src="{{challenge['Clue']['Files'][0]['FileBaseUrls'][0]}}" alt="" class="img-responsive post-image" />
+    <div class="post-container" style="padding-bottom: 0;">
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <h5><a class="profile-link">{{challenge["Category"]}}</a></h5>
+                </td>
+                <td align="right">
+                    <div class="reaction pull-right">
+                        <a class="btn text-green"><i class="icon ion-thumbsup"></i> 2</a>
+                        <a class="btn text-red" style="margin-right: 10px;"><i class="fa fa-thumbs-down"></i> 0</a>
+                        <a id="{{challenge['challnegeId']}}"
+                            style="border-radius: 2px; height: 15px; width: 15px; position: relative; top: 2px; ">0</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="line-divider"></div>
+        <p>{{challenge["Question"]}}</p>
+        <div class="line-divider"></div>
+        <label *ngFor="let box of challenge['Answer'].split('')"
+            [ngClass]="{ 'challenge-answer-box': box != ' ', 'challenge-answer-box-borderless': box == ' ' }"></label>
+    </div>
+</div>

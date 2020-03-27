@@ -974,6 +974,8 @@ textarea{
   color: #fff;
   font-size: 14px;
   transform: translateY(100px);
+  margin-bottom: 120px;
+  text-align: center;
 }
 
 .intro-texts h1{
@@ -1553,6 +1555,17 @@ ul.chat-message li.left .chat-item{
 ul.chat-message li.left .chat-item::before{
   border-bottom: 10px solid transparent;
   border-right: 8px solid rgba(141,198,63, .1);
+  border-top: 10px solid transparent;
+  content: "";
+  height: 0;
+  left: -8px;
+  position: absolute;
+  top: 10px;
+  width: 0;
+}
+ul.chat-message li.left .chat-item-session-incorrect::before{
+  border-bottom: 10px solid transparent;
+  border-right: 8px solid #ffcccb;
   border-top: 10px solid transparent;
   content: "";
   height: 0;

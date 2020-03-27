@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { AppService } from "../.././services/app.service";
 import { NgForm } from "@angular/forms";
@@ -10,6 +10,8 @@ import { NgForm } from "@angular/forms";
 })
 export class PostComponent implements OnInit {
   @Input("post") post: any;
+  @ViewChild("postContent") postContent: any;
+
   public comments: any;
   public fileType = "none";
   public profileRoute = false;
@@ -20,6 +22,10 @@ export class PostComponent implements OnInit {
   public commentsCount = 0;
   public likesCount = 0;
   public disLikesCount = 0;
+  public PostLiked = false;
+  public PostDisLiked = false;
+  public postLikedClass = "btn text-green";
+  public postDisLikedClass = "btn text-red";
   constructor(private router: Router, private _appService: AppService) {}
 
   ngOnInit(): void {
@@ -31,9 +37,20 @@ export class PostComponent implements OnInit {
       this.post["DateTimeNow"]
     );
     this.commentsCount = this.post["CommentsCount"];
-    this.likesCount = this.post["DislikesCount"];
-    this.disLikesCount = this.post["LikesCount"];
-    this.profileRoute = this.router.url.includes("/profile");
+    this.likesCount = this.post["LikesCount"];
+    this.disLikesCount = this.post["DislikesCount"];
+    this.postLikedClass = this.post["PostLiked"]
+      ? "btn text-blue"
+      : "btn text-green";
+    this.postDisLikedClass = this.post["PostDisLiked"]
+      ? "btn text-blue"
+      : "btn text-red";
+    this.PostLiked = this.post["PostLiked"];
+    this.PostDisLiked = this.post["PostDisLiked"];
+    this.profileRoute = this.router.url.endsWith("/timeline");
+  }
+  ngAfterViewInit() {
+    this.postContent.nativeElement.innerHTML = this.post["PostContent"];
   }
   createComment(form: NgForm, filePreviewImg, fileInput, filePreviewVid) {
     let formData = new FormData();
@@ -48,9 +65,11 @@ export class PostComponent implements OnInit {
     setTimeout(() => {
       this.latestComment = setInterval(() => {
         this._appService
-          .retrievecommentlatest(this.post["_id"],this.comments.length == 0 ? "" : this.comments[0]["_id"])
+          .retrievecommentlatest(
+            this.post["_id"],
+            this.comments.length == 0 ? "" : this.comments[0]["_id"]
+          )
           .subscribe(data => {
-            console.log(data);
             if (data != null) {
               this.commentsCount++;
               this.comments = [];
@@ -85,10 +104,52 @@ export class PostComponent implements OnInit {
       this.fileType = "none";
     }
   }
-  like(){
-    alert("hello world");
+  like() {
+    if (this.PostLiked) {
+      this.likesCount--;
+      this._appService.deletepostlike(this.post["_id"], this.UserData["_id"]);
+      this.PostLiked = false;
+      this.postLikedClass = "btn text-green";
+      this.postDisLikedClass = "btn text-red";
+    } else {
+      this.likesCount++;
+      this._appService.likepost(this.post["_id"], this.UserData["_id"]);
+      this.PostLiked = true;
+      this.postLikedClass = "btn text-blue";
+      this.postDisLikedClass = "btn text-red";
+    }
+    if (this.PostDisLiked) {
+      this.disLikesCount--;
+      this._appService.deletepostdislike(
+        this.post["_id"],
+        this.UserData["_id"]
+      );
+      this.PostDisLiked = false;
+      this.postDisLikedClass = "btn text-red";
+    }
   }
-  dislike(){
-        alert("hello world 2");
+  dislike() {
+    if (this.PostDisLiked) {
+      this.disLikesCount--;
+      this._appService.deletepostdislike(
+        this.post["_id"],
+        this.UserData["_id"]
+      );
+      this.PostDisLiked = false;
+      this.postLikedClass = "btn text-green";
+      this.postDisLikedClass = "btn text-red";
+    } else {
+      this.disLikesCount++;
+      this._appService.dislikepost(this.post["_id"], this.UserData["_id"]);
+      this.PostDisLiked = true;
+      this.postLikedClass = "btn text-green";
+      this.postDisLikedClass = "btn text-blue";
+    }
+    if (this.PostLiked) {
+      this.likesCount--;
+      this._appService.deletepostlike(this.post["_id"], this.UserData["_id"]);
+      this.PostLiked = false;
+      this.postLikedClass = "btn text-green";
+    }
   }
 }
