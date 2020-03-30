@@ -11,8 +11,8 @@ import { DateOfBirth } from "../.././models/date-of-birth";
   styleUrls: ["./register.component.css"]
 })
 export class RegisterComponent implements OnInit {
-  userModel = new User(new DateOfBirth(0,"Month",0),"Male");
-  registrationSpinner = false;
+  public userModel = new User(new DateOfBirth(0,"Month",0),"Male");
+  public registrationSpinner = false;
   constructor(private _appService: AppService,private router: Router) {}
 
   ngOnInit(): void {}

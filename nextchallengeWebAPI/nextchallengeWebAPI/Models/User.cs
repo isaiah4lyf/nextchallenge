@@ -14,18 +14,59 @@ namespace nextchallengeWebAPI.Models
         public ObjectId _id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string EmailRegistration { get; set; }
         public string Email { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
         public DateOfBirth DateOfBirth { get; set; }
         public string Gender { get; set; }
         public string City { get; set; }
-
+        public string AboutMe { get; set; }
+    }
+    public class UserPost
+    {
+        public string _id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string EmailRegistration { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public DateOfBirth DateOfBirth { get; set; }
+        public string Gender { get; set; }
+        public string City { get; set; }
+        public string AboutMe { get; set; }
     }
     public class DateOfBirth {
         public int Day;
         public string Month;
         public int Year;
     }
+    public class UserViewProfile
+    {
+        [XmlIgnore]
+        public ObjectId _id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public List<Friendship> friendships { get; set; }
 
+    }
+    public class UserConverter 
+    {
+        public User Convert(UserPost userPost)
+        {
+            return new User()
+            {
+                _id = ObjectId.Parse(userPost._id),
+                FirstName = userPost.FirstName,
+                LastName = userPost.LastName,
+                EmailRegistration = userPost.EmailRegistration,
+                Email = userPost.Email,
+                Password = userPost.Password,
+                DateOfBirth = userPost.DateOfBirth,
+                Gender = userPost.Gender,
+                City = userPost.City,
+                AboutMe = userPost.AboutMe
+            };
+        }
+    }
 }

@@ -43,7 +43,7 @@ export class SessionMessageComponent implements OnInit {
           }, 50);
         }, 50);
       } catch (e) {
-        console.log(e);
+        console.log(this.message["Message"]);
         this.messageContent.nativeElement.innerHTML = this.message["Message"];
       }
     }

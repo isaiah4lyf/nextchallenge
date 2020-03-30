@@ -23,12 +23,12 @@ export class OpenChatComponent implements OnInit {
     private _appService: AppService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     this._appService
-      .retrieveUserDataWithName(this.route.snapshot.paramMap.get("id"))
+      .retrieveUserDataWithName(this.route.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0])
       .subscribe(data => {
         if (data == null) {
           this.router.navigate(["/chat"]);
@@ -42,19 +42,14 @@ export class OpenChatComponent implements OnInit {
               if (this.messages.length > 0) {
                 this.lastMessageID = this.messages[0]["_id"];
               }
-              setTimeout(() => {
-                window.scrollTo(0, document.body.scrollHeight);
-              }, 500);
-              setTimeout(() => {
-                window.scrollTo(0, document.body.scrollHeight);
-              }, 1500);
-              setTimeout(() => {
-                window.scrollTo(0, document.body.scrollHeight);
-              }, 2000);
-              setTimeout(() => {
-                window.scrollTo(0, document.body.scrollHeight);
-                this.messagesRequested = false;
-              }, 2500);
+              if (this.messages.length > 4) {
+                setTimeout(() => {
+                  window.scrollTo(0, document.body.scrollHeight);
+                }, 500);
+                setTimeout(() => {
+                  window.scrollTo(0, document.body.scrollHeight);
+                }, 1000);
+              }
             });
         }
       });

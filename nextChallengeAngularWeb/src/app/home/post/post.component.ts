@@ -16,6 +16,7 @@ export class PostComponent implements OnInit {
   public fileType = "none";
   public profileRoute = false;
   public postLink = "";
+  public userLink = "";
   private UserData = null;
   private latestComment: any;
   public postDate = "";
@@ -31,6 +32,7 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     this.postLink = "/post/" + this.post["_id"];
+    this.userLink = "/" + this.post["Users"][0]["Email"].split("@")[0];
     this.comments = this.post["Comments"];
     this.postDate = this._appService.convertDateTimeToWord(
       this.post["CreateDateTime"],

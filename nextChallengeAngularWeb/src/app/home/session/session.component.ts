@@ -17,9 +17,25 @@ export class SessionComponent implements OnInit {
   public sessionsCount = 0;
   public MessageLocalIdInc = 0;
   public element: HTMLElement;
-  constructor(private _appService: AppService) {}
+  public UserData = null;
+  constructor(private _appService: AppService) { }
 
   ngOnInit(): void {
+    if (this._appService.getSssionContents() != null || this._appService.getSssionContents() != undefined) {
+      this.sessionContents = this._appService.getSssionContents();
+      this.sessionsCount = this.sessionContents.length;
+      this.MessageLocalIdInc = this.sessionContents.length;
+      setTimeout(() => {
+        this.sessionContents.forEach(element => {
+          if (JSON.stringify(element).includes("MessageLocalId")) {
+            let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
+            elementHtml.innerHTML = new Date(element["DateTime"]).toLocaleString().split(",")[1] +
+              ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+          }
+        });
+      }, 500);
+    }
+    this.UserData = this._appService.getUserData();
     this.sessionSocket = new WebSocket(
       "ws://" + "localhost" + ":" + "8080" + "/_df$socket$/session"
     );
@@ -28,12 +44,14 @@ export class SessionComponent implements OnInit {
     this.sessionSocket.onerror = this.processError;
     this.sessionSocket.onclose = this.processClose;
   }
-
+  ngOnDestroy() {
+    this._appService.setSssionContents(this.sessionContents);
+  }
   processOpen = message => {
-    let messageData = {
+    let messageData = {  
       Command: "JOIN_GAME_SESSION",
       CommandJsonData: JSON.stringify({
-        UserId: "5e6cd6154842ce64b4c5cf15",
+        UserId: this.UserData["_id"],
         SessionId: 0
       })
     };
@@ -45,7 +63,7 @@ export class SessionComponent implements OnInit {
       this.element = document.getElementById(
         "session-challenge-" + (this.sessionsCount - 1)
       ) as HTMLElement;
-      this.element.innerText = String(messageData.CommandJsonData - 1);
+      if (this.element != null) this.element.innerText = String(messageData.CommandJsonData - 1);
     } else {
       let data = JSON.parse(messageData.CommandJsonData);
       data["Command"] = String(messageData.Command);
@@ -54,12 +72,19 @@ export class SessionComponent implements OnInit {
         this.sessionsCount++;
       }
       this.sessionContents.push(data);
-      console.log(data);
+      this._appService.setSssionContents(this.sessionContents);
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 100);
     }
   };
-  processError = message => {};
-  processClose = message => {};
+  processError = message => { };
+  processClose = message => { };
 
+  submitWithEnter(event, textarea, sumbitbutton) {
+    event.preventDefault();
+    sumbitbutton.click();
+  }
   createMessage(
     form: NgForm,
     filePreviewImg,
@@ -70,6 +95,7 @@ export class SessionComponent implements OnInit {
     let msg = {
       Command: "MESSAGE_LOCAL",
       Message: textarea.innerHTML,
+      DateTime: new Date(),
       MessageLocalId: "message-local-" + String(this.MessageLocalIdInc),
       FileType: this.fileType,
       fileUrl:
@@ -83,7 +109,7 @@ export class SessionComponent implements OnInit {
       let formData = new FormData();
       formData.append("FileType", this.fileType);
       formData.append("File", fileInput.files[0]);
-      formData.append("FileUploaderID", "5e6d10044842ce46dc5ed185");
+      formData.append("FileUploaderID", this.UserData["_id"]);
       this._appService.uploadfiles(
         formData,
         this.filesUploadCallBack,
@@ -94,7 +120,7 @@ export class SessionComponent implements OnInit {
       let messageData = {
         Command: "",
         CommandJsonData: JSON.stringify({
-          UserId: "5e6d10044842ce46dc5ed185",
+          UserId: this.UserData["_id"],
           sessionId: 0,
           Message: textarea.innerHTML
         })
@@ -118,7 +144,7 @@ export class SessionComponent implements OnInit {
     }
     this.fileType = "none";
   }
-  filesUploadCallBack = (result, extraParam,extraParam1): void => {
+  filesUploadCallBack = (result, extraParam, extraParam1): void => {
     let data = JSON.parse(result.toString());
     let dateTime = new Date(data[0]["UploadDateTime"]);
     let element = document.getElementById(
@@ -130,9 +156,9 @@ export class SessionComponent implements OnInit {
     let messageData = {
       Command: "INCORRECT_ANSWER",
       CommandJsonData: JSON.stringify({
-        UserId: "5e6d10044842ce46dc5ed185",
+        UserId: this.UserData["_id"],
         sessionId: 0,
-        Message:  JSON.stringify({
+        Message: JSON.stringify({
           Message: extraParam1,
           Files: JSON.stringify(data)
         })

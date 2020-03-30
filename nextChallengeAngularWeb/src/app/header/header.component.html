@@ -4,7 +4,7 @@
   <nav class="navbar navbar-default navbar-fixed-top menu" id="navnav" style="background-color: white;">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
+      <div class="navbar-header noselect">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
           data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
@@ -15,20 +15,20 @@
         <span class="router-link" routerLink="">
           <a class="navbar-brand">
             <img style="width: 38px;height: 22px; margin-top: 0px" src="assets/images/logo (2).png" alt="logo" /></a>
-          <span *ngIf="desktopScreen">
-            <span class="brand-1">Next </span><b class="brand-2">Challenge</b>
+          <span>
+            <span class="brand-1">Next </span><span class="brand-2">Challenge</span>
           </span>
         </span>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="collapse navbar-collapse noselect" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right main-menu">
           <li>
             <img class="router-link" routerLink="/play" src="assets/icons/play.svg" alt="" />
           </li>
           <li>
-            <img class="router-link" routerLink="/friendrequests" src="assets/icons/friends.svg" alt="" />
+            <img class="router-link" routerLink="/friend-requests" src="assets/icons/friends.svg" alt="" />
           </li>
           <li>
             <img class="router-link" routerLink="/notifications" src="assets/icons/notification.svg" alt="" />
@@ -44,7 +44,14 @@
         <form class="navbar-form navbar-right hidden-sm" style="min-width: 200px;">
           <div class="form-group">
             <i class="icon ion-android-search icon-search"></i>
-            <input type="text" class="form-control search" placeholder="Search friends, photos, videos" />
+            <input #searchInput type="text" class="form-control search" placeholder="Search" (keypress)="search(searchInput)" />
+            <div *ngIf="searchdata.length > 0" class="search-dropdown-content">
+              <div *ngFor="let search of searchdata; let i = index" [class.search-row-border]="i != searchdata.length - 1" (click)="searchRowClick(search)" >
+                <i *ngIf="search['SearchType'] == 'user'" class="icon ion-person" style="position: relative; margin-right: 20px; left: 13px;"></i>
+                <i *ngIf="search['SearchType'] == 'post'" class="icon ion-android-search" style="position: relative; margin-right: 20px; left: 13px;"></i>
+                {{search['SearchContent']}}
+              </div>
+            </div>
           </div>
         </form>
       </div>

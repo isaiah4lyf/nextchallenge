@@ -17,44 +17,73 @@ export class ProfileComponent implements OnInit {
   public galleryLink = "";
   public friendsLink = "";
   public aboutBasicInfoLink = "";
-  public aboutEduWorkLink = "";
+  public aboutEducation = "";
+  public aboutWork = "";
   public aboutInterestLink = "";
   public aboutSettingsLink = "";
   public aboutChangePasswordLink = "";
+  public messageUserLink = "";
+  public isProfileView = false;
+  public isAddFriendButton = false;
 
   constructor(
     public route: ActivatedRoute,
     private _appService: AppService,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.onComponentInit();
+    this.route.params.subscribe(params => {
+      this.paramsChanged(params['id']);
+    });
+  }
+  paramsChanged(id) {
+    this.profileDataLoaded = false;
+    setTimeout(() => {
+      this.onComponentInit();
+    }, 5);
+  }
+  onComponentInit() {
+
     this.UserData = this._appService.getUserData();
 
     this.aboutLink = "/" + this.route.snapshot.paramMap.get("id") + "/about";
-    this.timelineLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/timeline";
-    this.galleryLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/gallery";
-    this.friendsLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/friends";
-    this.aboutBasicInfoLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/about/basic-info";
-    this.aboutEduWorkLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/about/edu-work";
-    this.aboutInterestLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/about/interests";
-    this.aboutChangePasswordLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/about/change-password";
-    this.aboutSettingsLink =
-      "/" + this.route.snapshot.paramMap.get("id") + "/about/settings";
+    this.timelineLink = "/" + this.route.snapshot.paramMap.get("id") + "/timeline";
+    this.galleryLink = "/" + this.route.snapshot.paramMap.get("id") + "/gallery";
+    this.friendsLink = "/" + this.route.snapshot.paramMap.get("id") + "/friends";
+    this.aboutBasicInfoLink = "/" + this.route.snapshot.paramMap.get("id") + "/about/basic-info";
+    this.aboutEducation = "/" + this.route.snapshot.paramMap.get("id") + "/about/education";
+    this.aboutWork = "/" + this.route.snapshot.paramMap.get("id") + "/about/work";
+    this.aboutInterestLink = "/" + this.route.snapshot.paramMap.get("id") + "/about/interests";
+    this.aboutChangePasswordLink = "/" + this.route.snapshot.paramMap.get("id") + "/about/change-password";
+    this.aboutSettingsLink = "/" + this.route.snapshot.paramMap.get("id") + "/about/settings";
 
-    if (
-      this.UserData["Email"].split("@")[0] ==
-      this.route.snapshot.paramMap.get("id")
-    ) {
+    if (this.UserData["Email"].split("@")[0] == this.route.snapshot.paramMap.get("id")) {
       this.profileDataLoaded = true;
-      //this.profileRoute = this.router.url.endsWith("/timeline");
+      this.isProfileView = false;
+    } else {
+      this._appService.retrieveUserDataWithName(this.route.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
+        if (data == null) {
+          this.router.navigate(["/home"]);
+        } else {
+          this.isProfileView = true;
+          this.UserData = data;
+          this.profileDataLoaded = true;
+          this._appService.setUserViewData(this.UserData);
+          this.isAddFriendButton = this.UserData["friendships"].length == 0;
+          this.messageUserLink = "/chat/" + this.UserData["Email"].split("@")[0];
+        }
+      });
     }
+  }
+  addFriend() {
+    this.isAddFriendButton = false;
+    let viewerData = this._appService.getUserData();
+    let friendship = {
+      FriendshipStarterUserId: viewerData["_id"],
+      FriendUserId: this.UserData["_id"]
+    };
+    this._appService.createfriendship(friendship).subscribe(data => { });
   }
 }

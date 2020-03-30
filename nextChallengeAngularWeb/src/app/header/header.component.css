@@ -1,0 +1,17 @@
+.search-dropdown-content {
+  display: block;
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+  overflow-x: hidden;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  color: silver;
+  cursor: pointer;
+}
+.search-row-border {
+  border-bottom: 1px solid #ddd;
+}

@@ -1,90 +1,57 @@
-<!-- Header
-    ================================================= -->
-    <header id="header-inverse">
-        <nav class="navbar navbar-default navbar-fixed-top menu">
-            <div class="container">
-    
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index-register.html"><img
-                            style="width: 40px; height: 35px; margin-top: -15px;" src="assets/images/logo (2).png"
-                            alt="logo" /></a>
-                    <span style="position: relative; top: 5px;">
-                        <span class="brand-1" style="color: white;"></span>
-                    </span>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right main-menu" style="margin-top: -13px;">
-                        <li class="dropdown"><a href="contact.html">Contact &nbsp; &nbsp;<i
-                                    class="icon ion-ios-telephone"></i></a></li>
-                        <li class="dropdown"><a href="contact.html">Help &nbsp; &nbsp;<i class="icon ion-help"></i></a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container -->
-        </nav>
-    </header>
-    <!--Header End-->
-    
-    <!-- Landing Page Contents
+<!-- Landing Page Contents
           ================================================= -->
-    <div id="lp-register" style="margin-top: -145px; padding-bottom: 185px;">
-        <div class="container wrapper">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <div class="intro-texts">
-                        <h1 class="text-white">Next Challenge</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <div class="reg-form-container">
-    
-                        <!-- Register/Login Tabs-->
-                        <div class="reg-options">
-                            <ul class="nav nav-tabs">
-                                <li><a href="#register" data-toggle="tab">Register</a></li>
-                                <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
-                            </ul>
-                            <!--Tabs End-->
-                        </div>
-    
-                        <!--Registration Form Contents-->
-                        <div class="tab-content">
-                            <!--Login-->
-                            <div class="tab-pane active" id="login">
-                                <app-login></app-login>
-                            </div>
-                            <!--Register Form-->
-                            <div class="tab-pane" id="register">
-                                <app-register></app-register>
-                            </div>
-    
-    
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-    
-                    <!--Social Icons-->
-                    <ul class="list-inline social-icons">
-                        <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
-                        <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
-                        <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
-                        <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
-                        <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
-                    </ul>
+<div id="lp-register" style="margin-top: -145px; padding-bottom: 185px;">
+    <div class="container wrapper">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="intro-texts">
+                    <h1 class="text-white">Next Challenge</h1>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="reg-form-container">
+
+                    <!-- Register/Login Tabs-->
+                    <div class="reg-options">
+                        <ul class="nav nav-tabs">
+                            <li class="router-link" routerLink="/register" routerLinkActive="active"><a href="#register" data-toggle="tab">Register</a></li>
+                            <li class="router-link" routerLink="/login" routerLinkActive="active"><a href="#login" data-toggle="tab">Login</a></li>
+                        </ul>
+                        <!--Tabs End-->
+                    </div>
+
+                    <!--Registration Form Contents-->
+                    <div class="tab-content">
+                        <!--Login-->
+                        <div class="tab-pane router-link-none-click" routerLink="/login" routerLinkActive="active" id="login">
+                            <app-login></app-login>
+                        </div>
+                        <!--Register Form-->
+                        <div class="tab-pane router-link-none-click" routerLink="/register" routerLinkActive="active" id="register">
+                            <app-register></app-register>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+
+                <!--Social Icons-->
+                <ul class="list-inline social-icons">
+                    <li><a href="#"><i class="icon ion-ios-telephone"></i></a></li>
+                    <li><a href="#"><i class="icon ion-help"></i></a></li>
+                    <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+                    <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+                    <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+                    <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+                    <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
     </div>
+</div>

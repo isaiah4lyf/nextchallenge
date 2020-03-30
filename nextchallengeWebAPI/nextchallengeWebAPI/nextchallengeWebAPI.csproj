@@ -202,10 +202,15 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\DefaultSessionChallenge.cs" />
     <Compile Include="Models\FileUpload.cs" />
+    <Compile Include="Models\Friendship.cs" />
+    <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Leaderboard.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\School.cs" />
+    <Compile Include="Models\Search.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

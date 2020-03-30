@@ -15,54 +15,83 @@ export class AppService {
     })
   };
   private httpOptionsMultipart = {
-    headers: new HttpHeaders({
-      "Content-Type":
-        "multipart/form-data; boundary=--------------------------654287500409823045608277"
-    })
+    headers: new HttpHeaders({ "Content-Type": "multipart/form-data; boundary=--------------------------654287500409823045608277" })
   };
   private UserData = null;
+  private UserViewData = null;
+  private SessionContentGlobal: any;
 
   constructor(private router: Router, private http: HttpClient) { }
-
-  login(form: NgForm) {
-    return this.http.get(
-      this.configUrl +
-      "login?email=" +
-      form.value.Email +
-      "&password=" +
-      form.value.Password
-    );
+  setSssionContents(SessionContents) {
+    this.SessionContentGlobal = SessionContents;
   }
-
+  getSssionContents() {
+    return this.SessionContentGlobal;
+  }
+  login(form: NgForm) {
+    return this.http.get(this.configUrl + "login?email=" + form.value.Email + "&password=" + form.value.Password);
+  }
   register(form: NgForm) {
-    return this.http.post(
-      this.configUrl + "createuser",
-      JSON.stringify(form.value),
-      this.httpOptions
-    );
+    return this.http.post(this.configUrl + "createuser", JSON.stringify(form.value), this.httpOptions);
+  }
+  updatebasicinfo(form) {
+    return this.http.post(this.configUrl + "updatebasicinfo", form, this.httpOptions);
+  }
+  updateschools(schools) {
+    return this.http.post(this.configUrl + "updateschools", schools, this.httpOptions);
+  }
+  retrieveschools(userid) {
+    return this.http.get(this.configUrl + "retrieveschools?userid=" + userid, this.httpOptions);
+  }
+  deleteschool(schoolid) {
+    return this.http.delete(this.configUrl + "deleteschool?schoolid=" + schoolid, this.httpOptions);
+  }
+  updatecompanies(companies) {
+    return this.http.post(this.configUrl + "updatecompanies", companies, this.httpOptions);
+  }
+  retrievecompanies(userid) {
+    return this.http.get(this.configUrl + "retrievecompanies?userid=" + userid, this.httpOptions);
+  }
+  deletecompany(companyid) {
+    return this.http.delete(this.configUrl + "deletecompany?companyid=" + companyid, this.httpOptions);
+  }
+  createinterest(interest) {
+    return this.http.post(this.configUrl + "createinterest", interest, this.httpOptions);
+  }
+  retrieveinterests(userid) {
+    return this.http.get(this.configUrl + "retrieveinterests?userid=" + userid, this.httpOptions);
+  }
+  deleteinterest(interestid) {
+    return this.http.delete(this.configUrl + "deleteinterest?interestid=" + interestid, this.httpOptions);
   }
   setUserData(data: Object) {
     this.UserData = data;
-    localStorage.setItem("logon", JSON.stringify(data));
+    //localStorage.setItem("logon", JSON.stringify(data));  for keep signed in "localStorage.getItem("logon")"
+    sessionStorage.setItem("logon", JSON.stringify(data));
   }
   getUserData() {
     if (this.UserData == null) {
-      if (
-        localStorage.getItem("logon") != "" &&
-        localStorage.getItem("logon") != null
-      ) {
-        this.UserData = JSON.parse(localStorage.getItem("logon"));
+      if (sessionStorage.getItem("logon") != "" && sessionStorage.getItem("logon") != null) {
+        this.UserData = JSON.parse(sessionStorage.getItem("logon"));
       } else {
         this.router.navigate(["/login"]);
       }
     }
     return this.UserData;
   }
-  retrieveUserDataWithName(name) {
+  retrieveUserDataWithName(name, viewername) {
     return this.http.get(
-      this.configUrl + "retrieveuser?name=" + name,
+      this.configUrl + "retrieveuser?name=" + name + "&viewername=" + viewername,
       this.httpOptions
     );
+  }
+  getUserViewData(name) {
+    if (this.UserViewData != null)
+      return this.UserViewData;
+    return this.UserViewData;
+  }
+  setUserViewData(userdata) {
+    this.UserViewData = userdata;
   }
   createPost(form: NgForm, formData: FormData, createPostSpinnerRef) {
     this.http.post(this.configUrl + "createpost", formData).subscribe(data => {
@@ -306,5 +335,29 @@ export class AppService {
       page, prevPages,
       this.httpOptions
     );
+  }
+  createfriendship(friendship) {
+    return this.http.post(this.configUrl + "createfriendship", friendship, this.httpOptions);
+  }
+  approvefriendship(friendshipid) {
+    return this.http.post(this.configUrl + "approvefriendship?friendshipid=" + friendshipid, this.httpOptions);
+  }
+  deletefriendship(friendshipid) {
+    return this.http.delete(this.configUrl + "deletefriendship?friendshipid=" + friendshipid, this.httpOptions);
+  }
+  retrievefriendshiprequests(userid) {
+    return this.http.get(this.configUrl + "retrievefriendshiprequests?userid=" + userid, this.httpOptions);
+  }
+  retrievefriendshiprequestsafter(userid, lastfriendshipid) {
+    return this.http.get(this.configUrl + "retrievefriendshiprequestsafter?userid=" + userid + "&lastfriendshipid=" + lastfriendshipid, this.httpOptions);
+  }
+  retrievefriendships(userid) {
+    return this.http.get(this.configUrl + "retrievefriendships?userid=" + userid, this.httpOptions);
+  }
+  retrievefriendshipsafter(userid, lastfriendshipid) {
+    return this.http.get(this.configUrl + "retrievefriendshipsafter?userid=" + userid + "&lastfriendshipid=" + lastfriendshipid, this.httpOptions);
+  }
+  search(query){
+    return this.http.get(this.configUrl + "search?query=" + query,this.httpOptions);
   }
 }

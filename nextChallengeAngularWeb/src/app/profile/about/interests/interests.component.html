@@ -10,21 +10,29 @@
     </div>
     <div class="edit-block">
         <ul class="list-inline interests">
-            <li><a href=""><i class="icon ion-android-bicycle"></i> Bycicle</a></li>
-            <li><a href=""><i class="icon ion-ios-camera"></i> Photgraphy</a></li>
-            <li><a href=""><i class="icon ion-android-cart"></i> Shopping</a></li>
-            <li><a href=""><i class="icon ion-android-plane"></i> Traveling</a></li>
-            <li><a href=""><i class="icon ion-android-restaurant"></i> Eating</a></li>
+            <li *ngFor="let myInterest of MyInterests; let i = index" style="width: 48%;"><a><i
+                        class="{{myInterest['IconName']}}"></i> {{myInterest['InterestName']}} <i
+                        class="icon ion-android-close" style="float: right;  color: white; cursor: pointer;"
+                        (click)="removeInterent(i)"></i></a>
+            </li>
         </ul>
-        <div class="line"></div>
+        <div *ngIf="MyInterests.length > 0" class="line"></div>
         <div class="row">
             <p class="custom-label"><strong>Add interests</strong></p>
             <div class="form-group col-sm-8">
-                <input id="add-interest" class="form-control input-group-lg" type="text" name="interest"
-                    title="Choose Interest" placeholder="Interests. For example, photography" />
+                <input #interestbox class="form-control input-group-lg" type="text"
+                    placeholder="Interests. For example, photography" (keypress)="interestTextBoxChange(interestbox)" />
+                <div *ngIf="CommonInterestsSearch.length > 0" class="search-dropdown-content"
+                    style="background-color: white; border: 1px solid #f1f2f2; border-radius: 2px;">
+                    <div class="search-row" *ngFor="let interest of CommonInterestsSearch;"
+                        (click)="selectInterest(interest,interestbox)" style="cursor: pointer;">
+                        <i class="{{interest['IconName']}}"
+                            style="position: relative; margin-right: 20px; left: 13px;"></i>{{interest['InterestName']}}
+                    </div>
+                </div>
             </div>
             <div class="form-group col-sm-4">
-                <button class="btn btn-primary">Add</button>
+                <button class="btn btn-primary" (click)="addInterest(interestbox)" style="margin-left: -10px;">Add</button>
             </div>
         </div>
     </div>

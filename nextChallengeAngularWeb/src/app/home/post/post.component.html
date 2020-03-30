@@ -19,7 +19,7 @@
                 <tr>
                     <td>
                         <div class="user-info">
-                            <h5><a href="timeline.html" class="profile-link">{{post["Users"][0]["FirstName"]}} {{post["Users"][0]["LastName"]}} </a></h5>
+                            <h5><a  class="profile-link" [routerLink]="userLink" >{{post["Users"][0]["FirstName"]}} {{post["Users"][0]["LastName"]}} </a></h5>
                             <p class="text-muted router-link" style="font-size: 11px;" [routerLink]="postLink">{{postDate}}</p>
                         </div>
                     </td>

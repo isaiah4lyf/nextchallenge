@@ -28,10 +28,15 @@
                                     routerLinkActive="active">Friends</a></li>
                         </ul>
                         <ul class="follow-me list-inline">
-                            <li>1,299 people following her</li>
-                            <li><button class="btn-primary">Add Friend</button></li>
+                            <li>1,299 friends</li>
+                            <li *ngIf="isProfileView"><button class="btn-primary router-link" style="width: 120px;"
+                                    routerLink="{{messageUserLink}}">Message</button></li>
+                            <li *ngIf="isAddFriendButton"><button class="btn-primary" style="width: 120px;"
+                                    (click)="addFriend()">Add Friend</button></li>
                         </ul>
+
                     </div>
+
                 </div>
             </div>
             <!--Timeline Menu for Large Screens End-->
@@ -53,7 +58,10 @@
                         <li><a class="router-link" routerLink="{{friendsLink}}" routerLinkActive="active">Friends</a>
                         </li>
                     </ul>
-                    <button class="btn-primary">Add Friend</button>
+                    <button *ngIf="isProfileView" class="btn-primary router-link"
+                        style="margin-right: 10px; width: 120px;" routerLink="{{messageUserLink}}">Message</button>
+                    <button *ngIf="isAddFriendButton" class="btn-primary" style="width: 120px;"
+                        (click)="addFriend()">Add Friend</button>
                 </div>
             </div>
             <!--Timeline Menu for Small Screens End-->
@@ -63,13 +71,17 @@
             <div class="row">
                 <div class="col-md-3">
                     <!--Edit Profile Menu-->
-                    <ul class="edit-menu" *ngIf='router.url.endsWith("/about/basic-info") || router.url.endsWith("/about/edu-work") || router.url.endsWith("/about/interests") 
+                    <ul class="edit-menu"
+                        *ngIf='router.url.endsWith("/about/basic-info") || router.url.endsWith("/about/edu-work") || router.url.endsWith("/about/interests") || router.url.endsWith("/about/work") || router.url.endsWith("/about/education") 
                     || router.url.endsWith("/about/settings") || router.url.endsWith("/about/change-password") && UserData["Email"].split("@")[0] == route.snapshot.paramMap.get("id")'>
                         <li class="router-link" routerLink="{{aboutBasicInfoLink}}" routerLinkActive="active"><i
                                 class="icon ion-ios-information-outline"></i><a>Basic Information</a></li>
-                        <li class="router-link" routerLink="{{aboutEduWorkLink}}" routerLinkActive="active"><i
-                                class="icon ion-ios-briefcase-outline"></i><a>Education
-                                and Work</a></li>
+                        <li class="router-link" routerLink="{{aboutEducation}}" routerLinkActive="active"><i
+                                class="icon ion-ios-book-outline"></i><a>Education
+                            </a></li>
+                        <li class="router-link" routerLink="{{aboutWork}}" routerLinkActive="active"><i
+                                class="icon ion-ios-briefcase-outline"></i><a>Work
+                            </a></li>
                         <li class="router-link" routerLink="{{aboutInterestLink}}" routerLinkActive="active"><i
                                 class="icon ion-ios-heart-outline"></i><a>My
                                 Interests</a></li>

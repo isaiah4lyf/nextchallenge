@@ -23,10 +23,11 @@ import { GalleryComponent } from "./profile/gallery/gallery.component";
 import { FriendsComponent } from "./profile/friends/friends.component";
 import { PostViewComponent } from "./home/post-view/post-view.component";
 import { AboutEditComponent } from "./profile/about/about-edit/about-edit.component";
-import { EduWorkComponent } from "./profile/about/edu-work/edu-work.component";
 import { InterestsComponent } from "./profile/about/interests/interests.component";
 import { ProfileSettingsComponent } from "./profile/about/settings/settings.component";
 import { ChangePasswordComponent } from "./profile/about/change-password/change-password.component";
+import { EducationComponent } from "./profile/about/education/education.component";
+import { WorkComponent } from "./profile/about/work/work.component";
 
 const routes: Routes = [
   {
@@ -47,7 +48,7 @@ const routes: Routes = [
       { path: "prizes", component: PrizesComponent },
       { path: "settings", component: SettingsComponent },
       { path: "contact", component: ContactComponent },
-      { path: "friendrequests", component: FriendRequestsComponent },
+      { path: "friend-requests", component: FriendRequestsComponent },
       { path: "notifications", component: NotificationsComponent },
       { path: "chat", component: ChatComponent },
       { path: "chat/:id", component: OpenChatComponent },
@@ -56,6 +57,7 @@ const routes: Routes = [
   },
   { path: "help", component: HelpComponent },
   { path: "login", component: IndexComponent },
+  { path: "register", component: IndexComponent },
   {
     path: ":id",
     component: ProfileComponent,
@@ -71,7 +73,8 @@ const routes: Routes = [
         component: AboutComponent,
         children: [
           { path: "basic-info", component: AboutEditComponent },
-          { path: "edu-work", component: EduWorkComponent },
+          { path: "education", component: EducationComponent },
+          { path: "work", component: WorkComponent },
           { path: "interests", component: InterestsComponent },
           { path: "settings", component: ProfileSettingsComponent },
           { path: "change-password", component: ChangePasswordComponent }
@@ -89,4 +92,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

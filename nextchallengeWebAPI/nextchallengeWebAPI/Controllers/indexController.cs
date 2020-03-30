@@ -18,38 +18,168 @@ namespace nextchallengeWebAPI.Controllers
     {
         static MongoClient client = new MongoClient("mongodb://localhost:27017");
         static IMongoDatabase database = client.GetDatabase("nextchallenge");
-        static string atNextMail = "@gmail.com"; //To be replaced with @nextchallenge.co.za
+        static string atNextMail = "@nextchallenge.co.za";
 
-        [Route("api/index/login")]
+        [Route("api/index/checkregistrationemail")]
         [HttpGet]
-        public User login(string email, string password)
+        public bool checkregistrationemail(string email)
         {
-            var collection = database.GetCollection<User>("Users");
-            User user = collection.Find(x => x.Email == email && x.Password == password).FirstOrDefault();
-            if (user != null) user.Password = null;
-            return user;
+            return database.GetCollection<User>("Users").Find(u => u.EmailRegistration == email).ToList().Count() > 0;
         }
         [Route("api/index/createuser")]
         [HttpPost]
         public User createuser([FromBody]User user)
         {
-            var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
             var collection = database.GetCollection<User>("Users");
+            var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
+            if (collection.Find(u => u.EmailRegistration == user.EmailRegistration).ToList().Count() > 0)
+                return null;
+            string Email = user.FirstName.ToLower() + "." + user.LastName.ToLower();
+            int EmailIncreament = 1;
+            while (true)
+            {
+                if (collection.Find(u => u.Email == Email + atNextMail).ToList().Count() == 0)
+                    break;
+                Email = user.FirstName.ToLower() + "." + user.LastName.ToLower() + "." + EmailIncreament.ToString();
+                EmailIncreament++;
+            }
+            user.Email = Email + atNextMail;
             collection.InsertOne(user);
-
             Leaderboard leaderboard = new Leaderboard() { UserID = user._id };
             collectionLeaderboards.InsertOne(leaderboard);
-
+            return user;
+        }
+        [Route("api/index/updatebasicinfo")]
+        [HttpPost]
+        public User updatebasicinfo([FromBody]UserPost user)
+        {
+            var collection = database.GetCollection<User>("Users");
+            User usertemp = new UserConverter().Convert(user);
+            usertemp.Password = collection.Find(u => u._id == usertemp._id).FirstOrDefault().Password;
+            string Email = usertemp.FirstName.ToLower() + "." + usertemp.LastName.ToLower();
+            if ((Email + atNextMail) != user.Email)
+            {
+                int EmailIncreament = 1;
+                while (true)
+                {
+                    if (collection.Find(u => u.Email == Email + atNextMail).ToList().Count() == 0)
+                        break;
+                    Email = usertemp.FirstName.ToLower() + "." + usertemp.LastName.ToLower() + "." + EmailIncreament.ToString();
+                    EmailIncreament++;
+                }
+                usertemp.Email = Email + atNextMail;
+            }
+            collection.ReplaceOne(u => u._id == usertemp._id, usertemp);
+            return usertemp;
+        }
+        [Route("api/index/login")]
+        [HttpGet]
+        public User login(string email, string password)
+        {
+            var collection = database.GetCollection<User>("Users");
+            User user = collection.Find(x => (x.EmailRegistration == email || x.Email == email) && x.Password == password).FirstOrDefault();
+            if (user != null) user.Password = null;
             return user;
         }
         [Route("api/index/retrieveuser")]
         [HttpGet]
-        public User retrieveuser(string name)
+        public UserViewProfile retrieveuser(string name, string viewername)
         {
             var collection = database.GetCollection<User>("Users");
-            User user = collection.Find(x => x.Email == name + atNextMail).FirstOrDefault();
-            if (user != null) user.Password = null;
+            var collectionFriendship = database.GetCollection<Friendship>("Friendships");
+            User viewed = collection.Find(u => u.Email == name + atNextMail).FirstOrDefault();
+            User viewer = collection.Find(u => u.Email == viewername + atNextMail).FirstOrDefault();
+            if (viewed == null || viewer == null) return null;
+            var objects = new ObjectId[] { viewed._id, viewer._id };
+            UserViewProfile user = (from u in collection.AsQueryable()
+                                    where u._id == viewed._id
+                                    select new UserViewProfile()
+                                    {
+                                        _id = u._id,
+                                        FirstName = u.FirstName,
+                                        LastName = u.LastName,
+                                        Email = u.Email
+                                    }).FirstOrDefault();
+            user.friendships = collectionFriendship.Find(f => objects.Contains(f.FriendshipStarterUserId) && objects.Contains(f.FriendUserId)).ToList();
             return user;
+        }
+        [Route("api/index/updateschools")]
+        [HttpPost]
+        public List<School> updateschools([FromBody]List<SchoolPost> schools)
+        {
+            var collectionSchools = database.GetCollection<School>("Schools");
+            List<School> schoolsConverted = new SchoolConverter().ConvertMany(schools);
+            foreach (School school in schoolsConverted)
+            {
+                if (school._id == ObjectId.Parse("000000000000000000000000"))
+                    collectionSchools.InsertOne(school);
+                if (school._id != ObjectId.Parse("000000000000000000000000"))
+                    collectionSchools.ReplaceOne(s => s._id == school._id, school);
+            }
+            return schoolsConverted;
+        }
+        [Route("api/index/retrieveschools")]
+        [HttpGet]
+        public List<School> retrieveschools(string userid)
+        {
+            return database.GetCollection<School>("Schools").Find(s => s.UserID == ObjectId.Parse(userid)).ToList();
+        }
+        [Route("api/index/deleteschool")]
+        [HttpDelete]
+        public string deleteschool(string schoolid)
+        {
+            database.GetCollection<School>("Schools").DeleteOne(s => s._id == ObjectId.Parse(schoolid));
+            return "success";
+        }
+        [Route("api/index/updatecompanies")]
+        [HttpPost]
+        public List<Company> updatecompanies([FromBody]List<CompanyPost> companies)
+        {
+            var collectionSchools = database.GetCollection<Company>("Companies");
+            List<Company> companiesConverted = new CompanyConverter().ConvertMany(companies);
+            foreach (Company company in companiesConverted)
+            {
+                if (company._id == ObjectId.Parse("000000000000000000000000"))
+                    collectionSchools.InsertOne(company);
+                if (company._id != ObjectId.Parse("000000000000000000000000"))
+                    collectionSchools.ReplaceOne(s => s._id == company._id, company);
+            }
+            return companiesConverted;
+        }
+        [Route("api/index/retrievecompanies")]
+        [HttpGet]
+        public List<Company> retrievecompanies(string userid)
+        {
+            return database.GetCollection<Company>("Companies").Find(s => s.UserID == ObjectId.Parse(userid)).ToList();
+        }
+        [Route("api/index/deletecompany")]
+        [HttpDelete]
+        public string deletecompany(string companyid)
+        {
+            database.GetCollection<Company>("Companies").DeleteOne(s => s._id == ObjectId.Parse(companyid));
+            return "success";
+        }
+        [Route("api/index/createinterest")]
+        [HttpPost]
+        public Interest createinterest([FromBody]InterestPost interest)
+        {
+            Interest interestConverted = new InterestConverter().Convert(interest);
+            var collection = database.GetCollection<Interest>("Interests");
+            collection.InsertOne(interestConverted);
+            return interestConverted;
+        }
+        [Route("api/index/retrieveinterests")]
+        [HttpGet]
+        public List<Interest> retrieveinterests(string userid)
+        {
+            return database.GetCollection<Interest>("Interests").Find(i => i.UserID == ObjectId.Parse(userid)).ToList();
+        }
+        [Route("api/index/deleteinterest")]
+        [HttpDelete]
+        public string deleteinterest(string interestid)
+        {
+            database.GetCollection<Interest>("Interests").DeleteOne(i => i._id == ObjectId.Parse(interestid));
+            return "success";
         }
         [Route("api/index/createpost")]
         [HttpPost]
@@ -1013,6 +1143,190 @@ namespace nextchallengeWebAPI.Controllers
                         WeekendScore = l.WeekendScore,
                         HighestStreak = l.HighestStreak
                     }).Count() + 1;
+        }
+        [Route("api/index/createfriendship")]
+        [HttpPost]
+        public Friendship createfriendship([FromBody]FriendshipPost friendship)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            friendship.CreateDateTime = DateTime.Now;
+            Friendship friendship1 = new FriendshipConverter().Convert(friendship);
+            collectionFriendships.InsertOne(friendship1);
+            return friendship1;
+        }
+        [Route("api/index/approvefriendship")]
+        [HttpPost]
+        public Friendship approvefriendship(string friendshipid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            Friendship friendship = collectionFriendships.Find(f => f._id == ObjectId.Parse(friendshipid)).FirstOrDefault();
+            friendship.FriendshipApproved = true;
+            friendship.FriendshipApproveDatetime = DateTime.Now;
+            collectionFriendships.ReplaceOne(f => f._id == friendship._id, friendship);
+            return friendship;
+        }
+        [Route("api/index/deletefriendship")]
+        [HttpDelete]
+        public string deletefriendship(string friendshipid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            collectionFriendships.DeleteOne(f => f._id == ObjectId.Parse(friendshipid));
+            return "success";
+        }
+        [Route("api/index/retrievefriendships")]
+        [HttpGet]
+        public List<FriendshipDetailed> retrievefriendships(string userid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            var collectionUsers = database.GetCollection<User>("Users");
+            return (from f in collectionFriendships.AsQueryable()
+                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                    where f.FriendshipApproved && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
+                    orderby f.CreateDateTime descending
+                    select new FriendshipDetailed()
+                    {
+                        _id = f._id,
+                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                        FriendUserId = f.FriendUserId,
+                        CreateDateTime = f.CreateDateTime,
+                        FriendshipApproved = f.FriendshipApproved,
+                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                        FriendshipStarter = (List<User>)starter,
+                        FriendUser = (List<User>)friend
+                    }).Take(12).ToList();
+        }
+        [Route("api/index/retrievefriendshipsafter")]
+        [HttpGet]
+        public List<FriendshipDetailed> retrievefriendshipsafter(string userid, string lastfriendshipid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            var collectionUsers = database.GetCollection<User>("Users");
+            Friendship friendship = collectionFriendships.Find(f => f._id == ObjectId.Parse(lastfriendshipid)).FirstOrDefault();
+            return (from f in collectionFriendships.AsQueryable()
+                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                    where f.FriendshipApproved && friendship.CreateDateTime > f.CreateDateTime && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
+                    orderby f.CreateDateTime descending
+                    select new FriendshipDetailed()
+                    {
+                        _id = f._id,
+                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                        FriendUserId = f.FriendUserId,
+                        CreateDateTime = f.CreateDateTime,
+                        FriendshipApproved = f.FriendshipApproved,
+                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                        FriendshipStarter = (List<User>)starter,
+                        FriendUser = (List<User>)friend
+                    }).Take(12).ToList();
+        }
+        [Route("api/index/retrievefriendshiprequests")]
+        [HttpGet]
+        public List<FriendshipDetailed> retrievefriendshiprequests(string userid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            var collectionUsers = database.GetCollection<User>("Users");
+            return (from f in collectionFriendships.AsQueryable()
+                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                    where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved
+                    orderby f.CreateDateTime descending
+                    select new FriendshipDetailed()
+                    {
+                        _id = f._id,
+                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                        FriendUserId = f.FriendUserId,
+                        CreateDateTime = f.CreateDateTime,
+                        FriendshipApproved = f.FriendshipApproved,
+                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                        FriendshipStarter = (List<User>)starter,
+                        FriendUser = (List<User>)friend
+                    }).Take(12).ToList();
+        }
+        [Route("api/index/retrievefriendshiprequestsafter")]
+        [HttpGet]
+        public List<FriendshipDetailed> retrievefriendshiprequestsafter(string userid, string lastfriendshipid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            var collectionUsers = database.GetCollection<User>("Users");
+            Friendship friendship = collectionFriendships.Find(f => f._id == ObjectId.Parse(lastfriendshipid)).FirstOrDefault();
+            return (from f in collectionFriendships.AsQueryable()
+                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                    where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved && friendship.CreateDateTime > f.CreateDateTime
+                    orderby f.CreateDateTime descending
+                    select new FriendshipDetailed()
+                    {
+                        _id = f._id,
+                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                        FriendUserId = f.FriendUserId,
+                        CreateDateTime = f.CreateDateTime,
+                        FriendshipApproved = f.FriendshipApproved,
+                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                        FriendshipStarter = (List<User>)starter,
+                        FriendUser = (List<User>)friend
+                    }).Take(12).ToList();
+        }
+        [Route("api/index/search")]
+        [HttpGet]
+        public List<Search> search(string query)
+        {
+            var querySplit = query.Split(' ');
+            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionPosts = database.GetCollection<Post>("Posts");
+            List<Search> searches = (from u in collectionUsers.AsQueryable()
+                                     where querySplit.Contains(u.FirstName) && querySplit.Contains(u.LastName)
+                                     select new Search()
+                                     {
+                                         _id = u.Email,
+                                         SearchContent = u.FirstName + " " + u.LastName,
+                                         SearchType = "user"
+                                     }).ToList();
+            query = query.ToLower();
+            querySplit = query.Split(' ');
+            if (querySplit.Length > 1)
+            {
+                List<Search> searchesTemp = (from u in collectionUsers.AsQueryable()
+                                             where (u.FirstName.ToLower().Contains(querySplit[0]) && u.LastName.ToLower().Contains(querySplit[1])) || (u.FirstName.ToLower().Contains(querySplit[1]) && u.LastName.ToLower().Contains(querySplit[0]))
+                                             select new Search()
+                                             {
+                                                 _id = u.Email,
+                                                 SearchContent = u.FirstName + " " + u.LastName,
+                                                 SearchType = "user"
+                                             }).ToList();
+                foreach (Search search in searchesTemp)
+                {
+                    if (!searches.Any(s => s._id == search._id))
+                        searches.Add(search);
+                }
+            }
+            else
+            {
+                List<Search> searchesTemp = (from u in collectionUsers.AsQueryable()
+                                             where u.FirstName.ToLower().Contains(query) || u.LastName.ToLower().Contains(query)
+                                             select new Search()
+                                             {
+                                                 _id = u.Email,
+                                                 SearchContent = u.FirstName + " " + u.LastName,
+                                                 SearchType = "user"
+                                             }).Take(5).ToList();
+                foreach (Search search in searchesTemp)
+                {
+                    if (!searches.Any(s => s._id == search._id))
+                        searches.Add(search);
+                }
+            }
+            searches = searches.Concat((from p in collectionPosts.AsQueryable()
+                                        where p.PostContent.ToLower().Contains(query) && !p.PostContent.Contains("<img style=")
+                                        select new Search()
+                                        {
+                                            _id = p._id.ToString(),
+                                            SearchContent = p.PostContent,
+                                            SearchType = "post"
+                                        }).Take(5).ToList()).ToList();
+            //Random rnd = new Random();
+            //searches = searches.OrderBy(x => rnd.Next()).ToList();
+            return searches.Take(10).ToList();
         }
     }
 }

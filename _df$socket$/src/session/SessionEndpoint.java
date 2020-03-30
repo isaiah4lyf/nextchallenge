@@ -97,14 +97,10 @@ public class SessionEndpoint {
 
 				GameSessions.get(GameSessionID).SetClientCurrentQAnswered(client.getClientID(), true);
 				
-				boolean checkattempts = false;
+				boolean checkattempts = true;
 				//checkattempts = WCFservice.checkUserAttempts(client.getClientID());
 				if(checkattempts) {
-					Leaderboard leaderboard = new Leaderboard();
-					//leaderboard = WCFservice.pullLeaderBoard(client.getClientID());
-					Leaderboard leaderboardUpdate = new Leaderboard();
-					leaderboardUpdate.setUserID(leaderboard.getUserID());
-					leaderboardUpdate.set_id(leaderboard.get_id());
+					Leaderboard leaderboard = sessionService.retrieveleaderboard(client.getClientID());
 					Calendar c = Calendar.getInstance();
 					c.setTime(new Date());
 					int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -115,23 +111,23 @@ public class SessionEndpoint {
 							Date date = new Date();
 							if(date.getHours() >= 20 && date.getMinutes() >= 0)
 							{
-								leaderboardUpdate.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
+								leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
 							}
 						}
 					}
 					else
 					{
-						leaderboardUpdate.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
+						leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
 					}	
-					leaderboardUpdate.setWeeklyScore(leaderboard.getWeeklyScore() + question.getPoints());
-					leaderboardUpdate.setTotalScore(leaderboard.getTotalScore() + question.getPoints());
-					if(client.getSessionStreak() + 1 > leaderboard.getHighestStreak()) {
-						leaderboardUpdate.setHighestStreak(client.getSessionStreak() + 1);
+					leaderboard.setWeeklyScore(leaderboard.getWeeklyScore() + question.getPoints());
+					leaderboard.setTotalScore(leaderboard.getTotalScore() + question.getPoints());
+					if(client.getSessionStreak() > leaderboard.getHighestStreak()) {
+						leaderboard.setHighestStreak(client.getSessionStreak());
 					}
 					else {
-						leaderboardUpdate.setHighestStreak(leaderboard.getHighestStreak());
+						leaderboard.setHighestStreak(leaderboard.getHighestStreak());
 					}
-					//WCFservice.updateLeaderboardsRow(leaderboardUpdate);
+					sessionService.updateleaderboard(leaderboard);
 				}	
 			}	
 		}

@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,12 +41,13 @@ import { PostViewComponent } from './home/post-view/post-view.component';
 import { CommentComponent } from './home/post-view/comment/comment.component';
 import { MessageComponent } from './home/open-chat/message/message.component';
 import { ChatUserComponent } from './home/chat/chat-user/chat-user.component';
-import { EduWorkComponent } from './profile/about/edu-work/edu-work.component';
 import { InterestsComponent } from './profile/about/interests/interests.component';
 import { ChangePasswordComponent } from './profile/about/change-password/change-password.component';
 import { SessionChallengeComponent } from './home/session/session-challenge/session-challenge.component';
 import { SessionMessageComponent } from './home/session/session-message/session-message.component';
 import { SessionAnswerComponent } from './home/session/session-answer/session-answer.component';
+import { EducationComponent } from './profile/about/education/education.component';
+import { WorkComponent } from './profile/about/work/work.component';
 
 @NgModule({
   declarations: [
@@ -84,18 +86,21 @@ import { SessionAnswerComponent } from './home/session/session-answer/session-an
     CommentComponent,
     MessageComponent,
     ChatUserComponent,
-    EduWorkComponent,
     InterestsComponent,
     ChangePasswordComponent,
     SessionChallengeComponent,
     SessionMessageComponent,
-    SessionAnswerComponent
+    SessionAnswerComponent,
+    EducationComponent,
+    WorkComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule      
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AppService],
   bootstrap: [AppComponent]
