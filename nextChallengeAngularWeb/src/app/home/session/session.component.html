@@ -8,17 +8,20 @@
     <app-session-message [message]='sessionContent'
       *ngIf="sessionContent['Command'] == 'MESSAGE' || sessionContent['Command'] == 'CORRECT' || sessionContent['Command'] == 'INCORRECT_ANSWER' || sessionContent['Command'] == 'MESSAGE_LOCAL'">
     </app-session-message>
+    <app-session-leaderboards [leaderboards]="sessionContent" *ngIf="sessionContent['Command'] == 'RETRIEVE_LEADERBOARDS'">
+    </app-session-leaderboards>
   </div>
 </div>
 <div class="send-message" id="session-submit"
   style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
 
   <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 105%; margin-left: -2.5%;">
-    <form  #createPostForm="ngForm" style="margin-top: -16px; width: 100%;"
+    <form #createPostForm="ngForm" style="margin-top: -16px; width: 100%;"
       (ngSubmit)="createMessage(createPostForm,filePreviewImg,fileInput, filePreviewVid,textarea)">
       <div class="row">
         <div class="col-md-12">
-          <div (keydown.enter)="submitWithEnter($event,textarea,sumbitbutton)" #textarea id="exampleTextarea" data-text="Type answer" 
+          <div (keydown.enter)="submitWithEnter($event,textarea,sumbitbutton)" #textarea id="exampleTextarea"
+            data-text="Type answer"
             style="padding-left: 8px; padding-top: 2px; width: 99% !important; margin-left: 0.5%; border: none; background: rgb(250, 250, 250); border-radius: 0; border-top: solid 2px #f1f2f2;"
             class="textarea" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false"
             autocomplete="off" autocorrect="off" autocapitalize="off">

@@ -10,7 +10,7 @@
     </div>
     <div class="edit-block">
         <ul class="list-inline interests">
-            <li *ngFor="let myInterest of MyInterests; let i = index" style="width: 48%;"><a><i
+            <li *ngFor="let myInterest of MyInterests; let i = index" style="width: 45%;"><a><i
                         class="{{myInterest['IconName']}}"></i> {{myInterest['InterestName']}} <i
                         class="icon ion-android-close" style="float: right;  color: white; cursor: pointer;"
                         (click)="removeInterent(i)"></i></a>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="form-group col-sm-4">
-                <button class="btn btn-primary" (click)="addInterest(interestbox)" style="margin-left: -10px;">Add</button>
+                <button class="btn btn-primary" (click)="addInterest(interestbox)" >Add</button>
             </div>
         </div>
     </div>

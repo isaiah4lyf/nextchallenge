@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -48,6 +50,8 @@ import { SessionMessageComponent } from './home/session/session-message/session-
 import { SessionAnswerComponent } from './home/session/session-answer/session-answer.component';
 import { EducationComponent } from './profile/about/education/education.component';
 import { WorkComponent } from './profile/about/work/work.component';
+import { SessionLeaderboardsComponent } from './home/session/session-leaderboards/session-leaderboards.component';
+import { NotificationsService } from './services/notifications.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +96,8 @@ import { WorkComponent } from './profile/about/work/work.component';
     SessionMessageComponent,
     SessionAnswerComponent,
     EducationComponent,
-    WorkComponent
+    WorkComponent,
+    SessionLeaderboardsComponent
   ],
   imports: [
     CommonModule,
@@ -100,9 +105,16 @@ import { WorkComponent } from './profile/about/work/work.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3500,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      preventDuplicates: true
+    })
   ],
-  providers: [AppService],
+  providers: [AppService,NotificationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,8 +3,9 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.*;
 
-import models.*;
 import services.*;
+import session.models.*;
+
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -12,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.websocket.*;
 
@@ -21,7 +24,7 @@ import javax.websocket.*;
 public class SessionEndpoint {
 	static volatile int MaxNumOfSessionUsers = 10;
 	static List<DefaultSession> GameSessions = Collections.synchronizedList(new ArrayList<DefaultSession>());
-	static List<Session> GameSessionsClients = Collections.synchronizedList(new ArrayList<Session>());
+	static List<RetrieveSessionsData> RetrieveSessionsClients = Collections.synchronizedList(new ArrayList<RetrieveSessionsData>());
 	static List<DefaultSessionChallenge> GlobalQuestions = Collections.synchronizedList(new ArrayList<DefaultSessionChallenge>());
 	static volatile int PreviouesNumOfGameSessionsClients = 0;
 	static volatile boolean FirstSessionRunning = false;
@@ -42,11 +45,26 @@ public class SessionEndpoint {
 		String command = messageData.getCommand();		
 		switch(command)
 		{
-			case "JOIN_GAME_SESSION":
+			case "RETRIEVE_SESSIONS": 
+				RetrieveSessionsData data = new RetrieveSessionsData();
+				data.setClientID(messageData.getCommandJsonData());
+				data.setClientSession(clientSession);
+				RetrieveSessionsClients.add(data);
+				handleRetrieveSessions(data);
+				break;
+			case "JOIN_GAME_SESSION":  
 				JoinSessionData joinSession = gson.fromJson(messageData.getCommandJsonData(), JoinSessionData.class);				
 				handleJoinGameSessionCommand(joinSession,clientSession);
+				Iterator<RetrieveSessionsData> iterator2 = RetrieveSessionsClients.iterator();
+				while(iterator2.hasNext())
+				{
+					handleRetrieveSessions(iterator2.next());
+				}
+				break; 
+			case "RETRIEVE_LEADERBOARDS":
+				handleRetrieveLeaderboards(messageData.getCommandJsonData(),clientSession);
 				break;
-			default:
+			default: 
 				DefaultCommandData def = gson.fromJson(messageData.getCommandJsonData(), DefaultCommandData.class);				
 				handDefaultCommand(def,clientSession);
 				break;
@@ -61,7 +79,67 @@ public class SessionEndpoint {
 	public void handleError(Throwable e,Session clientSession)
 	{
 	}
-	
+	public void handleRetrieveLeaderboards(String message,Session clientSession) {
+		try {
+			int GameSessionID = Integer.parseInt(message);
+			GameSessions.get(GameSessionID).OrderClientsBySessionScore();		
+			SessionLeaderboards leaderboards = new SessionLeaderboards();
+			for(int i = 0; i < GameSessions.get(GameSessionID).getSessionClientclients().size(); i++) {
+				SessionLeaderboardsData sessionLeaderboardsData = new SessionLeaderboardsData();
+				sessionLeaderboardsData.setPosition((i + 1));
+				sessionLeaderboardsData.setScore(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getSessionScore());
+				sessionLeaderboardsData.setStreak(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getSessionStreak());
+				sessionLeaderboardsData.setFirstName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getFirstName());
+				sessionLeaderboardsData.setLastName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getLastName());
+				sessionLeaderboardsData.setUserName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserName());
+				sessionLeaderboardsData.setUserId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientID());
+				sessionLeaderboardsData.setUserProPicId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserProPicId());
+				leaderboards.AddLeaderboardSortedByScore(sessionLeaderboardsData);
+			}
+			GameSessions.get(GameSessionID).OrderClientsBySessionStreak();
+			for(int i = 0; i < GameSessions.get(GameSessionID).getSessionClientclients().size(); i++) {
+				SessionLeaderboardsData sessionLeaderboardsData = new SessionLeaderboardsData();
+				sessionLeaderboardsData.setPosition((i + 1));
+				sessionLeaderboardsData.setScore(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getSessionScore());
+				sessionLeaderboardsData.setStreak(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getSessionStreak());
+				sessionLeaderboardsData.setFirstName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getFirstName());
+				sessionLeaderboardsData.setLastName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getLastName());
+				sessionLeaderboardsData.setUserName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserName());
+				sessionLeaderboardsData.setUserId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientID());
+				sessionLeaderboardsData.setUserProPicId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserProPicId());
+				leaderboards.AddLeaderboardSortedByStreak(sessionLeaderboardsData);
+			}
+			Gson gson = new Gson();
+			MessageData messageData = new MessageData();
+			messageData.setCommand("RETRIEVE_LEADERBOARDS");
+			messageData.setCommandJsonData(gson.toJson(leaderboards)); 
+			System.out.println(gson.toJson(messageData)); 
+			clientSession.getBasicRemote().sendText(gson.toJson(messageData)); 
+		} catch (IOException e) { 
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	public void handleRetrieveSessions(RetrieveSessionsData data)
+	{
+		try {
+			List<RetrieveSessionsRepsonse> sessions = new ArrayList<RetrieveSessionsRepsonse>();
+			for(int i = 0; i < GameSessions.size(); i++)
+			{
+				RetrieveSessionsRepsonse session = new RetrieveSessionsRepsonse();
+				session.setGameSessionID(GameSessions.get(i).getGameSessionID());
+				session.setGameSessionNumberOfUsers(GameSessions.get(i).getGameSessionNumberOfUsers());
+				List<Client> clients = GameSessions.get(i).getSessionClientclients().stream().filter(item -> item.getClientID().equals(data.getClientID())).collect(Collectors.toList());
+				session.setClientInSession(clients.size() > 0);
+				sessions.add(session);
+			}
+			data.getClientSession().getBasicRemote().sendText(new Gson().toJson(sessions));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@SuppressWarnings("deprecation")
 	private void handDefaultCommand(DefaultCommandData def,Session clientSession)
 	{
@@ -296,8 +374,10 @@ public class SessionEndpoint {
 								for(int i = 0; i < GameSessions.get(0).getSessionClientclients().size(); i++) {
 									if(GameSessions.get(0).getSessionClientclients().get(i).isJustJoined()) {
 										try {
-											GameSessions.get(0).getSessionClientclients().get(i).getClientSession().getBasicRemote().sendText(messageDataJson);
-											GameSessions.get(0).getSessionClientclients().get(i).setJustJoined(false);
+											if(GameSessions.get(0).getSessionClientclients().get(i).getClientSession().isOpen()) {
+												GameSessions.get(0).getSessionClientclients().get(i).getClientSession().getBasicRemote().sendText(messageDataJson);
+												GameSessions.get(0).getSessionClientclients().get(i).setJustJoined(false);
+											}
 										} catch (IOException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
@@ -540,8 +620,10 @@ public class SessionEndpoint {
 											for(int i = 0; i < GameSessions.get(GameSessionID).getSessionClientclients().size(); i++) {
 												if(GameSessions.get(GameSessionID).getSessionClientclients().get(i).isJustJoined()) {
 													try {
-														GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientSession().getBasicRemote().sendText(messageDataJson);
-														GameSessions.get(GameSessionID).getSessionClientclients().get(i).setJustJoined(false);
+														if(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientSession().isOpen()) {
+															GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientSession().getBasicRemote().sendText(messageDataJson);
+															GameSessions.get(GameSessionID).getSessionClientclients().get(i).setJustJoined(false);
+														}
 													} catch (IOException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();

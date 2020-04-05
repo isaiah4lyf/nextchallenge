@@ -2,35 +2,14 @@
 <div class="line-divider"></div>
 <div class="container" style="width: 101%; margin-top: 25px;">
     <div class="row" style="margin-bottom: 15px;">
-        <div  class="custom-col router-link" routerLink="/play/sgsgser/aastgae4wtaswe">
+        <div *ngFor="let session of ServerSessions" class="custom-col router-link" routerLink="/play/{{ServerData['Name'] + '/' + session['GameSessionID']}}" style="margin-bottom: 8px;">
             <div class="custom-col-text" style="margin-bottom: 5px; height: 18px;">
-                <div style="float: left;" >Session: ntpssd0</div>
-                <div style="float: right; color: #c63f3f; font-size: 12px;" >Full</div>
+                <div style="float: left;" >Session: {{session["Name"]}}</div>
+                <div *ngIf="!session['ClientInSession'] && session['UsersCount'] == 10"  style="float: right; color: #c63f3f; font-size: 12px;" >Full</div>
+                <div *ngIf="session['ClientInSession']"  style="float: right; color: #8dc63f; font-size: 12px;" >Resume</div>
             </div>
-            <div class="custom-col-button" style="background-color: #c63f3f; margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >60 000/60 000</div>
-        </div>
-        <div class="custom-col">
-            <div class="custom-col-text" style="margin-bottom: 5px; height: 18px;">
-                <div style="float: left;" >Session: ntpssd2</div>
-                <div style="float: right; color: #8dc63f; font-size: 12px;" >Resume</div>
-            </div>
-            <div class="custom-col-button" style="margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >55/60 000</div>
-        </div>
-    </div>
-    <div class="row" style="margin-bottom: 8px;">
-        <div class="custom-col">
-            <div class="custom-col-text" style="margin-bottom: 5px; height: 18px;">
-                <div style="float: left;" >Session: ntpssd3</div>
-                <div style="float: right; color: #8dc63f; font-size: 12px;" >Resume</div>
-            </div>
-            <div class="custom-col-button" style="margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >49 000/60 000</div>
-        </div>
-        <div class="custom-col">
-            <div class="custom-col-text" style="margin-bottom: 5px; height: 18px;">
-                <div style="float: left;" >Session: ntpssd4</div>
-                <div style="float: right; color: #8dc63f; font-size: 12px;" >Resume</div>
-            </div>
-            <div class="custom-col-button" style="background-color: #c63f3f; margin-top: 5px; text-align: center; padding-top: 3px;" type="submit" >5/60 000</div>
+            <div *ngIf="session['GameSessionNumberOfUsers'] == 10" class="custom-col-button" style="background-color: #c63f3f; margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >{{session["GameSessionNumberOfUsers"]}}/10</div>
+            <div *ngIf="session['GameSessionNumberOfUsers'] < 10" class="custom-col-button" style="margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >{{session["GameSessionNumberOfUsers"]}}/10</div>
         </div>
     </div>
 </div>

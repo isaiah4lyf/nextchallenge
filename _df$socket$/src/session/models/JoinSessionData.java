@@ -1,4 +1,4 @@
-package models;
+package session.models;
 
 public class JoinSessionData {
 	private String UserId;

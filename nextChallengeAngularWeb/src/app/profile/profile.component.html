@@ -4,15 +4,39 @@
     <!-- Timeline
     ================================================= -->
     <div class="timeline">
-        <div class="timeline-cover">
-
+        <div class="timeline-cover" #coverpicPrev [style.background]="profileCoverPicLink">
+            <div *ngIf="updateButtons" style="position: absolute; top: 20px; right: 25px;"><button
+                    (click)="coverpic.click()"
+                    style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8;"
+                    class="btn-primary router-link"><i class="icon ion-android-camera" style="font-size: 18px;"></i>
+                </button><button (click)="updateProfileCoverPic(coverpic)"
+                    style="border-radius: 0px 10px 10px 0px; height: 30px; padding-left: 20px; padding-top: 2px; padding-right: 10px; font-size: 18px; opacity: 0.6;"
+                    class="btn-primary router-link"><span
+                        style="font-size: 14px; position: relative; top: -3px; left: -5px;">update</span>
+                </button>
+                <input (change)="coverFile(coverpic,coverpicPrev)" #coverpic type="file" style="display: none;" />
+            </div>
             <!--Timeline Menu for Large Screens-->
             <div class="timeline-nav-bar hidden-sm hidden-xs">
                 <div class="row">
                     <div class="col-md-3">
+
                         <div class="profile-info">
-                            <img src="http://placehold.it/300x300" alt="" class="img-responsive profile-photo" />
-                            <h3>Sarah Cruiz</h3>
+                            <div *ngIf="updateButtons" style="position: absolute; top: 120px; left: 65px;"><button
+                                    (click)="propic.click()"
+                                    style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8;"
+                                    class="btn-primary router-link"><i class="icon ion-android-camera"
+                                        style="font-size: 18px;"></i>
+                                </button><button (click)="updateProfilePic(propic)"
+                                    style="border-radius: 0px 10px 10px 0px; height: 30px; padding-left: 20px; padding-top: 2px; padding-right: 10px; font-size: 18px; opacity: 0.7;"
+                                    class="btn-primary router-link"><span
+                                        style="font-size: 14px; position: relative; top: -3px; left: -5px;">update</span>
+                                </button>
+                                <input (change)="inputFileChalge(propic,propicPrev)" #propic type="file"
+                                    style="display: none;" />
+                            </div>
+                            <img #propicPrev src="{{profilePicLink}}" alt="" class="img-responsive profile-photo" />
+                            <h3>{{UserData["FirstName"]}} {{UserData["LastName"]}}</h3>
                             <p class="text-muted">Creative Director</p>
                         </div>
                     </div>
@@ -29,6 +53,9 @@
                         </ul>
                         <ul class="follow-me list-inline">
                             <li>1,299 friends</li>
+                            <li><button (click)="logout()" *ngIf="!isProfileView" class="btn-primary router-link"
+                                    style="margin-right: 10px; width: 120px;"><i class="icon ion-log-out"></i>
+                                    Logout</button></li>
                             <li *ngIf="isProfileView"><button class="btn-primary router-link" style="width: 120px;"
                                     routerLink="{{messageUserLink}}">Message</button></li>
                             <li *ngIf="isAddFriendButton"><button class="btn-primary" style="width: 120px;"
@@ -44,7 +71,20 @@
             <!--Timeline Menu for Small Screens-->
             <div class="navbar-mobile hidden-lg hidden-md">
                 <div class="profile-info">
-                    <img src="http://placehold.it/300x300" alt="" class="img-responsive profile-photo" />
+                    <div *ngIf="updateButtons" style="position: absolute; top: 120px; left: calc(50% - 55px);"><button
+                            (click)="propic.click()"
+                            style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8;"
+                            class="btn-primary router-link"><i class="icon ion-android-camera"
+                                style="font-size: 18px;"></i>
+                        </button><button (click)="updateProfilePic(propic)"
+                            style="border-radius: 0px 10px 10px 0px; height: 30px; padding-left: 20px; padding-top: 2px; padding-right: 10px; font-size: 18px; opacity: 0.6;"
+                            class="btn-primary router-link"><span
+                                style="font-size: 14px; position: relative; top: -3px; left: -5px;">update</span>
+                        </button>
+                        <input (change)="inputFileChalge(propic,propicPrevMob)" #propic type="file"
+                            style="display: none;" />
+                    </div>
+                    <img #propicPrevMob src="{{profilePicLink}}" alt="" class="img-responsive profile-photo" />
                     <h4>Sarah Cruiz</h4>
                     <p class="text-muted">Creative Director</p>
                 </div>
@@ -58,6 +98,8 @@
                         <li><a class="router-link" routerLink="{{friendsLink}}" routerLinkActive="active">Friends</a>
                         </li>
                     </ul>
+                    <button (click)="logout()" *ngIf="!isProfileView" class="btn-primary router-link"
+                        style="margin-right: 10px; width: 120px;"><i class="icon ion-log-out"></i> Logout</button>
                     <button *ngIf="isProfileView" class="btn-primary router-link"
                         style="margin-right: 10px; width: 120px;" routerLink="{{messageUserLink}}">Message</button>
                     <button *ngIf="isAddFriendButton" class="btn-primary" style="width: 120px;"

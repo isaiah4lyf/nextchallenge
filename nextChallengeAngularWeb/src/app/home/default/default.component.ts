@@ -13,17 +13,19 @@ export class DefaultComponent implements OnInit {
   public lastPostID: string;
   public postsRequested = true;
 
-  constructor(private _appService: AppService) {}
+  constructor(private _appService: AppService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    this._appService.retrieveposts(this.UserData["_id"]).subscribe(data => {
-      this.posts = data;
-      if (this.posts.length > 0) {
-        this.lastPostID = data[this.posts.length - 1]["_id"];
-        this.postsRequested = false;
-      }
-    });
+    if (this.UserData != null) {
+      this._appService.retrieveposts(this.UserData["_id"]).subscribe(data => {
+        this.posts = data;
+        if (this.posts.length > 0) {
+          this.lastPostID = data[this.posts.length - 1]["_id"];
+          this.postsRequested = false;
+        }
+      });
+    }
   }
   @HostListener("window:scroll", ["$event"])
   scrolled(event): void {
@@ -33,7 +35,7 @@ export class DefaultComponent implements OnInit {
       !this.postsRequested
     ) {
       this.postsRequested = true;
-      this._appService.retrievepostsafter(this.lastPostID,this.UserData["_id"]).subscribe(data => {
+      this._appService.retrievepostsafter(this.lastPostID, this.UserData["_id"]).subscribe(data => {
         this.postsTemp = data;
         this.postsTemp.forEach(element => {
           this.posts.push(element);

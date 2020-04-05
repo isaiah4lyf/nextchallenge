@@ -15,3 +15,17 @@
 .search-row-border {
   border-bottom: 1px solid #ddd;
 }
+.mobile-brand {
+  position: relative;
+  top: -4px;
+  width: 10% !important;
+}
+.badge {
+  position: absolute;
+  top: 12px;
+  right: -10px;
+  padding: 2px 8px;
+  border-radius: 45%;
+  background: #27aae1;
+  color: white;
+}

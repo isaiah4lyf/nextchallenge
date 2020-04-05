@@ -21,6 +21,8 @@ namespace nextchallengeWebAPI.Models
         public string Gender { get; set; }
         public string City { get; set; }
         public string AboutMe { get; set; }
+        public FileUpload ProfilePic { get; set; }
+        public FileUpload ProfileCoverPic { get; set; }
     }
     public class UserPost
     {
@@ -34,11 +36,26 @@ namespace nextchallengeWebAPI.Models
         public string Gender { get; set; }
         public string City { get; set; }
         public string AboutMe { get; set; }
+        public FileUpload ProfilePic { get; set; }
+        public FileUpload ProfileCoverPic { get; set; }
     }
     public class DateOfBirth {
         public int Day;
         public string Month;
         public int Year;
+    }
+    public class UserBasicInfo
+    {
+        [XmlIgnore]
+        public ObjectId _id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public DateOfBirth DateOfBirth { get; set; }
+        public string Gender { get; set; }
+        public string City { get; set; }
+        public string AboutMe { get; set; }
+
     }
     public class UserViewProfile
     {
@@ -48,6 +65,12 @@ namespace nextchallengeWebAPI.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public List<Friendship> friendships { get; set; }
+        public DateOfBirth DateOfBirth { get; set; }
+        public string Gender { get; set; }
+        public string City { get; set; }
+        public string AboutMe { get; set; }
+        public FileUpload ProfilePic { get; set; }
+        public FileUpload ProfileCoverPic { get; set; }
 
     }
     public class UserConverter 
@@ -65,7 +88,9 @@ namespace nextchallengeWebAPI.Models
                 DateOfBirth = userPost.DateOfBirth,
                 Gender = userPost.Gender,
                 City = userPost.City,
-                AboutMe = userPost.AboutMe
+                AboutMe = userPost.AboutMe,
+                ProfilePic = userPost.ProfilePic,
+                ProfileCoverPic = userPost.ProfileCoverPic
             };
         }
     }

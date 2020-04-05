@@ -43,7 +43,7 @@ const routes: Routes = [
       { path: "buy", component: BuyAttemptsComponent },
       { path: "play", component: PlayComponent },
       { path: "play/:id", component: SessionsComponent },
-      { path: "play/:id/:id", component: SessionComponent },
+      { path: "play/:id/:session", component: SessionComponent },
       { path: "leaderboards", component: LeaderboardsComponent },
       { path: "prizes", component: PrizesComponent },
       { path: "settings", component: SettingsComponent },

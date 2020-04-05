@@ -2,7 +2,7 @@
 var currentUrl = "";
 $(document).bind("DOMSubtreeModified", function() {
   if (currentUrl !== window.location.href) {
-    $('#gender').val('Gender');
+    $("#gender").val("Gender");
     console.log(window.location.href);
     currentUrl = window.location.href;
     //Preloader
@@ -17,8 +17,9 @@ $(document).bind("DOMSubtreeModified", function() {
     });
 
     jQuery(document).ready(function($) {
-      if(document.getElementById("profile-card") !== null) document.getElementById("profile-card").style.width =
-      document.getElementById("chat-block").offsetWidth - 10 + "px";
+      if (document.getElementById("profile-card") !== null)
+        document.getElementById("profile-card").style.width =
+          document.getElementById("chat-block").offsetWidth - 10 + "px";
 
       //Incremental Coutner
       if ($.isFunction($.fn.incrementalCounter))
@@ -156,13 +157,20 @@ $(document).bind("DOMSubtreeModified", function() {
             .getElementById("tab-dropdown-arrow-down-icon")
             .src.includes("down-arrow")
         ) {
-          $(".tab-dropdown-content").slideDown();
-          document.getElementById("tab-dropdown-arrow-down-icon").src =
-            "icons/up-arrow.svg";
+          setTimeout(() => {
+            $(".tab-dropdown-content").slideDown();
+            document.getElementById("tab-dropdown-arrow-down-icon").src =
+              "assets/icons/up-arrow.svg";
+            setTimeout(() => {
+              window.scrollTo(0, 0);
+            }, 50);
+          }, 50);
         } else {
-          $(".tab-dropdown-content").slideUp();
-          document.getElementById("tab-dropdown-arrow-down-icon").src =
-            "icons/down-arrow.svg";
+          setTimeout(() => {
+            $(".tab-dropdown-content").slideUp();
+            document.getElementById("tab-dropdown-arrow-down-icon").src =
+              "assets/icons/down-arrow.svg";
+          }, 50);
         }
       });
     });

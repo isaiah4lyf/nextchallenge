@@ -1,4 +1,4 @@
-package models;
+package session.models;
 
 public class DefaultCommandData {
 	private String UserId;

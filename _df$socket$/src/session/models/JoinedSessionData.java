@@ -1,26 +1,11 @@
-package models;
+package session.models;
 
-public class DefaultCommandResponse {
+public class JoinedSessionData {
 	private String FirstName;
 	private String LastName;
 	private String UserName;
 	private String UserId;
 	private String UserProPicId;
-	private String Message;
-	private int StreakCount;
-	private String RepsoneDateTime;
-	public String getRepsoneDateTime() {
-		return RepsoneDateTime;
-	}
-	public void setRepsoneDateTime(String repsoneDateTime) {
-		RepsoneDateTime = repsoneDateTime;
-	}
-	public int getStreakCount() {
-		return StreakCount;
-	}
-	public void setStreakCount(int streakCount) {
-		StreakCount = streakCount;
-	}
 	public String getFirstName() {
 		return FirstName;
 	}
@@ -50,12 +35,6 @@ public class DefaultCommandResponse {
 	}
 	public void setUserProPicId(String userProPicId) {
 		UserProPicId = userProPicId;
-	}
-	public String getMessage() {
-		return Message;
-	}
-	public void setMessage(String message) {
-		Message = message;
 	}
 
 }

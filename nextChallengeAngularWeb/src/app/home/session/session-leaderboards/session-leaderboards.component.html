@@ -1,0 +1,23 @@
+<table class="table table-striped noselect" style="margin-bottom: 5px;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th (click)="orberbyScore()" [class.leaderboard-active-tab]="orderby == 'score'"
+                style="text-align: center; cursor: pointer;"><span class="noselect">Score</span></th>
+            <th (click)="orberbyStreak()" [class.leaderboard-active-tab]="orderby == 'streak'"
+                style="text-align: center; cursor: pointer;"><span class="noselect">Streak</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let leaderboard of orderLeaderboards; index as i">
+            <tr [ngClass]="{ 'current-user-leaderboard': UserData['_id'] == leaderboard['UserId']}">
+                <td>{{leaderboard["Position"]}}</td>
+                <td>{{leaderboard["UserId"]}}</td>
+                <td align="center">{{leaderboard["Score"]}}</td>
+                <td align="center">{{leaderboard["Streak"]}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
+
+</table>

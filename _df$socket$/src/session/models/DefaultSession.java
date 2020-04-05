@@ -1,4 +1,4 @@
-package models;
+package session.models;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

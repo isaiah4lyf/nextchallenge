@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AppService } from "../.././services/app.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-session",
@@ -18,41 +18,52 @@ export class SessionComponent implements OnInit {
   public MessageLocalIdInc = 0;
   public element: HTMLElement;
   public UserData = null;
-  constructor(private _appService: AppService) { }
+  public ServerData: any;
+  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    if (this._appService.getSssionContents() != null || this._appService.getSssionContents() != undefined) {
-      this.sessionContents = this._appService.getSssionContents();
-      this.sessionsCount = this.sessionContents.length;
-      this.MessageLocalIdInc = this.sessionContents.length;
-      setTimeout(() => {
-        this.sessionContents.forEach(element => {
-          if (JSON.stringify(element).includes("MessageLocalId")) {
-            let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
-            elementHtml.innerHTML = new Date(element["DateTime"]).toLocaleString().split(",")[1] +
-              ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
-          }
-        });
-      }, 500);
-    }
     this.UserData = this._appService.getUserData();
-    this.sessionSocket = new WebSocket(
-      "ws://" + "localhost" + ":" + "8080" + "/_df$socket$/session"
-    );
-    this.sessionSocket.onopen = this.processOpen;
-    this.sessionSocket.onmessage = this.processMessage;
-    this.sessionSocket.onerror = this.processError;
-    this.sessionSocket.onclose = this.processClose;
+    if (this.UserData != null) {
+      if (this._appService.getSssionContents() != null || this._appService.getSssionContents() != undefined) {
+        this.sessionContents = this._appService.getSssionContents();
+        this.sessionsCount = this.sessionContents.length;
+        this.MessageLocalIdInc = this.sessionContents.length;
+        setTimeout(() => {
+          this.sessionContents.forEach(element => {
+            if (JSON.stringify(element).includes("MessageLocalId")) {
+              let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
+              elementHtml.innerHTML = new Date(element["DateTime"]).toLocaleString().split(",")[1] +
+                ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+            }
+          });
+        }, 500);
+      }
+      this._appService.retrieveserver(this.route.snapshot.paramMap.get("id")).subscribe(data => {
+        if (data == null) {
+          this.router.navigate(["/play"]);
+        } else {
+          this.ServerData = data;
+          this.sessionSocket = new WebSocket(
+            "ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session"
+          );
+          this.sessionSocket.onopen = this.processOpen;
+          this.sessionSocket.onmessage = this.processMessage;
+          this.sessionSocket.onerror = this.processError;
+          this.sessionSocket.onclose = this.processClose;
+        }
+      });
+
+    }
   }
   ngOnDestroy() {
     this._appService.setSssionContents(this.sessionContents);
   }
   processOpen = message => {
-    let messageData = {  
+    let messageData = {
       Command: "JOIN_GAME_SESSION",
       CommandJsonData: JSON.stringify({
         UserId: this.UserData["_id"],
-        SessionId: 0
+        SessionId: Number(this.route.snapshot.paramMap.get("session"))
       })
     };
     this.sessionSocket.send(JSON.stringify(messageData));
@@ -105,27 +116,36 @@ export class SessionComponent implements OnInit {
     };
     this.sessionContents.push(msg);
     this.MessageLocalIdInc++;
-    if (this.fileType != "none") {
-      let formData = new FormData();
-      formData.append("FileType", this.fileType);
-      formData.append("File", fileInput.files[0]);
-      formData.append("FileUploaderID", this.UserData["_id"]);
-      this._appService.uploadfiles(
-        formData,
-        this.filesUploadCallBack,
-        this.MessageLocalIdInc,
-        textarea.innerHTML
-      );
-    } else {
+    if (textarea.innerHTML.startsWith(".l")) {
       let messageData = {
-        Command: "",
-        CommandJsonData: JSON.stringify({
-          UserId: this.UserData["_id"],
-          sessionId: 0,
-          Message: textarea.innerHTML
-        })
+        Command: "RETRIEVE_LEADERBOARDS",
+        CommandJsonData: Number(this.route.snapshot.paramMap.get("session"))
       };
       this.sessionSocket.send(JSON.stringify(messageData));
+    } else {
+      if (this.fileType != "none") {
+        let formData = new FormData();
+        formData.append("FileType", this.fileType);
+        formData.append("File", fileInput.files[0]);
+        formData.append("FileUploaderID", this.UserData["_id"]);
+        this._appService.uploadfiles(
+          formData,
+          this.filesUploadCallBack,
+          this.MessageLocalIdInc,
+          textarea.innerHTML
+        );
+      } else {
+        let messageData = {
+          Command: "",
+          CommandJsonData: JSON.stringify({
+            UserId: this.UserData["_id"],
+            sessionId: 0,
+            Message: textarea.innerHTML
+          })
+        };
+        this.sessionSocket.send(JSON.stringify(messageData));
+      }
+
     }
     filePreviewImg.style.display = "none";
     filePreviewVid.style.display = "none";

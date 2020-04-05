@@ -129,6 +129,7 @@ body {
 .brand-1 {
   position: relative;
   top: 10px;
+  left: -10px;
   width: 70px;
   font-family: "Agency FB", sans-serif;
   font-style: normal;
@@ -139,6 +140,7 @@ body {
 .brand-2 {
   position: relative;
   top: 10px;
+  left: -10px;
   width: 70px;
   font-family: "Agency FB", sans-serif;
   font-weight: bold;
@@ -1841,9 +1843,8 @@ video {
   ==================================================*/
 
 .timeline-cover {
-  background: url("http://placehold.it/1030x360") no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-position: center !important;
+  background-size: cover !important;
   min-height: 360px;
   border-radius: 0 0 4px 4px;
   position: relative;

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   desktopScreen =
     document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
 
-  constructor(private _appService: AppService) {}
+  constructor(private _appService: AppService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();

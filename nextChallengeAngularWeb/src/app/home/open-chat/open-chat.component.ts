@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: "app-open-chat",
@@ -18,11 +19,15 @@ export class OpenChatComponent implements OnInit {
   public lastMessageID: string;
   public messagesRequested = true;
 
+  public notificationsSocket: any;
+
+  public stillActive = true;
   public touserName = "";
   constructor(
     private _appService: AppService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _notificationsService: NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +44,8 @@ export class OpenChatComponent implements OnInit {
             .retrievemessages(this.UserData["Email"].split("@")[0], this.route.snapshot.paramMap.get("id"))
             .subscribe(data => {
               this.messages = data;
+              this.notificationsSocket = this._notificationsService.getNotificationsSocket(this.notificationsCallBack);
+
               if (this.messages.length > 0) {
                 this.lastMessageID = this.messages[0]["_id"];
               }
@@ -48,36 +55,31 @@ export class OpenChatComponent implements OnInit {
                 }, 500);
                 setTimeout(() => {
                   window.scrollTo(0, document.body.scrollHeight);
+                  this.messagesRequested = false;
                 }, 1000);
               }
             });
         }
       });
   }
+  ngOnDestroy() {
+    this.stillActive = false;
+  }
   @HostListener("window:scroll", ["$event"])
   scrolled(event): void {
-    if (
-      $(window).scrollTop() < $(document).height() / 3 &&
-      this.lastMessageID != null &&
-      !this.messagesRequested
-    ) {
+    if ($(window).scrollTop() < $(document).height() / 3 && this.lastMessageID != null && !this.messagesRequested) {
       this.messagesRequested = true;
-      this._appService
-        .retrievemessagesafter(
-          this.UserData["Email"].split("@")[0],
-          this.route.snapshot.paramMap.get("id"),
-          this.lastMessageID
-        )
-        .subscribe(data => {
-          this.messagesTemp = data;
-          this.messagesTemp.forEach(element => {
-            this.messages.unshift(element);
-          });
-          if (this.messagesTemp.length > 11) {
-            this.lastMessageID = this.messagesTemp[0]["_id"];
-            this.messagesRequested = false;
-          }
+      this._appService.retrievemessagesafter(this.UserData["Email"].split("@")[0], this.route.snapshot.paramMap.get("id"), this.lastMessageID).subscribe(data => {
+        this.messagesTemp = data;
+        if (this.messagesTemp.length > 11) {
+          this.lastMessageID = this.messagesTemp[0]["_id"];
+          this.messagesRequested = false;
+        }
+        this.messagesTemp.slice().reverse().forEach(element => {
+          this.messages.unshift(element);
         });
+
+      });
     }
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid) {
@@ -89,7 +91,7 @@ export class OpenChatComponent implements OnInit {
     formData.append("ToUserID", this.ToUserData["_id"]);
     filePreviewImg.style.display = "none";
     filePreviewVid.style.display = "none";
-    this._appService.createmessge(formData);
+    this._appService.createmessge(formData, this.messageCallBack);
   }
   clikImages(element) {
     element.click();
@@ -111,6 +113,26 @@ export class OpenChatComponent implements OnInit {
       this.fileType = "image";
     } else {
       this.fileType = "none";
+    }
+  }
+  notificationsCallBack = (data: any): any => {
+    if (this.router.url.includes("/chat/")) {
+      this.messages.push(JSON.parse(JSON.parse(data.data).Data));
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 500);
+    }
+    return this.stillActive;
+  }
+  messageCallBack = (data: any): void => {
+    if (this.router.url.includes("/chat/")) {
+      let notificationData = {
+        NotificationType: "MESSAGE",
+        NotificationFrom: this.UserData["_id"],
+        NotificationTo: this.ToUserData["_id"],
+        Data: data
+      };
+      this.notificationsSocket.send(JSON.stringify(notificationData));
     }
   }
 }

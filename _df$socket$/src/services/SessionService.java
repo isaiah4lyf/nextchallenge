@@ -13,7 +13,8 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 
-import models.*;
+import session.models.*;
+
 public class SessionService {
 	public HttpClient client = HttpClient.newHttpClient();
 	public String apiUrl = "http://localhost:44357/api/index/";
