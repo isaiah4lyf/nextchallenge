@@ -6,7 +6,7 @@
     <app-session-answer *ngIf="sessionContent['Command'] == 'CORRECT_ANSWER'" [answer]="sessionContent">
     </app-session-answer>
     <app-session-message [message]='sessionContent'
-      *ngIf="sessionContent['Command'] == 'MESSAGE' || sessionContent['Command'] == 'CORRECT' || sessionContent['Command'] == 'INCORRECT_ANSWER' || sessionContent['Command'] == 'MESSAGE_LOCAL'">
+      *ngIf="sessionContent['Command'] == 'JOINED_SESSION' || sessionContent['Command'] == 'LEFT_SESSION' || sessionContent['Command'] == 'MESSAGE' || sessionContent['Command'] == 'CORRECT' || sessionContent['Command'] == 'INCORRECT_ANSWER' || sessionContent['Command'] == 'MESSAGE_LOCAL'">
     </app-session-message>
     <app-session-leaderboards [leaderboards]="sessionContent" *ngIf="sessionContent['Command'] == 'RETRIEVE_LEADERBOARDS'">
     </app-session-leaderboards>

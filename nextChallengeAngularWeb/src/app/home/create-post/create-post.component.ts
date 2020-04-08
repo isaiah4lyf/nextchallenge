@@ -65,7 +65,7 @@ export class CreatePostComponent implements OnInit {
   }
   emojiClick(textarea, emoji) {
     textarea.innerHTML +=
-      '<img  style="width: 18px; width: 18px;" class="" src="assets/css/emoji/' +
+      '<img class="message-emoji" src="assets/css/emoji/' +
       emoji +
       '.png" />';
   }

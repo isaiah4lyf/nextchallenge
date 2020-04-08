@@ -39,7 +39,7 @@ public class SessionEndpoint {
 	@OnMessage
 	public void handleMessage(String message,Session clientSession)
 	{
-
+		
 		Gson gson = new Gson();
 		MessageData messageData = gson.fromJson(message, MessageData.class);		
 		String command = messageData.getCommand();		
@@ -52,17 +52,31 @@ public class SessionEndpoint {
 				RetrieveSessionsClients.add(data);
 				handleRetrieveSessions(data);
 				break;
+			case "RETRIEVE_SESSIONS_DISCONNECT":		
+				List<RetrieveSessionsData> RetrieveSessionsClientsFound = RetrieveSessionsClients.stream().filter(client -> client.getClientID().equals(messageData.getCommandJsonData())).collect(Collectors.toList());
+				if(RetrieveSessionsClientsFound.size() > 0)
+					RetrieveSessionsClients.remove(0);
+				try {
+					clientSession.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			case "JOIN_GAME_SESSION":  
 				JoinSessionData joinSession = gson.fromJson(messageData.getCommandJsonData(), JoinSessionData.class);				
-				handleJoinGameSessionCommand(joinSession,clientSession);
-				Iterator<RetrieveSessionsData> iterator2 = RetrieveSessionsClients.iterator();
-				while(iterator2.hasNext())
+				handleJoinGameSessionCommand(joinSession,clientSession);				
+				Iterator<RetrieveSessionsData> iterator = RetrieveSessionsClients.iterator();
+				while(iterator.hasNext())
 				{
-					handleRetrieveSessions(iterator2.next());
-				}
+					handleRetrieveSessions(iterator.next());
+				}				
 				break; 
 			case "RETRIEVE_LEADERBOARDS":
 				handleRetrieveLeaderboards(messageData.getCommandJsonData(),clientSession);
+				break;
+			case "LEAVE_SESSION":
+				HandleLeaveSession(messageData.getCommandJsonData(),clientSession);
 				break;
 			default: 
 				DefaultCommandData def = gson.fromJson(messageData.getCommandJsonData(), DefaultCommandData.class);				
@@ -73,11 +87,125 @@ public class SessionEndpoint {
 	@OnClose
 	public void handleClose(Session clientSession)
 	{
+		for(int i = 0; i < GameSessions.size(); i++)
+		{
+			Client client = GameSessions.get(i).SearchClientWithSession(clientSession);
+			if(client != null)
+			{
+				client.setSessionClosed(true);
+			}
+		}
 	}
 
 	@OnError
 	public void handleError(Throwable e,Session clientSession)
 	{
+		for(int i = 0; i < GameSessions.size(); i++)
+		{
+			Client client = GameSessions.get(i).SearchClientWithSession(clientSession);
+			if(client != null)
+			{
+				client.setSessionClosed(true);
+			}
+		}
+		System.out.println(e.toString());
+	}
+	private void HandleLeaveSession(String message,Session clientSession) {
+		try {
+			Gson gson = new Gson();
+			MessageData messageData = new MessageData();
+			if(GameSessions.size() > 0) {
+				//Send left the session to session clients
+				Client client = new Client();
+				int sessionID = 0;
+				for(int i = 0; i < GameSessions.size(); i++) {
+					Client searchClient = GameSessions.get(i).SearchClientWithId(message);
+					if(searchClient != null) {
+						sessionID = GameSessions.get(i).getGameSessionID();
+						client = searchClient;
+						break;
+					}
+				}
+				JoinedSessionData leftSession = new JoinedSessionData();
+				leftSession.setFirstName(client.getFirstName() );
+				leftSession.setLastName(client.getLastName());
+				leftSession.setUserName(client.getUserName());
+				leftSession.setUserId(client.getClientID());
+				leftSession.setUserProPicId(client.getUserProPicId());
+				
+				messageData.setCommand("LEFT_SESSION");
+				String commandData = gson.toJson(leftSession);
+				messageData.setCommandJsonData(commandData);
+				GameSessions.get(sessionID).SendSessionClientsMessage(gson.toJson(messageData));	
+				RemoveClientOutOfSession(clientSession);
+				for(int i = 0; i < GameSessions.size(); i++) {
+					GameSessions.get(i).RemoveSessionClientWithId(message);
+				}
+				System.out.println(message);
+			}
+			messageData.setCommand("LEAVE_SESSION");
+			messageData.setCommandJsonData("ok");
+			String response = gson.toJson(messageData);
+			clientSession.getBasicRemote().sendText(response);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	private void RemoveClientOutOfSession(Session clientSession) {
+		//List<RetrieveSessionsData> clients = RetrieveSessionsClients.parallelStream().filter(client -> client.getClientSession().equals(clientSession)).collect(Collectors.toList());
+		//if(clients.size() > 0) RetrieveSessionsClients.remove(clients.get(0));
+		int GameSessionID = -1;
+		for(int i = 0; i < GameSessions.size(); i++)
+		{
+			Client client = GameSessions.get(i).SearchClientWithSession(clientSession);
+			GameSessionID = GameSessions.get(i).RemoveSessionClient(client);
+			if(GameSessionID != -1)
+			{
+				break;
+			}
+		}
+		if(GameSessionID != -1)
+		{
+			GameSessions.get(GameSessionID).setGameSessionNumberOfUsers(GameSessions.get(GameSessionID).getSessionClientclients().size());
+		}
+		boolean RemoveLastSession = false;
+		for(int i = 0; i < GameSessions.size()-1; i++)
+		{
+			if(GameSessions.get(i).getGameSessionNumberOfUsers() == MaxNumOfSessionUsers)
+			{
+				RemoveLastSession = false;
+			}
+			else
+			{
+				RemoveLastSession = true;
+			}
+		}
+		if(RemoveLastSession == true && GameSessions.get(GameSessions.size()-1).getGameSessionNumberOfUsers() == 0 && PreviouesNumOfGameSessionsClients == RetrieveSessionsClients.size())
+		{
+			GameSessions.remove(GameSessions.get(GameSessions.size()-1));
+		}
+		for(int i = GameSessions.size() - 2; i > 0; i--)
+		{
+			if(GameSessions.get(i).getGameSessionNumberOfUsers() == 0 &&  PreviouesNumOfGameSessionsClients == RetrieveSessionsClients.size())
+			{
+				if(GameSessions.get(GameSessions.size()-1).getGameSessionNumberOfUsers() == 0)
+				{
+					GameSessions.remove(i);
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		Iterator<RetrieveSessionsData> iterator = RetrieveSessionsClients.iterator();
+		while(iterator.hasNext())
+		{
+			handleRetrieveSessions(iterator.next());
+		}	
 	}
 	public void handleRetrieveLeaderboards(String message,Session clientSession) {
 		try {
@@ -113,7 +241,6 @@ public class SessionEndpoint {
 			MessageData messageData = new MessageData();
 			messageData.setCommand("RETRIEVE_LEADERBOARDS");
 			messageData.setCommandJsonData(gson.toJson(leaderboards)); 
-			System.out.println(gson.toJson(messageData)); 
 			clientSession.getBasicRemote().sendText(gson.toJson(messageData)); 
 		} catch (IOException e) { 
 			// TODO Auto-generated catch block
@@ -134,7 +261,16 @@ public class SessionEndpoint {
 				session.setClientInSession(clients.size() > 0);
 				sessions.add(session);
 			}
-			data.getClientSession().getBasicRemote().sendText(new Gson().toJson(sessions));
+			if(data.getClientSession().isOpen()) {
+				data.getClientSession().getBasicRemote().sendText(new Gson().toJson(sessions));
+			}
+			/*
+			else {
+				List<RetrieveSessionsData> RetrieveSessionsClientsFound = RetrieveSessionsClients.stream().filter(client -> client.getClientID().equals(data.getClientID())).collect(Collectors.toList());
+				if(RetrieveSessionsClientsFound.size() > 0)
+					RetrieveSessionsClients.remove(0);
+			}
+			*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -235,7 +371,6 @@ public class SessionEndpoint {
 		}
 		if(GameSessions.size() == 0 && FirstSessionRunning == false)
 		{	
-			System.out.println("he");
 			DefaultSession gameSession = new DefaultSession();
 			gameSession.setGameSessionID(0);
 			gameSession.setGameSessionNumberOfUsers(1);
@@ -273,7 +408,7 @@ public class SessionEndpoint {
 										int hourDiff = LocalDateTime.now().getHour() - GameSessions.get(i).getSessionClientclients().get(j).getSessionJoinDateTime().getHour();
 										if(hourDiff > 0 && LocalDateTime.now().getMinute() > GameSessions.get(i).getSessionClientclients().get(j).getSessionJoinDateTime().getMinute()) {
 											if(GameSessions.get(i).getSessionClientclients().get(j).isSessionClosed()) {
-												//RemoveClientOutOfSession(GameSessions.get(i).getSessionClientclients().get(j).getClientSession());
+												RemoveClientOutOfSession(GameSessions.get(i).getSessionClientclients().get(j).getClientSession());
 											}
 										}	
 										
@@ -370,14 +505,15 @@ public class SessionEndpoint {
 								String challengeJsnData = gson.toJson(CurrentQuestionLocal);
 								messageData.setCommandJsonData(challengeJsnData);
 								String messageDataJson = gson.toJson(messageData);
-								
+
 								for(int i = 0; i < GameSessions.get(0).getSessionClientclients().size(); i++) {
 									if(GameSessions.get(0).getSessionClientclients().get(i).isJustJoined()) {
+								
 										try {
 											if(GameSessions.get(0).getSessionClientclients().get(i).getClientSession().isOpen()) {
 												GameSessions.get(0).getSessionClientclients().get(i).getClientSession().getBasicRemote().sendText(messageDataJson);
-												GameSessions.get(0).getSessionClientclients().get(i).setJustJoined(false);
 											}
+											GameSessions.get(0).getSessionClientclients().get(i).setJustJoined(false);
 										} catch (IOException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
@@ -461,12 +597,6 @@ public class SessionEndpoint {
 				else
 				{
 					if(addClientToSession) {
-						System.out.println(joinSession.getSessionId() + "new");
-						if(GameSessions.get(0).SearchClientWithId(joinSession.getUserId()) != null) {
-							System.out.println(GameSessions.get(0).SearchClientWithId(joinSession.getUserId()).getGameSessionID() + "old");
-
-						}
-						
 						Client client = new Client();
 						client.setClientID(joinSession.getUserId());
 						client.setClientSession(clientSession);

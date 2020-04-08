@@ -1,2 +1,25 @@
 <div class="page-title-div">Notifications</div>
 <div class="line-divider"></div>
+<table class="notifications-table">
+    <tr *ngFor="let notification of notifcations" [ngClass]="{ 'notifications-tr': true, 'read-notification': notification['Read'], 'uread-notification': !notification['Read'] }">
+        <td class="notifications-td">
+            <img class='notification-img' src='assets/icons/user profile.svg' />
+        </td>
+        <td>
+            <div class="notififcation-text">
+                <div *ngIf="true">
+                    Friend request sent to <b>Matome Ramafalo</b>.
+                </div>
+                <div *ngIf="false">
+                    You have invited <b>Matome Ramafalo</b> to a challenge.
+                </div>
+                <div *ngIf="false">
+                    You have sent <b>Matome Ramafalo</b> a friend request.
+                </div>
+            </div>
+            <div class="notification-timestamp">
+                {{notification["DateTimeConverted"]}}
+            </div>
+        </td>
+    </tr>
+</table>

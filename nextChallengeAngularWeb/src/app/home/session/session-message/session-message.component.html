@@ -40,8 +40,7 @@
         <div class="chat-item chat-item-session-incorrect" style="background-color: #ffcccb; padding-bottom: 1px;">
             <div class="chat-item-header" style="border-bottom: 1px dotted #FFA6A6;">
                 <h5>Richard Bell</h5>
-                <small class="text-muted"
-                    style="width: 80px !important; top: 10px;">{{ResponseTime}}
+                <small class="text-muted" style="width: 80px !important; top: 10px;">{{ResponseTime}}
                     <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: -10px;"></i>
                 </small>
             </div>
@@ -53,5 +52,22 @@
                 <source src="" type="video/mp4"> </video>
         </div>
     </li>
-
+    <li *ngIf="message['Command'] == 'LEFT_SESSION' || message['Command'] == 'JOINED_SESSION'" class="left" style="margin-bottom: 5px;">
+        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+        <div class="chat-item chat-item-session-joined-left" style="background: rgba(39, 170, 225, 0.1); padding-bottom: 0px !important;">
+            <div class="chat-item-header" style="border: none; height: 40px;">
+                <table style="width: 100%; height: 24px;">
+                    <tr>
+                        <td>
+                            <h5>Richard Bell <i>{{message["Message"]}}</i></h5>
+                        </td>
+                        <td style="width: 75px;" valign="middle">
+                            <small class="text-muted" style="position: relative; top: 0px;">{{message["DateTime"]}} </small>
+                            <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: 10px;"></i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </li>
 </ul>

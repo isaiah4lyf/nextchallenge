@@ -29,11 +29,7 @@ export class DefaultComponent implements OnInit {
   }
   @HostListener("window:scroll", ["$event"])
   scrolled(event): void {
-    if (
-      $(window).scrollTop() + $(window).height() + 150 > $(document).height() &&
-      this.lastPostID != null &&
-      !this.postsRequested
-    ) {
+    if ($(window).scrollTop() + $(window).height() + 150 > $(document).height() && this.lastPostID != null && !this.postsRequested) {
       this.postsRequested = true;
       this._appService.retrievepostsafter(this.lastPostID, this.UserData["_id"]).subscribe(data => {
         this.postsTemp = data;

@@ -32,8 +32,7 @@ export class SessionComponent implements OnInit {
           this.sessionContents.forEach(element => {
             if (JSON.stringify(element).includes("MessageLocalId")) {
               let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
-              elementHtml.innerHTML = new Date(element["DateTime"]).toLocaleString().split(",")[1] +
-                ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+              if(elementHtml != null) elementHtml.innerHTML = new Date(element["DateTime"]).toLocaleString().split(",")[1] + ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
             }
           });
         }, 500);
@@ -43,9 +42,7 @@ export class SessionComponent implements OnInit {
           this.router.navigate(["/play"]);
         } else {
           this.ServerData = data;
-          this.sessionSocket = new WebSocket(
-            "ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session"
-          );
+          this.sessionSocket = new WebSocket("ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session");
           this.sessionSocket.onopen = this.processOpen;
           this.sessionSocket.onmessage = this.processMessage;
           this.sessionSocket.onerror = this.processError;
@@ -71,10 +68,37 @@ export class SessionComponent implements OnInit {
   processMessage = message => {
     let messageData = JSON.parse(message.data);
     if (messageData.Command === "REMAINING_TIME") {
-      this.element = document.getElementById(
-        "session-challenge-" + (this.sessionsCount - 1)
-      ) as HTMLElement;
+      this.element = document.getElementById("session-challenge-" + (this.sessionsCount - 1)) as HTMLElement;
       if (this.element != null) this.element.innerText = String(messageData.CommandJsonData - 1);
+    }
+    else if (messageData.Command == "JOINED_SESSION") {
+      let msg = {
+        Command: "JOINED_SESSION",
+        Message: "joined the session..",
+        DateTime: new Date().toLocaleString().split(",")[1],
+        MessageLocalId: "",
+        FileType: "none",
+        fileUrl: ""
+      };
+      console.log(msg);
+      this.sessionContents.push(msg);
+    }
+    else if (messageData.Command == "LEFT_SESSION") {
+      let msg = {
+        Command: "LEFT_SESSION",
+        Message: "left the session..",
+        DateTime: new Date().toLocaleString().split(",")[1],
+        MessageLocalId: "",
+        FileType: "none",
+        fileUrl: ""
+      };
+      console.log(msg);
+      this.sessionContents.push(msg);
+    }
+    else if (messageData.Command == "LEAVE_SESSION") {
+      this.sessionContents = null;
+      this.router.navigate(["/play"]);
+
     } else {
       let data = JSON.parse(messageData.CommandJsonData);
       data["Command"] = String(messageData.Command);
@@ -96,23 +120,14 @@ export class SessionComponent implements OnInit {
     event.preventDefault();
     sumbitbutton.click();
   }
-  createMessage(
-    form: NgForm,
-    filePreviewImg,
-    fileInput,
-    filePreviewVid,
-    textarea
-  ) {
+  createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea) {
     let msg = {
       Command: "MESSAGE_LOCAL",
       Message: textarea.innerHTML,
       DateTime: new Date(),
       MessageLocalId: "message-local-" + String(this.MessageLocalIdInc),
       FileType: this.fileType,
-      fileUrl:
-        fileInput.files.length == 0
-          ? ""
-          : window.URL.createObjectURL(fileInput.files[0])
+      fileUrl: fileInput.files.length == 0 ? "" : window.URL.createObjectURL(fileInput.files[0])
     };
     this.sessionContents.push(msg);
     this.MessageLocalIdInc++;
@@ -122,18 +137,20 @@ export class SessionComponent implements OnInit {
         CommandJsonData: Number(this.route.snapshot.paramMap.get("session"))
       };
       this.sessionSocket.send(JSON.stringify(messageData));
+    }
+    else if (textarea.innerHTML.startsWith(".q")) {
+      let messageData = {
+        Command: "LEAVE_SESSION",
+        CommandJsonData: this.UserData["_id"],
+      };
+      this.sessionSocket.send(JSON.stringify(messageData));
     } else {
       if (this.fileType != "none") {
         let formData = new FormData();
         formData.append("FileType", this.fileType);
         formData.append("File", fileInput.files[0]);
         formData.append("FileUploaderID", this.UserData["_id"]);
-        this._appService.uploadfiles(
-          formData,
-          this.filesUploadCallBack,
-          this.MessageLocalIdInc,
-          textarea.innerHTML
-        );
+        this._appService.uploadfiles(formData, this.filesUploadCallBack, this.MessageLocalIdInc, textarea.innerHTML);
       } else {
         let messageData = {
           Command: "",
@@ -154,12 +171,9 @@ export class SessionComponent implements OnInit {
     if (this.fileType == "none") {
       setTimeout(() => {
         let dateTime = new Date();
-        let element = document.getElementById(
-          "message-local-" + String(this.MessageLocalIdInc - 1)
-        ) as HTMLElement;
-        element.innerHTML =
-          dateTime.toLocaleString().split(",")[1] +
-          ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+        let element = document.getElementById("message-local-" + String(this.MessageLocalIdInc - 1)) as HTMLElement;
+        if (element != null)
+          element.innerHTML = dateTime.toLocaleString().split(",")[1] + ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
       }, 100);
     }
     this.fileType = "none";
@@ -167,12 +181,8 @@ export class SessionComponent implements OnInit {
   filesUploadCallBack = (result, extraParam, extraParam1): void => {
     let data = JSON.parse(result.toString());
     let dateTime = new Date(data[0]["UploadDateTime"]);
-    let element = document.getElementById(
-      "message-local-" + String(extraParam - 1)
-    ) as HTMLElement;
-    element.innerHTML =
-      dateTime.toLocaleString().split(",")[1] +
-      ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+    let element = document.getElementById("message-local-" + String(extraParam - 1)) as HTMLElement;
+    element.innerHTML = dateTime.toLocaleString().split(",")[1] + ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
     let messageData = {
       Command: "INCORRECT_ANSWER",
       CommandJsonData: JSON.stringify({
@@ -187,10 +197,7 @@ export class SessionComponent implements OnInit {
     this.sessionSocket.send(JSON.stringify(messageData));
   };
   emojiClick(textarea, emoji) {
-    textarea.innerHTML +=
-      '<img  style="width: 18px; width: 18px;" class="" src="assets/css/emoji/' +
-      emoji +
-      '.png" />';
+    textarea.innerHTML += '<img class="message-emoji" src="assets/css/emoji/' + emoji + '.png" />';
   }
   emojisClick(emojisRef) {
     if (emojisRef.style.display == "none") {

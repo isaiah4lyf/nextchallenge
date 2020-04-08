@@ -11,22 +11,14 @@ export class SessionMessageComponent implements OnInit {
   @ViewChild("messageContent") messageContent;
   public IncorrectAnswerFileType = "none";
   public ResponseTime: any;
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
-    if (
-      this.message["Command"] == "CORRECT" ||
-      this.message["Command"] == "INCORRECT_ANSWER"
-    )
-      this.ResponseTime = new Date(this.message["RepsoneDateTime"])
-        .toLocaleString()
-        .split(",")[1];
+    if (this.message["Command"] == "CORRECT" || this.message["Command"] == "INCORRECT_ANSWER")
+      this.ResponseTime = new Date(this.message["RepsoneDateTime"]).toLocaleString().split(",")[1];
   }
   ngAfterViewInit() {
-    if (
-      this.message["FileType"] == "image" ||
-      this.message["FileType"] == "video"
-    )
+    if (this.message["FileType"] == "image" || this.message["FileType"] == "video")
       this.messageFile.nativeElement.src = this.message["fileUrl"];
     if (this.message["Command"] == "MESSAGE_LOCAL")
       this.messageContent.nativeElement.innerHTML = this.message["Message"];

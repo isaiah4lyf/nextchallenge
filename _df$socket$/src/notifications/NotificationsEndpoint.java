@@ -39,7 +39,7 @@ public class NotificationsEndpoint {
 			clients.add(client);	
 		}
 		else
-		{
+		{ 
 			try 
 			{
 				List<Client> clientsWithId = clients.stream().filter(client -> client.getClientID().equals(data.getNotificationTo())).collect(Collectors.toList());

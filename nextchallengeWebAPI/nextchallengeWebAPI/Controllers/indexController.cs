@@ -1523,5 +1523,81 @@ namespace nextchallengeWebAPI.Controllers
         {
             return database.GetCollection<Server>("Servers").Find(s => s.Roles.Contains(role)).ToList();
         }
+        [Route("api/index/updatenotification")]
+        [HttpPost]
+        public Notification updatenotification([FromBody]NotificationPost notification)
+        {
+            var collection = database.GetCollection<Notification>("Notifications");
+            Notification notificationConverted = new NotificationConverter().Convert(notification);
+            notificationConverted.CreateDateTime = DateTime.Now;
+            if (notificationConverted._id == ObjectId.Parse("000000000000000000000000"))
+                collection.InsertOne(notificationConverted);
+
+            if (notificationConverted._id != ObjectId.Parse("000000000000000000000000"))
+                collection.ReplaceOne(l => l._id == notificationConverted._id, notificationConverted);
+
+            return notificationConverted;
+        }
+        [Route("api/index/retrievenotifications")]
+        [HttpGet]
+        public List<NotificationDetailed> retrievenotifications(string userid)
+        {
+            var collection = database.GetCollection<Notification>("Notifications");
+            return (from n in collection.AsQueryable()
+                    where n.UserID == ObjectId.Parse(userid)
+                    orderby n.CreateDateTime descending
+                    select new NotificationDetailed()
+                    {
+                        _id = n._id,
+                        UserID = n.UserID,
+                        Type = n.Type,
+                        Read = n.Read,
+                        CreateDateTime = n.CreateDateTime,
+                        Content = n.Content,
+                        DateTimeNow = DateTime.Now
+
+                    }).Take(12).ToList();
+        }
+        [Route("api/index/retrievenotificationsafter")]
+        [HttpGet]
+        public List<NotificationDetailed> retrievenotificationsafter(string userid,string lastnotificationid)
+        {
+            var collection = database.GetCollection<Notification>("Notifications");
+            Notification notification = collection.Find(n => n._id == ObjectId.Parse(lastnotificationid)).FirstOrDefault();
+            return (from n in collection.AsQueryable()
+                    where n.UserID == ObjectId.Parse(userid) && notification.CreateDateTime > n.CreateDateTime
+                    orderby n.CreateDateTime descending
+                    select new NotificationDetailed()
+                    {
+                        _id = n._id,
+                        UserID = n.UserID,
+                        Type = n.Type,
+                        Read = n.Read,
+                        CreateDateTime = n.CreateDateTime,
+                        Content = n.Content,
+                        DateTimeNow = DateTime.Now
+
+                    }).Take(12).ToList();
+        }
+        [Route("api/index/retrieveheaderstats")]
+        [HttpGet]
+        public HeaderStats retrieveheaderstats(string userid)
+        {
+            var collectionMessages = database.GetCollection<Message>("Messages");
+            var collectionFriends = database.GetCollection<Friendship>("Friendships");
+            var collectionNotifications = database.GetCollection<Notification>("Notifications");
+            return new HeaderStats() {
+                FriendRequests = (from f in collectionFriends.AsQueryable()
+                                  where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved
+                                  select f._id).Count(),
+                Notifications = (from n in collectionNotifications.AsQueryable()
+                                 where n.UserID == ObjectId.Parse(userid) && n.Read
+                                 select n._id).Count(),
+                Messages = (from m in collectionMessages.AsQueryable()
+                            where m.ToUserID == ObjectId.Parse(userid)
+                            select m._id).Count()
+
+            };
+        }
     }
 }

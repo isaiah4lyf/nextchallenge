@@ -111,10 +111,12 @@ import { NotificationsService } from './services/notifications.service';
       timeOut: 3500,
       progressBar: true,
       progressAnimation: 'increasing',
-      preventDuplicates: true
+      preventDuplicates: true,
+      enableHtml: true,
+      closeButton: true
     })
   ],
-  providers: [AppService,NotificationsService],
+  providers: [AppService, NotificationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

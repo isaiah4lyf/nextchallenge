@@ -44,7 +44,6 @@ export class NotificationsService {
       if (!outcome) {
         this.Subscribers.splice(i, 1);
       }
-      console.log(outcome);
     }
 
   };

@@ -12,7 +12,7 @@ export class SessionsComponent implements OnInit {
   public ServerData: any;
   public ServerSessions: any;
   public ServerSessionsTemp: any;
-
+  public sessionSocket = null;
   constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -23,20 +23,27 @@ export class SessionsComponent implements OnInit {
           this.router.navigate(["/play"]);
         } else {
           this.ServerData = data;
-          let sessionSocket = new WebSocket(
+          this.sessionSocket = new WebSocket(
             "ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session"
           );
-          sessionSocket.onopen = message => {
-            this.processOpen(message, sessionSocket, this.ServerData);
+          this.sessionSocket.onopen = message => {
+            this.processOpen(message, this.sessionSocket, this.ServerData);
           };
-          sessionSocket.onmessage = message => {
-            this.processMessage(message, sessionSocket, this.ServerData);
+          this.sessionSocket.onmessage = message => {
+            this.processMessage(message, this.sessionSocket, this.ServerData);
           };;
-          sessionSocket.onerror = this.processError;
-          sessionSocket.onclose = this.processClose;
+          this.sessionSocket.onerror = this.processError;
+          this.sessionSocket.onclose = this.processClose;
         }
       });
     }
+  }
+  ngOnDestroy() {
+    let messageData = {
+      Command: "RETRIEVE_SESSIONS_DISCONNECT",
+      CommandJsonData: this.UserData["_id"]
+    };
+    this.sessionSocket.send(JSON.stringify(messageData));
   }
   processOpen = (message, socket, server): any => {
     let messageData = {
@@ -52,7 +59,9 @@ export class SessionsComponent implements OnInit {
       element["Name"] = server["Name"] + element["GameSessionID"];
       this.ServerSessions.push(element);
     });
-
+    if (this.ServerSessions.length == 0) {
+      this.ServerSessions.push({ GameSessionID: 0, GameSessionNumberOfUsers: 0, ClientInSession: false, Name: server["Name"] + "0" });
+    }
   };
   processError = message => {
 

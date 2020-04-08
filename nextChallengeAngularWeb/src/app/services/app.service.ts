@@ -142,33 +142,54 @@ export class AppService {
     let createdatetime = new Date(datetime);
     let currentdatetime = new Date(datetimecurrent);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     let yesterday = createdatetime.getFullYear() == currentdatetime.getFullYear() &&
       createdatetime.getMonth() == currentdatetime.getMonth() &&
       currentdatetime.getDate() - createdatetime.getDate() == 1;
 
-    let aboutMins = createdatetime.getFullYear() == currentdatetime.getFullYear() && createdatetime.getMonth() == currentdatetime.getMonth() &&
-      createdatetime.getDate() == currentdatetime.getDate() &&
-      (createdatetime.getHours() == currentdatetime.getHours() ||
-        (currentdatetime.getHours() - createdatetime.getHours() == 1 &&
-          currentdatetime.getMinutes() + 60 - createdatetime.getMinutes() < 60));
+    let today = new Date(datetime).getDate() == new Date(datetimecurrent).getDate() &&
+      new Date(datetime).getMonth() == new Date(datetimecurrent).getMonth() &&
+      new Date(datetime).getFullYear() == new Date(datetimecurrent).getFullYear();
 
-    let aboutHours = createdatetime.getFullYear() == currentdatetime.getFullYear() && createdatetime.getMonth() == currentdatetime.getMonth() && createdatetime.getDate() == currentdatetime.getDate();
     let minutes = String(createdatetime.getMinutes()).length == 1 ? "0" + createdatetime.getMinutes() : createdatetime.getMinutes();
     let year = createdatetime.getFullYear() == currentdatetime.getFullYear() ? "" : createdatetime.getFullYear();
 
-    if (aboutMins) {
-      let minDif = currentdatetime.getHours() - createdatetime.getHours() == 0 ? currentdatetime.getMinutes() - createdatetime.getMinutes() : currentdatetime.getMinutes() + 60 - createdatetime.getMinutes();
-      return minDif == 0 ? "Now" : "about " + minDif + (minDif == 1 ? " minute ago" : " minutes ago");
-    } else if (aboutHours) {
-      let horDif = currentdatetime.getHours() - createdatetime.getHours();
-      return horDif == 1 ? "about " + horDif + " hour ago" : "about " + horDif + " hours ago";
-    }
-    else if (yesterday) {
-      return "Yesterday" + " at " + createdatetime.getHours() + ":" + minutes;
-    }
-    else {
-      return (createdatetime.getDate() + " " + monthNames[createdatetime.getMonth()] + " " + year + " at " + createdatetime.getHours() + ":" + minutes);
-    }
+    let localeTime = createdatetime.toLocaleString().split(",")[1];
+    localeTime = localeTime.split(":")[0] + ":" + localeTime.split(":")[1] + " " + localeTime.split(" ")[2];
+
+    if (yesterday)
+      return "Yesterday" + " at " + localeTime;
+
+    if (today)
+      return localeTime;
+
+    return (createdatetime.getDate() + " " + monthNames[createdatetime.getMonth()] + " " + year + " at " + localeTime);
+  }
+  convertDateTimeToWordWithSec(datetime, datetimecurrent) {
+    let createdatetime = new Date(datetime);
+    let currentdatetime = new Date(datetimecurrent);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    let yesterday = createdatetime.getFullYear() == currentdatetime.getFullYear() &&
+      createdatetime.getMonth() == currentdatetime.getMonth() &&
+      currentdatetime.getDate() - createdatetime.getDate() == 1;
+
+    let today = new Date(datetime).getDate() == new Date(datetimecurrent).getDate() &&
+      new Date(datetime).getMonth() == new Date(datetimecurrent).getMonth() &&
+      new Date(datetime).getFullYear() == new Date(datetimecurrent).getFullYear();
+
+    let minutes = String(createdatetime.getMinutes()).length == 1 ? "0" + createdatetime.getMinutes() : createdatetime.getMinutes();
+    let year = createdatetime.getFullYear() == currentdatetime.getFullYear() ? "" : createdatetime.getFullYear();
+
+    let localeTime = createdatetime.toLocaleString().split(",")[1];
+
+    if (yesterday)
+      return "Yesterday" + " at " + localeTime;
+
+    if (today)
+      return localeTime;
+
+    return (createdatetime.getDate() + " " + monthNames[createdatetime.getMonth()] + " " + year + " at " + localeTime);
   }
   likepost(postid, userid) {
     this.http.post(this.configUrl + "likepost?postid=" + postid + "&userid=" + userid, this.httpOptions).subscribe(data => { });
@@ -182,9 +203,9 @@ export class AppService {
   deletepostdislike(postid, userid) {
     this.http.delete(this.configUrl + "deletepostdislike?postid=" + postid + "&userid=" + userid, this.httpOptions).subscribe(data => { });
   }
-  createmessge(formData: FormData,callBack) {
-    this.http.post(this.configUrl + "createmessage", formData).subscribe(data => { 
-      callBack(data);
+  createmessge(formData: FormData, callBack, messageId) {
+    this.http.post(this.configUrl + "createmessage", formData).subscribe(data => {
+      callBack(data, messageId);
     });
   }
   retrievemessages(userone, usertwo) {
@@ -239,5 +260,17 @@ export class AppService {
   }
   retrieveservers(role) {
     return this.http.get(this.configUrl + "retrieveservers?role=" + role, this.httpOptions);
+  }
+  updatenotification(notification) {
+    return this.http.post(this.configUrl + "updatenotification", notification, this.httpOptions);
+  }
+  retrievenotifications(userid) {
+    return this.http.get(this.configUrl + "retrievenotifications?userid=" + userid, this.httpOptions);
+  }
+  retrievenotificationsafter(userid, lastnotificationid) {
+    return this.http.get(this.configUrl + "retrievenotificationsafter?userid=" + userid + "&lastnotificationid=" + lastnotificationid, this.httpOptions);
+  }
+  retrieveheaderstats(userid) {
+    return this.http.get(this.configUrl + "retrieveheaderstats?userid=" + userid, this.httpOptions);
   }
 }

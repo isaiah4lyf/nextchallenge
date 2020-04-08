@@ -10,19 +10,18 @@ import { NotificationsService } from "../.././services/notifications.service";
   styleUrls: ["./open-chat.component.css"]
 })
 export class OpenChatComponent implements OnInit {
+  public emojis = ["+1", "-1", "ant", "100"];
   public messages: any;
   public UserData: any;
   public ToUserData: any;
   public fileType = "none";
-
   public messagesTemp: any;
   public lastMessageID: string;
   public messagesRequested = true;
-
   public notificationsSocket: any;
-
   public stillActive = true;
   public touserName = "";
+  public messageInc = 0;
   constructor(
     private _appService: AppService,
     private router: Router,
@@ -82,16 +81,57 @@ export class OpenChatComponent implements OnInit {
       });
     }
   }
-  createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid) {
+  submitWithEnter(event, textarea, sumbitbutton) {
+    event.preventDefault();
+    sumbitbutton.click();
+  }
+  createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea) {
     let formData = new FormData();
-    formData.append("MessageContent", form.value["MessageContent"]);
+    formData.append("MessageContent", textarea.innerHTML);
     formData.append("File", fileInput.files[0]);
     formData.append("FileType", this.fileType);
     formData.append("FromUserID", this.UserData["_id"]);
     formData.append("ToUserID", this.ToUserData["_id"]);
     filePreviewImg.style.display = "none";
     filePreviewVid.style.display = "none";
-    this._appService.createmessge(formData, this.messageCallBack);
+    let message = {
+      _id: "message-" + String(this.messageInc),
+      FromUserID: this.UserData["_id"],
+      ToUserID: this.ToUserData["_id"],
+      MessageContent: textarea.innerHTML,
+      FileType: this.fileType,
+      MessageRead: false,
+      CreateDateTime: new Date(),
+      Files: fileInput.files.length == 0 ? [] : [
+        {
+          _id: "none",
+          FileName: "none",
+          UserID: this.UserData["_id"],
+          FileType: this.fileType,
+          UploadDateTime: new Date(),
+          FileBaseUrls: [window.URL.createObjectURL(fileInput.files[0])]
+        }
+      ],
+      FromUsers: [this.UserData],
+      ToUsers: [this.ToUserData],
+      DateTimeNow: new Date()
+    };
+    this.messages.push(message);
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 50);
+    this._appService.createmessge(formData, this.messageCallBack, "message-" + String(this.messageInc));
+    this.messageInc++;
+  }
+  emojiClick(textarea, emoji) {
+    textarea.innerHTML += '<img class="message-emoji" src="assets/css/emoji/' + emoji + '.png" />';
+  }
+  emojisClick(emojisRef) {
+    if (emojisRef.style.display == "none") {
+      emojisRef.style.display = "block";
+    } else {
+      emojisRef.style.display = "none";
+    }
   }
   clikImages(element) {
     element.click();
@@ -124,7 +164,7 @@ export class OpenChatComponent implements OnInit {
     }
     return this.stillActive;
   }
-  messageCallBack = (data: any): void => {
+  messageCallBack = (data: any, messageId: any): void => {
     if (this.router.url.includes("/chat/")) {
       let notificationData = {
         NotificationType: "MESSAGE",
@@ -132,6 +172,9 @@ export class OpenChatComponent implements OnInit {
         NotificationTo: this.ToUserData["_id"],
         Data: data
       };
+      let message = JSON.parse(data);
+      let elementHtml = document.getElementById(messageId) as HTMLElement;
+      elementHtml.innerHTML = '<span style="position: absolute; right: 14px;">' + this._appService.convertDateTimeToWord(message['CreateDateTime'],message['DateTimeNow']) + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
       this.notificationsSocket.send(JSON.stringify(notificationData));
     }
   }

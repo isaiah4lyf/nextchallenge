@@ -1,0 +1,40 @@
+
+.notifications-table {
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+}
+.notifications-tr {
+    margin-bottom: 1px;
+}
+.read-notification{
+    background-color: rgb(250, 250, 250);
+}
+.uread-notification{
+    background-color: #edf2fa;
+}
+.notifications-td {
+    height: 46px;
+    width: 40px;
+}
+.notification-img {
+    margin-left: 10px;
+    height: 35px;
+    width: 35px;
+}
+.notififcation-text {
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: 15px;
+    font-family: Linden Hill;
+    display: inline-block
+}
+.notification-timestamp {
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    font-weight: bold;
+}

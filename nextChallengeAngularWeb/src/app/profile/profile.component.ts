@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { HostListener, Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AppService } from ".././services/app.service";
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-profile",
@@ -9,7 +10,6 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
   styleUrls: ["./profile.component.css"]
 })
 export class ProfileComponent implements OnInit {
-  //@ViewChild("myDiv") divView: ElementRef;
   public UserData = null;
   public profileDataLoaded = false;
 
@@ -30,11 +30,15 @@ export class ProfileComponent implements OnInit {
   public profilePicLink: any;
   public profileCoverPicLink: any;
 
+  public mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+  public desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
+
   constructor(
     public route: ActivatedRoute,
     private _appService: AppService,
     public router: Router,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +46,11 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.paramsChanged(params['id']);
     });
+  }
+  @HostListener('window:resize', ['$event'])
+  onResized(event): void {
+    this.mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+    this.desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
   }
   paramsChanged(id) {
     this.profileDataLoaded = false;
@@ -104,7 +113,17 @@ export class ProfileComponent implements OnInit {
       FriendshipStarterUserId: viewerData["_id"],
       FriendUserId: this.UserData["_id"]
     };
-    this._appService.createfriendship(friendship).subscribe(data => { });
+    this._appService.createfriendship(friendship).subscribe(data => {
+      let notification = {
+        UserID: viewerData["_id"],
+        Type: "FRIEND_REQUEST",
+        Read: false,
+        Content: JSON.stringify(this.UserData)
+      };
+      this._appService.updatenotification(notification).subscribe(data => {
+        this.toastr.info("Request sent to " + this.UserData["FirstName"] + " " + this.UserData["LastName"],"Friend request sent!");
+      });
+    });
   }
   logout() {
     this._appService.logout();

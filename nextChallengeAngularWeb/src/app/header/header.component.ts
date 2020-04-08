@@ -16,20 +16,24 @@ export class HeaderComponent implements OnInit {
   public searchdata = [];
   public searchdataTemp: any;
   public stillActive = true;
-
-  mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
-  desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
+  public headerStats: any;
+  public mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+  public desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
 
   constructor(private _appService: AppService, private _notificationsService: NotificationsService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
+    this.headerStats = { FriendRequests: 0, Notifications: 0, Messages: 0 };
     if (this.UserData != null) {
       this.profileLink = "/" + this.UserData["Email"].split('@')[0];
       this._appService.retrieveservers("WebSocket").subscribe(data => {
         this._notificationsService.setServerData(data);
         this._notificationsService.startNotificationsSocket(this.UserData);
         this._notificationsService.getNotificationsSocket(this.notificationsCallBack);
+      });
+      this._appService.retrieveheaderstats(this.UserData["_id"]).subscribe(data => {
+        this.headerStats = data;
       });
     }
   }
@@ -42,7 +46,7 @@ export class HeaderComponent implements OnInit {
     this.desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
   }
   search(searchInput) {
-    if (searchInput.value.length > 3) {
+    if (searchInput.value.length > 0) {
       this._appService.search(searchInput.value).subscribe(data => {
         this.searchdataTemp = data;
         this.searchdata = [];

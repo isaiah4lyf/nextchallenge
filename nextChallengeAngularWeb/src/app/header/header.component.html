@@ -20,13 +20,16 @@
             </td>
             <td align="center">
               <img class="router-link" routerLink="/friend-requests" src="assets/icons/friends.svg" alt="" />
+              <span *ngIf="headerStats['FriendRequests'] > 0" class="badge">{{headerStats['FriendRequests']}}</span>
             </td>
             <td align="center">
               <img class="router-link" routerLink="/notifications"
                 src="assets/icons/notification.svg" alt="" />
+                <span *ngIf="headerStats['Notifications'] > 0" class="badge" style="right: -6px;">{{headerStats['Notifications']}}</span>
             </td>
             <td align="center">
               <img class="router-link" routerLink="/chat" src="assets/icons/chat.svg" alt="" />
+              <span *ngIf="headerStats['Messages'] > 0" class="badge">{{headerStats['Messages']}}</span>
             </td>
             <td align="center">
               <img class="router-link" routerLink="{{profileLink}}" style="width: 28px; height: 28px;"
@@ -44,16 +47,16 @@
           </li>
           <li>
             <img class="router-link" routerLink="/friend-requests" src="assets/icons/friends.svg" alt="" />
-            <span class="badge">3</span>
+            <span *ngIf="headerStats['FriendRequests'] > 0" class="badge">{{headerStats['FriendRequests']}}</span>
           </li>
           <li>
             <img class="router-link" routerLink="/notifications"
               src="assets/icons/notification.svg" alt="" />
-            <span class="badge" style="right: -6px;">3</span>
+            <span *ngIf="headerStats['Notifications'] > 0" class="badge" style="right: -6px;">{{headerStats['Notifications']}}</span>
           </li>
           <li>
             <img class="router-link" routerLink="/chat" src="assets/icons/chat.svg" alt="" />
-            <span class="badge">3</span>
+            <span *ngIf="headerStats['Messages'] > 0" class="badge">{{headerStats['Messages']}}</span>
           </li>
           <li>
             <img class="router-link" routerLink="{{profileLink}}" style="width: 28px; height: 28px; margin-right: 18px;"

@@ -10,6 +10,7 @@ export class PlayComponent implements OnInit {
   public PlayServers = [];
   public PlayServersTemp: any;
   public UserData: any;
+  public Sockets = [];
   constructor(private _appService: AppService) { }
 
   ngOnInit(): void {
@@ -18,9 +19,7 @@ export class PlayComponent implements OnInit {
       this._appService.retrieveservers("WebSocket").subscribe(data => {
         this.PlayServersTemp = data;
         this.PlayServersTemp.forEach(server => {
-          let sessionSocket = new WebSocket(
-            "ws://" + server.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + server.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session"
-          );
+          let sessionSocket = new WebSocket("ws://" + server.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + server.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session");
           sessionSocket.onopen = message => {
             this.processOpen(message, sessionSocket, server);
           };
@@ -31,10 +30,20 @@ export class PlayComponent implements OnInit {
           sessionSocket.onclose = this.processClose;
           server["UsersCount"] = 0;
           this.PlayServers.push(server);
+          this.Sockets.push(sessionSocket);
         });
       });
     }
 
+  }
+  ngOnDestroy() {
+    this.Sockets.forEach(element => {
+      let messageData = {
+        Command: "RETRIEVE_SESSIONS_DISCONNECT",
+        CommandJsonData: this.UserData["_id"]
+      };
+      element.send(JSON.stringify(messageData));
+    });
   }
   processOpen = (message, socket, server): any => {
     let messageData = {
