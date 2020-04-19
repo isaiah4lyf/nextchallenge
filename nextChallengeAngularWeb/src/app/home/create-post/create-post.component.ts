@@ -49,9 +49,13 @@ export class CreatePostComponent implements OnInit {
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    if (this.PostOnTimeline == "true") this.PostText = "Write on timeline";
+    //if (this.PostOnTimeline == "true") this.PostText = "Write on timeline";
   }
   createPost(form: NgForm, filePreviewImg, fileInput, createPostSpinnerRef, filePreviewVid, textarea, emojisRef) {
+    if (fileInput.files.length == 0)
+      this.fileType = "none";
+    filePreviewImg.style.display = "none";
+    filePreviewVid.style.display = "none";
     if (textarea.innerHTML != "" || fileInput.files.length > 0) {
       let formData = new FormData();
       formData.append("PostContent", textarea.innerHTML);
@@ -61,8 +65,6 @@ export class CreatePostComponent implements OnInit {
       formData.append("TimelineUserID", this.TimelineUserID);
       formData.append("PostOnTimeline", this.PostOnTimeline);
       createPostSpinnerRef.style.display = "block";
-      filePreviewImg.style.display = "none";
-      filePreviewVid.style.display = "none";
       this._appService.createPost(form, formData, createPostSpinnerRef);
       this._notificationsService.updateChatStatus();
       textarea.innerHTML = "";

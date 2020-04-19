@@ -111,7 +111,9 @@ export class SessionComponent implements OnInit {
       this.sessionContents.push(data);
       this._appService.setSssionContents(this.sessionContents);
       setTimeout(() => {
-        window.scrollTo(0, document.body.scrollHeight);
+        if (this.sessionContents.length > 3) {
+          window.scrollTo(0, document.body.scrollHeight);
+        }
       }, 100);
     }
   };
@@ -147,6 +149,8 @@ export class SessionComponent implements OnInit {
       };
       this.sessionSocket.send(JSON.stringify(messageData));
     } else {
+      if (fileInput.files.length == 0)
+        this.fileType = "none";
       if (this.fileType != "none") {
         let formData = new FormData();
         formData.append("FileType", this.fileType);
@@ -199,6 +203,7 @@ export class SessionComponent implements OnInit {
         })
       })
     };
+    console.log(data);
     this.sessionSocket.send(JSON.stringify(messageData));
   };
   emojiClick(textarea, emoji) {

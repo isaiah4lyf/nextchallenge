@@ -1,41 +1,52 @@
 <!-- Post Content
                   ================================================= -->
 <div class="post-content">
-    <div *ngIf="profileRoute" class="post-date hidden-xs hidden-sm">
+    <!-- <div *ngIf="profileRoute" class="post-date hidden-xs hidden-sm">
         <h5>Sarah</h5>
         <p class="text-grey">10/21/2016</p>
+    </div>-->
+    <div *ngIf='post["FileType"] == "video"' style="position: relative;">
+        <!--Post Date End-->
+        <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 500px;" preload="none" [controls]='videoControls'
+            poster="{{post['Files'][0]['FilePosterUrls'][0]}}">
+            <source [src]='post["Files"][0]["FileBaseUrls"][0]' type="video/mp4">
+        </video>
+        <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'" class="router-link" style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;" src="assets/icons/play_vid.svg"
+            alt="" />
     </div>
-    <!--Post Date End-->
-    <video *ngIf='post["FileType"] == "video"' class="post-video" style="width: 100%; height: auto; max-height: 500px;"
-        controls preload="metadata">
-        <source [src]='post["Files"][0]["FileBaseUrls"][0]' type="video/mp4"> </video>
     <img *ngIf='post["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
         [src]='post["Files"][0]["FileBaseUrls"][0]' alt="" class="img-responsive post-image router-link"
         [routerLink]="postLink" />
     <div class="post-container" style="position: relative;">
-        <img src='{{this.post["Users"][0]["ProfilePic"]["FileBaseUrls"][0]}}' alt="user" class="profile-photo-md pull-left" />
-        <span [ngClass]="chatStatusClasses" ></span>
-        <div class="post-detail router-link" >
+        <img src='{{this.post["Users"][0]["ProfilePic"]["FileBaseUrls"][0]}}' alt="user"
+            class="profile-photo-md pull-left" />
+        <span [ngClass]="chatStatusClasses"></span>
+        <div class="post-detail router-link">
             <table style="width: 100%;">
                 <tr>
                     <td>
                         <div class="user-info">
-                            <h5><a  class="profile-link" [routerLink]="userLink" >{{post["Users"][0]["FirstName"]}} {{post["Users"][0]["LastName"]}} </a></h5>
-                            <p class="text-muted router-link" style="font-size: 11px;" [routerLink]="postLink">{{postDate}}</p>
+                            <h5><a class="profile-link" [routerLink]="userLink">{{post["Users"][0]["FirstName"]}}
+                                    {{post["Users"][0]["LastName"]}} </a></h5>
+                            <p class="text-muted router-link" style="font-size: 11px;" [routerLink]="postLink">
+                                {{postDate}}</p>
                         </div>
                     </td>
                     <td align="right" valign="top">
                         <div class="reaction">
-                            <a class="btn router-link" style="color: silver;" [routerLink]="postLink" ><i class="icon ion-chatboxes"></i> {{commentsCount}}</a>
-                            <a [class]="postLikedClass" (click)="like()" ><i class="icon ion-thumbsup"></i> {{likesCount}}</a>
-                            <a [class]="postDisLikedClass" (click)="dislike()" ><i class="fa fa-thumbs-down"></i> {{disLikesCount}}</a>
+                            <a class="btn router-link" style="color: silver;" [routerLink]="postLink"><i
+                                    class="icon ion-chatboxes"></i> {{commentsCount}}</a>
+                            <a [class]="postLikedClass" (click)="like()"><i class="icon ion-thumbsup"></i>
+                                {{likesCount}}</a>
+                            <a [class]="postDisLikedClass" (click)="dislike()"><i class="fa fa-thumbs-down"></i>
+                                {{disLikesCount}}</a>
                         </div>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="post-text router-link" [routerLink]="postLink">
-            <p #postContent ></p>
+            <p #postContent></p>
         </div>
         <app-comment *ngIf="comments.length > 0" [comment]="comments[0]"></app-comment>
         <!--
@@ -80,15 +91,15 @@
                 (ngSubmit)="createMessage(createPostForm,filePreviewImg,fileInput, filePreviewVid,textarea,emojisRef)">
                 <div class="row">
                     <div class="col-md-12">
-                        <div (keydown.enter)="submitWithEnter($event,textarea,sumbitbutton)" #textarea id="exampleTextarea"
-                            data-text="Type comment"
+                        <div (keydown.enter)="submitWithEnter($event,textarea,sumbitbutton)" #textarea
+                            id="exampleTextarea" data-text="Type comment"
                             style="padding-left: 8px; padding-top: 2px; width: 99% !important; margin-left: 0.5%; border: none; background: #f8f8f8; border-radius: 0; border-top: solid 2px #f1f2f2;"
-                            class="textarea" contenteditable="true" placeholder="" tabindex="0" dir="ltr" spellcheck="false"
-                            autocomplete="off" autocorrect="off" autocapitalize="off">
+                            class="textarea" contenteditable="true" placeholder="" tabindex="0" dir="ltr"
+                            spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
                         </div>
                     </div>
-                    <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files" #fileInput
-                        type="file" style="display: none;" ngModel />
+                    <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files"
+                        #fileInput type="file" style="display: none;" ngModel />
                     <div class="col-md-12">
                         <div class="video-wrapper">
                             <img #filePreviewImg src="" alt="" class="img-responsive post-image"
@@ -100,13 +111,15 @@
                         <div class="tools">
                             <div #emojisRef
                                 style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
-                                <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;"
-                                    class="" src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
+                                <img (click)="emojiClick(textarea,emoji)"
+                                    style="width: 20px; width: 20px; cursor: pointer;" class=""
+                                    src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
                             </div>
                             <ul class="publishing-tools list-inline">
                                 <li><a class="router-link" (click)="emojisClick(emojisRef)"><i
                                             class="ion-android-happy"></i></a></li>
-                                <li><a class="router-link" (click)="clikImages(fileInput)"><i class="ion-images"></i></a>
+                                <li><a class="router-link" (click)="clikImages(fileInput)"><i
+                                            class="ion-images"></i></a>
                                 </li>
                                 <li><a class="router-link" (click)="clikVideos(fileInput)"><i
                                             class="ion-ios-videocam"></i></a></li>

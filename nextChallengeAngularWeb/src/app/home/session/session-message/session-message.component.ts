@@ -11,6 +11,8 @@ export class SessionMessageComponent implements OnInit {
   @ViewChild("messageContent") messageContent;
   public IncorrectAnswerFileType = "none";
   public ResponseTime: any;
+  public videoControls = false;
+  public videoPoster = "";
   constructor() { }
 
   ngOnInit(): void {
@@ -32,6 +34,9 @@ export class SessionMessageComponent implements OnInit {
           this.IncorrectAnswerFileType = files[0]["FileType"];
           setTimeout(() => {
             this.messageFile.nativeElement.src = files[0]["FileBaseUrls"][0];
+            if(files[0]["FileType"] == "video"){
+              this.videoPoster = files[0]['FilePosterUrls'][0];
+            }
           }, 50);
         }, 50);
       } catch (e) {

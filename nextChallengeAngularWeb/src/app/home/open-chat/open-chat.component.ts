@@ -93,6 +93,8 @@ export class OpenChatComponent implements OnInit {
     sumbitbutton.click();
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
+    if (fileInput.files.length == 0)
+      this.fileType = "none";
     let formData = new FormData();
     formData.append("MessageContent", textarea.innerHTML);
     formData.append("File", fileInput.files[0]);

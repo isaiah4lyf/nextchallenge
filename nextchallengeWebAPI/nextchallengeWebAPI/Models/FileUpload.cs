@@ -14,6 +14,7 @@ namespace nextchallengeWebAPI.Models
         public ObjectId UserID { set; get; }
         public string FileType { set; get; }
         public DateTime UploadDateTime { set; get; }
+        public List<string> FilePosterUrls { set; get; }
         public List<string> FileBaseUrls { set; get; }
     }
 }

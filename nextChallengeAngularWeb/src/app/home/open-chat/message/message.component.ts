@@ -11,6 +11,7 @@ export class MessageComponent implements OnInit {
   @ViewChild("msgFile") messageFile;
   @ViewChild("messageContent") messageContent;
   public UserData: any;
+  public videoControls = false;
   constructor(private _appService: AppService) { }
 
   ngOnInit(): void {

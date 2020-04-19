@@ -55,8 +55,6 @@ import { NotificationsService } from './services/notifications.service';
 import { SuggestionComponent } from './suggestions/suggestion/suggestion.component';
 import { CompleteBuyComponent } from './home/complete-buy/complete-buy.component';
 import { CancelBuyComponent } from './home/cancel-buy/cancel-buy.component';
-import { FriendComponent } from './profile/friends/friend/friend.component';
-import { FriendRequestComponent } from './home/friend-requests/friend-request/friend-request.component';
 
 @NgModule({
   declarations: [
@@ -105,9 +103,7 @@ import { FriendRequestComponent } from './home/friend-requests/friend-request/fr
     SessionLeaderboardsComponent,
     SuggestionComponent,
     CompleteBuyComponent,
-    CancelBuyComponent,
-    FriendComponent,
-    FriendRequestComponent
+    CancelBuyComponent
   ],
   imports: [
     CommonModule,

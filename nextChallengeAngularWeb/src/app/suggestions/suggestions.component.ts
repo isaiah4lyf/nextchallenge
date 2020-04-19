@@ -15,7 +15,7 @@ export class SuggestionsComponent implements OnInit {
   getParentApi(): ParentComponentApi {
     return {
       callParentMethod: (name) => {
-        this.parentMethod(name)
+        this.parentMethod(name);
       }
     }
   }

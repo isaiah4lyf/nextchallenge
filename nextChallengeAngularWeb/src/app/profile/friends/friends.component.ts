@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AppService } from "../.././services/app.service";
 import { NotificationsService } from "../.././services/notifications.service";
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-friends',
@@ -15,7 +16,7 @@ export class FriendsComponent implements OnInit {
   public lastFriendshipId: string;
   public friendshipsRequested = true;
   public UnfrienButtonVisible = false;
-  constructor(public route: ActivatedRoute, private _appService: AppService, public router: Router, private _notificationsService: NotificationsService) { }
+  constructor(private _sanitizer: DomSanitizer, public route: ActivatedRoute, private _appService: AppService, public router: Router, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -73,5 +74,46 @@ export class FriendsComponent implements OnInit {
       });
       this._notificationsService.updateChatStatus();
     }
+  }
+  userChatStatusClass(user) {
+    return { 'led-silver-global': user['ChatStatus'] == 'offline', 'led-green-global': user['ChatStatus'] == 'available', 'led-red-global': user['ChatStatus'] == 'busy', 'led-yellow-global': user['ChatStatus'] == 'away' };
+  }
+  profilePic(request) {
+    let user: any = "";
+    if (this.UserData['_id'] != request['FriendUserId']) {
+      user = request['FriendUser'][0];
+    }
+    else {
+      user = request['FriendshipStarter'][0];
+    }
+    if (user['ProfilePic'] == null)
+      user['ProfilePic'] = {
+        _id: "none",
+        FileName: "",
+        UserID: user['_id'],
+        FileType: "image",
+        UploadDateTime: new Date(),
+        FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+      };
+    return user["ProfilePic"]["FileBaseUrls"][0];
+  }
+  profileCoverPic(request) {
+    let user: any = "";
+    if (this.UserData['_id'] != request['FriendUserId']) {
+      user = request['FriendUser'][0];
+    }
+    else {
+      user = request['FriendshipStarter'][0];
+    }
+    if (user['ProfileCoverPic'] == null)
+      user['ProfileCoverPic'] = {
+        _id: "none",
+        FileName: "",
+        UserID: user['_id'],
+        FileType: "image",
+        UploadDateTime: new Date(),
+        FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+      };
+    return this._sanitizer.bypassSecurityTrustStyle('url(' + user["ProfileCoverPic"]["FileBaseUrls"][0] + ') no-repeat');
   }
 }

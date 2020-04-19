@@ -102,3 +102,4 @@ C:\Users\isaia\nextchallenge\nextchallengeWebAPI\nextchallengeWebAPI\bin\MongoDB
 C:\Users\isaia\nextchallenge\nextchallengeWebAPI\nextchallengeWebAPI\bin\MongoDB.Driver.Core.xml
 C:\Users\isaia\nextchallenge\nextchallengeWebAPI\nextchallengeWebAPI\bin\Snappy.NET.xml
 C:\Users\isaia\nextchallenge\nextchallengeWebAPI\nextchallengeWebAPI\bin\System.Buffers.xml
+C:\Users\isaia\nextchallenge\nextchallengeWebAPI\nextchallengeWebAPI\bin\MediaToolkit.dll

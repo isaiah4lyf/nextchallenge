@@ -25,8 +25,9 @@
         <div class="chat-item" style="padding-bottom: 1px;">
             <div class="chat-item-header">
                 <h5>Sarah Cruiz</h5>
-        
-                <small id="{{message['MessageLocalId']}}" class="text-muted" style="width: 120px !important; top: 10px;">
+
+                <small id="{{message['MessageLocalId']}}" class="text-muted"
+                    style="width: 120px !important; top: 10px;">
                     <div class="loader"></div>
                 </small>
             </div>
@@ -51,9 +52,18 @@
             <p #messageContent></p>
             <img *ngIf="IncorrectAnswerFileType == 'image'" #msgFile alt=""
                 style="width: 100%; height: auto; max-height: 500px; margin-bottom: 5px;" />
-            <video *ngIf="IncorrectAnswerFileType == 'video'" #msgFile class="post-video"
-                style="width: 100%; height: auto; max-height: 500px;" controls>
-                <source src="" type="video/mp4"> </video>
+            <div *ngIf='IncorrectAnswerFileType == "video"'
+                style="position: relative;">
+                <!--Post Date End-->
+                <video #VideoRef class="post-video" #msgFile style="width: 100%; height: auto; max-height: 500px;" preload="none"
+                    [controls]='videoControls' poster="{{videoPoster}}">
+                    <source type="video/mp4">
+                </video>
+                <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'"
+                    class="router-link"
+                    style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;"
+                    src="assets/icons/play_vid.svg" alt="" />
+            </div>
         </div>
     </li>
     <li *ngIf="message['Command'] == 'LEFT_SESSION' || message['Command'] == 'JOINED_SESSION'" class="left"

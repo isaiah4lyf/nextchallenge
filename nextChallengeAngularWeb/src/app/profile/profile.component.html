@@ -45,7 +45,7 @@
                     <div class="col-md-9">
                         <ul class="list-inline profile-menu">
                             <li><a class="router-link" routerLink="{{timelineLink}}"
-                                    routerLinkActive="active">Timeline</a></li>
+                                    routerLinkActive="active">Posts</a></li>
                             <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a>
                             </li>
                             <li><a class="router-link" routerLink="{{galleryLink}}"
@@ -94,7 +94,7 @@
                 </div>
                 <div class="mobile-menu">
                     <ul class="list-inline">
-                        <li><a class="router-link" routerLink="{{timelineLink}}" routerLinkActive="active"> Timeline</a>
+                        <li><a class="router-link" routerLink="{{timelineLink}}" routerLinkActive="active"> Posts</a>
                         </li>
                         <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a></li>
                         <li><a class="router-link" routerLink="{{galleryLink}}" routerLinkActive="active">Gallery</a>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="col-md-2 static" *ngIf="desktopScreen">
                     <div id="sticky-sidebar">
-                        <h4 class="grey">{{UserData["FirstName"]}}'s activity</h4>
+                        <h4>{{UserData["FirstName"]}}'s<span style="color: gray;"> activity</span></h4>
                         <ng-container *ngFor="let activity of activities">
                             <div class="feed-item">
                                 <div class="live-activity router-link" routerLink="{{'/post/' + activity['_redirect'] }}" >

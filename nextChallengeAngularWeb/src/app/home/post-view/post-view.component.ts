@@ -34,6 +34,7 @@ export class PostViewComponent implements OnInit {
   public lastCommentID: string;
   public commentsRequested = true;
   public chatStatusClasses: any;
+  public videoControls = false;
   constructor(private route: ActivatedRoute, private _appService: AppService, private _notificationsService: NotificationsService, private router: Router) { }
 
   ngOnInit(): void {
@@ -117,6 +118,8 @@ export class PostViewComponent implements OnInit {
     sumbitbutton.click();
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
+    if (fileInput.files.length == 0)
+      this.fileType = "none";
     let formData = new FormData();
     formData.append("CommentContent", textarea.innerHTML);
     formData.append("File", fileInput.files[0]);

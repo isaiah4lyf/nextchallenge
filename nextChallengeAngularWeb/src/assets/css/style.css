@@ -2044,7 +2044,7 @@ video {
 
 /*==================================================
  Post Date
-==================================================*/
+
 
 .timeline .post-content {
   position: relative;
@@ -2078,6 +2078,7 @@ video {
   top: 10px;
   border: 2px solid #fff;
 }
+==================================================*/
 
 .timeline .post-content img.post-image {
   border-radius: 4px 4px 0 0;

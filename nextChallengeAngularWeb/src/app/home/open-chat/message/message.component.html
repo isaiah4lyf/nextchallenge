@@ -1,18 +1,30 @@
-<li class="right" *ngIf="message['FromUserID'] == UserData['_id']; else elseBlock" style="margin-bottom: 5px;" >
+<li class="right" *ngIf="message['FromUserID'] == UserData['_id']; else elseBlock" style="margin-bottom: 5px;">
     <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
     <div class="chat-item">
         <div class="chat-item-header">
             <h5>{{message['FromUsers'][0]["FirstName"]}} {{message['FromUsers'][0]["LastName"]}}</h5>
-            <small id="{{message['_id']}}" class="text-muted" style="width: 120px !important; top: 10px; text-align: right;">
+            <small id="{{message['_id']}}" class="text-muted"
+                style="width: 120px !important; top: 10px; text-align: right;">
                 <div class="loader"></div>
             </small>
         </div>
         <p #messageContent></p>
         <img #msgFile *ngIf="message['FileType'] == 'image'" src="" alt="" class="img-responsive post-image"
             style="width: 100%; height: auto; max-height: 500px;" />
-        <video #msgFile *ngIf="message['FileType'] == 'video'" class="post-video"
+        <video #msgFile *ngIf="message['FileType'] == 'video' && message['_id'].includes('message')" class="post-video"
             style="width: 100%; height: auto; max-height: 500px;" controls>
             <source src="" type="video/mp4"> </video>
+        <div *ngIf='message["FileType"] == "video"  && !message["_id"].includes("message")' style="position: relative;">
+            <!--Post Date End-->
+            <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 500px;" preload="none"
+                [controls]='videoControls' poster="{{message['Files'][0]['FilePosterUrls'][0]}}">
+                <source [src]='message["Files"][0]["FileBaseUrls"][0]' type="video/mp4">
+            </video>
+            <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'"
+                class="router-link"
+                style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;"
+                src="assets/icons/play_vid.svg" alt="" />
+        </div>
     </div>
 </li>
 <ng-template #elseBlock>
@@ -21,16 +33,29 @@
         <div class="chat-item">
             <div class="chat-item-header">
                 <h5>{{message['ToUsers'][0]["FirstName"]}} {{message['FromUsers'][0]["LastName"]}}</h5>
-                <small class="text-muted" style="width: 120px !important; top: 10px;"><span style="position: absolute; right: 12px;">{{message['CreateDateTime']}}</span>
+                <small class="text-muted" style="width: 120px !important; top: 10px;"><span
+                        style="position: absolute; right: 12px;">{{message['CreateDateTime']}}</span>
                     <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: -10px;"></i>
                 </small>
             </div>
             <p #messageContent></p>
             <img #msgFile *ngIf="message['FileType'] == 'image'" [src]="message['Files'][0]['FileBaseUrls'][0]" alt=""
                 class="img-responsive post-image" style="width: 100%; height: auto; max-height: 500px;" />
-            <video #msgFile *ngIf="message['FileType'] == 'video'" class="post-video"
-                style="width: 100%; height: auto; max-height: 500px;" controls>
-                <source [src]="message['Files'][0]['FileBaseUrls'][0]" type="video/mp4"> </video>
+            <video #msgFile *ngIf="message['FileType'] == 'video' && message['_id'].includes('message')"
+                class="post-video" style="width: 100%; height: auto; max-height: 500px;" controls>
+                <source src="" type="video/mp4"> </video>
+            <div *ngIf='message["FileType"] == "video"  && !message["_id"].includes("message")'
+                style="position: relative;">
+                <!--Post Date End-->
+                <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 500px;" preload="none"
+                    [controls]='videoControls' poster="{{message['Files'][0]['FilePosterUrls'][0]}}">
+                    <source [src]='message["Files"][0]["FileBaseUrls"][0]' type="video/mp4">
+                </video>
+                <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'"
+                    class="router-link"
+                    style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;"
+                    src="assets/icons/play_vid.svg" alt="" />
+            </div>
         </div>
     </li>
 </ng-template>

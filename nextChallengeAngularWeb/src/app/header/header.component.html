@@ -24,25 +24,25 @@
                 src="assets/images/logo (2).png" alt="logo" />
             </td>
             <td align="center" style="width: 16.6%;">
-              <img class="router-link" routerLink="/play" src="assets/icons/play.svg" alt="" />
+              <img class="router-link" routerLink="/play" style="margin-right: -5px" src="assets/icons/play.svg" alt="" />
             </td>
             <td align="center" style="position: relative; width: 16.6%;">
-              <img class="router-link" routerLink="/friend-requests" src="assets/icons/friends.svg" alt="" />
+              <img class="router-link" routerLink="/friend-requests" style="margin-right: -5px" src="assets/icons/friends.svg" alt="" />
               <span *ngIf="headerStats['FriendRequests'] > 0" class="badge"
                 style="position: absolute; top: -2px; right: 25%;">{{headerStats['FriendRequests']}}</span>
             </td>
             <td align="center" style="position: relative; width: 16.6%;">
-              <img class="router-link" routerLink="/notifications" src="assets/icons/notification.svg" alt="" />
+              <img class="router-link" routerLink="/notifications" style="margin-right: -5px" src="assets/icons/notification.svg" alt="" />
               <span *ngIf="headerStats['Notifications'] > 0" class="badge"
                 style="position: absolute; top: -2px; right: 25%;">{{headerStats['Notifications']}}</span>
             </td>
             <td align="center" style="position: relative; width: 16.6%;">
-              <img class="router-link" routerLink="/chat" src="assets/icons/chat.svg" alt="" />
+              <img class="router-link" routerLink="/chat" style="margin-right: -5px" src="assets/icons/chat.svg" alt="" />
               <span *ngIf="headerStats['Messages'] > 0" class="badge"
                 style="position: absolute; top: -2px; right: 23%;">{{headerStats['Messages']}}</span>
             </td>
             <td *ngIf="mobileScreen" align="center" style="width: 16.6%;">
-              <img class="router-link" routerLink="{{profileLink}}" style="width: 28px; height: 28px; margin-right: -3px"
+              <img class="router-link" routerLink="{{profileLink}}" style="width: 28px; height: 28px; margin-right: -5px"
                 src="assets/icons/account.svg" alt="" />
             </td>
             <td *ngIf="tabletScreen" align="right" style="width: 16.6%;">

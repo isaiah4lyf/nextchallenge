@@ -1,6 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using MediaToolkit;
+using MediaToolkit.Model;
+using MediaToolkit.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using nextchallengeWebAPI.Helpers;
 using nextchallengeWebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -122,35 +127,11 @@ namespace nextchallengeWebAPI.Controllers
         public async Task<HttpResponseMessage> updateprofilepic()
         {
             var collection = database.GetCollection<User>("Users");
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
             User user = collection.Find(u => u._id == ObjectId.Parse(provider.FormData["UserID"])).FirstOrDefault();
-            user.ProfilePic = files.ElementAt(0);
+            user.ProfilePic = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["UserID"]).ElementAt(0);
             collection.ReplaceOne(u => u._id == ObjectId.Parse(provider.FormData["UserID"]), user);
             return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(user));
         }
@@ -159,35 +140,11 @@ namespace nextchallengeWebAPI.Controllers
         public async Task<HttpResponseMessage> updateprofilecoverpic()
         {
             var collection = database.GetCollection<User>("Users");
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
             User user = collection.Find(u => u._id == ObjectId.Parse(provider.FormData["UserID"])).FirstOrDefault();
-            user.ProfileCoverPic = files.ElementAt(0);
+            user.ProfileCoverPic = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["UserID"]).ElementAt(0);
             collection.ReplaceOne(u => u._id == ObjectId.Parse(provider.FormData["UserID"]), user);
             return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(user));
         }
@@ -344,44 +301,20 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> createpost()
         {
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
-            var collectionPosts = database.GetCollection<Post>("Posts");
 
+            var collectionPosts = database.GetCollection<Post>("Posts");
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
-            await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
+            await Request.Content.ReadAsMultipartAsync(provider);            
             Post post = new Post();
             post.PostContent = provider.FormData["PostContent"];
-            post.Files = files;
+            post.Files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["UserID"]);
             post.FileType = provider.FormData["FileType"];
             post.UserID = ObjectId.Parse(provider.FormData["UserID"]);
             post.TimelineUserID = ObjectId.Parse(provider.FormData["TimelineUserID"]);
             post.PostOnTimeline = provider.FormData["PostOnTimeline"] == "true";
-            post.CreateDateTime = datetime;
+            post.CreateDateTime = DateTime.Now;
             collectionPosts.InsertOne(post);
-
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
         [Route("api/index/retrieveposts")]
@@ -582,41 +515,17 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> createcomment()
         {
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
             var collectionComments = database.GetCollection<Comment>("Comments");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
             Comment comment = new Comment();
             comment.PostID = ObjectId.Parse(provider.FormData["PostID"]);
             comment.CommentContent = provider.FormData["CommentContent"];
-            comment.Files = files;
+            comment.Files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["UserID"]);
             comment.FileType = provider.FormData["FileType"];
             comment.UserID = ObjectId.Parse(provider.FormData["UserID"]);
-            comment.CreateDateTime = datetime;
+            comment.CreateDateTime = DateTime.Now;
             collectionComments.InsertOne(comment);
 
             return Request.CreateResponse(HttpStatusCode.OK, "success");
@@ -807,41 +716,17 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> createmessage()
         {
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
             var collectionMessages = database.GetCollection<Message>("Messages");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["FromUserID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
             Message message = new Message();
             message.MessageContent = provider.FormData["MessageContent"];
-            message.Files = files;
+            message.Files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["FromUserID"]);
             message.FileType = provider.FormData["FileType"];
             message.FromUserID = ObjectId.Parse(provider.FormData["FromUserID"]);
             message.ToUserID = ObjectId.Parse(provider.FormData["ToUserID"]);
-            message.CreateDateTime = datetime;
+            message.CreateDateTime = DateTime.Now;
             message.MessageRead = false;
             collectionMessages.InsertOne(message);
             var collectionUsers = database.GetCollection<User>("Users");
@@ -974,7 +859,6 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionUsers = database.GetCollection<User>("Users");
             var collectionMessages = database.GetCollection<Message>("Messages");
-
             List<ActiveChat> chats = (from m in collectionMessages.AsQueryable()
                                        join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
                                        join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
@@ -998,11 +882,9 @@ namespace nextchallengeWebAPI.Controllers
             foreach (ActiveChat chat in chats)
                 if (!ActiveChat.Any(item => item.FromUserId == chat.ToUserId && item.ToUserId == chat.FromUserId))
                     ActiveChat.Add(chat);
-
             for (int i = 0; i < ActiveChat.Count; i++)
                 if (!chats.ElementAt(i).LatestMessage.FromUserID.ToString().Equals(userid))
                     ActiveChat.ElementAt(i).UnreadMessagesCount = retrieveundreadmessagescount(chats.ElementAt(i).LatestMessage.FromUserID.ToString(), userid);
-
             return ActiveChat;
         }
 
@@ -1010,34 +892,12 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> createdefaultsessionchallenge()
         {
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
             var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
+            List<FileUpload> files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["ChallengeCreatorID"]);
             DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["ChallengeCreatorID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
             DefaultSessionChallenge challenge = new DefaultSessionChallenge();
             challenge.Answer = provider.FormData["Answer"];
             challenge.Category = provider.FormData["Category"];
@@ -1051,7 +911,6 @@ namespace nextchallengeWebAPI.Controllers
             clue.Files = files;
             challenge.Clue = clue;
             collectionChallenges.InsertOne(challenge);
-
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
         [Route("api/index/retrievedefaultsessionchallenge")]
@@ -1066,32 +925,10 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> uploadfiles()
         {
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["FileUploaderID"]);
-                fileUpload.FileType = provider.FormData["FileType"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
+            List<FileUpload> files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["FileUploaderID"]);
             return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(files));
         }
         [Route("api/index/updateleaderboard")]
@@ -1100,13 +937,10 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
             Leaderboard leaderboardConverted = new LeaderboardConverter().convert(leaderboard);
-
             if (leaderboardConverted._id == ObjectId.Parse("000000000000000000000000"))
                 collectionLeaderboards.InsertOne(leaderboardConverted);
-
             if (leaderboardConverted._id != ObjectId.Parse("000000000000000000000000"))
                 collectionLeaderboards.ReplaceOne(l => l._id == leaderboardConverted._id, leaderboardConverted);
-
             return leaderboardConverted;
         }
         [Route("api/index/retrieveleaderboard")]
@@ -1121,7 +955,6 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
             var collectionUsers = database.GetCollection<User>("Users");
-
             var inq = new ObjectId[notinusersid.Count];
             for (int i = 0; i < notinusersid.Count; i++)
             {
@@ -1359,7 +1192,6 @@ namespace nextchallengeWebAPI.Controllers
                 }
                 leaderboards.Add(currentUser);
             }
-
             return leaderboards;
         }
         public int retrieveuserleaderboardposition(LeaderboardDetailed leaderboard, string orderby)
@@ -1804,7 +1636,6 @@ namespace nextchallengeWebAPI.Controllers
                                                       || l.HighestStreak == leaderboardcurrent.HighestStreak
                                                       || l.TotalScore == leaderboardcurrent.TotalScore
                                                       select l).Take(5).ToList();
-
             var _inuserids = new ObjectId[searches.Count];
             var _inuseremails = new string[searches.Count];
             for (int i = 0; i < searches.Count; i++)
@@ -1820,7 +1651,6 @@ namespace nextchallengeWebAPI.Controllers
                                         select u).Take(10).ToList();
 
             var _userfiltered = new ObjectId[_similarUsers.Count + _similarLeaderboards.Count];
-
             for (int i = 0; i < _similarUsers.Count; i++)
                 _userfiltered[i] = _similarUsers.ElementAt(i)._id;
 
@@ -1830,7 +1660,6 @@ namespace nextchallengeWebAPI.Controllers
                 _userfiltered[i] = _similarLeaderboards.ElementAt(index).UserID;
                 index++;
             }
-
             List<UserViewProfile> users = (from u in collectionUsers.AsQueryable()
                                            where _userfiltered.Contains(u._id) && u._id != currentuser._id
                                            select new UserViewProfile()
@@ -1898,10 +1727,8 @@ namespace nextchallengeWebAPI.Controllers
             configurationConverted.CreateDateTime = DateTime.Now;
             if (configurationConverted._id == ObjectId.Parse("000000000000000000000000"))
                 collection.InsertOne(configurationConverted);
-
             if (configurationConverted._id != ObjectId.Parse("000000000000000000000000"))
                 collection.ReplaceOne(l => l._id == configurationConverted._id, configurationConverted);
-
             return configurationConverted;
         }
         [Route("api/index/retrieveconfigurations")]
@@ -1919,10 +1746,8 @@ namespace nextchallengeWebAPI.Controllers
             AttemptsPrice priceConverted = new AttemptsPriceConverter().Convert(price);
             if (priceConverted._id == ObjectId.Parse("000000000000000000000000"))
                 collection.InsertOne(priceConverted);
-
             if (priceConverted._id != ObjectId.Parse("000000000000000000000000"))
                 collection.ReplaceOne(l => l._id == priceConverted._id, priceConverted);
-
             return priceConverted;
         }
         [Route("api/index/retrieveattemptsprices")]
@@ -1943,10 +1768,8 @@ namespace nextchallengeWebAPI.Controllers
             purchaseConverted.PurchaseDateTime = DateTime.Now;
             if (purchaseConverted._id == ObjectId.Parse("000000000000000000000000"))
                 collection.InsertOne(purchaseConverted);
-
             if (purchaseConverted._id != ObjectId.Parse("000000000000000000000000"))
                 collection.ReplaceOne(l => l._id == purchaseConverted._id, purchaseConverted);
-
             return purchaseConverted;
         }
 
@@ -1985,10 +1808,8 @@ namespace nextchallengeWebAPI.Controllers
             var collection = database.GetCollection<AttemptsPurchase>("AttemptsPurchases");
             var status = HttpContext.Current.Request.Params["payment_status"];
             var paymentid = HttpContext.Current.Request.Params["m_payment_id"];
-
             var update = Builders<AttemptsPurchase>.Update.Set(p => p.Status, status);
             collection.UpdateOne(u => u._id == ObjectId.Parse(paymentid), update);
-
             if (status.Equals("COMPLETE")) 
             {
                 var collectionPrices = database.GetCollection<AttemptsPrice>("AttemptsPrices");
@@ -2110,34 +1931,11 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> createhelpinstruction()
         {
-            var collectionFiles = database.GetCollection<FileUpload>("Files");
             var collectionHelp = database.GetCollection<HelpItem>("Help");
-
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-
             await Request.Content.ReadAsMultipartAsync(provider);
-
-            List<FileUpload> files = new List<FileUpload>();
-            DateTime datetime = DateTime.Now;
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                FileUpload fileUpload = new FileUpload();
-                fileUpload.UserID = ObjectId.Parse(provider.FormData["InstructionCreatorID"]);
-                fileUpload.FileType = provider.FormData["Type"];
-                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
-                fileUpload.UploadDateTime = datetime;
-                collectionFiles.InsertOne(fileUpload);
-                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
-                File.Move(file.LocalFileName, Path.Combine(root, fileName));
-                List<string> newUrls = new List<string>();
-                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
-                    newUrls.Add(fileUpload1 + "/files/" + fileName);
-                fileUpload.FileBaseUrls = newUrls;
-                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
-                files.Add(fileUpload);
-            }
+            List<FileUpload> files = new FileManager().UploadFiles(provider, database, root, provider.FormData["Type"], provider.FormData["InstructionCreatorID"]);
             Instruction instruction = new Instruction();
             instruction.Type = provider.FormData["Type"];
             instruction.Description = provider.FormData["Description"];

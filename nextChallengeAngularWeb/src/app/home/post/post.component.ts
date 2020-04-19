@@ -29,6 +29,7 @@ export class PostComponent implements OnInit {
   public postLikedClass = "btn text-green";
   public postDisLikedClass = "btn text-red";
   public chatStatusClasses: any;
+  public videoControls = false;
   constructor(private router: Router, private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
@@ -66,6 +67,7 @@ export class PostComponent implements OnInit {
         UploadDateTime: new Date(),
         FileBaseUrls: ["assets/images/image_placeholder.jpg"]
       };
+    console.log(this.post);
   }
   ngAfterViewInit() {
     this.postContent.nativeElement.innerHTML = this.post["PostContent"];
@@ -75,6 +77,8 @@ export class PostComponent implements OnInit {
     sumbitbutton.click();
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
+    if (fileInput.files.length == 0)
+      this.fileType = "none";
     let formData = new FormData();
     formData.append("CommentContent", textarea.innerHTML);
     formData.append("File", fileInput.files[0]);

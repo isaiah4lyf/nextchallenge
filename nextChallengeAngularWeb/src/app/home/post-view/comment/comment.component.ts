@@ -12,6 +12,7 @@ export class CommentComponent implements OnInit {
   @ViewChild("commentContent") commentContent: any;
   public commentDate = "";
   public chatStatusClasses: any;
+  public videoControls = false;
   constructor(private _appService: AppService) { }
 
   ngOnInit(): void {
