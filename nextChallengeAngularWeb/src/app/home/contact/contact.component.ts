@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-contact',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
-
-  constructor() { }
+  public UserData: any;
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
+    this.UserData = this._appService.getUserData();
+    if (this.UserData != null) {
+      this._notificationsService.updateChatStatus();
+    }
   }
 
 }

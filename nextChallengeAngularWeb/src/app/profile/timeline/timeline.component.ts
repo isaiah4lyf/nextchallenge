@@ -1,5 +1,7 @@
 import { HostListener, Component, OnInit } from "@angular/core";
 import { AppService } from "../.././services/app.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: "app-timeline",
@@ -7,34 +9,55 @@ import { AppService } from "../.././services/app.service";
   styleUrls: ["./timeline.component.css"]
 })
 export class TimelineComponent implements OnInit {
-  private UserData: any;
+  public UserData: any;
+  public ViewedUserData: any;
   public posts: any;
   public postsTemp: any;
   public lastPostID: string;
   public postsRequested = true;
-
-  constructor(private _appService: AppService) {}
+  public UserLoaded = false;
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    this._appService.retrieveposts(this.UserData["_id"]).subscribe(data => {
-      this.posts = data;
-      if (this.posts.length > 0) {
-        this.lastPostID = data[this.posts.length - 1]["_id"];
-        this.postsRequested = false;
+    if (this.UserData != null) {
+      if (this.UserData["Email"].split("@")[0] == this.route.parent.snapshot.paramMap.get("id")) {
+        this.ViewedUserData = this.UserData;
+        this.UserLoaded = true;
+        this._appService.retrievetimelineposts(this.UserData["_id"], this.ViewedUserData["_id"]).subscribe(data => {
+          this.posts = data;
+          if (this.posts.length > 0) {
+            this.lastPostID = data[this.posts.length - 1]["_id"];
+            this.postsRequested = false;
+          }
+        });
       }
-    });
+      else {
+        this._appService.retrieveUserDataWithName(this.route.parent.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
+          if (data == null) {
+            this.router.navigate(["/home"]);
+          } else {
+            this.ViewedUserData = data;
+            this.UserLoaded = true;
+            this._appService.retrievetimelineposts(this.UserData["_id"], this.ViewedUserData["_id"]).subscribe(data => {
+              this.posts = data;
+              if (this.posts.length > 0) {
+                this.lastPostID = data[this.posts.length - 1]["_id"];
+                this.postsRequested = false;
+              }
+            });
+          }
+        });
+      }
+      this._notificationsService.updateChatStatus();
+    }
   }
   @HostListener("window:scroll", ["$event"])
   scrolled(event): void {
-    if (
-      $(window).scrollTop() + $(window).height() + 150 > $(document).height() &&
-      this.lastPostID != null &&
-      !this.postsRequested
-    ) {
+    if ($(window).scrollTop() + $(window).height() + 150 > $(document).height() && this.lastPostID != null && !this.postsRequested) {
       this.postsRequested = true;
       this._appService
-        .retrievepostsafter(this.lastPostID, this.UserData["_id"])
+        .retrievetimelinepostsafter(this.lastPostID, this.UserData["_id"], this.ViewedUserData["_id"])
         .subscribe(data => {
           this.postsTemp = data;
           this.postsTemp.forEach(element => {
@@ -45,6 +68,7 @@ export class TimelineComponent implements OnInit {
             this.postsRequested = false;
           }
         });
+      this._notificationsService.updateChatStatus();
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-friends',
@@ -14,38 +15,37 @@ export class FriendsComponent implements OnInit {
   public lastFriendshipId: string;
   public friendshipsRequested = true;
   public UnfrienButtonVisible = false;
-  constructor(public route: ActivatedRoute,
-    private _appService: AppService,
-    public router: Router
-  ) { }
+  constructor(public route: ActivatedRoute, private _appService: AppService, public router: Router, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-
-    if (this.UserData["Email"].split("@")[0] == this.route.parent.snapshot.paramMap.get("id")) {
-      this.UnfrienButtonVisible = true;
-      this._appService.retrievefriendships(this.UserData["_id"]).subscribe(data => {
-        this.FriendRequests = data;
-        if (this.FriendRequests.length > 11) {
-          this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
-          this.friendshipsRequested = false;
-        }
-      });
-    } else {
-      this._appService.retrieveUserDataWithName(this.route.parent.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
-        if (data == null) {
-          this.router.navigate(["/home"]);
-        } else {
-          this.UserData = data;
-          this._appService.retrievefriendships(this.UserData["_id"]).subscribe(data => {
-            this.FriendRequests = data;
-            if (this.FriendRequests.length > 11) {
-              this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
-              this.friendshipsRequested = false;
-            }
-          });
-        }
-      });
+    if (this.UserData != null) {
+      if (this.UserData["Email"].split("@")[0] == this.route.parent.snapshot.paramMap.get("id")) {
+        this.UnfrienButtonVisible = true;
+        this._appService.retrievefriendships(this.UserData["_id"]).subscribe(data => {
+          this.FriendRequests = data;
+          if (this.FriendRequests.length > 11) {
+            this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
+            this.friendshipsRequested = false;
+          }
+        });
+      } else {
+        this._appService.retrieveUserDataWithName(this.route.parent.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
+          if (data == null) {
+            this.router.navigate(["/home"]);
+          } else {
+            this.UserData = data;
+            this._appService.retrievefriendships(this.UserData["_id"]).subscribe(data => {
+              this.FriendRequests = data;
+              if (this.FriendRequests.length > 11) {
+                this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
+                this.friendshipsRequested = false;
+              }
+            });
+          }
+        });
+      }
+      this._notificationsService.updateChatStatus();
     }
   }
   unfriend(friendship) {
@@ -55,6 +55,7 @@ export class FriendsComponent implements OnInit {
     }
     if (this.FriendRequests.length > 0) this.lastFriendshipId = this.FriendRequests[this.FriendRequests.length - 1]["_id"];
     this._appService.deletefriendship(friendship["_id"]).subscribe(data => { });
+    this._notificationsService.updateChatStatus();
   }
   @HostListener("window:scroll", ["$event"])
   scrolled(event): void {
@@ -70,6 +71,7 @@ export class FriendsComponent implements OnInit {
           this.friendshipsRequested = false;
         }
       });
+      this._notificationsService.updateChatStatus();
     }
   }
 }

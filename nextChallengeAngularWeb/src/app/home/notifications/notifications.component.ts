@@ -1,5 +1,6 @@
 import { HostListener, Component, OnInit } from '@angular/core';
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-notifications',
@@ -12,7 +13,7 @@ export class NotificationsComponent implements OnInit {
   public UserData: any;
   public noitificationsRequested = true;
   public lastNotificationId = null;
-  constructor(private _appService: AppService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -28,6 +29,7 @@ export class NotificationsComponent implements OnInit {
           this.lastNotificationId = data[this.notifcationsTemp.length - 1]["_id"];
         }
       });
+      this._notificationsService.updateChatStatus();
     }
   }
   @HostListener("window:scroll", ["$event"])

@@ -1,17 +1,19 @@
 <div class="line-divider"></div>
-<div class="post-comment">
-    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+<div class="post-comment" style="position: relative;">
+    <img src='{{this.comment["Users"][0]["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm" />
+    <span [ngClass]="chatStatusClasses" style="position: absolute; top: 30px; left: 25px;"></span>
+    <div *ngIf="comment['_id'].includes('temp')" id="{{comment['_id']}}" class="loader" style="position: absolute; right: 5px;"></div>
     <p class="post-text">
-        <a href="timeline.html" class="profile-link">Julia <br /></a>
-        <span>
-            {{comment["CommentContent"]}}
-            <br />
+        <a class="router-link" routerLink='/{{comment["Users"][0]["Email"].split("@")[0]}}'
+            class="profile-link">{{comment["Users"][0]["FirstName"]}} {{comment["Users"][0]["LastName"]}} <br /></a>
+        <span #commentContent>
         </span>
-        <video *ngIf='comment["FileType"] == "video"' class="post-video"
+        <br />
+        <video #commentFile *ngIf='comment["FileType"] == "video"' class="post-video"
             style="width: 100%; height: auto; max-height: 500px;" controls>
-            <source [src]='comment["Files"][0]["FileBaseUrls"][0]' type="video/mp4"> </video>
-        <img *ngIf='comment["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
-            [src]='comment["Files"][0]["FileBaseUrls"][0]' alt="" class="img-responsive post-image" />
+            <source src="" type="video/mp4"> </video>
+        <img #commentFile *ngIf='comment["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
+            src="" alt="" class="img-responsive post-image" />
         <span class="text-muted" style="font-size: 11px;">{{commentDate}}</span>
     </p>
 </div>

@@ -28,6 +28,8 @@ import { ProfileSettingsComponent } from "./profile/about/settings/settings.comp
 import { ChangePasswordComponent } from "./profile/about/change-password/change-password.component";
 import { EducationComponent } from "./profile/about/education/education.component";
 import { WorkComponent } from "./profile/about/work/work.component";
+import { CompleteBuyComponent } from "./home/complete-buy/complete-buy.component";
+import { CancelBuyComponent } from "./home/cancel-buy/cancel-buy.component";
 
 const routes: Routes = [
   {
@@ -52,7 +54,9 @@ const routes: Routes = [
       { path: "notifications", component: NotificationsComponent },
       { path: "chat", component: ChatComponent },
       { path: "chat/:id", component: OpenChatComponent },
-      { path: "post/:id", component: PostViewComponent }
+      { path: "post/:id", component: PostViewComponent },
+      { path: "processed/:id", component: CompleteBuyComponent },
+      { path: "cancelled/:id", component: CancelBuyComponent }
     ]
   },
   { path: "help", component: HelpComponent },

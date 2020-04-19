@@ -3,6 +3,7 @@ import { User } from '../../.././models/user';
 import { Router } from "@angular/router";
 import { DateOfBirth } from "../../.././models/date-of-birth";
 import { AppService } from "../../.././services/app.service";
+import { NotificationsService } from "../../.././services/notifications.service";
 import { NgForm } from "@angular/forms";
 
 @Component({
@@ -15,11 +16,12 @@ export class AboutEditComponent implements OnInit {
   public UserData: any;
   public basicInfoSpinner = false;
 
-  constructor(private _appService: AppService, private router: Router) { }
+  constructor(private _appService: AppService, private router: Router, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     this.userModel = this._appService.getUserData();
+    this._notificationsService.updateChatStatus();
   }
   updateBasicInfo(form: NgForm) {
     let data = form.value;
@@ -34,5 +36,6 @@ export class AboutEditComponent implements OnInit {
         this.router.navigate([link]);
       }, 500);
     });
+    this._notificationsService.updateChatStatus();
   }
 }

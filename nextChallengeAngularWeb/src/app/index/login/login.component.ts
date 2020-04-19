@@ -20,6 +20,9 @@ export class LoginComponent implements OnInit {
       if (data != null) {
         this._appService.setUserData(data);
         this.router.navigate(["/home"]);
+        setTimeout(() => {
+          console.log("_ses$on@$_!et$_$");
+        }, 500);
       }
       this.loginSpinner = false;
     });

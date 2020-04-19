@@ -1,6 +1,7 @@
 import { HostListener, Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AppService } from ".././services/app.service";
+import { NotificationsService } from ".././services/notifications.service";
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 
@@ -29,7 +30,8 @@ export class ProfileComponent implements OnInit {
   public updateButtons = false;
   public profilePicLink: any;
   public profileCoverPicLink: any;
-
+  public chatStatusClasses: any;
+  public activities: any = [];
   public mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
   public desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
 
@@ -38,7 +40,8 @@ export class ProfileComponent implements OnInit {
     private _appService: AppService,
     public router: Router,
     private _sanitizer: DomSanitizer,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _notificationsService: NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -84,6 +87,11 @@ export class ProfileComponent implements OnInit {
           this.profileCoverPicLink = this._sanitizer.bypassSecurityTrustStyle('url(' + this.UserData["ProfileCoverPic"]["FileBaseUrls"][0] + ') no-repeat');
         this.updateButtons = true;
         this.isAddFriendButton = false;
+        this.chatStatusClasses = { 'led-silver-global': this.UserData['ChatStatus'] == 'offline', 'led-green-global': this.UserData['ChatStatus'] == 'available', 'led-red-global': this.UserData['ChatStatus'] == 'busy', 'led-yellow-global': this.UserData['ChatStatus'] == 'away' };
+        this.chatStatusClasses[this.UserData['_id']] = true;
+        this._appService.retrieveactivities(this.UserData["_id"]).subscribe(data => {
+          this.activities = data;
+        });
       } else {
         this._appService.retrieveUserDataWithName(this.route.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
           if (data == null) {
@@ -91,15 +99,38 @@ export class ProfileComponent implements OnInit {
           } else {
             this.isProfileView = true;
             this.UserData = data;
+            if (this.UserData != null)
+              if (this.UserData['ProfilePic'] == null)
+                this.UserData['ProfilePic'] = {
+                  _id: "none",
+                  FileName: "",
+                  UserID: this.UserData['_id'],
+                  FileType: "image",
+                  UploadDateTime: new Date(),
+                  FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+                };
+            if (this.UserData != null)
+              if (this.UserData['ProfileCoverPic'] == null)
+                this.UserData['ProfileCoverPic'] = {
+                  _id: "none",
+                  FileName: "",
+                  UserID: this.UserData['_id'],
+                  FileType: "image",
+                  UploadDateTime: new Date(),
+                  FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+                };
             this.profileDataLoaded = true;
             this._appService.setUserViewData(this.UserData);
             this.isAddFriendButton = this.UserData["friendships"].length == 0;
             this.messageUserLink = "/chat/" + this.UserData["Email"].split("@")[0];
-            if (this.UserData["ProfilePic"] != null)
-              this.profilePicLink = this.UserData["ProfilePic"]["FileBaseUrls"][0];
-            if (this.UserData["ProfileCoverPic"] != null)
-              this.profileCoverPicLink = this._sanitizer.bypassSecurityTrustStyle('url(' + this.UserData["ProfileCoverPic"]["FileBaseUrls"][0] + ') no-repeat');
+            this.profilePicLink = this.UserData["ProfilePic"]["FileBaseUrls"][0];
+            this.profileCoverPicLink = this._sanitizer.bypassSecurityTrustStyle('url(' + this.UserData["ProfileCoverPic"]["FileBaseUrls"][0] + ') no-repeat');
             this.updateButtons = false;
+            this.chatStatusClasses = { 'led-silver-global': this.UserData['ChatStatus'] == 'offline', 'led-green-global': this.UserData['ChatStatus'] == 'available', 'led-red-global': this.UserData['ChatStatus'] == 'busy', 'led-yellow-global': this.UserData['ChatStatus'] == 'away' };
+            this.chatStatusClasses[this.UserData['_id']] = true;
+            this._appService.retrieveactivities(this.UserData["_id"]).subscribe(data => {
+              this.activities = data;
+            });
           }
         });
       }
@@ -121,11 +152,12 @@ export class ProfileComponent implements OnInit {
         Content: JSON.stringify(this.UserData)
       };
       this._appService.updatenotification(notification).subscribe(data => {
-        this.toastr.info("Request sent to " + this.UserData["FirstName"] + " " + this.UserData["LastName"],"Friend request sent!");
+        this.toastr.info("Request sent to " + this.UserData["FirstName"] + " " + this.UserData["LastName"], "Friend request sent!");
       });
     });
   }
   logout() {
+    this._notificationsService.getNotificationsSocketSideProf(null).close();
     this._appService.logout();
   }
   inputFileChalge(fileInput, propicPrev) {
@@ -159,5 +191,8 @@ export class ProfileComponent implements OnInit {
   }
   filesUploadCallBack = (result): void => {
     this._appService.setUserData(JSON.parse(result));
+  }
+  convertDateTimeToWord(datetime, datetimecurrent) {
+    return this._appService.convertDateTimeToWord(datetime, datetimecurrent);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-sessions',
@@ -13,7 +14,7 @@ export class SessionsComponent implements OnInit {
   public ServerSessions: any;
   public ServerSessionsTemp: any;
   public sessionSocket = null;
-  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -36,6 +37,7 @@ export class SessionsComponent implements OnInit {
           this.sessionSocket.onclose = this.processClose;
         }
       });
+      this._notificationsService.updateChatStatus();
     }
   }
   ngOnDestroy() {

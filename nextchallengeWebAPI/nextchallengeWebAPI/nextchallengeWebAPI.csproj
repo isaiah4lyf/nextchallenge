@@ -198,13 +198,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SystemVariables.cs" />
     <Compile Include="Models\About.cs" />
-    <Compile Include="Models\ActiveChats.cs" />
+    <Compile Include="Models\ActiveChat.cs" />
+    <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\AttemptsPrice.cs" />
+    <Compile Include="Models\AttemptsPurchase.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\DefaultSessionChallenge.cs" />
     <Compile Include="Models\FileUpload.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\HeaderStats.cs" />
+    <Compile Include="Models\Help.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Leaderboard.cs" />
     <Compile Include="Models\Message.cs" />
@@ -213,6 +219,7 @@
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\Server.cs" />
+    <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,3 +12,15 @@
     content: attr(data-text);
   }
   
+.led-green {
+    color: #8dc63f;
+}
+.led-red {
+    color: #e72e2eb6;
+}
+.led-yellow {
+    color: #e0d865;
+}
+.led-silver {
+    color: silver;
+}

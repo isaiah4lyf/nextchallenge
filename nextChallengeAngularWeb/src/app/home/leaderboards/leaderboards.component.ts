@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
+
 @Component({
   selector: "app-leaderboards",
   templateUrl: "./leaderboards.component.html",
@@ -15,18 +17,21 @@ export class LeaderboardsComponent implements OnInit {
   public currentUserInList = false;
   public prevPages = [];
   public UserData = null;
-  constructor(private _appService: AppService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
-      this.Leaderboards = data;
-      this.Leaderboards.forEach(element => {
-        if (!element["AddedLast"]) {
-          this.prevPages.push(element["UserID"]);
-        }
+    if (this.UserData != null) {
+      this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+        this.Leaderboards = data;
+        this.Leaderboards.forEach(element => {
+          if (!element["AddedLast"]) {
+            this.prevPages.push(element["UserID"]);
+          }
+        });
       });
-    });
+      this._notificationsService.updateChatStatus();
+    }
   }
   previousClick() {
     if (this.pagePrev) {
@@ -52,6 +57,7 @@ export class LeaderboardsComponent implements OnInit {
           });
         });
     }
+    this._notificationsService.updateChatStatus();
   }
   nextClick() {
     if (this.pageNext) {
@@ -75,6 +81,7 @@ export class LeaderboardsComponent implements OnInit {
           }
         });
     }
+    this._notificationsService.updateChatStatus();
   }
   orberbyWeekly() {
     this.page = 0;
@@ -91,6 +98,7 @@ export class LeaderboardsComponent implements OnInit {
         }
       });
     });
+    this._notificationsService.updateChatStatus();
   }
   orberbyWeekend() {
     this.page = 0;
@@ -107,6 +115,7 @@ export class LeaderboardsComponent implements OnInit {
         }
       });
     });
+    this._notificationsService.updateChatStatus();
   }
   orberbyStreak() {
     this.page = 0;
@@ -123,6 +132,7 @@ export class LeaderboardsComponent implements OnInit {
         }
       });
     });
+    this._notificationsService.updateChatStatus();
   }
   orberbyTotal() {
     this.page = 0;
@@ -139,5 +149,6 @@ export class LeaderboardsComponent implements OnInit {
         }
       });
     });
+    this._notificationsService.updateChatStatus();
   }
 }

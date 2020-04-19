@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-play',
@@ -11,7 +12,7 @@ export class PlayComponent implements OnInit {
   public PlayServersTemp: any;
   public UserData: any;
   public Sockets = [];
-  constructor(private _appService: AppService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -33,6 +34,7 @@ export class PlayComponent implements OnInit {
           this.Sockets.push(sessionSocket);
         });
       });
+      this._notificationsService.updateChatStatus();
     }
 
   }

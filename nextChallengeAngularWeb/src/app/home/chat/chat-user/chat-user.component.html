@@ -1,11 +1,12 @@
 <ul class="nav nav-tabs contact-list" style="border: none;">
     <li class="router-link" [routerLink]="fromUrl" *ngIf="userData['_id'] != chat['FromUserId']; else elseblock" >
-        <a href="#contact-1" data-toggle="tab">
+        <a>
             <div class="contact">
                 <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                <span [ngClass]="chatStatusClassesFrom" style="top: 50px; left: 35px;" ></span>
                 <div class="msg-preview">
                     <h6>{{chat["FromUsers"][0]["FirstName"]}} {{chat["FromUsers"][0]["LastName"]}}</h6>
-                    <p class="text-muted" style="height: 15px;">{{chat["LatestMessage"]["MessageContent"]}}</p>
+                    <p class="text-muted" style="height: 15px;" #messageContent  ></p>
                     <small class="text-muted">{{dateTime}}</small>
                     <div class="chat-alert" *ngIf="chat['UnreadMessagesCount'] > 0; else messageStatus" >{{chat['UnreadMessagesCount'] }}</div>
                     <ng-template #messageStatus>
@@ -17,12 +18,13 @@
     </li>
     <ng-template #elseblock>
         <li class="router-link" [routerLink]="toUrl" >
-            <a href="#contact-2" data-toggle="tab">
+            <a>
                 <div class="contact">
                     <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                    <span [ngClass]="chatStatusClassesTo" style="top: 50px; left: 35px;" ></span>
                     <div class="msg-preview">
                         <h6>{{chat["ToUsers"][0]["FirstName"]}} {{chat["ToUsers"][0]["LastName"]}}</h6>
-                        <p class="text-muted" style="height: 15px;">{{chat["LatestMessage"]["MessageContent"]}}</p>
+                        <p class="text-muted" style="height: 15px;" #messageContent ></p>
                         <small class="text-muted">{{dateTime}}</small>
                         <div class="seen"><i class="icon ion-reply"></i></div>
                     </div>

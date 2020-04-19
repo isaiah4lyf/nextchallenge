@@ -1,5 +1,6 @@
 import { HostListener, Component, OnInit } from "@angular/core";
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: "app-default",
@@ -7,13 +8,13 @@ import { AppService } from "../.././services/app.service";
   styleUrls: ["./default.component.css"]
 })
 export class DefaultComponent implements OnInit {
-  private UserData: any;
+  public UserData: any;
   public posts: any;
   public postsTemp: any;
   public lastPostID: string;
   public postsRequested = true;
 
-  constructor(private _appService: AppService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -25,6 +26,7 @@ export class DefaultComponent implements OnInit {
           this.postsRequested = false;
         }
       });
+      this._notificationsService.updateChatStatus();
     }
   }
   @HostListener("window:scroll", ["$event"])
@@ -41,6 +43,7 @@ export class DefaultComponent implements OnInit {
           this.postsRequested = false;
         }
       });
+      this._notificationsService.updateChatStatus();
     }
   }
 }

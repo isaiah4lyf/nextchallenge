@@ -11,6 +11,8 @@ namespace nextchallengeWebAPI.Models
     {
         [XmlIgnore]
         public ObjectId _id { get; set; }
+        public ObjectId TimelineUserID { set; get; }
+        public bool PostOnTimeline { set; get; }
         public string PostContent { get; set; }
         public string FileType { set; get; }
         public ObjectId UserID { set; get; }
@@ -21,6 +23,8 @@ namespace nextchallengeWebAPI.Models
     {
         [XmlIgnore]
         public ObjectId _id { get; set; }
+        public ObjectId TimelineUserID { set; get; }
+        public bool PostOnTimeline { set; get; }
         public string PostContent { get; set; }
         public ObjectId UserID { set; get; }
         public string FileType { set; get; }

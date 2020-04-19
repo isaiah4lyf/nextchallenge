@@ -21,6 +21,8 @@ namespace nextchallengeWebAPI.Models
         public string Gender { get; set; }
         public string City { get; set; }
         public string AboutMe { get; set; }
+        public string ChatStatus { get; set; }
+        public int Attempts { get; set; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }
@@ -36,6 +38,8 @@ namespace nextchallengeWebAPI.Models
         public string Gender { get; set; }
         public string City { get; set; }
         public string AboutMe { get; set; }
+        public string ChatStatus { get; set; }
+        public int Attempts { get; set; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }
@@ -69,6 +73,7 @@ namespace nextchallengeWebAPI.Models
         public string Gender { get; set; }
         public string City { get; set; }
         public string AboutMe { get; set; }
+        public string ChatStatus { get; set; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
 
@@ -89,6 +94,7 @@ namespace nextchallengeWebAPI.Models
                 Gender = userPost.Gender,
                 City = userPost.City,
                 AboutMe = userPost.AboutMe,
+                ChatStatus = userPost.ChatStatus,
                 ProfilePic = userPost.ProfilePic,
                 ProfileCoverPic = userPost.ProfileCoverPic
             };

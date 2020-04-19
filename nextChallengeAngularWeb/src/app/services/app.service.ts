@@ -8,14 +8,25 @@ import { NgForm } from "@angular/forms";
   providedIn: "root"
 })
 export class AppService {
-  private configUrl = "http://localhost:44357/api/index/";
+  private configUrl = "http://www.nextchallenge.co.za:93/api/index/";
   private httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
   private httpOptionsMultipart = { headers: new HttpHeaders({ "Content-Type": "multipart/form-data; boundary=--------------------------654287500409823045608277" }) };
   private UserData = null;
   private UserViewData = null;
   private SessionContentGlobal: any;
+  private Configurations: any = null;
 
   constructor(private router: Router, private http: HttpClient) { }
+
+  setconfigurations(Configurations) {
+    this.Configurations = Configurations;
+  }
+  getconfigurations() {
+    return this.Configurations;
+  }
+  retrieveconfigurations() {
+    return this.http.get(this.configUrl + "retrieveconfigurations", this.httpOptions);
+  }
   setSssionContents(SessionContents) {
     this.SessionContentGlobal = SessionContents;
   }
@@ -24,6 +35,9 @@ export class AppService {
   }
   login(form: NgForm) {
     return this.http.get(this.configUrl + "login?email=" + form.value.Email + "&password=" + form.value.Password);
+  }
+  retrievelogonupdate(userid) {
+    return this.http.get(this.configUrl + "retrievelogonupdate?userid=" + userid, this.httpOptions);
   }
   logout() {
     this.setUserData(null);
@@ -39,6 +53,9 @@ export class AppService {
     this.http.post(this.configUrl + "updateprofilepic", form).subscribe(data => {
       callback(data);
     });
+  }
+  retrieveattemptscount(userid) {
+    return this.http.get(this.configUrl + "retrieveattemptscount?userid=" + userid, this.httpOptions);
   }
   updateprofilecoverpic(form, callback) {
     this.http.post(this.configUrl + "updateprofilecoverpic", form).subscribe(data => {
@@ -77,7 +94,7 @@ export class AppService {
   }
   setUserData(data) {
     this.UserData = data;
-    //localStorage.setItem("logon", JSON.stringify(data));  for keep signed in "localStorage.getItem("logon")"
+    //localStorage.setItem("logon", JSON.stringify(data));  //for keep signed in "localStorage.getItem("logon")"
     sessionStorage.setItem("logon", JSON.stringify(data));
   }
   getUserData() {
@@ -85,10 +102,36 @@ export class AppService {
 
       if (sessionStorage.getItem("logon") != "" && sessionStorage.getItem("logon") != null && sessionStorage.getItem("logon") != "null") {
         this.UserData = JSON.parse(sessionStorage.getItem("logon"));
-      } else {
+      }
+      /*
+      if (localStorage.getItem("logon") != "" && localStorage.getItem("logon") != null && localStorage.getItem("logon") != "null") {
+        this.UserData = JSON.parse(localStorage.getItem("logon"));
+      } 
+       */
+      else {
         this.router.navigate(["/login"]);
       }
     }
+    if (this.UserData != null)
+      if (this.UserData['ProfilePic'] == null)
+        this.UserData['ProfilePic'] = {
+          _id: "none",
+          FileName: "",
+          UserID: this.UserData['_id'],
+          FileType: "image",
+          UploadDateTime: new Date(),
+          FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+        };
+    if (this.UserData != null)
+      if (this.UserData['ProfileCoverPic'] == null)
+        this.UserData['ProfileCoverPic'] = {
+          _id: "none",
+          FileName: "",
+          UserID: this.UserData['_id'],
+          FileType: "image",
+          UploadDateTime: new Date(),
+          FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+        };
     return this.UserData;
   }
   retrieveUserDataWithName(name, viewername) {
@@ -116,14 +159,23 @@ export class AppService {
   retrievepostsafter(lastPostId, userid) {
     return this.http.get(this.configUrl + "retrievepostsafter?postid=" + lastPostId + "&userid=" + userid, this.httpOptions);
   }
+  retrievetimelineposts(userid, timelineuserid) {
+    return this.http.get(this.configUrl + "retrievetimelineposts?userid=" + userid + "&timelineuserid=" + timelineuserid, this.httpOptions);
+  }
+  retrievetimelinepostsafter(lastPostId, userid, timelineuserid) {
+    return this.http.get(this.configUrl + "retrievetimelinepostsafter?postid=" + lastPostId + "&userid=" + userid + "&timelineuserid=" + timelineuserid, this.httpOptions);
+  }
   retrievepost(postid, userid) {
     return this.http.get(this.configUrl + "retrievepost?postid=" + postid + "&userid=" + userid, this.httpOptions);
   }
-  createComment(form: NgForm, formData: FormData) {
+  createComment(form: NgForm, formData: FormData, id) {
     this.http.post(this.configUrl + "createcomment", formData).subscribe(data => {
       setTimeout(() => {
-        form.reset();
-      }, 1000);
+        let elementHtml = document.getElementById(id) as HTMLElement;
+        if (elementHtml != null)
+          elementHtml.style.display = "none";
+      }, 500);
+
     });
   }
   retrievecomments(postid) {
@@ -155,7 +207,8 @@ export class AppService {
     let year = createdatetime.getFullYear() == currentdatetime.getFullYear() ? "" : createdatetime.getFullYear();
 
     let localeTime = createdatetime.toLocaleString().split(",")[1];
-    localeTime = localeTime.split(":")[0] + ":" + localeTime.split(":")[1] + " " + localeTime.split(" ")[2];
+    let PM = localeTime.split(" ").length > 2 ? localeTime.split(" ")[2] : "";
+    localeTime = localeTime.split(":")[0] + ":" + localeTime.split(":")[1] + " " + PM;
 
     if (yesterday)
       return "Yesterday" + " at " + localeTime;
@@ -208,6 +261,9 @@ export class AppService {
       callBack(data, messageId);
     });
   }
+  markmessagesasread(from, to) {
+    return this.http.put(this.configUrl + "markmessagesasread?from=" + from + "&to=" + to, []);
+  }
   retrievemessages(userone, usertwo) {
     return this.http.get(this.configUrl + "retrievemessages?userone=" + userone + "&usertwo=" + usertwo, this.httpOptions);
   }
@@ -249,6 +305,12 @@ export class AppService {
   search(query) {
     return this.http.get(this.configUrl + "search?query=" + query, this.httpOptions);
   }
+  createsearchhistory(search) {
+    return this.http.post(this.configUrl + "createsearchhistory", search);
+  }
+  retrievesearchhistory(userid) {
+    return this.http.get(this.configUrl + "retrievesearchhistory?userid=" + userid, this.httpOptions);
+  }
   retrievegalleryfiles(userid) {
     return this.http.get(this.configUrl + "retrievegalleryfiles?userid=" + userid, this.httpOptions);
   }
@@ -272,5 +334,32 @@ export class AppService {
   }
   retrieveheaderstats(userid) {
     return this.http.get(this.configUrl + "retrieveheaderstats?userid=" + userid, this.httpOptions);
+  }
+  retrievesuggestions(userid) {
+    return this.http.get(this.configUrl + "retrievesuggestions?userid=" + userid, this.httpOptions);
+  }
+  createactivity(activity) {
+    return this.http.post(this.configUrl + "createactivity", activity);
+  }
+  retrieveactivities(userid) {
+    return this.http.get(this.configUrl + "retrieveactivities?userid=" + userid, this.httpOptions);
+  }
+  retrieveattemptsprices() {
+    return this.http.get(this.configUrl + "retrieveattemptsprices", this.httpOptions);
+  }
+  updateattemptpuchase(purchase) {
+    return this.http.put(this.configUrl + "updateattemptpuchase", purchase);
+  }
+  retrieveattemptpuchase(purchaseid) {
+    return this.http.get(this.configUrl + "retrieveattemptpuchase?purchaseid=" + purchaseid, this.httpOptions);
+  }
+  updatesetting(setting) {
+    return this.http.put(this.configUrl + "updatesetting", setting);
+  }
+  retrievesettings(userid) {
+    return this.http.get(this.configUrl + "retrievesettings?userid=" + userid, this.httpOptions);
+  }
+  retrievehelpitems() {
+    return this.http.get(this.configUrl + "retrievehelpitems", this.httpOptions);
   }
 }

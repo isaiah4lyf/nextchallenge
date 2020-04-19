@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-friend-requests',
@@ -12,17 +13,20 @@ export class FriendRequestsComponent implements OnInit {
   public FriendRequestsTemp: any;
   public lastFriendshipId: string;
   public friendshipsRequested = true;
-  constructor(private _appService: AppService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    this._appService.retrievefriendshiprequests(this.UserData["_id"]).subscribe(data => {
-      this.FriendRequests = data;
-      if (this.FriendRequests.length > 11) {
-        this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
-        this.friendshipsRequested = false;
-      }
-    });
+    if (this.UserData != null) {
+      this._appService.retrievefriendshiprequests(this.UserData["_id"]).subscribe(data => {
+        this.FriendRequests = data;
+        if (this.FriendRequests.length > 11) {
+          this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
+          this.friendshipsRequested = false;
+        }
+      });
+      this._notificationsService.updateChatStatus();
+    }
   }
   approveFriendship(friendship) {
     for (let index = 0; index < this.FriendRequests.length; index++) {

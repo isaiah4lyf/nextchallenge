@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b6793917-a7a8-4937-a557-8c62a67b440b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_annotation_annotation_1_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_appcompat_appcompat_1_0_2_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_arch_core_core_common_2_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_arch_core_core_runtime_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_asynclayoutinflater_asynclayoutinflater_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_collection_collection_1_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_1_1_3_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_constraintlayout_constraintlayout_solver_1_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_coordinatorlayout_coordinatorlayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_core_core_1_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_cursoradapter_cursoradapter_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_customview_customview_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_documentfile_documentfile_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_drawerlayout_drawerlayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_fragment_fragment_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_interpolator_interpolator_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_legacy_legacy_support_core_ui_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_legacy_legacy_support_core_utils_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_common_2_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_livedata_core_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_runtime_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_viewmodel_2_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_loader_loader_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_localbroadcastmanager_localbroadcastmanager_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_print_print_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_slidingpanelayout_slidingpanelayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_swiperefreshlayout_swiperefreshlayout_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_1_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_1_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_1_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_1_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_1_0_1_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_vectordrawable_vectordrawable_animated_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_versionedparcelable_versionedparcelable_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_viewpager_viewpager_1_0_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_2_0_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_gson_gson_2_8_6_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_javawriter_2_1_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp_okhttp_2_5_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_6_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_codec_commons_codec_1_9_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_logging_commons_logging_1_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_inject_javax_inject_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_sf_kxml_kxml2_2_3_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_http_legacy_android_29.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_httpcomponents_httpclient_4_5_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_httpcomponents_httpclient_android_4_3_5_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_httpcomponents_httpcore_4_4_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_httpcomponents_httpmime_4_3_6_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_integration_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_library_1_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_java_websocket_Java_WebSocket_1_3_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__tech_gusavila92_java_android_websocket_client_1_2_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_df$socket$/src/notifications/NotificationsEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/../_df$socket$/src/notifications/NotificationsEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_df$socket$/src/notifications/models/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../_df$socket$/src/notifications/models/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_df$socket$/src/services/NotificationsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../_df$socket$/src/services/NotificationsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_df$socket$/src/services/SessionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../_df$socket$/src/services/SessionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/header/header.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/header/header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/header/header.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/buy-attempts/buy-attempts.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/buy-attempts/buy-attempts.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/buy-attempts/buy-attempts.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/buy-attempts/buy-attempts.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/chat/chat-user/chat-user.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/chat/chat-user/chat-user.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/chat/chat-user/chat-user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/chat/chat-user/chat-user.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/chat/chat.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/chat/chat.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/contact/contact.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/contact/contact.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/create-post/create-post.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/create-post/create-post.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/create-post/create-post.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/create-post/create-post.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/default/default.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/default/default.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/default/default.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/default/default.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/friend-requests/friend-requests.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/friend-requests/friend-requests.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/help/help.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/help/help.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/help/help.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/help/help.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/leaderboards/leaderboards.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/leaderboards/leaderboards.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/notifications/notifications.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/notifications/notifications.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/notifications/notifications.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/notifications/notifications.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/open-chat/open-chat.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/open-chat/open-chat.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/open-chat/open-chat.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/open-chat/open-chat.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/open-chat/open-chat.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/open-chat/open-chat.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/play/play.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/play/play.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/comment/comment.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/comment/comment.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/comment/comment.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/comment/comment.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/comment/comment.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/comment/comment.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/post-view.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/post-view.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/post-view.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/post-view.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/post-view.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post-view/post-view.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post/post.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post/post.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post/post.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post/post.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post/post.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/post/post.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/prizes/prizes.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/prizes/prizes.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/session/session-answer/session-answer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/session/session-answer/session-answer.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/session/session-message/session-message.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/session/session-message/session-message.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/session/session.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/session/session.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/sessions/sessions.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/sessions/sessions.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/settings/settings.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/settings/settings.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/settings/settings.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/home/settings/settings.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/index/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/index/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/index/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/index/register/register.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/navigation-menu/navigation-menu.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/navigation-menu/navigation-menu.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/navigation-menu/navigation-menu.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/navigation-menu/navigation-menu.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/navigation-menu/navigation-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/navigation-menu/navigation-menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/about-edit/about-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/about-edit/about-edit.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/about-view/about-view.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/about-view/about-view.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/change-password/change-password.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/change-password/change-password.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/education/education.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/education/education.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/interests/interests.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/interests/interests.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/settings/settings.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/settings/settings.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/work/work.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/about/work/work.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/friends/friends.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/friends/friends.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/gallery/gallery.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/gallery/gallery.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/gallery/gallery.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/gallery/gallery.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/profile.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/profile.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/timeline/timeline.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/timeline/timeline.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/timeline/timeline.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/profile/timeline/timeline.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/services/app.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/services/app.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/services/notifications.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/services/notifications.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/suggestions/suggestions.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/suggestions/suggestions.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/suggestions/suggestions.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/app/suggestions/suggestions.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../nextChallengeAngularWeb/src/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/Server/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/Server/sqlite3/storage.ide" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/Server/sqlite3/storage.ide-shm" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/Server/sqlite3/storage.ide-shm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/Server/sqlite3/storage.ide-wal" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/.vs/nextchallengeWebAPI/v16/Server/sqlite3/storage.ide-wal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Controllers/indexController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Controllers/indexController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/ActiveChats.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/Search.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/Search.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/post.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Models/post.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Web.config" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/Web.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/bin/nextchallengeWebAPI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/bin/nextchallengeWebAPI.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/bin/nextchallengeWebAPI.dll.config" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/bin/nextchallengeWebAPI.dll.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/bin/nextchallengeWebAPI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/bin/nextchallengeWebAPI.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/nextchallengeWebAPI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/nextchallengeWebAPI.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/obj/Debug/nextchallengeWebAPI.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/obj/Debug/nextchallengeWebAPI.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/obj/Debug/nextchallengeWebAPI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/obj/Debug/nextchallengeWebAPI.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/obj/Debug/nextchallengeWebAPI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../nextchallengeWebAPI/nextchallengeWebAPI/obj/Debug/nextchallengeWebAPI.pdb" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_29" />
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="32" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="32" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/next/challenge/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="255" column="65" selection-start-line="255" selection-start-column="65" selection-end-line="255" selection-end-column="65" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7217#7509#0" expanded="true" />
+                <element signature="e#7508#7509#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="41" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="41" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/next/challenge/app_service.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="55" column="14" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1187#1188#0" expanded="true" />
+                <element signature="e#1051#2187#0" expanded="true" />
+                <element signature="e#2186#2187#0" expanded="true" />
+                <element signature="e#2690#2691#0" expanded="true" />
+                <element signature="e#3661#3662#0" expanded="true" />
+                <element signature="e#3727#3728#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/next/challenge/NotificationData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="29" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="29" />
+              <folding>
+                <element signature="e#223#224#0" expanded="true" />
+                <element signature="e#250#251#0" expanded="true" />
+                <element signature="e#289#290#0" expanded="true" />
+                <element signature="e#316#317#0" expanded="true" />
+                <element signature="e#358#359#0" expanded="true" />
+                <element signature="e#397#398#0" expanded="true" />
+                <element signature="e#553#554#0" expanded="true" />
+                <element signature="e#592#593#0" expanded="true" />
+                <element signature="e#746#747#0" expanded="true" />
+                <element signature="e#783#784#0" expanded="true" />
+                <element signature="e#842#843#0" expanded="true" />
+                <element signature="e#889#890#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="61" selection-start-line="6" selection-start-column="45" selection-end-line="6" selection-end-column="61" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/next/challenge/NotificationData.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/next/challenge/app_service.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/next/challenge/MainActivity.java" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1427" />
+    <option name="y" value="-8" />
+    <option name="width" value="1346" />
+    <option name="height" value="688" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="nextChallengeAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="nextChallengeAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
+            </path>
+            <path>
+              <item name="nextChallengeAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="nextChallengeAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="challenge" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="nextChallengeAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="R58M41HQR9B" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-04-17T18:32:49.667Z" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="android.sdk.path" value="$PROJECT_DIR$/../AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b6793917-a7a8-4937-a557-8c62a67b440b" name="Default Changelist" comment="" />
+      <created>1587140667532</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587140667532</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.19296375" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Build Variants" order="4" side_tool="true" />
+      <window_info id="Image Layers" order="5" />
+      <window_info id="Designer" order="6" />
+      <window_info id="Resources Explorer" order="7" />
+      <window_info id="Capture Tool" order="8" />
+      <window_info anchor="bottom" id="Find" />
+      <window_info anchor="bottom" id="Run" order="0" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="1" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="TODO" order="2" weight="0.32936078" />
+      <window_info anchor="bottom" id="Debug" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="4" weight="0.32936078" />
+      <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="6" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32936078" />
+      <window_info anchor="bottom" id="Android Profiler" order="8" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Gradle" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Preview" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="61" selection-start-line="6" selection-start-column="45" selection-end-line="6" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/os/Looper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/next/challenge/NotificationData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="29" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="29" />
+          <folding>
+            <element signature="e#223#224#0" expanded="true" />
+            <element signature="e#250#251#0" expanded="true" />
+            <element signature="e#289#290#0" expanded="true" />
+            <element signature="e#316#317#0" expanded="true" />
+            <element signature="e#358#359#0" expanded="true" />
+            <element signature="e#397#398#0" expanded="true" />
+            <element signature="e#553#554#0" expanded="true" />
+            <element signature="e#592#593#0" expanded="true" />
+            <element signature="e#746#747#0" expanded="true" />
+            <element signature="e#783#784#0" expanded="true" />
+            <element signature="e#842#843#0" expanded="true" />
+            <element signature="e#889#890#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="41" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="41" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="32" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/next/challenge/app_service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="55" column="14" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1187#1188#0" expanded="true" />
+            <element signature="e#1051#2187#0" expanded="true" />
+            <element signature="e#2186#2187#0" expanded="true" />
+            <element signature="e#2690#2691#0" expanded="true" />
+            <element signature="e#3661#3662#0" expanded="true" />
+            <element signature="e#3727#3728#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/next/challenge/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="255" column="65" selection-start-line="255" selection-start-column="65" selection-end-line="255" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7217#7509#0" expanded="true" />
+            <element signature="e#7508#7509#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -9,9 +9,11 @@
                             <h5>Richard Bell</h5>
                         </td>
                         <td style="width: 75px;" valign="middle">
-                            <small class="text-muted" style="position: relative; top: 0px;">{{ResponseTime}} </small>
-                            <i class="icon ion-android-done-all"
-                                style="position: absolute; font-size: 24px; right: 10px;"></i>
+                            <small class="text-muted" style="width: 120px !important; top: 10px;"><span
+                                    style="position: absolute; right: 18px;">{{ResponseTime}}</span>
+                                <i class="icon ion-android-done-all"
+                                    style="position: absolute; font-size: 24px; right: -10px;"></i>
+                            </small>
                         </td>
                     </tr>
                 </table>
@@ -23,7 +25,8 @@
         <div class="chat-item" style="padding-bottom: 1px;">
             <div class="chat-item-header">
                 <h5>Sarah Cruiz</h5>
-                <small id="{{message['MessageLocalId']}}" class="text-muted" style="width: 80px !important; top: 10px;">
+        
+                <small id="{{message['MessageLocalId']}}" class="text-muted" style="width: 120px !important; top: 10px;">
                     <div class="loader"></div>
                 </small>
             </div>
@@ -40,7 +43,8 @@
         <div class="chat-item chat-item-session-incorrect" style="background-color: #ffcccb; padding-bottom: 1px;">
             <div class="chat-item-header" style="border-bottom: 1px dotted #FFA6A6;">
                 <h5>Richard Bell</h5>
-                <small class="text-muted" style="width: 80px !important; top: 10px;">{{ResponseTime}}
+                <small class="text-muted" style="width: 120px !important; top: 10px;"><span
+                        style="position: absolute; right: 12px;">{{ResponseTime}}</span>
                     <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: -10px;"></i>
                 </small>
             </div>
@@ -52,9 +56,11 @@
                 <source src="" type="video/mp4"> </video>
         </div>
     </li>
-    <li *ngIf="message['Command'] == 'LEFT_SESSION' || message['Command'] == 'JOINED_SESSION'" class="left" style="margin-bottom: 5px;">
+    <li *ngIf="message['Command'] == 'LEFT_SESSION' || message['Command'] == 'JOINED_SESSION'" class="left"
+        style="margin-bottom: 5px;">
         <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
-        <div class="chat-item chat-item-session-joined-left" style="background: rgba(39, 170, 225, 0.1); padding-bottom: 0px !important;">
+        <div class="chat-item chat-item-session-joined-left"
+            style="background: rgba(39, 170, 225, 0.1); padding-bottom: 0px !important;">
             <div class="chat-item-header" style="border: none; height: 40px;">
                 <table style="width: 100%; height: 24px;">
                     <tr>
@@ -62,8 +68,11 @@
                             <h5>Richard Bell <i>{{message["Message"]}}</i></h5>
                         </td>
                         <td style="width: 75px;" valign="middle">
-                            <small class="text-muted" style="position: relative; top: 0px;">{{message["DateTime"]}} </small>
-                            <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: 10px;"></i>
+                            <small class="text-muted" style="width: 120px !important; top: 10px;"><span
+                                    style="position: absolute; right: 12px;">{{message["DateTime"]}}</span>
+                                <i class="icon ion-forward"
+                                    style="position: absolute; font-size: 24px; right: -10px;"></i>
+                            </small>
                         </td>
                     </tr>
                 </table>

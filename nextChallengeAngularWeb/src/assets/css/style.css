@@ -50,6 +50,47 @@ body {
   width: 100%;
 }
 
+.led-green-global {
+  position: absolute;
+  left: 50px;
+  top: 60px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #8dc63f;
+  border: 2px solid white;
+}
+.led-red-global {
+  position: absolute;
+  left: 50px;
+  top: 60px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e72e2eb6;
+  border: 2px solid white;
+}
+.led-yellow-global {
+  position: absolute;
+  left: 50px;
+  top: 60px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e0d865;
+  border: 2px solid white;
+}
+.led-silver-global {
+  position: absolute;
+  left: 50px;
+  top: 60px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: silver;
+  border: 2px solid white;
+}
+
 .page-title-div {
   font-family: "Agency FB", sans-serif;
   font-style: normal;
@@ -1219,8 +1260,8 @@ textarea {
       rgba(39, 170, 225, 0.8),
       rgba(28, 117, 188, 0.8)
     ),
-    url("http://placehold.it/1030x430") no-repeat;
-  background-size: cover;
+    url("assets/images/image_placeholder.jpg") no-repeat;
+  background-size: cover !important;
   width: 100%;
   min-height: 90px;
   border-radius: 4px;
@@ -1556,7 +1597,8 @@ video.post-video,
 /*Chat Contact List*/
 
 .chat-room ul.contact-list li {
-  width: 100%;
+  width: 96%;
+  margin-left: 2%;
   margin-bottom: 0;
 }
 

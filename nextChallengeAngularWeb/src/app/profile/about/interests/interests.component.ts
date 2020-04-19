@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from "../../.././services/app.service";
+import { NotificationsService } from "../../.././services/notifications.service";
 
 @Component({
   selector: 'app-interests',
@@ -29,16 +30,19 @@ export class InterestsComponent implements OnInit {
     }
   ];
   public CommonInterestsSearch = [];
-  constructor(private _appService: AppService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    this._appService.retrieveinterests(this.UserData["_id"]).subscribe(data => {
-      this.MyInterestsTemp = data;
-      this.MyInterestsTemp.forEach(element => {
-        this.MyInterests.push(element);
+    if (this.UserData != null) {
+      this._appService.retrieveinterests(this.UserData["_id"]).subscribe(data => {
+        this.MyInterestsTemp = data;
+        this.MyInterestsTemp.forEach(element => {
+          this.MyInterests.push(element);
+        });
       });
-    });
+      this._notificationsService.updateChatStatus();
+    }
   }
   addInterest(interestbox) {
     if (interestbox.value != "") {
@@ -55,8 +59,9 @@ export class InterestsComponent implements OnInit {
         this.MyInterests.push(data);
       interestbox.value = "";
       data["UserID"] = this.UserData["_id"]
-      this._appService.createinterest(JSON.stringify(data)).subscribe(data => {});
+      this._appService.createinterest(JSON.stringify(data)).subscribe(data => { });
     }
+    this._notificationsService.updateChatStatus();
   }
   interestTextBoxChange(interestbox) {
     let data = [];
@@ -66,13 +71,16 @@ export class InterestsComponent implements OnInit {
       }
     });
     this.CommonInterestsSearch = data;
+    this._notificationsService.updateChatStatus();
   }
   selectInterest(interest, interestbox) {
     interestbox.value = interest['InterestName'];
     this.CommonInterestsSearch = [];
+    this._notificationsService.updateChatStatus();
   }
   removeInterent(i) {
-    this._appService.deleteinterest(this.MyInterests[i]["_id"]).subscribe(data => {console.log(data);});
+    this._appService.deleteinterest(this.MyInterests[i]["_id"]).subscribe(data => { console.log(data); });
     this.MyInterests.splice(i, 1);
+    this._notificationsService.updateChatStatus();
   }
 }

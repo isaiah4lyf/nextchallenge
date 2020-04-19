@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppService } from "../../.././services/app.service";
+import { NotificationsService } from "../../.././services/notifications.service";
 import { FormControl, FormGroup, FormArray, FormBuilder, NgForm } from '@angular/forms';
 
 @Component({
@@ -12,7 +13,7 @@ export class WorkComponent implements OnInit {
   public form: FormGroup;
   public UserData: any;
   public CompanyData: any;
-  constructor(private fb: FormBuilder, private _appService: AppService) {
+  constructor(private fb: FormBuilder, private _appService: AppService, private _notificationsService: NotificationsService) {
     this.form = this.fb.group({
       companies: this.fb.array([]),
     });
@@ -20,23 +21,25 @@ export class WorkComponent implements OnInit {
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
-    this._appService.retrievecompanies(this.UserData["_id"]).subscribe(data => {
-      const companies = this.form.controls.companies as FormArray;
-      this.CompanyData = data;
-      this.CompanyData.forEach(element => {
-        companies.push(this.fb.group({
-          _id: element._id,
-          UserID: element.UserID,
-          Designation: element.Designation,
-          Name: element.Name,
-          From: element.From,
-          To: element.To,
-          CityOrTown: element.CityOrTown,
-          Description: element.Description
-        }));
+    if (this.UserData != null) {
+      this._appService.retrievecompanies(this.UserData["_id"]).subscribe(data => {
+        const companies = this.form.controls.companies as FormArray;
+        this.CompanyData = data;
+        this.CompanyData.forEach(element => {
+          companies.push(this.fb.group({
+            _id: element._id,
+            UserID: element.UserID,
+            Designation: element.Designation,
+            Name: element.Name,
+            From: element.From,
+            To: element.To,
+            CityOrTown: element.CityOrTown,
+            Description: element.Description
+          }));
+        });
       });
-
-    });
+      this._notificationsService.updateChatStatus();
+    }
   }
   sumbitWork() {
     let data = [];
@@ -44,6 +47,7 @@ export class WorkComponent implements OnInit {
       data.push(element);
     });
     this._appService.updatecompanies(JSON.stringify(data)).subscribe(data => { });
+    this._notificationsService.updateChatStatus();
   }
   addCompanies() {
     const companies = this.form.controls.companies as FormArray;
@@ -57,6 +61,7 @@ export class WorkComponent implements OnInit {
       CityOrTown: '',
       Description: ''
     }));
+    this._notificationsService.updateChatStatus();
   }
   cmpare(index) {
     return index;
@@ -65,5 +70,6 @@ export class WorkComponent implements OnInit {
     const companies = this.form.controls.companies as FormArray;
     if (companies.at(i).value._id != null) this._appService.deletecompany(companies.at(i).value._id).subscribe(data => { });
     companies.removeAt(i);
+    this._notificationsService.updateChatStatus();
   }
 }

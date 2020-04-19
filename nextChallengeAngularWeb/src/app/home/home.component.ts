@@ -8,11 +8,8 @@ import { AppService } from ".././services/app.service";
 })
 export class HomeComponent implements OnInit {
   private UserData = null;
-
-  mobileScreen =
-    document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
-  desktopScreen =
-    document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
+  public mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+  public desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
 
   constructor(private _appService: AppService) { }
 
@@ -21,9 +18,7 @@ export class HomeComponent implements OnInit {
   }
   @HostListener("window:resize", ["$event"])
   onResized(event): void {
-    this.mobileScreen =
-      document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
-    this.desktopScreen =
-      document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
+    this.mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
+    this.desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
   }
 }

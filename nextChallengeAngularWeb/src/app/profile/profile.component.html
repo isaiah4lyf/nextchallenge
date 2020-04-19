@@ -36,6 +36,8 @@
                                     style="display: none;" />
                             </div>
                             <img #propicPrev src="{{profilePicLink}}" alt="" class="img-responsive profile-photo" />
+                            <span [ngClass]="chatStatusClasses"
+                                style="top: 180px; left: 135px; width: 23px; height: 23px; border: 3px solid white;"></span>
                             <h3>{{UserData["FirstName"]}} {{UserData["LastName"]}}</h3>
                             <p class="text-muted">Creative Director</p>
                         </div>
@@ -85,6 +87,8 @@
                             style="display: none;" />
                     </div>
                     <img #propicPrevMob src="{{profilePicLink}}" alt="" class="img-responsive profile-photo" />
+                    <span [ngClass]="chatStatusClasses"
+                        style="top: 179px; left: 53%; width: 23px; height: 23px; border: 3px solid white;"></span>
                     <h4>Sarah Cruiz</h4>
                     <p class="text-muted">Creative Director</p>
                 </div>
@@ -140,37 +144,21 @@
                     <router-outlet></router-outlet>
 
                 </div>
-                <div class="col-md-2 static" *ngIf="desktopScreen" >
+                <div class="col-md-2 static" *ngIf="desktopScreen">
                     <div id="sticky-sidebar">
-                        <h4 class="grey">Sarah's activity</h4>
-                        <div class="feed-item">
-                            <div class="live-activity">
-                                <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
-                                <p class="text-muted">5 mins ago</p>
+                        <h4 class="grey">{{UserData["FirstName"]}}'s activity</h4>
+                        <ng-container *ngFor="let activity of activities">
+                            <div class="feed-item">
+                                <div class="live-activity router-link" routerLink="{{'/post/' + activity['_redirect'] }}" >
+                                    <p><a class="profile-link">{{UserData["FirstName"]}}</a>
+                                        {{activity["Content"]}}</p>
+                                    <p class="text-muted">{{convertDateTimeToWord(activity["CreateDateTime"],activity["DateTimeNow"])}}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="feed-item">
-                            <div class="live-activity">
-                                <p><a href="#" class="profile-link">Sarah</a> Has posted a photo</p>
-                                <p class="text-muted">an hour ago</p>
-                            </div>
-                        </div>
-                        <div class="feed-item">
-                            <div class="live-activity">
-                                <p><a href="#" class="profile-link">Sarah</a> Liked her friend's post</p>
-                                <p class="text-muted">4 hours ago</p>
-                            </div>
-                        </div>
-                        <div class="feed-item">
-                            <div class="live-activity">
-                                <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
-                                <p class="text-muted">a day ago</p>
-                            </div>
-                        </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

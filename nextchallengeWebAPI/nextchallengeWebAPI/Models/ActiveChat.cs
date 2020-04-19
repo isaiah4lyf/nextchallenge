@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace nextchallengeWebAPI.Models
 {
-    public class ActiveChats
+    public class ActiveChat
     {
         public ObjectId FromUserId { set; get;}
         public ObjectId ToUserId { set; get;}

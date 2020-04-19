@@ -1,0 +1,14 @@
+.textarea {
+    outline: none;
+    background: #888;
+    border: #888 1px solid;
+    display: block;
+    position: relative;
+    resize: vertical;
+    overflow: auto;
+    height: 50px;
+  }
+  [contentEditable="true"]:empty:not(:focus):before {
+    content: attr(data-text);
+  }
+  

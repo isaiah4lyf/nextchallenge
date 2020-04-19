@@ -1,29 +1,25 @@
 <div class="page-title-div">Buy attempts</div>
 <div class="line-divider"></div>
 <div class="container" style="width: 101%; margin-top: 25px;">
-    <div class="row" style="margin-bottom: 15px;">
-        <div class="custom-col">
-            <div class="custom-col-text">300 attempts</div>
-            <div class="custom-col-text"><b>R 5.00</b></div>
-            <button class="custom-col-button" type="submit" >buy</button>
-        </div>
-        <div class="custom-col">
-            <div class="custom-col-text">300 attempts</div>
-            <div class="custom-col-text"><b>R 5.00</b></div>
-            <button class="custom-col-button" type="submit" >buy</button>
-        </div>
-    </div>
-    <div class="row" style="margin-bottom: 8px;">
-        <div class="custom-col">
-            <div class="custom-col-text">300 attempts</div>
-            <div class="custom-col-text"><b>R 5.00</b></div>
-            <button class="custom-col-button" type="submit" >buy</button>
-        </div>
-        <div class="custom-col">
-            <div class="custom-col-text">300 attempts</div>
-            <div class="custom-col-text"><b>R 5.00</b></div>
-            <button class="custom-col-button" type="submit"  >buy</button>
+    <div class="row" style="margin-bottom: 15px;"  >
+        <div *ngFor="let price of AttemptsPrices" class="custom-col" style="margin-bottom: 8px;">
+            <div class="custom-col-text" style="margin-bottom: 2px;">{{price["AttemptsCount"]}} attempts</div>
+            <div class="custom-col-text" style="margin-bottom: 2px;"><b>R {{price["Price"]}}</b></div>
+            <button class="custom-col-button" (click)="createPurchase(createPurchaseSpinner,price,purchaseForm)" >buy</button>
+            <form #purchaseForm action="{{PayFastURL}}" method="POST"  >
+                <input type="hidden" name="merchant_id" value="{{MerchantId}}" />
+                <input type="hidden" name="merchant_key" value="{{MerchantKey}}" />
+                <input type="hidden" name="return_url" value="{{ReturnUrl + CurrentPurchaseId }}"  />
+                <input type="hidden" name="notify_url" value="{{NotifyUrl}}" />
+                <input type="hidden" name="cancel_url" value="{{CancelURL + CurrentPurchaseId }}" />
+                <input type="hidden" name="m_payment_id" value="{{CurrentPurchaseId}}" />
+                <input type="hidden" name="email_address" value="{{UserData['EmailRegistration']}}" />
+                <input type="hidden" name="amount"  [value]="price['Price']" />
+                <input type="hidden" name="item_name"  value="{{price['AttemptsCount'] + ' Attempts'}}" />
+            </form>
         </div>
     </div>
 </div>
-
+<div #createPurchaseSpinner id="spinner-wrapper" style="display: none;">
+    <div class="spinner" style="z-index: 9;"></div>
+</div>

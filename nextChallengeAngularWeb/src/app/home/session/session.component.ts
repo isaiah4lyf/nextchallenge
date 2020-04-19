@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { AppService } from "../.././services/app.service";
+import { NotificationsService } from "../.././services/notifications.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -19,7 +20,7 @@ export class SessionComponent implements OnInit {
   public element: HTMLElement;
   public UserData = null;
   public ServerData: any;
-  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -32,7 +33,8 @@ export class SessionComponent implements OnInit {
           this.sessionContents.forEach(element => {
             if (JSON.stringify(element).includes("MessageLocalId")) {
               let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
-              if(elementHtml != null) elementHtml.innerHTML = new Date(element["DateTime"]).toLocaleString().split(",")[1] + ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+              if (elementHtml != null) elementHtml.innerHTML = '<span style="position: absolute; right: 12px;">' + new Date(element["DateTime"]).toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
+
             }
           });
         }, 500);
@@ -49,7 +51,7 @@ export class SessionComponent implements OnInit {
           this.sessionSocket.onclose = this.processClose;
         }
       });
-
+      this._notificationsService.updateChatStatus();
     }
   }
   ngOnDestroy() {
@@ -173,16 +175,19 @@ export class SessionComponent implements OnInit {
         let dateTime = new Date();
         let element = document.getElementById("message-local-" + String(this.MessageLocalIdInc - 1)) as HTMLElement;
         if (element != null)
-          element.innerHTML = dateTime.toLocaleString().split(",")[1] + ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+          element.innerHTML = '<span style="position: absolute; right: 12px;">' + dateTime.toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
       }, 100);
     }
     this.fileType = "none";
+    this._notificationsService.updateChatStatus();
   }
   filesUploadCallBack = (result, extraParam, extraParam1): void => {
     let data = JSON.parse(result.toString());
     let dateTime = new Date(data[0]["UploadDateTime"]);
     let element = document.getElementById("message-local-" + String(extraParam - 1)) as HTMLElement;
-    element.innerHTML = dateTime.toLocaleString().split(",")[1] + ' <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -8px;"></i>';
+
+    element.innerHTML = '<span style="position: absolute; right: 12px;">' + dateTime.toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
+
     let messageData = {
       Command: "INCORRECT_ANSWER",
       CommandJsonData: JSON.stringify({

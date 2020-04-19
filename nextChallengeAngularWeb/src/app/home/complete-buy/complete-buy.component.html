@@ -1,0 +1,28 @@
+<div class="page-title-div">Purchase processed</div>
+<div class="line-divider" style="margin-bottom: 8px; width: 100%;"></div>
+<div class="container" style="width: 101%; margin-top: 25px;" *ngIf="DataLoaded" >
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="custom-col" style="margin-bottom: 8px; width: 99%;">
+            <div class="custom-col-text" style="margin-bottom: 7px; margin-left: 10px;">{{AttemptsPurchaseData['Prices'][0]['AttemptsCount']}} attempts</div>
+            <div class="custom-col-text" style="width: calc(100% - 20px); margin-bottom: 10px; margin-left: 10px;"><b>R {{AttemptsPurchaseData['Prices'][0]['Price']}}</b><span style="float: right; font-size: 12px;">{{DateTime}}</span></div>
+            <div class="custom-col-text text-green" style="width: calc(100% - 20px); margin-bottom: 5px; margin-left: 10px;">Your purchase has been processed successfully!</div>
+            <div class="line-divider" style="width: calc(100% - 20px); margin-left: 10px;"></div>
+            <button (click)="backButton()" class="custom-col-button" style="width: calc(50% - 15px); background-color: #f8f8f8; color: rgb(114, 113, 113); border: 1px solid silver; margin-left: 10px;">back</button>
+            <button (click)="createPurchase(createPurchaseSpinner,purchaseForm)"  class="custom-col-button" style="width: calc(50% - 15px); border: 1px solid #0794c1; margin-left: 10px;">repeat</button>
+            <form #purchaseForm action="{{PayFastURL}}" method="POST"  >
+                <input type="hidden" name="merchant_id" value="{{MerchantId}}" />
+                <input type="hidden" name="merchant_key" value="{{MerchantKey}}" />
+                <input type="hidden" name="return_url" value="{{ReturnUrl + CurrentPurchaseId }}"  />
+                <input type="hidden" name="notify_url" value="{{NotifyUrl}}" />
+                <input type="hidden" name="cancel_url" value="{{CancelURL + CurrentPurchaseId }}" />
+                <input type="hidden" name="m_payment_id" value="{{CurrentPurchaseId}}" />
+                <input type="hidden" name="email_address" value="{{UserData['EmailRegistration']}}" />
+                <input type="hidden" name="amount" [value]="AttemptsPurchaseData['Prices'][0]['Price']" />
+                <input type="hidden" name="item_name"  value="{{AttemptsPurchaseData['Prices'][0]['AttemptsCount'] + ' Attempts'}}" />
+            </form>
+        </div>
+    </div>
+</div>
+<div #createPurchaseSpinner id="spinner-wrapper" style="display: none;">
+    <div class="spinner" style="z-index: 9;"></div>
+</div>

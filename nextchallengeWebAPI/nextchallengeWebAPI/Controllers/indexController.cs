@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
+
 namespace nextchallengeWebAPI.Controllers
 {
     public class indexController : ApiController
@@ -47,6 +48,21 @@ namespace nextchallengeWebAPI.Controllers
             collection.InsertOne(user);
             Leaderboard leaderboard = new Leaderboard() { UserID = user._id };
             collectionLeaderboards.InsertOne(leaderboard);
+            var collectionDefault = database.GetCollection<DefaultSetting>("DefaultSettings");
+            List<DefaultSetting> settingsTemplate = collectionDefault.Find(new BsonDocument()).ToList();
+            List<Setting> newUserSettings = new List<Setting>();
+            foreach (DefaultSetting setting in settingsTemplate)
+                newUserSettings.Add(new Setting()
+                {
+                    UserID = user._id,
+                    Name = setting.Name,
+                    Label = setting.Label,
+                    Type = setting.Type,
+                    Description = setting.Description,
+                    Value = setting.Value,
+                    ValueNum = setting.ValueNum
+                });
+            database.GetCollection<Setting>("Settings").InsertMany(newUserSettings);
             return user;
         }
         [Route("api/index/updatebasicinfo")]
@@ -75,6 +91,32 @@ namespace nextchallengeWebAPI.Controllers
             collection.ReplaceOne(u => u._id == usertemp._id, usertemp);
             return usertemp;
         }
+        [Route("api/index/updatechatstatus")]
+        [HttpPut]
+        public long updatechatstatus(string userid,string chatstatus)
+        {
+            var collection = database.GetCollection<User>("Users");
+            var update = Builders<User>.Update.Set(u => u.ChatStatus, chatstatus);
+            return collection.UpdateOne(u => u._id == ObjectId.Parse(userid), update).ModifiedCount;
+        }
+        [Route("api/index/updateattempts")]
+        [HttpPut]
+        public long updateattempts(string userid,int attemptscount)
+        {
+            var collection = database.GetCollection<User>("Users");
+            var update = Builders<User>.Update.Set(u => u.Attempts, attemptscount);
+            return collection.UpdateOne(u => u._id == ObjectId.Parse(userid), update).ModifiedCount;
+        }
+        [Route("api/index/retrieveattemptscount")]
+        [HttpGet]
+        public int retrieveattemptscount(string userid)
+        {
+            var collection = database.GetCollection<User>("Users");
+            User user = (from u in collection.AsQueryable()
+                         where u._id == ObjectId.Parse(userid)
+                         select u).FirstOrDefault();
+            return user.Attempts;
+        }
         [Route("api/index/updateprofilepic")]
         [HttpPost]
         public async Task<HttpResponseMessage> updateprofilepic()
@@ -95,7 +137,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -132,7 +174,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -158,6 +200,15 @@ namespace nextchallengeWebAPI.Controllers
             if (user != null) user.Password = null;
             return user;
         }
+        [Route("api/index/retrievelogonupdate")]
+        [HttpGet]
+        public User retrievelogonupdate(string userid)
+        {
+            var collection = database.GetCollection<User>("Users");
+            User user = collection.Find(x => x._id == ObjectId.Parse(userid)).FirstOrDefault();
+            if (user != null) user.Password = null;
+            return user;
+        }
         [Route("api/index/retrieveuser")]
         [HttpGet]
         public UserViewProfile retrieveuser(string name, string viewername)
@@ -180,6 +231,7 @@ namespace nextchallengeWebAPI.Controllers
                                         Gender = u.Gender,
                                         City = u.City,
                                         AboutMe = u.AboutMe,
+                                        ChatStatus = u.ChatStatus,
                                         ProfilePic = u.ProfilePic,
                                         ProfileCoverPic = u.ProfileCoverPic
                                     }).FirstOrDefault();
@@ -308,7 +360,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -325,6 +377,8 @@ namespace nextchallengeWebAPI.Controllers
             post.Files = files;
             post.FileType = provider.FormData["FileType"];
             post.UserID = ObjectId.Parse(provider.FormData["UserID"]);
+            post.TimelineUserID = ObjectId.Parse(provider.FormData["TimelineUserID"]);
+            post.PostOnTimeline = provider.FormData["PostOnTimeline"] == "true";
             post.CreateDateTime = datetime;
             collectionPosts.InsertOne(post);
 
@@ -342,6 +396,7 @@ namespace nextchallengeWebAPI.Controllers
 
             List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
                                         join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                                        where !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid)
                                         orderby p.CreateDateTime descending
                                         select new PostDetailed()
                                         {
@@ -379,7 +434,82 @@ namespace nextchallengeWebAPI.Controllers
 
             List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
                                         join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
-                                        where p.CreateDateTime < post.CreateDateTime
+                                        where p.CreateDateTime < post.CreateDateTime && !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid)
+                                        orderby p.CreateDateTime descending
+                                        select new PostDetailed()
+                                        {
+                                            _id = p._id,
+                                            PostContent = p.PostContent,
+                                            FileType = p.FileType,
+                                            UserID = p.UserID,
+                                            CreateDateTime = p.CreateDateTime,
+                                            DateTimeNow = DateTime.Now,
+                                            Files = p.Files,
+                                            Users = (List<User>)user
+                                        }).Take(4).ToList();
+            for (int i = 0; i < posts.Count; i++)
+            {
+                posts.ElementAt(i).Comments = retrievecomments(posts.ElementAt(i)._id.ToString());
+                posts.ElementAt(i).CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).PostLiked = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id && d.UserID == ObjectId.Parse(userid))) > 0;
+                posts.ElementAt(i).PostDisLiked = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id && d.UserID == ObjectId.Parse(userid))) > 0;
+
+            }
+            return posts;
+        }
+        [Route("api/index/retrievetimelineposts")]
+        [HttpGet]
+        public List<PostDetailed> retrievetimelineposts(string userid,string timelineuserid)
+        {
+            var collectionPosts = database.GetCollection<Post>("Posts");
+            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionComments = database.GetCollection<Comment>("Comments");
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLikes");
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
+
+            List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
+                                        join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                                        where p.TimelineUserID == ObjectId.Parse(timelineuserid)
+                                        orderby p.CreateDateTime descending
+                                        select new PostDetailed()
+                                        {
+                                            _id = p._id,
+                                            PostContent = p.PostContent,
+                                            FileType = p.FileType,
+                                            UserID = p.UserID,
+                                            CreateDateTime = p.CreateDateTime,
+                                            DateTimeNow = DateTime.Now,
+                                            Files = p.Files,
+                                            Users = (List<User>)user
+                                        }).Take(4).ToList();
+            for (int i = 0; i < posts.Count; i++)
+            {
+                posts.ElementAt(i).Comments = retrievecomments(posts.ElementAt(i)._id.ToString());
+                posts.ElementAt(i).CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id));
+                posts.ElementAt(i).PostLiked = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id && d.UserID == ObjectId.Parse(userid))) > 0;
+                posts.ElementAt(i).PostDisLiked = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == posts.ElementAt(i)._id && d.UserID == ObjectId.Parse(userid))) > 0;
+            }
+            return posts;
+        }
+        [Route("api/index/retrievetimelinepostsafter")]
+        [HttpGet]
+        public List<PostDetailed> retrievetimelinepostsafter(string postid, string userid, string timelineuserid)
+        {
+            var collectionPosts = database.GetCollection<Post>("Posts");
+            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionComments = database.GetCollection<Comment>("Comments");
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLikes");
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
+            ObjectId objecto = ObjectId.Parse(postid);
+            Post post = collectionPosts.Find(new BsonDocument("_id", objecto)).FirstOrDefault();
+
+            List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
+                                        join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                                        where p.CreateDateTime < post.CreateDateTime && p.TimelineUserID == ObjectId.Parse(timelineuserid)
                                         orderby p.CreateDateTime descending
                                         select new PostDetailed()
                                         {
@@ -413,31 +543,40 @@ namespace nextchallengeWebAPI.Controllers
             var collectionComments = database.GetCollection<Comment>("Comments");
             var collectionPostLikes = database.GetCollection<PostLike>("PostLikes");
             var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
-            ObjectId objecto = ObjectId.Parse(postid);
+            try
+            {
+                ObjectId objecto = ObjectId.Parse(postid);
 
-            PostDetailed post = (from p in collectionPosts.AsQueryable()
-                                 join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
-                                 where p._id == objecto
-                                 orderby p.CreateDateTime descending
-                                 select new PostDetailed()
-                                 {
-                                     _id = p._id,
-                                     PostContent = p.PostContent,
-                                     FileType = p.FileType,
-                                     UserID = p.UserID,
-                                     CreateDateTime = p.CreateDateTime,
-                                     DateTimeNow = DateTime.Now,
-                                     Files = p.Files,
-                                     Users = (List<User>)user
-                                 }).FirstOrDefault();
-            post.Comments = retrievecomments(post._id.ToString());
-            post.CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == post._id));
-            post.LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == post._id));
-            post.DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == post._id));
-            post.PostLiked = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == post._id && d.UserID == ObjectId.Parse(userid))) > 0;
-            post.PostDisLiked = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == post._id && d.UserID == ObjectId.Parse(userid))) > 0;
+                PostDetailed post = (from p in collectionPosts.AsQueryable()
+                                     join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                                     where p._id == objecto
+                                     orderby p.CreateDateTime descending
+                                     select new PostDetailed()
+                                     {
+                                         _id = p._id,
+                                         PostContent = p.PostContent,
+                                         FileType = p.FileType,
+                                         UserID = p.UserID,
+                                         CreateDateTime = p.CreateDateTime,
+                                         DateTimeNow = DateTime.Now,
+                                         Files = p.Files,
+                                         Users = (List<User>)user
+                                     }).FirstOrDefault();
+                post.Comments = retrievecomments(post._id.ToString());
+                post.CommentsCount = Convert.ToInt32(collectionComments.CountDocuments(c => c.PostID == post._id));
+                post.LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == post._id));
+                post.DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == post._id));
+                post.PostLiked = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == post._id && d.UserID == ObjectId.Parse(userid))) > 0;
+                post.PostDisLiked = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == post._id && d.UserID == ObjectId.Parse(userid))) > 0;
 
-            return post;
+                return post;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return null;
+            }
+
         }
         [Route("api/index/createcomment")]
         [HttpPost]
@@ -459,7 +598,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["UserID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -684,7 +823,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["FromUserID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -707,24 +846,35 @@ namespace nextchallengeWebAPI.Controllers
             collectionMessages.InsertOne(message);
             var collectionUsers = database.GetCollection<User>("Users");
             MessageDetailed detailedMessage = (from m in collectionMessages.AsQueryable()
-                                              join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
-                                              join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
-                                              where m._id == message._id
-                                              select new MessageDetailed()
-                                              {
-                                                  _id = m._id,
-                                                  MessageRead = m.MessageRead,
-                                                  FileType = m.FileType,
-                                                  MessageContent = m.MessageContent,
-                                                  FromUserID = m.FromUserID,
-                                                  ToUserID = m.ToUserID,
-                                                  CreateDateTime = m.CreateDateTime,
-                                                  DateTimeNow = DateTime.Now,
-                                                  Files = m.Files,
-                                                  FromUsers = (List<User>)fromusers,
-                                                  ToUsers = (List<User>)tousers
-                                              }).FirstOrDefault();
+                                               join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
+                                               join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
+                                               where m._id == message._id
+                                               select new MessageDetailed()
+                                               {
+                                                   _id = m._id,
+                                                   MessageRead = m.MessageRead,
+                                                   FileType = m.FileType,
+                                                   MessageContent = m.MessageContent,
+                                                   FromUserID = m.FromUserID,
+                                                   ToUserID = m.ToUserID,
+                                                   CreateDateTime = m.CreateDateTime,
+                                                   DateTimeNow = DateTime.Now,
+                                                   Files = m.Files,
+                                                   FromUsers = (List<User>)fromusers,
+                                                   ToUsers = (List<User>)tousers
+                                               }).FirstOrDefault();
             return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(detailedMessage));
+        }
+        [Route("api/index/markmessagesasread")]
+        [HttpPut]
+        public long markmessagesasread(string from, string to)
+        {
+            var collectionMessages = database.GetCollection<Message>("Messages");
+            var collectionUsers = database.GetCollection<User>("Users");
+            User fromuser = collectionUsers.Find(u => u.Email == from + atNextMail).FirstOrDefault();
+            User touser = collectionUsers.Find(u => u.Email == to + atNextMail).FirstOrDefault();
+            var update = Builders<Message>.Update.Set(m => m.MessageRead, true);
+            return collectionMessages.UpdateMany(m => m.FromUserID == fromuser._id && m.ToUserID == touser._id, update).ModifiedCount;
         }
         [Route("api/index/retrievemessages")]
         [HttpGet]
@@ -792,9 +942,8 @@ namespace nextchallengeWebAPI.Controllers
         public int retrieveundreadmessagescount(string userone, string usertwo)
         {
             var collectionMessages = database.GetCollection<Message>("Messages");
-            var inq = new ObjectId[] { ObjectId.Parse(userone), ObjectId.Parse(usertwo) };
             return (from m in collectionMessages.AsQueryable()
-                    where inq.Contains(m.FromUserID) && inq.Contains(m.ToUserID) && !m.MessageRead
+                    where m.FromUserID == ObjectId.Parse(userone) && m.ToUserID == ObjectId.Parse(usertwo) && !m.MessageRead
                     select m._id
                    ).Count();
         }
@@ -821,16 +970,16 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/retrieveactivechats")]
         [HttpGet]
-        public List<ActiveChats> retrieveactivechats(string userid)
+        public List<ActiveChat> retrieveactivechats(string userid)
         {
             var collectionUsers = database.GetCollection<User>("Users");
             var collectionMessages = database.GetCollection<Message>("Messages");
 
-            List<ActiveChats> chats = (from m in collectionMessages.AsQueryable()
+            List<ActiveChat> chats = (from m in collectionMessages.AsQueryable()
                                        join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
                                        join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
                                        where m.FromUserID == ObjectId.Parse(userid) || m.ToUserID == ObjectId.Parse(userid)
-                                       select new ActiveChats()
+                                       select new ActiveChat()
                                        {
                                            FromUserId = m.FromUserID,
                                            ToUserId = m.ToUserID,
@@ -845,17 +994,16 @@ namespace nextchallengeWebAPI.Controllers
                 chats.ElementAt(i).LastMessageDate = chats.ElementAt(i).LatestMessage.CreateDateTime;
             }
             chats = chats.OrderByDescending(c => c.LastMessageDate).ToList();
-            List<ActiveChats> activeChats = new List<ActiveChats>();
-            foreach (ActiveChats chat in chats)
-            {
-                if (!activeChats.Any(item => item.FromUserId == chat.ToUserId && item.ToUserId == chat.FromUserId))
-                    activeChats.Add(chat);
-            }
-            for (int i = 0; i < activeChats.Count; i++)
-            {
-                activeChats.ElementAt(i).UnreadMessagesCount = retrieveundreadmessagescount(chats.ElementAt(i).FromUserId.ToString(), chats.ElementAt(i).ToUserId.ToString());
-            }
-            return activeChats;
+            List<ActiveChat> ActiveChat = new List<ActiveChat>();
+            foreach (ActiveChat chat in chats)
+                if (!ActiveChat.Any(item => item.FromUserId == chat.ToUserId && item.ToUserId == chat.FromUserId))
+                    ActiveChat.Add(chat);
+
+            for (int i = 0; i < ActiveChat.Count; i++)
+                if (!chats.ElementAt(i).LatestMessage.FromUserID.ToString().Equals(userid))
+                    ActiveChat.ElementAt(i).UnreadMessagesCount = retrieveundreadmessagescount(chats.ElementAt(i).LatestMessage.FromUserID.ToString(), userid);
+
+            return ActiveChat;
         }
 
         [Route("api/index/createdefaultsessionchallenge")]
@@ -878,7 +1026,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["ChallengeCreatorID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -932,7 +1080,7 @@ namespace nextchallengeWebAPI.Controllers
                 fileUpload.UserID = ObjectId.Parse(provider.FormData["FileUploaderID"]);
                 fileUpload.FileType = provider.FormData["FileType"];
                 fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
-                fileUpload.FileBaseUrls = new List<string> { Request.RequestUri.GetLeftPart(UriPartial.Authority) };
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
                 fileUpload.UploadDateTime = datetime;
                 collectionFiles.InsertOne(fileUpload);
                 string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
@@ -1403,7 +1551,7 @@ namespace nextchallengeWebAPI.Controllers
                                      where querySplit.Contains(u.FirstName) && querySplit.Contains(u.LastName)
                                      select new Search()
                                      {
-                                         _id = u.Email,
+                                         _redirect = u.Email,
                                          SearchContent = u.FirstName + " " + u.LastName,
                                          SearchType = "user"
                                      }).ToList();
@@ -1415,13 +1563,13 @@ namespace nextchallengeWebAPI.Controllers
                                              where (u.FirstName.ToLower().Contains(querySplit[0]) && u.LastName.ToLower().Contains(querySplit[1])) || (u.FirstName.ToLower().Contains(querySplit[1]) && u.LastName.ToLower().Contains(querySplit[0]))
                                              select new Search()
                                              {
-                                                 _id = u.Email,
+                                                 _redirect = u.Email,
                                                  SearchContent = u.FirstName + " " + u.LastName,
                                                  SearchType = "user"
                                              }).ToList();
                 foreach (Search search in searchesTemp)
                 {
-                    if (!searches.Any(s => s._id == search._id))
+                    if (!searches.Any(s => s._redirect == search._redirect))
                         searches.Add(search);
                 }
             }
@@ -1431,25 +1579,61 @@ namespace nextchallengeWebAPI.Controllers
                                              where u.FirstName.ToLower().Contains(query) || u.LastName.ToLower().Contains(query)
                                              select new Search()
                                              {
-                                                 _id = u.Email,
+                                                 _redirect = u.Email,
                                                  SearchContent = u.FirstName + " " + u.LastName,
                                                  SearchType = "user"
                                              }).Take(5).ToList();
                 foreach (Search search in searchesTemp)
                 {
-                    if (!searches.Any(s => s._id == search._id))
+                    if (!searches.Any(s => s._redirect == search._redirect))
                         searches.Add(search);
                 }
             }
             searches = searches.Concat((from p in collectionPosts.AsQueryable()
-                                        where p.PostContent.ToLower().Contains(query) && !p.PostContent.Contains("<img style=")
+                                        where p.PostContent.ToLower().Contains(query) && !p.PostContent.Contains("<img class=")
                                         select new Search()
                                         {
-                                            _id = p._id.ToString(),
+                                            _redirect = p._id.ToString(),
                                             SearchContent = p.PostContent,
                                             SearchType = "post"
                                         }).Take(5).ToList()).ToList();
+            for (int i = 0; i < searches.Count; i++)
+                searches.ElementAt(i).SearchContent = searches.ElementAt(i).SearchContent.Replace("<div><br></div>", " ");
+
             return searches.Take(10).ToList();
+        }
+        [Route("api/index/createsearchhistory")]
+        [HttpPost]
+        public Search createsearchhistory([FromBody]SearchPost search)
+        {
+            Search searchConverted = new SearchConverter().Convert(search);
+            searchConverted.CreateDateTime = DateTime.Now;
+            var collection = database.GetCollection<Search>("SearchHistory");
+            List<Search> searchList = collection.Find(s => s._redirect == searchConverted._redirect && s.UserID == searchConverted.UserID).ToList();
+            if (searchList.Count > 0)
+            {
+                searchList.ElementAt(0).CreateDateTime = DateTime.Now;
+                collection.ReplaceOne(s => s._id == searchList.ElementAt(0)._id, searchList.ElementAt(0));
+                searchConverted = searchList.ElementAt(0);
+            }
+            else
+            {
+                collection.InsertOne(searchConverted);
+            }
+            return searchConverted;
+        }
+        [Route("api/index/retrievesearchhistory")]
+        [HttpGet]
+        public List<Search> retrievesearchhistory(string userid)
+        {
+            var collection = database.GetCollection<Search>("SearchHistory");
+            List<Search> searches = (from s in collection.AsQueryable()
+                                     where s.UserID == ObjectId.Parse(userid)
+                                     orderby s.CreateDateTime descending
+                                     select s).Take(10).ToList();
+            for (int i = 0; i < searches.Count; i++)
+                searches.ElementAt(i).SearchContent = searches.ElementAt(i).SearchContent.Replace("<div><br></div>", " ");
+            return searches;
         }
         [Route("api/index/retrievegalleryfiles")]
         [HttpGet]
@@ -1560,7 +1744,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/retrievenotificationsafter")]
         [HttpGet]
-        public List<NotificationDetailed> retrievenotificationsafter(string userid,string lastnotificationid)
+        public List<NotificationDetailed> retrievenotificationsafter(string userid, string lastnotificationid)
         {
             var collection = database.GetCollection<Notification>("Notifications");
             Notification notification = collection.Find(n => n._id == ObjectId.Parse(lastnotificationid)).FirstOrDefault();
@@ -1586,7 +1770,8 @@ namespace nextchallengeWebAPI.Controllers
             var collectionMessages = database.GetCollection<Message>("Messages");
             var collectionFriends = database.GetCollection<Friendship>("Friendships");
             var collectionNotifications = database.GetCollection<Notification>("Notifications");
-            return new HeaderStats() {
+            return new HeaderStats()
+            {
                 FriendRequests = (from f in collectionFriends.AsQueryable()
                                   where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved
                                   select f._id).Count(),
@@ -1594,10 +1779,384 @@ namespace nextchallengeWebAPI.Controllers
                                  where n.UserID == ObjectId.Parse(userid) && n.Read
                                  select n._id).Count(),
                 Messages = (from m in collectionMessages.AsQueryable()
-                            where m.ToUserID == ObjectId.Parse(userid)
+                            where m.ToUserID == ObjectId.Parse(userid) && !m.MessageRead
                             select m._id).Count()
 
             };
+        }
+        [Route("api/index/retrievesuggestions")]
+        [HttpGet]
+        public List<UserViewProfile> retrievesuggestions(string userid)
+        {
+            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionSearch = database.GetCollection<Search>("SearchHistory");
+            var collectionFriendship = database.GetCollection<Friendship>("Friendships");
+            var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
+
+            User currentuser = collectionUsers.Find(u => u._id == ObjectId.Parse(userid)).FirstOrDefault();
+            Leaderboard leaderboardcurrent = collectionLeaderboards.Find(l => l.UserID == ObjectId.Parse(userid)).FirstOrDefault();
+            List<Search> searches = (from s in collectionSearch.AsQueryable()
+                                     where s.UserID == ObjectId.Parse(userid) || s._redirect == currentuser.Email 
+                                     orderby s.CreateDateTime descending
+                                     select s).Take(10).ToList();
+            List<Leaderboard> _similarLeaderboards = (from l in collectionLeaderboards.AsQueryable()
+                                                      where l.WeeklyScore == leaderboardcurrent.WeeklyScore
+                                                      || l.HighestStreak == leaderboardcurrent.HighestStreak
+                                                      || l.TotalScore == leaderboardcurrent.TotalScore
+                                                      select l).Take(5).ToList();
+
+            var _inuserids = new ObjectId[searches.Count];
+            var _inuseremails = new string[searches.Count];
+            for (int i = 0; i < searches.Count; i++)
+            {
+                _inuserids[i] = searches.ElementAt(i).UserID;
+                _inuseremails[i] = searches.ElementAt(i)._redirect;
+            }
+
+            List<User> _similarUsers = (from u in collectionUsers.AsQueryable()
+                                        where _inuserids.Contains(u._id)
+                                        || _inuseremails.Contains(u.Email)
+                                        || currentuser.LastName == u.LastName
+                                        select u).Take(10).ToList();
+
+            var _userfiltered = new ObjectId[_similarUsers.Count + _similarLeaderboards.Count];
+
+            for (int i = 0; i < _similarUsers.Count; i++)
+                _userfiltered[i] = _similarUsers.ElementAt(i)._id;
+
+            int index = 0;
+            for (int i = _similarUsers.Count; i < _userfiltered.Length; i++)
+            {
+                _userfiltered[i] = _similarLeaderboards.ElementAt(index).UserID;
+                index++;
+            }
+
+            List<UserViewProfile> users = (from u in collectionUsers.AsQueryable()
+                                           where _userfiltered.Contains(u._id) && u._id != currentuser._id
+                                           select new UserViewProfile()
+                                           {
+                                               _id = u._id,
+                                               FirstName = u.FirstName,
+                                               LastName = u.LastName,
+                                               Email = u.Email,
+                                               DateOfBirth = u.DateOfBirth,
+                                               Gender = u.Gender,
+                                               City = u.City,
+                                               AboutMe = u.AboutMe,
+                                               ChatStatus = u.ChatStatus,
+                                               ProfilePic = u.ProfilePic,
+                                               ProfileCoverPic = u.ProfileCoverPic
+                                           }).ToList();
+            List<UserViewProfile> suggestions = new List<UserViewProfile>();
+            foreach (UserViewProfile user in users)
+            {
+                var _inids = new ObjectId[] { ObjectId.Parse(userid), user._id };
+                List<Friendship> friendships = collectionFriendship.Find(f => _inids.Contains(f.FriendshipStarterUserId) && _inids.Contains(f.FriendUserId)).ToList();
+                if (friendships.Count == 0)
+                {
+                    suggestions.Add(user);
+                }
+            }
+            Random rnd = new Random();
+            return suggestions.OrderBy<UserViewProfile, int>((item) => rnd.Next()).Take(5).ToList();
+        }
+        [Route("api/index/createactivity")]
+        [HttpPost]
+        public Activity createactivity([FromBody]ActivityPost activity)
+        {
+            var collection = database.GetCollection<Activity>("Activities");
+            Activity activityConverted = new ActivityConverter().Convert(activity);
+            activityConverted.CreateDateTime = DateTime.Now;
+            collection.InsertOne(activityConverted);
+            return activityConverted;
+        }
+        [Route("api/index/retrieveactivities")]
+        [HttpGet]
+        public List<Activity> retrieveactivities(string userid)
+        {
+            var collection = database.GetCollection<Activity>("Activities");
+            return (from a in collection.AsQueryable()
+                    where a.UserID == ObjectId.Parse(userid)
+                    orderby a.CreateDateTime descending
+                    select new Activity()
+                    {
+                        _id = a._id,
+                        UserID = a.UserID,
+                        Content = a.Content,
+                        ActivityType = a.ActivityType,
+                        _redirect = a._redirect,
+                        CreateDateTime = a.CreateDateTime,
+                        DateTimeNow = DateTime.Now
+                    }).Take(5).ToList();
+        }
+        [Route("api/index/updateconfiguration")]
+        [HttpPut]
+        public Configuration updateconfiguration([FromBody]ConfigurationPost configuration)
+        {
+            var collection = database.GetCollection<Configuration>("Configurations");
+            Configuration configurationConverted = new ConfigurationConverter().Convert(configuration);
+            configurationConverted.CreateDateTime = DateTime.Now;
+            if (configurationConverted._id == ObjectId.Parse("000000000000000000000000"))
+                collection.InsertOne(configurationConverted);
+
+            if (configurationConverted._id != ObjectId.Parse("000000000000000000000000"))
+                collection.ReplaceOne(l => l._id == configurationConverted._id, configurationConverted);
+
+            return configurationConverted;
+        }
+        [Route("api/index/retrieveconfigurations")]
+        [HttpGet]
+        public List<Configuration> retrieveconfigurations()
+        {
+            var collection = database.GetCollection<Configuration>("Configurations");
+            return collection.Find(new BsonDocument()).ToList();
+        }
+        [Route("api/index/updateattemptsprice")]
+        [HttpPut]
+        public AttemptsPrice updateattemptsprice([FromBody]AttemptsPricePost price)
+        {
+            var collection = database.GetCollection<AttemptsPrice>("AttemptsPrices");
+            AttemptsPrice priceConverted = new AttemptsPriceConverter().Convert(price);
+            if (priceConverted._id == ObjectId.Parse("000000000000000000000000"))
+                collection.InsertOne(priceConverted);
+
+            if (priceConverted._id != ObjectId.Parse("000000000000000000000000"))
+                collection.ReplaceOne(l => l._id == priceConverted._id, priceConverted);
+
+            return priceConverted;
+        }
+        [Route("api/index/retrieveattemptsprices")]
+        [HttpGet]
+        public List<AttemptsPrice> retrieveattemptsprices()
+        {
+            var collection = database.GetCollection<AttemptsPrice>("AttemptsPrices");
+            return (from a in collection.AsQueryable()
+                    orderby a.Price ascending
+                    select a).ToList();
+        }
+        [Route("api/index/updateattemptpuchase")]
+        [HttpPut]
+        public AttemptsPurchase updateattemptpuchase([FromBody]AttemptsPurchasePost purchase)
+        {
+            var collection = database.GetCollection<AttemptsPurchase>("AttemptsPurchases");
+            AttemptsPurchase purchaseConverted = new AttemptsPurchaseConverter().Convert(purchase);
+            purchaseConverted.PurchaseDateTime = DateTime.Now;
+            if (purchaseConverted._id == ObjectId.Parse("000000000000000000000000"))
+                collection.InsertOne(purchaseConverted);
+
+            if (purchaseConverted._id != ObjectId.Parse("000000000000000000000000"))
+                collection.ReplaceOne(l => l._id == purchaseConverted._id, purchaseConverted);
+
+            return purchaseConverted;
+        }
+
+        [Route("api/index/retrieveattemptpuchase")]
+        [HttpGet]
+        public AttemptsPurchaseDetailed retrieveattemptpuchase(string purchaseid)
+        {
+            try
+            {
+                var collection = database.GetCollection<AttemptsPurchase>("AttemptsPurchases");
+                var collectionPrices = database.GetCollection<AttemptsPrice>("AttemptsPrices");
+                return (from p in collection.AsQueryable()
+                        join a in collectionPrices.AsQueryable() on p.AttemptsPriceID equals a._id into prices
+                        where p._id == ObjectId.Parse(purchaseid)
+                        select new AttemptsPurchaseDetailed()
+                        {
+                            _id = p._id,
+                            UserID = p.UserID,
+                            AttemptsPriceID = p.AttemptsPriceID,
+                            Status = p.Status,
+                            PurchaseDateTime = p.PurchaseDateTime,
+                            Prices = (List<AttemptsPrice>) prices
+                        }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return null;
+            }
+
+        }
+        [Route("api/index/completeattemptpuchase")]
+        [HttpPost]
+        public IHttpActionResult completeattemptpuchase()
+        {
+            var collection = database.GetCollection<AttemptsPurchase>("AttemptsPurchases");
+            var status = HttpContext.Current.Request.Params["payment_status"];
+            var paymentid = HttpContext.Current.Request.Params["m_payment_id"];
+
+            var update = Builders<AttemptsPurchase>.Update.Set(p => p.Status, status);
+            collection.UpdateOne(u => u._id == ObjectId.Parse(paymentid), update);
+
+            if (status.Equals("COMPLETE")) 
+            {
+                var collectionPrices = database.GetCollection<AttemptsPrice>("AttemptsPrices");
+                AttemptsPurchase purchase = collection.Find(p => p._id == ObjectId.Parse(paymentid)).FirstOrDefault();
+                AttemptsPrice price = collectionPrices.Find(p => p._id == purchase.AttemptsPriceID).FirstOrDefault();
+                int attemptsCount = retrieveattemptscount(purchase.UserID.ToString());
+                updateattempts(purchase.UserID.ToString(), attemptsCount + price.AttemptsCount);
+            }
+            return Ok("ok");
+        }
+        [Route("api/index/createsetting")]
+        [HttpPost]
+        public string createsetting([FromBody]SettingPost setting)
+        {
+            var collection = database.GetCollection<Setting>("Settings");
+            var collectionDefault = database.GetCollection<DefaultSetting>("DefaultSettings");
+            var collectionUsers = database.GetCollection<User>("Users");
+            List<ObjectId> userids = (from u in collectionUsers.AsQueryable()
+                                      select u._id).ToList();
+            List<Setting> settingsForAll = new List<Setting>();
+            foreach (ObjectId objectId in userids)
+                settingsForAll.Add(new Setting()
+                {
+                    UserID = objectId,
+                    Name = setting.Name,
+                    Label = setting.Label,
+                    Type = setting.Type,
+                    Description = setting.Description,
+                    Value = setting.Value,
+                    ValueNum = setting.ValueNum
+                });
+            collection.InsertMany(settingsForAll);
+            collectionDefault.InsertOne(new DefaultSetting()
+            {
+                Name = setting.Name,
+                Label = setting.Label,
+                Type = setting.Type,
+                Description = setting.Description,
+                Value = setting.Value,
+                ValueNum = setting.ValueNum
+            });
+            return "success";
+        }
+        [Route("api/index/updatesettings")]
+        [HttpPut]
+        public string updatesettings([FromBody]Setting setting,string name)
+        {
+            var collection = database.GetCollection<Setting>("Settings");
+            var collectionDefault = database.GetCollection<DefaultSetting>("DefaultSettings");
+            var update = Builders<Setting>.Update.Set(s => s.Name, setting.Name)
+                                                 .Set(s => s.Label, setting.Label)
+                                                 .Set(s => s.Description, setting.Description)
+                                                 .Set(s => s.Value, setting.Value)
+                                                 .Set(s => s.ValueNum, setting.ValueNum)
+                                                 .Set(s => s.Type, setting.Type);
+            var updateDefault = Builders<DefaultSetting>.Update.Set(s => s.Name, setting.Name)
+                                                               .Set(s => s.Label, setting.Label)
+                                                               .Set(s => s.Description, setting.Description)
+                                                               .Set(s => s.Value, setting.Value)
+                                                               .Set(s => s.ValueNum, setting.ValueNum)
+                                                               .Set(s => s.Type, setting.Type);
+            collection.UpdateMany(s => s.Name == name, update);
+            collectionDefault.UpdateOne(s => s.Name == name, updateDefault);
+            return "success";
+        }
+        [Route("api/index/updatesetting")]
+        [HttpPut]
+        public Setting updatesetting([FromBody]SettingPost setting)
+        {
+            var collection = database.GetCollection<Setting>("Settings");
+            Setting settingConverted = new SettingConverter().Convert(setting);
+            collection.ReplaceOne(s => s._id == settingConverted._id, settingConverted);
+            return settingConverted;
+        } 
+        [Route("api/index/retrievesettings")]
+        [HttpGet]
+        public List<Setting> retrievesettings(string userid)
+        {
+            var collection = database.GetCollection<Setting>("Settings");
+            return collection.Find(s => s.UserID == ObjectId.Parse(userid)).ToList();
+        }
+        [Route("api/index/updatehelpitems")]
+        [HttpPut]
+        public List<HelpItem> updatehelpitems([FromBody]List<HelpItemPost> items)
+        {
+            var collection = database.GetCollection<HelpItem>("Help");
+            List<HelpItem> itemsConverted = new HelpItemConverter().ConvertMany(items);
+            foreach (HelpItem item in itemsConverted)
+            {
+                if (item._id == ObjectId.Parse("000000000000000000000000"))
+                    collection.InsertOne(item);
+                if (item._id != ObjectId.Parse("000000000000000000000000"))
+                    collection.ReplaceOne(s => s._id == item._id, item);
+            }
+            return itemsConverted;
+        }
+        [Route("api/index/deletehelpitem")]
+        [HttpDelete]
+        public string deletehelpitem(string helpitemid)
+        {
+            var collection = database.GetCollection<HelpItem>("Help");
+            collection.DeleteOne(h => h._id == ObjectId.Parse(helpitemid));
+            return "success";
+        }
+        [Route("api/index/retrievehelpitems")]
+        [HttpGet]
+        public Help retrievehelpitems()
+        {
+            var collection = database.GetCollection<HelpItem>("Help");
+            return new Help()
+            {
+                General = collection.Find(h => h.HelpTab == "General").ToList().OrderBy(h => h.SortBy).ToList(),
+                Account = collection.Find(h => h.HelpTab == "Account").ToList().OrderBy(h => h.SortBy).ToList(),
+                Privacy = collection.Find(h => h.HelpTab == "Privacy").ToList().OrderBy(h => h.SortBy).ToList(),
+                Other = collection.Find(h => h.HelpTab == "Other").ToList().OrderBy(h => h.SortBy).ToList()
+            };
+        }
+        [Route("api/index/createhelpinstruction")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> createhelpinstruction()
+        {
+            var collectionFiles = database.GetCollection<FileUpload>("Files");
+            var collectionHelp = database.GetCollection<HelpItem>("Help");
+
+            string root = HttpContext.Current.Server.MapPath("~/Files");
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            await Request.Content.ReadAsMultipartAsync(provider);
+
+            List<FileUpload> files = new List<FileUpload>();
+            DateTime datetime = DateTime.Now;
+            foreach (MultipartFileData file in provider.FileData)
+            {
+                FileUpload fileUpload = new FileUpload();
+                fileUpload.UserID = ObjectId.Parse(provider.FormData["InstructionCreatorID"]);
+                fileUpload.FileType = provider.FormData["Type"];
+                fileUpload.FileName = file.Headers.ContentDisposition.FileName.Replace('\"'.ToString(), String.Empty).Replace('"'.ToString(), String.Empty);
+                fileUpload.FileBaseUrls = new List<string> { System.Configuration.ConfigurationManager.AppSettings["WebUrl"] };
+                fileUpload.UploadDateTime = datetime;
+                collectionFiles.InsertOne(fileUpload);
+                string fileName = fileUpload._id.ToString() + "." + file.Headers.ContentDisposition.FileName.Split('.')[file.Headers.ContentDisposition.FileName.Split('.').Length - 1].Replace('\"'.ToString(), String.Empty);
+                File.Move(file.LocalFileName, Path.Combine(root, fileName));
+                List<string> newUrls = new List<string>();
+                foreach (string fileUpload1 in fileUpload.FileBaseUrls)
+                    newUrls.Add(fileUpload1 + "/files/" + fileName);
+                fileUpload.FileBaseUrls = newUrls;
+                collectionFiles.ReplaceOne(f => f._id == fileUpload._id, fileUpload);
+                files.Add(fileUpload);
+            }
+            Instruction instruction = new Instruction();
+            instruction.Type = provider.FormData["Type"];
+            instruction.Description = provider.FormData["Description"];
+            instruction.SortBy = Convert.ToInt32(provider.FormData["SortBy"]);
+            instruction.Value = instruction.Type == "Text" ? provider.FormData["Value"] : files.ElementAt(0).FileBaseUrls.ElementAt(0);
+            HelpItem help = collectionHelp.Find(h => h._id == ObjectId.Parse(provider.FormData["HelpItemId"])).FirstOrDefault();
+            help.Instructions.Add(instruction);
+            collectionHelp.ReplaceOne(h => h._id == help._id, help);
+            return Request.CreateResponse(HttpStatusCode.OK, "success");
+        }
+        [Route("api/index/deletehelpinstruction")]
+        [HttpDelete]
+        public string deletehelpinstruction(string helpitemid,int instructionsortby)
+        {
+            var collection = database.GetCollection<HelpItem>("Help");
+            HelpItem help = collection.Find(h => h._id == ObjectId.Parse(helpitemid)).FirstOrDefault();
+            help.Instructions.Remove(help.Instructions.Find(i => i.SortBy == instructionsortby));
+            collection.ReplaceOne(h => h._id == help._id, help);
+            return "success";
         }
     }
 }
