@@ -44,7 +44,7 @@ export class CommentComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.commentContent.nativeElement.innerHTML = this.comment["CommentContent"];
-    if (this.comment["FileType"] == "image" || this.comment["FileType"] == "video")
+    if (this.comment["FileType"] == "image" || this.comment["_id"].includes("temp"))
       this.commentFile.nativeElement.src = this.comment['Files'][0]['FileBaseUrls'][0];
   }
 }

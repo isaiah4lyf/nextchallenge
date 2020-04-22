@@ -5,7 +5,41 @@ public class JoinedSessionData {
 	private String LastName;
 	private String UserName;
 	private String UserId;
-	private String UserProPicId;
+    private String Email;
+    private String ChatStatus;
+	private FileUpload ProfilePic;
+    private FileUpload ProfileCoverPic;
+	private String RepsoneDateTime;
+	public String getRepsoneDateTime() {
+		return RepsoneDateTime;
+	}
+	public void setRepsoneDateTime(String repsoneDateTime) {
+		RepsoneDateTime = repsoneDateTime;
+	}
+	public String getEmail() {
+		return Email;
+	}
+	public void setEmail(String email) {
+		Email = email;
+	}
+	public String getChatStatus() {
+		return ChatStatus;
+	}
+	public void setChatStatus(String chatStatus) {
+		ChatStatus = chatStatus;
+	}
+	public FileUpload getProfilePic() {
+		return ProfilePic;
+	}
+	public void setProfilePic(FileUpload profilePic) {
+		ProfilePic = profilePic;
+	}
+	public FileUpload getProfileCoverPic() {
+		return ProfileCoverPic;
+	}
+	public void setProfileCoverPic(FileUpload profileCoverPic) {
+		ProfileCoverPic = profileCoverPic;
+	}
 	public String getFirstName() {
 		return FirstName;
 	}
@@ -29,12 +63,6 @@ public class JoinedSessionData {
 	}
 	public void setUserId(String userId) {
 		UserId = userId;
-	}
-	public String getUserProPicId() {
-		return UserProPicId;
-	}
-	public void setUserProPicId(String userProPicId) {
-		UserProPicId = userProPicId;
 	}
 
 }

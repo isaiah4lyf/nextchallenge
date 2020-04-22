@@ -32,8 +32,44 @@ public class SessionService {
 			      .POST(BodyPublishers.ofString(body))
 			      .build();
 	}
-	public User retrieveuser() {
-		return new User();
+	public HttpRequest putRequest(String actionParams,String body) {
+		return HttpRequest.newBuilder()
+			      .uri(URI.create(apiUrl + actionParams))
+			      .header("Content-Type", "application/json")
+			      .PUT(BodyPublishers.ofString(body))
+			      .build();
+	}
+	public User retrieveuser(String userid) {
+		User user = new User();
+		HttpResponse<String> response;
+		try {
+			response = client.send(getRequest("retrieveusermininfo?userid=" + userid), BodyHandlers.ofString());
+			user = new Gson().fromJson(response.body(), User.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return user;
+	}
+	public void updateattempts(String userid,int attemptscount) {
+		try {
+			client.send(putRequest("updateattempts?userid=" + userid + "&attemptscount=" + attemptscount,""), BodyHandlers.ofString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public int retrieveattemptscount(String userid) {
+		int attempts = 0;
+		HttpResponse<String> response;
+		try {
+			response = client.send(getRequest("retrieveattemptscount?userid=" + userid), BodyHandlers.ofString());
+			attempts = Integer.parseInt(response.body());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return attempts;
 	}
 	public List<DefaultSessionChallenge> retrievedefaultchallenges() {
 		Type listType = new TypeToken<List<DefaultSessionChallenge>>() {}.getType();

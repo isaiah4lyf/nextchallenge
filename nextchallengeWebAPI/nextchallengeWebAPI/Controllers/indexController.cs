@@ -195,6 +195,24 @@ namespace nextchallengeWebAPI.Controllers
             user.friendships = collectionFriendship.Find(f => objects.Contains(f.FriendshipStarterUserId) && objects.Contains(f.FriendUserId)).ToList();
             return user;
         }
+        [Route("api/index/retrieveusermininfo")]
+        [HttpGet]
+        public UserMinInfo retrieveusermininfo(string userid)
+        {
+            var collection = database.GetCollection<User>("Users");
+            return (from u in collection.AsQueryable()
+                    where u._id == ObjectId.Parse(userid)
+                    select new UserMinInfo()
+                    {
+                        _id = u._id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        ChatStatus = u.ChatStatus,
+                        ProfilePic = u.ProfilePic,
+                        ProfileCoverPic = u.ProfileCoverPic
+                    }).FirstOrDefault();
+        }
         [Route("api/index/updateschools")]
         [HttpPost]
         public List<School> updateschools([FromBody]List<SchoolPost> schools)

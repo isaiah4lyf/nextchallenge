@@ -1,12 +1,12 @@
 <ul class="chat-message">
     <li *ngIf="message['Command'] == 'CORRECT'" class="left" style="margin-bottom: 5px;">
-        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+        <img src='{{message["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
         <div class="chat-item" style="padding-bottom: 0px;">
             <div class="chat-item-header" style="border: none; height: 40px;">
                 <table style="width: 100%; height: 24px;">
                     <tr>
                         <td>
-                            <h5>Richard Bell</h5>
+                            <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a></h5>
                         </td>
                         <td style="width: 75px;" valign="middle">
                             <small class="text-muted" style="width: 120px !important; top: 10px;"><span
@@ -21,10 +21,10 @@
         </div>
     </li>
     <li *ngIf="message['Command'] == 'MESSAGE_LOCAL'" class="right" style="margin-bottom: 5px; padding-bottom: 1px;">
-        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
+        <img src='{{message["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-right" />
         <div class="chat-item" style="padding-bottom: 1px;">
             <div class="chat-item-header">
-                <h5>Sarah Cruiz</h5>
+                <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a></h5>
 
                 <small id="{{message['MessageLocalId']}}" class="text-muted"
                     style="width: 120px !important; top: 10px;">
@@ -40,10 +40,10 @@
         </div>
     </li>
     <li *ngIf="message['Command'] == 'INCORRECT_ANSWER'" class="left" style="margin-bottom: 5px;">
-        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+        <img src='{{message["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
         <div class="chat-item chat-item-session-incorrect" style="background-color: #ffcccb; padding-bottom: 1px;">
             <div class="chat-item-header" style="border-bottom: 1px dotted #FFA6A6;">
-                <h5>Richard Bell</h5>
+                <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a></h5>
                 <small class="text-muted" style="width: 120px !important; top: 10px;"><span
                         style="position: absolute; right: 12px;">{{ResponseTime}}</span>
                     <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: -10px;"></i>
@@ -68,18 +68,18 @@
     </li>
     <li *ngIf="message['Command'] == 'LEFT_SESSION' || message['Command'] == 'JOINED_SESSION'" class="left"
         style="margin-bottom: 5px;">
-        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+        <img src='{{message["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
         <div class="chat-item chat-item-session-joined-left"
             style="background: rgba(39, 170, 225, 0.1); padding-bottom: 0px !important;">
             <div class="chat-item-header" style="border: none; height: 40px;">
                 <table style="width: 100%; height: 24px;">
                     <tr>
                         <td>
-                            <h5>Richard Bell <i>{{message["Message"]}}</i></h5>
+                            <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"] + " "}}</a> <i>{{message["Message"]}}</i></h5>
                         </td>
                         <td style="width: 75px;" valign="middle">
                             <small class="text-muted" style="width: 120px !important; top: 10px;"><span
-                                    style="position: absolute; right: 12px;">{{message["DateTime"]}}</span>
+                                    style="position: absolute; right: 12px;">{{ResponseTime}}</span>
                                 <i class="icon ion-forward"
                                     style="position: absolute; font-size: 24px; right: -10px;"></i>
                             </small>

@@ -26,6 +26,17 @@ namespace nextchallengeWebAPI.Models
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }
+    public class UserMinInfo
+    {
+        [XmlIgnore]
+        public ObjectId _id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string ChatStatus { get; set; }
+        public FileUpload ProfilePic { get; set; }
+        public FileUpload ProfileCoverPic { get; set; }
+    }
     public class UserPost
     {
         public string _id { get; set; }

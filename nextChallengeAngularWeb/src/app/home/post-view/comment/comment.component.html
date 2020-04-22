@@ -12,7 +12,7 @@
         <br />
         <video #commentFile *ngIf='comment["FileType"] == "video" && comment["_id"].includes("temp")' class="post-video"
             style="width: 100%; height: auto; max-height: 500px;" controls>
-            <source src="" type="video/mp4"> </video>
+            <source src='' type="video/mp4"> </video>
         <div *ngIf='comment["FileType"] == "video" && !comment["_id"].includes("temp")' style="position: relative;">
             <!--Post Date End-->
             <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 500px;" preload="none"
@@ -25,7 +25,7 @@
                 src="assets/icons/play_vid.svg" alt="" />
         </div>
         <img #commentFile *ngIf='comment["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
-            src="" alt="" class="img-responsive post-image" />
+            src='' alt="" class="img-responsive post-image" />
         <span class="text-muted" style="font-size: 11px;">{{commentDate}}</span>
     </div>
 </div>

@@ -142,6 +142,14 @@ public class DefaultSession {
 		}
 
 	}
+	public void SetClientAttempts(String UserId,int attempts) {
+		for(int i = 0; i < SessionClientclients.size(); i++) {
+			if(SessionClientclients.get(i).getClientID().equals(UserId)) {
+				SessionClientclients.get(i).setAttempts(attempts);
+				break;
+			}
+		}
+	}
 	public void AddSessionClient(Client client)
 	{
 		SessionClientclients.add(client);

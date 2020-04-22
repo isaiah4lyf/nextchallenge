@@ -81,6 +81,26 @@ export class ProfileComponent implements OnInit {
       if (this.UserData["Email"].split("@")[0] == this.route.snapshot.paramMap.get("id")) {
         this.profileDataLoaded = true;
         this.isProfileView = false;
+        if (this.UserData != null)
+          if (this.UserData['ProfilePic'] == null)
+            this.UserData['ProfilePic'] = {
+              _id: "none",
+              FileName: "",
+              UserID: this.UserData['_id'],
+              FileType: "image",
+              UploadDateTime: new Date(),
+              FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+            };
+        if (this.UserData != null)
+          if (this.UserData['ProfileCoverPic'] == null)
+            this.UserData['ProfileCoverPic'] = {
+              _id: "none",
+              FileName: "",
+              UserID: this.UserData['_id'],
+              FileType: "image",
+              UploadDateTime: new Date(),
+              FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+            };
         if (this.UserData["ProfilePic"] != null)
           this.profilePicLink = this.UserData["ProfilePic"]["FileBaseUrls"][0];
         if (this.UserData["ProfileCoverPic"] != null)

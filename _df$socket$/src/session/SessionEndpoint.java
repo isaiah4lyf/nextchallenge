@@ -45,6 +45,9 @@ public class SessionEndpoint {
 		String command = messageData.getCommand();		
 		switch(command)
 		{
+			case "RETRIEVE_ATTEMPTS":
+				HandleRetrieveAttempts(messageData.getCommandJsonData(),clientSession);
+				break;
 			case "RETRIEVE_SESSIONS": 
 				RetrieveSessionsData data = new RetrieveSessionsData();
 				data.setClientID(messageData.getCommandJsonData());
@@ -110,6 +113,26 @@ public class SessionEndpoint {
 		}
 		System.out.println(e.toString());
 	}
+	private void HandleRetrieveAttempts(String UserID,Session clientSession) {
+		Client client = new Client();
+		for(DefaultSession session: GameSessions) {
+			List<Client> clients = session.getSessionClientclients().stream().filter(c -> c.getClientID().equals(UserID)).collect(Collectors.toList());
+			if(clients.size() > 0) {
+				client = clients.get(0);
+				break;
+			}			
+		} 
+		MessageData message = new MessageData();
+		message.setCommand("RETRIEVE_ATTEMPTS");
+		message.setCommandJsonData(String.valueOf(client.getAttempts()));
+		try {
+			clientSession.getBasicRemote().sendText(new Gson().toJson(message));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@SuppressWarnings("deprecation")
 	private void HandleLeaveSession(String message,Session clientSession) {
 		try {
 			Gson gson = new Gson();
@@ -127,11 +150,14 @@ public class SessionEndpoint {
 					}
 				}
 				JoinedSessionData leftSession = new JoinedSessionData();
-				leftSession.setFirstName(client.getFirstName() );
+				leftSession.setFirstName(client.getFirstName());
 				leftSession.setLastName(client.getLastName());
-				leftSession.setUserName(client.getUserName());
+				leftSession.setEmail(client.getEmail());
+				leftSession.setChatStatus(client.getChatStatus());
+				leftSession.setProfilePic(client.getProfilePic());
+				leftSession.setProfileCoverPic(client.getProfileCoverPic());
 				leftSession.setUserId(client.getClientID());
-				leftSession.setUserProPicId(client.getUserProPicId());
+				leftSession.setRepsoneDateTime(new Date().toLocaleString());
 				
 				messageData.setCommand("LEFT_SESSION");
 				String commandData = gson.toJson(leftSession);
@@ -219,9 +245,11 @@ public class SessionEndpoint {
 				sessionLeaderboardsData.setStreak(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getSessionStreak());
 				sessionLeaderboardsData.setFirstName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getFirstName());
 				sessionLeaderboardsData.setLastName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getLastName());
-				sessionLeaderboardsData.setUserName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserName());
+				sessionLeaderboardsData.setEmail(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getEmail());
 				sessionLeaderboardsData.setUserId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientID());
-				sessionLeaderboardsData.setUserProPicId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserProPicId());
+				sessionLeaderboardsData.setProfilePic(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getProfilePic());
+				sessionLeaderboardsData.setChatStatus(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getChatStatus());
+				sessionLeaderboardsData.setProfileCoverPic(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getProfileCoverPic());
 				leaderboards.AddLeaderboardSortedByScore(sessionLeaderboardsData);
 			}
 			GameSessions.get(GameSessionID).OrderClientsBySessionStreak();
@@ -232,9 +260,12 @@ public class SessionEndpoint {
 				sessionLeaderboardsData.setStreak(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getSessionStreak());
 				sessionLeaderboardsData.setFirstName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getFirstName());
 				sessionLeaderboardsData.setLastName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getLastName());
-				sessionLeaderboardsData.setUserName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserName());
+				sessionLeaderboardsData.setLastName(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getLastName());
+				sessionLeaderboardsData.setEmail(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getEmail());
 				sessionLeaderboardsData.setUserId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getClientID());
-				sessionLeaderboardsData.setUserProPicId(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getUserProPicId());
+				sessionLeaderboardsData.setProfilePic(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getProfilePic());
+				sessionLeaderboardsData.setChatStatus(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getChatStatus());
+				sessionLeaderboardsData.setProfileCoverPic(GameSessions.get(GameSessionID).getSessionClientclients().get(i).getProfileCoverPic());
 				leaderboards.AddLeaderboardSortedByStreak(sessionLeaderboardsData);
 			}
 			Gson gson = new Gson();
@@ -276,6 +307,7 @@ public class SessionEndpoint {
 			e.printStackTrace();
 		}
 	}
+
 	@SuppressWarnings("deprecation")
 	private void handDefaultCommand(DefaultCommandData def,Session clientSession)
 	{
@@ -290,12 +322,15 @@ public class SessionEndpoint {
 		DefaultCommandResponse response = new DefaultCommandResponse();
 		response.setFirstName(client.getFirstName() );
 		response.setLastName(client.getLastName());
-		response.setUserName(client.getUserName());
+		response.setEmail(client.getEmail());
 		response.setUserId(client.getClientID());
-		response.setUserProPicId(client.getUserProPicId());
+		response.setProfilePic(client.getProfilePic());
+		response.setProfileCoverPic(client.getProfileCoverPic());
+		response.setChatStatus(client.getChatStatus());
 		response.setRepsoneDateTime(new Date().toLocaleString());
 			
-
+		int checkattempts = sessionService.retrieveattemptscount(client.getClientID());
+		
 		String answer = def.getMessage().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").toLowerCase();
 		if(answer.equals(question.getAnswer().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").toLowerCase()))
 		{
@@ -310,10 +345,8 @@ public class SessionEndpoint {
 						
 
 				GameSessions.get(GameSessionID).SetClientCurrentQAnswered(client.getClientID(), true);
-				
-				boolean checkattempts = true;
-				//checkattempts = WCFservice.checkUserAttempts(client.getClientID());
-				if(checkattempts) {
+			
+				if(checkattempts > 0) {
 					Leaderboard leaderboard = sessionService.retrieveleaderboard(client.getClientID());
 					Calendar c = Calendar.getInstance();
 					c.setTime(new Date());
@@ -322,8 +355,7 @@ public class SessionEndpoint {
 					{
 						if(dayOfWeek == 6)
 						{
-							Date date = new Date();
-							if(date.getHours() >= 20 && date.getMinutes() >= 0)
+							if(c.get(Calendar.HOUR) >= 20 && c.get(Calendar.MINUTE) >= 0)
 							{
 								leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
 							}
@@ -341,7 +373,7 @@ public class SessionEndpoint {
 					else {
 						leaderboard.setHighestStreak(leaderboard.getHighestStreak());
 					}
-					sessionService.updateleaderboard(leaderboard);
+					sessionService.updateleaderboard(leaderboard);			
 				}	
 			}	
 		}
@@ -353,7 +385,13 @@ public class SessionEndpoint {
 			
 			GameSessions.get(GameSessionID).SendSessionClientsMessage(gson.toJson(messageData));
 		}
+		if(checkattempts > 0) {
+			sessionService.updateattempts(client.getClientID(),checkattempts - 1);
+			GameSessions.get(GameSessionID).SetClientAttempts(client.getClientID(),checkattempts - 1);
+			HandleRetrieveAttempts(client.getClientID(),clientSession);		
+		}
 	}
+	@SuppressWarnings("deprecation")
 	private void handleJoinGameSessionCommand(JoinSessionData joinSession,Session clientSession)
 	{
 		boolean addClientToSession = true;
@@ -387,11 +425,13 @@ public class SessionEndpoint {
 			client.setSessionStreak(0);
 			client.setJustJoined(true);
 			client.setCurrentChallengeAnswered(false);
-			User user = sessionService.retrieveuser();
+			User user = sessionService.retrieveuser(joinSession.getUserId());
 			client.setFirstName(user.getFirstName());
 			client.setLastName(user.getLastName());
-			client.setUserName(user.getUserName());
-			client.setUserProPicId(user.getUserProPicId());
+			client.setEmail(user.getEmail());
+			client.setChatStatus(user.getChatStatus());
+			client.setProfilePic(user.getProfilePic());
+			client.setProfileCoverPic(user.getProfileCoverPic());
 			GameSessions.get(0).AddSessionClient(client);
 			new Thread(new Runnable() {
 				private List<DefaultSessionChallenge> AllQuestionsData = new ArrayList<DefaultSessionChallenge>();
@@ -607,11 +647,13 @@ public class SessionEndpoint {
 						client.setSessionStreak(0);
 						client.setJustJoined(true);
 						client.setCurrentChallengeAnswered(false);
-						User user = sessionService.retrieveuser();
+						User user = sessionService.retrieveuser(joinSession.getUserId());
 						client.setFirstName(user.getFirstName());
 						client.setLastName(user.getLastName());
-						client.setUserName(user.getUserName());
-						client.setUserProPicId(user.getUserProPicId());
+						client.setEmail(user.getEmail());
+						client.setChatStatus(user.getChatStatus());
+						client.setProfilePic(user.getProfilePic());
+						client.setProfileCoverPic(user.getProfileCoverPic());
 						GameSessions.get(joinSession.getSessionId()).AddSessionClient(client);
 						GameSessions.get(joinSession.getSessionId()).setGameSessionNumberOfUsers(GameSessions.get(joinSession.getSessionId()).getGameSessionNumberOfUsers()+1);
 
@@ -619,9 +661,13 @@ public class SessionEndpoint {
 						JoinedSessionData joinedSession = new JoinedSessionData();
 						joinedSession.setFirstName(client.getFirstName() );
 						joinedSession.setLastName(client.getLastName());
-						joinedSession.setUserName(client.getUserName());
+						joinedSession.setEmail(client.getEmail());
+						joinedSession.setChatStatus(client.getChatStatus());
+						joinedSession.setProfilePic(client.getProfilePic());
+						joinedSession.setProfileCoverPic(client.getProfileCoverPic());
 						joinedSession.setUserId(client.getClientID());
-						joinedSession.setUserProPicId(client.getUserProPicId());
+						joinedSession.setRepsoneDateTime(new Date().toLocaleString());
+						
 						
 						Gson gson = new Gson();
 						MessageData messageData = new MessageData();

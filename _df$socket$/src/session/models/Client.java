@@ -14,11 +14,37 @@ public class Client {
 	private int SessionStreak;
 	private String FirstName;
 	private String LastName;
-	private String UserName;
-	private String Email;
-	private String UserProPicId;
+    private String Email;
+    private String ChatStatus;
+	private FileUpload ProfilePic;
+    private FileUpload ProfileCoverPic;
 	private boolean JustJoined;
 	private boolean CurrentChallengeAnswered;
+	private int Attempts;
+	public int getAttempts() {
+		return Attempts;
+	}
+	public void setAttempts(int attempts) {
+		Attempts = attempts;
+	}
+	public String getChatStatus() {
+		return ChatStatus;
+	}
+	public void setChatStatus(String chatStatus) {
+		ChatStatus = chatStatus;
+	}
+	public FileUpload getProfilePic() {
+		return ProfilePic;
+	}
+	public void setProfilePic(FileUpload profilePic) {
+		ProfilePic = profilePic;
+	}
+	public FileUpload getProfileCoverPic() {
+		return ProfileCoverPic;
+	}
+	public void setProfileCoverPic(FileUpload profileCoverPic) {
+		ProfileCoverPic = profileCoverPic;
+	}
 	public boolean isCurrentChallengeAnswered() {
 		return CurrentChallengeAnswered;
 	}
@@ -43,23 +69,12 @@ public class Client {
 	public void setLastName(String lastName) {
 		LastName = lastName;
 	}
-	public String getUserName() {
-		return UserName;
-	}
-	public void setUserName(String userName) {
-		UserName = userName;
-	}
+
 	public String getEmail() {
 		return Email;
 	}
 	public void setEmail(String email) {
 		Email = email;
-	}
-	public String getUserProPicId() {
-		return UserProPicId;
-	}
-	public void setUserProPicId(String userProPicId) {
-		UserProPicId = userProPicId;
 	}
 	public int getSessionScore() {
 		return SessionScore;

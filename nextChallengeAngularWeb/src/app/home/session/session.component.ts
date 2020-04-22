@@ -74,33 +74,24 @@ export class SessionComponent implements OnInit {
       if (this.element != null) this.element.innerText = String(messageData.CommandJsonData - 1);
     }
     else if (messageData.Command == "JOINED_SESSION") {
-      let msg = {
-        Command: "JOINED_SESSION",
-        Message: "joined the session..",
-        DateTime: new Date().toLocaleString().split(",")[1],
-        MessageLocalId: "",
-        FileType: "none",
-        fileUrl: ""
-      };
-      console.log(msg);
-      this.sessionContents.push(msg);
+      let data = JSON.parse(messageData.CommandJsonData);
+      data["Command"] = String(messageData.Command);
+      data["Message"] = "joined the session..";
+      this.sessionContents.push(data);
     }
     else if (messageData.Command == "LEFT_SESSION") {
-      let msg = {
-        Command: "LEFT_SESSION",
-        Message: "left the session..",
-        DateTime: new Date().toLocaleString().split(",")[1],
-        MessageLocalId: "",
-        FileType: "none",
-        fileUrl: ""
-      };
-      console.log(msg);
-      this.sessionContents.push(msg);
+      let data = JSON.parse(messageData.CommandJsonData);
+      data["Command"] = String(messageData.Command);
+      data["Message"] = "left the session..";
+      this.sessionContents.push(data);
     }
     else if (messageData.Command == "LEAVE_SESSION") {
       this.sessionContents = null;
       this.router.navigate(["/play"]);
-
+    }
+    else if (messageData.Command == "RETRIEVE_ATTEMPTS") {
+      let elementHtml = document.getElementById("attempts-element") as HTMLElement;
+      if (elementHtml != null) elementHtml.innerText = " " + messageData.CommandJsonData + " attempts";
     } else {
       let data = JSON.parse(messageData.CommandJsonData);
       data["Command"] = String(messageData.Command);
@@ -127,6 +118,13 @@ export class SessionComponent implements OnInit {
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea) {
     let msg = {
       Command: "MESSAGE_LOCAL",
+      FirstName: this.UserData["FirstName"],
+      LastName: this.UserData["LastName"],
+      UserId: this.UserData["_id"],
+      ProfilePic: this.UserData["ProfilePic"],
+      Email: this.UserData["Email"],
+      ChatStatus: this.UserData["ChatStatus"],
+      ProfileCoverPic: this.UserData["ProfileCoverPic"],
       Message: textarea.innerHTML,
       DateTime: new Date(),
       MessageLocalId: "message-local-" + String(this.MessageLocalIdInc),
