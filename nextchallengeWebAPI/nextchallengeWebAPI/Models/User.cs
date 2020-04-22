@@ -28,12 +28,25 @@ namespace nextchallengeWebAPI.Models
     }
     public class UserMinInfo
     {
-        [XmlIgnore]
         public ObjectId _id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [JsonIgnore, XmlIgnore]
+        public string EmailRegistration { set { } get { return null; }  }
         public string Email { get; set; }
+        [JsonIgnore, XmlIgnore]
+        public string Password { set { } get { return null; } }
+        [JsonIgnore, XmlIgnore]
+        public DateOfBirth DateOfBirth { set { } get { return null; } }
+        [JsonIgnore, XmlIgnore]
+        public string Gender { set { } get { return null; } }
+        [JsonIgnore, XmlIgnore]
+        public string City { set { } get { return null; } }
+        [JsonIgnore, XmlIgnore]
+        public string AboutMe { set { } get { return null; } }
         public string ChatStatus { get; set; }
+        [JsonIgnore, XmlIgnore]
+        public int Attempts { set { } get { return 0; } }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }

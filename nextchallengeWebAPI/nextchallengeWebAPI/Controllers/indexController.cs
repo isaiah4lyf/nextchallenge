@@ -763,8 +763,8 @@ namespace nextchallengeWebAPI.Controllers
                                                    CreateDateTime = m.CreateDateTime,
                                                    DateTimeNow = DateTime.Now,
                                                    Files = m.Files,
-                                                   FromUsers = (List<User>)fromusers,
-                                                   ToUsers = (List<User>)tousers
+                                                   FromUsers = (List<UserMinInfo>)fromusers,
+                                                   ToUsers = (List<UserMinInfo>)tousers
                                                }).FirstOrDefault();
             return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(detailedMessage));
         }
@@ -784,9 +784,9 @@ namespace nextchallengeWebAPI.Controllers
         public List<MessageDetailed> retrievemessages(string userone, string usertwo)
         {
             var collectionMessages = database.GetCollection<Message>("Messages");
-            var collectionUsers = database.GetCollection<User>("Users");
-            User user = collectionUsers.Find(u => u.Email == userone + atNextMail).FirstOrDefault();
-            User user2 = collectionUsers.Find(u => u.Email == usertwo + atNextMail).FirstOrDefault();
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
+            UserMinInfo user = collectionUsers.Find(u => u.Email == userone + atNextMail).FirstOrDefault();
+            UserMinInfo user2 = collectionUsers.Find(u => u.Email == usertwo + atNextMail).FirstOrDefault();
             if (user._id == null || user2._id == null) return new List<MessageDetailed>();
             var inq = new ObjectId[] { user._id, user2._id };
             return (from m in collectionMessages.AsQueryable()
@@ -805,8 +805,8 @@ namespace nextchallengeWebAPI.Controllers
                         CreateDateTime = m.CreateDateTime,
                         DateTimeNow = DateTime.Now,
                         Files = m.Files,
-                        FromUsers = (List<User>)fromusers,
-                        ToUsers = (List<User>)tousers
+                        FromUsers = (List<UserMinInfo>)fromusers,
+                        ToUsers = (List<UserMinInfo>)tousers
                     }).Take(12).ToList().OrderBy(m => m.CreateDateTime).ToList();
         }
         [Route("api/index/retrievemessagesafter")]
@@ -814,9 +814,9 @@ namespace nextchallengeWebAPI.Controllers
         public List<MessageDetailed> retrievemessagesafter(string userone, string usertwo, string lastmessageid)
         {
             var collectionMessages = database.GetCollection<Message>("Messages");
-            var collectionUsers = database.GetCollection<User>("Users");
-            User user = collectionUsers.Find(u => u.Email == userone + atNextMail).FirstOrDefault();
-            User user2 = collectionUsers.Find(u => u.Email == usertwo + atNextMail).FirstOrDefault();
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
+            UserMinInfo user = collectionUsers.Find(u => u.Email == userone + atNextMail).FirstOrDefault();
+            UserMinInfo user2 = collectionUsers.Find(u => u.Email == usertwo + atNextMail).FirstOrDefault();
             if (user._id == null || user2._id == null) return new List<MessageDetailed>();
             var inq = new ObjectId[] { user._id, user2._id };
             Message message = collectionMessages.Find(m => m._id == ObjectId.Parse(lastmessageid)).FirstOrDefault();
@@ -836,8 +836,8 @@ namespace nextchallengeWebAPI.Controllers
                         CreateDateTime = m.CreateDateTime,
                         DateTimeNow = DateTime.Now,
                         Files = m.Files,
-                        FromUsers = (List<User>)fromusers,
-                        ToUsers = (List<User>)tousers
+                        FromUsers = (List<UserMinInfo>)fromusers,
+                        ToUsers = (List<UserMinInfo>)tousers
                     }).Take(12).ToList().OrderBy(m => m.CreateDateTime).ToList();
         }
         [Route("api/index/retrieveundreadmessagescount")]
@@ -875,7 +875,7 @@ namespace nextchallengeWebAPI.Controllers
         [HttpGet]
         public List<ActiveChat> retrieveactivechats(string userid)
         {
-            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
             var collectionMessages = database.GetCollection<Message>("Messages");
             List<ActiveChat> chats = (from m in collectionMessages.AsQueryable()
                                        join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
@@ -885,8 +885,8 @@ namespace nextchallengeWebAPI.Controllers
                                        {
                                            FromUserId = m.FromUserID,
                                            ToUserId = m.ToUserID,
-                                           FromUsers = (List<User>)fromusers,
-                                           ToUsers = (List<User>)tousers,
+                                           FromUsers = (List<UserMinInfo>)fromusers,
+                                           ToUsers = (List<UserMinInfo>)tousers,
                                            DateTimeNow = DateTime.Now
                                        }
                     ).Distinct().ToList();
@@ -972,7 +972,7 @@ namespace nextchallengeWebAPI.Controllers
         public List<LeaderboardDetailed> retrieveleaderboards(string userid, string orderby, int page, [FromBody]List<string> notinusersid)
         {
             var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
-            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
             var inq = new ObjectId[notinusersid.Count];
             for (int i = 0; i < notinusersid.Count; i++)
             {
@@ -992,7 +992,7 @@ namespace nextchallengeWebAPI.Controllers
                                     WeeklyScore = l.WeeklyScore,
                                     WeekendScore = l.WeekendScore,
                                     HighestStreak = l.HighestStreak,
-                                    users = (List<User>)user
+                                    users = (List<UserMinInfo>)user
                                 }).Take(10).ToList();
             if (orderby == "weekly")
                 leaderboards = (from l in collectionLeaderboards.AsQueryable()
@@ -1007,7 +1007,7 @@ namespace nextchallengeWebAPI.Controllers
                                     WeeklyScore = l.WeeklyScore,
                                     WeekendScore = l.WeekendScore,
                                     HighestStreak = l.HighestStreak,
-                                    users = (List<User>)user
+                                    users = (List<UserMinInfo>)user
                                 }).Take(10).ToList();
             if (orderby == "weekend")
                 leaderboards = (from l in collectionLeaderboards.AsQueryable()
@@ -1022,7 +1022,7 @@ namespace nextchallengeWebAPI.Controllers
                                     WeeklyScore = l.WeeklyScore,
                                     WeekendScore = l.WeekendScore,
                                     HighestStreak = l.HighestStreak,
-                                    users = (List<User>)user
+                                    users = (List<UserMinInfo>)user
                                 }).Take(10).ToList();
             if (orderby == "streak")
                 leaderboards = (from l in collectionLeaderboards.AsQueryable()
@@ -1037,7 +1037,7 @@ namespace nextchallengeWebAPI.Controllers
                                     WeeklyScore = l.WeeklyScore,
                                     WeekendScore = l.WeekendScore,
                                     HighestStreak = l.HighestStreak,
-                                    users = (List<User>)user
+                                    users = (List<UserMinInfo>)user
                                 }).Take(10).ToList();
             int pager = page == 0 ? 1 : page * 10;
             List<LeaderboardDetailed> PrevPagesleaderboards = new List<LeaderboardDetailed>();
@@ -1128,7 +1128,7 @@ namespace nextchallengeWebAPI.Controllers
                 if (PrevPagesleaderboards.Any(l => l.UserID == ObjectId.Parse(userid)))
                 {
                     currentUser = PrevPagesleaderboards.Single(l => l.UserID == ObjectId.Parse(userid));
-                    currentUser.users = new List<User>() { collectionUsers.Find(u => u._id == ObjectId.Parse(userid)).FirstOrDefault() };
+                    currentUser.users = new List<UserMinInfo>() { collectionUsers.Find(u => u._id == ObjectId.Parse(userid)).FirstOrDefault() };
                     currentUser.AddedLast = true;
                 }
                 else
@@ -1146,7 +1146,7 @@ namespace nextchallengeWebAPI.Controllers
                                            WeeklyScore = l.WeeklyScore,
                                            WeekendScore = l.WeekendScore,
                                            HighestStreak = l.HighestStreak,
-                                           users = (List<User>)user
+                                           users = (List<UserMinInfo>)user
                                        }).FirstOrDefault();
                     if (orderby == "weekly")
                         currentUser = (from l in collectionLeaderboards.AsQueryable()
@@ -1161,7 +1161,7 @@ namespace nextchallengeWebAPI.Controllers
                                            WeeklyScore = l.WeeklyScore,
                                            WeekendScore = l.WeekendScore,
                                            HighestStreak = l.HighestStreak,
-                                           users = (List<User>)user
+                                           users = (List<UserMinInfo>)user
                                        }).FirstOrDefault();
                     if (orderby == "weekend")
                         currentUser = (from l in collectionLeaderboards.AsQueryable()
@@ -1176,7 +1176,7 @@ namespace nextchallengeWebAPI.Controllers
                                            WeeklyScore = l.WeeklyScore,
                                            WeekendScore = l.WeekendScore,
                                            HighestStreak = l.HighestStreak,
-                                           users = (List<User>)user
+                                           users = (List<UserMinInfo>)user
                                        }).FirstOrDefault();
                     if (orderby == "streak")
                         currentUser = (from l in collectionLeaderboards.AsQueryable()
@@ -1191,7 +1191,7 @@ namespace nextchallengeWebAPI.Controllers
                                            WeeklyScore = l.WeeklyScore,
                                            WeekendScore = l.WeekendScore,
                                            HighestStreak = l.HighestStreak,
-                                           users = (List<User>)user
+                                           users = (List<UserMinInfo>)user
                                        }).FirstOrDefault();
                     currentUser.AddedLast = true;
                     int position = retrieveuserleaderboardposition(currentUser, orderby);
@@ -1210,6 +1210,72 @@ namespace nextchallengeWebAPI.Controllers
                 }
                 leaderboards.Add(currentUser);
             }
+            return leaderboards;
+        }
+        [Route("api/index/searchleaderboards")]
+        [HttpGet]
+        public List<LeaderboardDetailed> searchleaderboards(string query,string orderby)
+        {
+            var querySplit = query.Split(' ');
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
+            var collectionLeaderboards = database.GetCollection<Leaderboard>("Leaderboards");
+            List<UserMinInfo> searches = (from u in collectionUsers.AsQueryable()
+                                          where querySplit.Contains(u.FirstName) && querySplit.Contains(u.LastName)
+                                          select u).ToList();
+            if (querySplit.Length > 1)
+            {
+                List<UserMinInfo> searchesTemp = (from u in collectionUsers.AsQueryable()
+                                                  where (u.FirstName.ToLower().Contains(querySplit[0]) && u.LastName.ToLower().Contains(querySplit[1])) || (u.FirstName.ToLower().Contains(querySplit[1]) && u.LastName.ToLower().Contains(querySplit[0]))
+                                                  select u).Take(15).ToList();
+                foreach (UserMinInfo search in searchesTemp)
+                {
+                    if (searches.Count > 15) break;
+                    if (!searches.Any(s => s._id == search._id)) searches.Add(search);
+                }
+            }
+            else
+            {
+                List<UserMinInfo> searchesTemp = (from u in collectionUsers.AsQueryable()
+                                                  where u.FirstName.ToLower().Contains(query) || u.LastName.ToLower().Contains(query)
+                                                  select u).Take(15).ToList();
+                foreach (UserMinInfo search in searchesTemp)
+                {
+                    if (searches.Count > 15) break;
+                    if(!searches.Any(s => s._id == search._id)) searches.Add(search);
+                }
+            }
+            List<LeaderboardDetailed> leaderboards = new List<LeaderboardDetailed>();
+            foreach (UserMinInfo search in searches)
+            {
+                LeaderboardDetailed leaderboard = (from l in collectionLeaderboards.AsQueryable()
+                                                   where l.UserID == search._id
+                                                   orderby l.HighestStreak descending, l._id descending
+                                                   select new LeaderboardDetailed()
+                                                   {
+                                                       _id = l._id,
+                                                       UserID = l.UserID,
+                                                       TotalScore = l.TotalScore,
+                                                       WeeklyScore = l.WeeklyScore,
+                                                       WeekendScore = l.WeekendScore,
+                                                       HighestStreak = l.HighestStreak
+                                                   }).FirstOrDefault();
+                leaderboard.users = new List<UserMinInfo> { search };
+                int position = retrieveuserleaderboardposition(leaderboard, orderby);
+                while (true)
+                {
+                    if (leaderboards.Any(l => l.Position == position) || leaderboards.Any(l => l.Position == position))
+                    {
+                        position++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                leaderboard.Position = position;
+                leaderboards.Add(leaderboard);
+            }
+            leaderboards = leaderboards.OrderBy(l => l.Position).ToList();
             return leaderboards;
         }
         public int retrieveuserleaderboardposition(LeaderboardDetailed leaderboard, string orderby)
@@ -1267,6 +1333,7 @@ namespace nextchallengeWebAPI.Controllers
                         HighestStreak = l.HighestStreak
                     }).Count() + 1;
         }
+
         [Route("api/index/createfriendship")]
         [HttpPost]
         public Friendship createfriendship([FromBody]FriendshipPost friendship)
@@ -1301,7 +1368,7 @@ namespace nextchallengeWebAPI.Controllers
         public List<FriendshipDetailed> retrievefriendships(string userid)
         {
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
-            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
             return (from f in collectionFriendships.AsQueryable()
                     join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
                     join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
@@ -1315,8 +1382,8 @@ namespace nextchallengeWebAPI.Controllers
                         CreateDateTime = f.CreateDateTime,
                         FriendshipApproved = f.FriendshipApproved,
                         FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<User>)starter,
-                        FriendUser = (List<User>)friend
+                        FriendshipStarter = (List<UserMinInfo>)starter,
+                        FriendUser = (List<UserMinInfo>)friend
                     }).Take(12).ToList();
         }
         [Route("api/index/retrievefriendshipsafter")]
@@ -1324,7 +1391,7 @@ namespace nextchallengeWebAPI.Controllers
         public List<FriendshipDetailed> retrievefriendshipsafter(string userid, string lastfriendshipid)
         {
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
-            var collectionUsers = database.GetCollection<User>("Users");
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
             Friendship friendship = collectionFriendships.Find(f => f._id == ObjectId.Parse(lastfriendshipid)).FirstOrDefault();
             return (from f in collectionFriendships.AsQueryable()
                     join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
@@ -1339,8 +1406,8 @@ namespace nextchallengeWebAPI.Controllers
                         CreateDateTime = f.CreateDateTime,
                         FriendshipApproved = f.FriendshipApproved,
                         FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<User>)starter,
-                        FriendUser = (List<User>)friend
+                        FriendshipStarter = (List<UserMinInfo>)starter,
+                        FriendUser = (List<UserMinInfo>)friend
                     }).Take(12).ToList();
         }
         [Route("api/index/retrievefriendshiprequests")]
@@ -1362,8 +1429,8 @@ namespace nextchallengeWebAPI.Controllers
                         CreateDateTime = f.CreateDateTime,
                         FriendshipApproved = f.FriendshipApproved,
                         FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<User>)starter,
-                        FriendUser = (List<User>)friend
+                        FriendshipStarter = (List<UserMinInfo>)starter,
+                        FriendUser = (List<UserMinInfo>)friend
                     }).Take(12).ToList();
         }
         [Route("api/index/retrievefriendshiprequestsafter")]
@@ -1386,8 +1453,8 @@ namespace nextchallengeWebAPI.Controllers
                         CreateDateTime = f.CreateDateTime,
                         FriendshipApproved = f.FriendshipApproved,
                         FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<User>)starter,
-                        FriendUser = (List<User>)friend
+                        FriendshipStarter = (List<UserMinInfo>)starter,
+                        FriendUser = (List<UserMinInfo>)friend
                     }).Take(12).ToList();
         }
         [Route("api/index/search")]
@@ -1636,7 +1703,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/retrievesuggestions")]
         [HttpGet]
-        public List<UserViewProfile> retrievesuggestions(string userid)
+        public List<UserMinInfo> retrievesuggestions(string userid)
         {
             var collectionUsers = database.GetCollection<User>("Users");
             var collectionSearch = database.GetCollection<Search>("SearchHistory");
@@ -1678,24 +1745,20 @@ namespace nextchallengeWebAPI.Controllers
                 _userfiltered[i] = _similarLeaderboards.ElementAt(index).UserID;
                 index++;
             }
-            List<UserViewProfile> users = (from u in collectionUsers.AsQueryable()
+            List<UserMinInfo> users = (from u in collectionUsers.AsQueryable()
                                            where _userfiltered.Contains(u._id) && u._id != currentuser._id
-                                           select new UserViewProfile()
+                                           select new UserMinInfo()
                                            {
                                                _id = u._id,
                                                FirstName = u.FirstName,
                                                LastName = u.LastName,
                                                Email = u.Email,
-                                               DateOfBirth = u.DateOfBirth,
-                                               Gender = u.Gender,
-                                               City = u.City,
-                                               AboutMe = u.AboutMe,
                                                ChatStatus = u.ChatStatus,
                                                ProfilePic = u.ProfilePic,
                                                ProfileCoverPic = u.ProfileCoverPic
                                            }).ToList();
-            List<UserViewProfile> suggestions = new List<UserViewProfile>();
-            foreach (UserViewProfile user in users)
+            List<UserMinInfo> suggestions = new List<UserMinInfo>();
+            foreach (UserMinInfo user in users)
             {
                 var _inids = new ObjectId[] { ObjectId.Parse(userid), user._id };
                 List<Friendship> friendships = collectionFriendship.Find(f => _inids.Contains(f.FriendshipStarterUserId) && _inids.Contains(f.FriendUserId)).ToList();
@@ -1705,7 +1768,7 @@ namespace nextchallengeWebAPI.Controllers
                 }
             }
             Random rnd = new Random();
-            return suggestions.OrderBy<UserViewProfile, int>((item) => rnd.Next()).Take(5).ToList();
+            return suggestions.OrderBy<UserMinInfo, int>((item) => rnd.Next()).Take(5).ToList();
         }
         [Route("api/index/createactivity")]
         [HttpPost]

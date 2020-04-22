@@ -12,8 +12,8 @@ namespace nextchallengeWebAPI.Models
     {
         public ObjectId FromUserId { set; get;}
         public ObjectId ToUserId { set; get;}
-        public List<User> FromUsers { get; set; }
-        public List<User> ToUsers { get; set; }
+        public List<UserMinInfo> FromUsers { get; set; }
+        public List<UserMinInfo> ToUsers { get; set; }
         public DateTime LastMessageDate { set; get; }
         public Message LatestMessage { set; get; }
         public int UnreadMessagesCount { set; get; }

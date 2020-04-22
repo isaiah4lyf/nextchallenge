@@ -37,7 +37,7 @@ namespace nextchallengeWebAPI.Models
         public int HighestStreak { set; get; }
         public int Position { set; get; }
         public bool AddedLast { set; get; }
-        public List<User> users { set; get; }
+        public List<UserMinInfo> users { set; get; }
     }
 
     public class LeaderboardConverter

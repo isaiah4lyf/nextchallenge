@@ -1,8 +1,8 @@
 <li class="right" *ngIf="message['FromUserID'] == UserData['_id']; else elseBlock" style="margin-bottom: 5px;">
-    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-right" />
+    <img src='{{message["FromUsers"][0]["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-right" />
     <div class="chat-item">
         <div class="chat-item-header">
-            <h5>{{message['FromUsers'][0]["FirstName"]}} {{message['FromUsers'][0]["LastName"]}}</h5>
+            <h5><a routerLink="{{'/' + message['FromUsers'][0]['Email'].split('@')[0]}}">{{message['FromUsers'][0]["FirstName"]+ " " + message['FromUsers'][0]["LastName"]}}</a></h5>
             <small id="{{message['_id']}}" class="text-muted"
                 style="width: 120px !important; top: 10px; text-align: right;">
                 <div class="loader"></div>
@@ -29,10 +29,10 @@
 </li>
 <ng-template #elseBlock>
     <li class="left" style="margin-bottom: 5px;">
-        <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+        <img src='{{message["FromUsers"][0]["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
         <div class="chat-item">
             <div class="chat-item-header">
-                <h5>{{message['ToUsers'][0]["FirstName"]}} {{message['FromUsers'][0]["LastName"]}}</h5>
+                <h5><a routerLink="{{'/' + message['FromUsers'][0]['Email'].split('@')[0]}}">{{message['FromUsers'][0]["FirstName"]+ " " + message['FromUsers'][0]["LastName"]}}</a></h5>
                 <small class="text-muted" style="width: 120px !important; top: 10px;"><span
                         style="position: absolute; right: 12px;">{{message['CreateDateTime']}}</span>
                     <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: -10px;"></i>

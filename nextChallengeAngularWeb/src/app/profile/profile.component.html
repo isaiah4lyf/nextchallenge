@@ -44,17 +44,16 @@
                     </div>
                     <div class="col-md-9">
                         <ul class="list-inline profile-menu">
-                            <li><a class="router-link" routerLink="{{timelineLink}}"
-                                    routerLinkActive="active">Posts</a></li>
+                            <li><a class="router-link" routerLink="{{timelineLink}}" routerLinkActive="active">Posts</a>
+                            </li>
                             <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a>
                             </li>
                             <li><a class="router-link" routerLink="{{galleryLink}}"
                                     routerLinkActive="active">Gallery</a></li>
                             <li><a class="router-link" routerLink="{{friendsLink}}"
-                                    routerLinkActive="active">Friends</a></li>
+                                    routerLinkActive="active">Friends(3,500)</a></li>
                         </ul>
                         <ul class="follow-me list-inline">
-                            <li>1,299 friends</li>
                             <li><button (click)="logout()" *ngIf="!isProfileView" class="btn-primary router-link"
                                     style="margin-right: 10px; width: 120px;"><i class="icon ion-log-out"></i>
                                     Logout</button></li>
@@ -99,7 +98,7 @@
                         <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a></li>
                         <li><a class="router-link" routerLink="{{galleryLink}}" routerLinkActive="active">Gallery</a>
                         </li>
-                        <li><a class="router-link" routerLink="{{friendsLink}}" routerLinkActive="active">Friends</a>
+                        <li><a class="router-link" routerLink="{{friendsLink}}" routerLinkActive="active">Friends(3,500)</a>
                         </li>
                     </ul>
                     <button (click)="logout()" *ngIf="!isProfileView" class="btn-primary router-link"
@@ -119,7 +118,7 @@
                     <!--Edit Profile Menu-->
                     <ul class="edit-menu"
                         *ngIf='router.url.endsWith("/about/basic-info") || router.url.endsWith("/about/edu-work") || router.url.endsWith("/about/interests") || router.url.endsWith("/about/work") || router.url.endsWith("/about/education") 
-                    || router.url.endsWith("/about/settings") || router.url.endsWith("/about/change-password") && UserData["Email"].split("@")[0] == route.snapshot.paramMap.get("id")'>
+                    || router.url.endsWith("/about/settings") || router.url.endsWith("/about/change-password") && UserData["Email"].split("@")[0] == route.snapshot.paramMap.get("id"); else elseBlockMenu'>
                         <li class="router-link" routerLink="{{aboutBasicInfoLink}}" routerLinkActive="active"><i
                                 class="icon ion-ios-information-outline"></i><a>Basic Information</a></li>
                         <li class="router-link" routerLink="{{aboutEducation}}" routerLinkActive="active"><i
@@ -138,6 +137,33 @@
                                 class="icon ion-ios-locked-outline"></i><a>Change
                                 Password</a></li>
                     </ul>
+                    <ng-template #elseBlockMenu>
+                        <!--profile card ends-->
+                        <ul *ngIf="desktopScreen" class="nav-news-feed" style="margin-top: 100px; margin-left: -15px;">
+                            <li class="router-link" routerLink="/play"><i class="icon ion-ios-play-outline"></i>
+                                <div><a>Play</a></div>
+                            </li>
+                            <li class="router-link" routerLink="/leaderboards"><i class="icon ion-ios-paper"></i>
+                                <div><a>Leaderboards</a></div>
+                            </li>
+                            <li class="router-link" routerLink="/buy"><i class="icon ion-android-cart"></i>
+                                <div><a>Buy attempts</a></div>
+                            </li>
+                            <li class="router-link" routerLink="/prizes"><i class="icon ion-trophy"></i>
+                                <div><a>Prizes</a></div>
+                            </li>
+                            <li class="router-link" routerLink="/settings"><i class="icon ion-android-settings"></i>
+                                <div><a>Settings</a></div>
+                            </li>
+                            <li class="router-link" routerLink="/help"><i class="icon ion-help"></i>
+                                <div><a>Help</a></div>
+                            </li>
+                            <li class="router-link" routerLink="/contact"><i class="icon ion-ios-telephone"></i>
+                                <div><a>Contact</a></div>
+                            </li>
+                        </ul>
+                        <!--news-feed links ends-->
+                    </ng-template>
                 </div>
                 <div class="col-md-7">
 
@@ -149,10 +175,13 @@
                         <h4>{{UserData["FirstName"]}}'s<span style="color: gray;"> activity</span></h4>
                         <ng-container *ngFor="let activity of activities">
                             <div class="feed-item">
-                                <div class="live-activity router-link" routerLink="{{'/post/' + activity['_redirect'] }}" >
+                                <div class="live-activity router-link"
+                                    routerLink="{{'/post/' + activity['_redirect'] }}">
                                     <p><a class="profile-link">{{UserData["FirstName"]}}</a>
                                         {{activity["Content"]}}</p>
-                                    <p class="text-muted">{{convertDateTimeToWord(activity["CreateDateTime"],activity["DateTimeNow"])}}</p>
+                                    <p class="text-muted">
+                                        {{convertDateTimeToWord(activity["CreateDateTime"],activity["DateTimeNow"])}}
+                                    </p>
                                 </div>
                             </div>
                         </ng-container>

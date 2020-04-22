@@ -2,7 +2,7 @@
     <li class="router-link" [routerLink]="fromUrl" *ngIf="userData['_id'] != chat['FromUserId']; else elseblock" >
         <a>
             <div class="contact">
-                <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                <img src='{{chat["FromUsers"][0]["ProfilePic"]["FileBaseUrls"][0]}}'alt="" class="profile-photo-sm pull-left" />
                 <span [ngClass]="chatStatusClassesFrom" style="top: 50px; left: 35px;" ></span>
                 <div class="msg-preview">
                     <h6>{{chat["FromUsers"][0]["FirstName"]}} {{chat["FromUsers"][0]["LastName"]}}</h6>
@@ -20,7 +20,7 @@
         <li class="router-link" [routerLink]="toUrl" >
             <a>
                 <div class="contact">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" />
+                    <img src='{{chat["ToUsers"][0]["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
                     <span [ngClass]="chatStatusClassesTo" style="top: 50px; left: 35px;" ></span>
                     <div class="msg-preview">
                         <h6>{{chat["ToUsers"][0]["FirstName"]}} {{chat["ToUsers"][0]["LastName"]}}</h6>

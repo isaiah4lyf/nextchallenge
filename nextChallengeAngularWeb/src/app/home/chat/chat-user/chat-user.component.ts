@@ -26,6 +26,24 @@ export class ChatUserComponent implements OnInit {
     this.chatStatusClassesTo[this.chat['ToUsers'][0]['_id']] = true;
     this.chatStatusClassesFrom = { 'led-silver-global': this.chat['FromUsers'][0]['ChatStatus'] == 'offline', 'led-green-global': this.chat['FromUsers'][0]['ChatStatus'] == 'available', 'led-red-global': this.chat['FromUsers'][0]['ChatStatus'] == 'busy', 'led-yellow-global': this.chat['FromUsers'][0]['ChatStatus'] == 'away' };
     this.chatStatusClassesFrom[this.chat['FromUsers'][0]['_id']] = true;
+    if (this.chat['FromUsers'][0]['ProfilePic'] == null)
+      this.chat['FromUsers'][0]['ProfilePic'] = {
+        _id: "none",
+        FileName: "",
+        UserID: this.chat['FromUsers'][0]['_id'],
+        FileType: "image",
+        UploadDateTime: new Date(),
+        FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+      };
+    if (this.chat['ToUsers'][0]['ProfilePic'] == null)
+      this.chat['ToUsers'][0]['ProfilePic'] = {
+        _id: "none",
+        FileName: "",
+        UserID: this.chat['ToUsers'][0]['_id'],
+        FileType: "image",
+        UploadDateTime: new Date(),
+        FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+      };
   }
   ngAfterViewInit() {
     this.messageContent.nativeElement.innerHTML = this.chat["LatestMessage"]["MessageContent"];

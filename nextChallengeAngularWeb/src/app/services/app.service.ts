@@ -8,7 +8,8 @@ import { NgForm } from "@angular/forms";
   providedIn: "root"
 })
 export class AppService {
-  private configUrl = "http://www.nextchallenge.co.za:93/api/index/";
+  //private configUrl = "http://www.nextchallenge.co.za:93/api/index/";
+  private configUrl = "http://localhost:44357/api/index/";
   private httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
   private httpOptionsMultipart = { headers: new HttpHeaders({ "Content-Type": "multipart/form-data; boundary=--------------------------654287500409823045608277" }) };
   private UserData = null;
@@ -280,6 +281,9 @@ export class AppService {
   }
   retrieveleaderboards(userid, orderby, page, prevPages) {
     return this.http.post(this.configUrl + "retrieveleaderboards?userid=" + userid + "&orderby=" + orderby + "&page=" + page, prevPages, this.httpOptions);
+  }
+  searchleaderboards(query,orderby) {
+    return this.http.get(this.configUrl + "searchleaderboards?query=" + query + "&orderby=" + orderby , this.httpOptions);
   }
   createfriendship(friendship) {
     return this.http.post(this.configUrl + "createfriendship", friendship, this.httpOptions);
