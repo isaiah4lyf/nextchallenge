@@ -1,26 +1,57 @@
-<h3>Login</h3>
-<br/><br/><br/>
-<p class="text-muted">Log into your account</p>
-<!--Login Form-->
-<form #User="ngForm" name="Login_form" id='Login_form' (ngSubmit)="login(User)" >
-    <div class="row">
-        <div class="form-group col-xs-12">
-            <label for="my-email" class="sr-only">Email</label>
-            <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email"
-                placeholder="Your Email" ngModel />
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100" >
+            <form class="sign-in-form" #User="ngForm" name="Login_form" id='Login_form' (ngSubmit)="login(User,remembermeRef,emailValRef,passwordValRef)" > 
+                <div style="margin-top: -10px; margin-left: -15px;">
+                    <a class="navbar-brand">
+                        <img style="width: 36px;height: 20px; margin-top: -2px" src="assets/images/logo (2).png" alt="logo" /></a>
+                      <span>
+                        <span class="brand-2" style="font-size: 22px; font-family: unset; font-weight: 600; color: rgb(131, 131, 131);">&nbsp; Sign in</span>
+                      </span>
+                </div>
+ 
+                <br />
+                <p class="sign-in-up-fieldset">
+                    <label class="sign-in-up-label image-replace cd-email" htmlFor="signin-email">Email</label>
+                    <input (change)="emailChange(User, emailValRef)" (blur)="emailChange(User, emailValRef)" class="sign-in-up-input full-width has-padding has-border" id="signin-email" type="text"
+                        placeholder="Email" name="Email" ngModel />
+                    <span #emailValRef class="validation-span" style="width: 150px; left: 5px;">Email required</span>
+                </p>
+                <p class="sign-in-up-fieldset">
+                    <label class="sign-in-up-label image-replace cd-password" htmlFor="signin-password">Password</label>
+                    <input #passwordInput (change)="passwordChange(User, passwordValRef)" (blur)="passwordChange(User, passwordValRef)" class="sign-in-up-input full-width has-padding has-border" id="signin-password"
+                        type="password" placeholder="Password" name="Password" style="padding-right: 65px;" ngModel />
+                    <span #showPassRef (click)="showPass(showPassRef,passwordInput)" class="hide-password" style="font-size: 12px;" id="hide-password">show</span>
+                    <span #passwordValRef class="validation-span" style="width: 150px; left: 5px;">Password required</span>
+                </p>
+                <br />
+                <div class="remember-me-input" style="margin-bottom: 5px;">
+                    <div class="form-check"  >
+                        <label class="form-check-label" style="position: relative; font-weight: normal !important; font-size: 12px !important;">
+                            <input #remembermeRef class="form-check-input" type="checkbox" value=""> Remember me
+                            <span class="form-check-sign" style="position: absolute; top: 3px;"> 
+                                <span class="check"></span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <p style="margin-bottom: 20px;">
+                    <input class="router-link btn btn-primary" style="border: 1px solid #27aae1; background-color: #ffffff; color: rgb(39, 38, 38); font-weight: normal; width: 100%;" type="submit" value="Sign in" />
+                </p>
+                <div class="sign-in-up-forgot-pass router-link" style="margin-bottom: 10px; color: #27aae1" routerLink="/register" ><span style="color: rgb(39, 38, 38); " >Don't have an account?</span> Sign up.</div>
+                <div class="sign-in-up-forgot-pass" style="color: #27aae1">Forgot your password?</div>
+
+            </form>
+            <div class="login100-more" style="background: #27aae1;">
+                <div style="height: 350px; font-size: 22px; font-family: unset; font-weight: 600; color: #ffffff; margin-left: 7.5%; margin-top: calc(50vh - 200px); width: 73%; text-align: center;">
+                    <div># Welcome</div> <br/>
+                    <div style="font-size: 16px; font-family: unset; font-weight: 500; color: #ffffff;">Make friends, connect with family, publish challenges and compete in trivia contest that spans music and entertainment, sports, the world, etc and stand a chance to win weekly prizes.</div><br/>
+                    <img style="width: 220px; height: 220px; margin-top: 20px;" src="assets/images/group.svg" alt="logo" />
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group col-xs-12">
-            <label for="my-password" class="sr-only">Password</label>
-            <input id="my-password" class="form-control input-group-lg" type="password" name="Password"
-                title="Enter password" placeholder="Password" ngModel />
-        </div>
-    </div>
-    <!--Login Form Ends-->
-    <p><a href="#">Forgot Password?</a></p>
-    <button class="btn btn-primary" >Login Now</button>
-</form>
+</div>
 <div id="spinner-wrapper" *ngIf="loginSpinner" >
     <div class="spinner" style="z-index: 9;"></div>
 </div>

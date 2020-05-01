@@ -9,8 +9,14 @@ public class FileUpload {
     private String FileType;
     private String UploadDateTime;
     private List<String> FileBaseUrls;
-    
-    public String get_id() {
+    private List<String> FilePosterUrls;
+    public List<String> getFilePosterUrls() {
+		return FilePosterUrls;
+	}
+	public void setFilePosterUrls(List<String> filePosterUrls) {
+		FilePosterUrls = filePosterUrls;
+	}
+	public String get_id() {
 		return _id;
 	}
 	public void set_id(String _id) {

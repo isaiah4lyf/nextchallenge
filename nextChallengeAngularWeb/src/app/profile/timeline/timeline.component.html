@@ -1,4 +1,4 @@
         <!-- Post Create Box
 ================================================= -->
 <app-create-post *ngIf="UserLoaded" [UserID]="UserData['_id']" [TimelineUserID]="ViewedUserData['_id']" [PostOnTimeline]="'true'" ></app-create-post>
-<app-post *ngFor="let post of posts" [post]="post"></app-post>
+<app-post *ngFor="let post of posts" [post]="post" [parentApi]="getParentApi()" ></app-post>

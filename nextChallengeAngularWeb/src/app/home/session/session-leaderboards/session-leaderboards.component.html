@@ -11,9 +11,9 @@
     </thead>
     <tbody>
         <ng-container *ngFor="let leaderboard of orderLeaderboards; index as i">
-            <tr [ngClass]="{ 'current-user-leaderboard': UserData['_id'] == leaderboard['UserId']}">
+            <tr routerLink="{{'/' + leaderboard['Email'].split('@')[0]}}" style="cursor: pointer;"  [ngClass]="{ 'current-user-leaderboard': UserData['_id'] == leaderboard['UserId']}">
                 <td>{{leaderboard["Position"]}}</td>
-                <td>{{leaderboard["UserId"]}}</td>
+                <td>{{leaderboard["FirstName"]}} {{leaderboard["LastName"]}}</td>
                 <td align="center">{{leaderboard["Score"]}}</td>
                 <td align="center">{{leaderboard["Streak"]}}</td>
             </tr>

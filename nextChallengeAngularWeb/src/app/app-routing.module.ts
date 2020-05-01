@@ -30,6 +30,8 @@ import { EducationComponent } from "./profile/about/education/education.componen
 import { WorkComponent } from "./profile/about/work/work.component";
 import { CompleteBuyComponent } from "./home/complete-buy/complete-buy.component";
 import { CancelBuyComponent } from "./home/cancel-buy/cancel-buy.component";
+import { RegisterComponent } from "./index/register/register.component";
+import { LoginComponent } from "./index/login/login.component";
 
 const routes: Routes = [
   {
@@ -60,8 +62,13 @@ const routes: Routes = [
     ]
   },
   { path: "help", component: HelpComponent },
-  { path: "login", component: IndexComponent },
-  { path: "register", component: IndexComponent },
+  { path: "login", component: LoginComponent },
+  { path: "register", component: RegisterComponent },
+  {
+    path: "index",
+    redirectTo: "login",
+    pathMatch: "full"
+  },
   {
     path: ":id",
     component: ProfileComponent,
@@ -80,7 +87,7 @@ const routes: Routes = [
           { path: "education", component: EducationComponent },
           { path: "work", component: WorkComponent },
           { path: "interests", component: InterestsComponent },
-          { path: "settings", component: ProfileSettingsComponent },
+          //{ path: "settings", component: ProfileSettingsComponent },
           { path: "change-password", component: ChangePasswordComponent }
         ]
       },
@@ -88,7 +95,6 @@ const routes: Routes = [
       { path: "friends", component: FriendsComponent }
     ]
   },
-
   { path: "**", redirectTo: "login", pathMatch: "full" }
 ];
 

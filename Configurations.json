@@ -1,0 +1,58 @@
+[
+    {
+        "_id": "5e935a194842ce60e86db204",
+        "Group": "API_CONFIG",
+        "Name": "API_URL",
+        "Description": "Next Challenge Web API URL",
+        "Value": "http://www.nextchallenge.co.za/api",
+        "CreateDateTime": "2020-04-26T18:37:28.04Z"
+    },
+    {
+        "_id": "5e94bc044842ce60bc2a5766",
+        "Group": "PAY_FAST_MERCHANT",
+        "Name": "notify_url",
+        "Description": "The notify URL from payfast once the payment is complete.",
+        "Value": "https://extchallenge.com/api/api/index/completeattemptpuchase",
+        "CreateDateTime": "2020-04-26T18:37:28.041Z"
+    },
+    {
+        "_id": "5e94bc664842ce60bc2a5767",
+        "Group": "WEB_CONFIG",
+        "Name": "PRIMARY_WEB_URL",
+        "Description": "Next Challenge Primary Web URL",
+        "Value": "http://www.nextchallenge.co.za",
+        "CreateDateTime": "2020-04-26T18:37:28.042Z"
+    },
+    {
+        "_id": "5e94bccc4842ce60bc2a5768",
+        "Group": "PAY_FAST_MERCHANT",
+        "Name": "merchant_id",
+        "Description": "Payfast mechant id.",
+        "Value": "14015254",
+        "CreateDateTime": "2020-04-26T18:37:28.043Z"
+    },
+    {
+        "_id": "5e94bce64842ce60bc2a5769",
+        "Group": "PAY_FAST_MERCHANT",
+        "Name": "merchant_key",
+        "Description": "Payfast mechant key.",
+        "Value": "afbftfh0fq28d",
+        "CreateDateTime": "2020-04-26T18:37:28.044Z"
+    },
+    {
+        "_id": "5e94bfb24842ce60bc2a576a",
+        "Group": "PAY_FAST_MERCHANT",
+        "Name": "payfast_url",
+        "Description": "Pay fast payments processing URL.",
+        "Value": "https://www.payfast.co.za/eng/process",
+        "CreateDateTime": "2020-04-26T18:37:28.044Z"
+    },
+    {
+        "_id": "5eac130a72feac0f0863402f",
+        "Group": "EMOJIS",
+        "Name": "emojis",
+        "Description": "Emojis for textareas.",
+        "Value": "[\"+1\",\"-1\",\"ant\",\"100\",\"stuck_out_tongue\",\"stuck_out_tongue_closed_eyes\",\"stuck_out_tongue_winking_eye\",\"sun_with_face\",\"sunflower\",\"sunglasses\",\"sunny\",\"sunrise\",\"surfer\",\"sushi\",\"suspect\",\"suspension_railway\",\"sweat\",\"sweat_drops\",\"sweat_smile\",\"sweet_potato\",\"swimmer\",\"symbols\",\"syringe\",\"tada\",\"tanabata_tree\",\"tangerine\",\"taurus\",\"+1\",\"-1\",\"ant\",\"100\",\"stuck_out_tongue\",\"stuck_out_tongue_closed_eyes\",\"stuck_out_tongue_winking_eye\",\"sun_with_face\",\"sunflower\",\"sunglasses\",\"sunny\",\"sunrise\",\"surfer\",\"sushi\",\"suspect\",\"suspension_railway\",\"sweat\",\"sweat_drops\",\"sweat_smile\",\"sweet_potato\",\"swimmer\",\"symbols\",\"syringe\",\"tada\",\"tanabata_tree\",\"tangerine\",\"taurus\",\"+1\",\"-1\",\"ant\",\"100\",\"stuck_out_tongue\",\"stuck_out_tongue_closed_eyes\",\"stuck_out_tongue_winking_eye\",\"sun_with_face\",\"sunflower\",\"sunglasses\",\"sunny\",\"sunrise\",\"surfer\",\"sushi\",\"suspect\",\"suspension_railway\",\"sweat\",\"sweat_drops\",\"sweat_smile\",\"sweet_potato\",\"swimmer\",\"symbols\",\"syringe\",\"tada\",\"tanabata_tree\",\"tangerine\",\"taurus\",\"+1\",\"-1\",\"ant\",\"100\",\"stuck_out_tongue\",\"stuck_out_tongue_closed_eyes\",\"stuck_out_tongue_winking_eye\",\"sun_with_face\",\"sunflower\",\"sunglasses\",\"sunny\",\"sunrise\",\"surfer\",\"sushi\",\"suspect\",\"suspension_railway\",\"sweat\",\"sweat_drops\",\"sweat_smile\",\"sweet_potato\",\"swimmer\",\"symbols\",\"syringe\",\"tada\",\"tanabata_tree\",\"tangerine\",\"taurus\",\"+1\",\"-1\",\"ant\",\"100\",\"stuck_out_tongue\",\"stuck_out_tongue_closed_eyes\",\"stuck_out_tongue_winking_eye\",\"sun_with_face\",\"sunflower\",\"sunglasses\",\"sunny\",\"sunrise\",\"surfer\",\"sushi\",\"suspect\",\"suspension_railway\",\"sweat\",\"sweat_drops\",\"sweat_smile\",\"sweet_potato\",\"swimmer\",\"symbols\",\"syringe\",\"tada\",\"tanabata_tree\",\"tangerine\",\"taurus\",\"+1\",\"-1\",\"ant\",\"100\",\"stuck_out_tongue\",\"stuck_out_tongue_closed_eyes\",\"stuck_out_tongue_winking_eye\",\"sun_with_face\",\"sunflower\",\"sunglasses\",\"sunny\",\"sunrise\",\"surfer\",\"sushi\",\"suspect\",\"suspension_railway\",\"sweat\",\"sweat_drops\",\"sweat_smile\",\"sweet_potato\",\"swimmer\",\"symbols\",\"syringe\",\"tada\",\"tanabata_tree\",\"tangerine\",\"taurus\"]",
+        "CreateDateTime": "2020-05-01T12:30:45.199Z"
+    }
+]

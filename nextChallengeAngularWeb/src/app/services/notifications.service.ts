@@ -32,7 +32,7 @@ export class NotificationsService {
       }
     }
   }
-  
+
   setServerData(servers) {
     this.Servers = servers;
     this.ServerData = this.Servers[Math.floor(Math.random() * this.Servers.length)];
@@ -43,6 +43,9 @@ export class NotificationsService {
   }
   getNotificationsSocket(callBack) {
     this.Subscriber = callBack;
+    return this.notificationsSocket;
+  }
+  getNotificationsSocketNoSub() {
     return this.notificationsSocket;
   }
   startNotificationsSocket(UserData, Subscriber) {

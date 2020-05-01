@@ -56,6 +56,7 @@ import { SuggestionComponent } from './suggestions/suggestion/suggestion.compone
 import { CompleteBuyComponent } from './home/complete-buy/complete-buy.component';
 import { CancelBuyComponent } from './home/cancel-buy/cancel-buy.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

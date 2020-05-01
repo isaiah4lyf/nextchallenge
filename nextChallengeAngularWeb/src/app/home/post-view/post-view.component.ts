@@ -35,11 +35,20 @@ export class PostViewComponent implements OnInit {
   public commentsRequested = true;
   public chatStatusClasses: any;
   public videoControls = false;
+  public Settings: any = null;
+  public Configurations: any;
   constructor(private route: ActivatedRoute, private _appService: AppService, private _notificationsService: NotificationsService, private router: Router) { }
-
+  getParentApi(): ParentComponentApi {
+    return {
+      callParentMethod: (name) => {
+        this.parentMethod(name);
+      }
+    }
+  }
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
+      this.Settings = this._appService.getlocalsettings();
       this._appService.retrievepost(this.route.snapshot.paramMap.get("id"), this.UserData["_id"]).subscribe(data => {
         this.post = data;
         if (this.post == null) {
@@ -68,27 +77,37 @@ export class PostViewComponent implements OnInit {
             }
             this.commentsRequested = false;
           });
+          if (this.post["Users"][0]["ProfilePic"] == null)
+            this.post["Users"][0]["ProfilePic"] = {
+              _id: "none",
+              FileName: "",
+              UserID: this.post["Users"][0]["_id"],
+              FileType: "image",
+              UploadDateTime: new Date(),
+              FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+            };
+          if (this.post["Users"][0]["ProfileCoverPic"] == null)
+            this.post["Users"][0]["ProfileCoverPic"] = {
+              _id: "none",
+              FileName: "",
+              UserID: this.post["Users"][0]["_id"],
+              FileType: "image",
+              UploadDateTime: new Date(),
+              FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+            };
         }
-        if (this.post["Users"][0]["ProfilePic"] == null)
-          this.post["Users"][0]["ProfilePic"] = {
-            _id: "none",
-            FileName: "",
-            UserID: this.post["Users"][0]["_id"],
-            FileType: "image",
-            UploadDateTime: new Date(),
-            FileBaseUrls: ["assets/images/image_placeholder.jpg"]
-          };
-        if (this.post["Users"][0]["ProfileCoverPic"] == null)
-          this.post["Users"][0]["ProfileCoverPic"] = {
-            _id: "none",
-            FileName: "",
-            UserID: this.post["Users"][0]["_id"],
-            FileType: "image",
-            UploadDateTime: new Date(),
-            FileBaseUrls: ["assets/images/image_placeholder.jpg"]
-          };
       });
       this._notificationsService.updateChatStatus();
+      this.Configurations = this._appService.getconfigurations();
+      if (this.Configurations == null) {
+        this._appService.retrieveconfigurations().subscribe(data => {
+          this._appService.setconfigurations(data);
+          this.Configurations = this._appService.getconfigurations();
+          this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+        });
+      } else {
+        this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+      }
     }
   }
   ngOnDestroy() {
@@ -114,8 +133,15 @@ export class PostViewComponent implements OnInit {
     }
   }
   submitWithEnter(event, textarea, sumbitbutton) {
-    event.preventDefault();
-    sumbitbutton.click();
+    if (this.Settings != null) {
+      if (this.Settings.find(s => s.Name == "SUBMIT_PUBLISHED_CHALLENGED_COMMENT_WITH_ENTER").Value) {
+        event.preventDefault();
+        sumbitbutton.click();
+      }
+    } else {
+      event.preventDefault();
+      sumbitbutton.click();
+    }
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
     if (fileInput.files.length == 0)
@@ -150,12 +176,19 @@ export class PostViewComponent implements OnInit {
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 50);
-    this._appService.createComment(form, formData, "temp-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount);
+    this._appService.createComment(form, formData, "temp-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount, this.commentCallBack);
     this.commentsCount++;
     fileInput.value = "";
     this.fileType = "none";
     textarea.innerHTML = "";
     emojisRef.style.display = "none";
+    let activity = {
+      UserID: this.UserData["_id"],
+      Content: "commented on a challenge",
+      ActivityType: "POST_LIKE",
+      _redirect: this.post["_id"]
+    }
+    this._appService.createactivity(activity).subscribe(data => { });
     this._notificationsService.updateChatStatus();
   }
   emojiClick(textarea, emoji) {
@@ -203,6 +236,13 @@ export class PostViewComponent implements OnInit {
       this.PostLiked = true;
       this.postLikedClass = "btn text-blue";
       this.postDisLikedClass = "btn text-red";
+      let activity = {
+        UserID: this.UserData["_id"],
+        Content: "liked a challenge",
+        ActivityType: "POST_LIKE",
+        _redirect: this.post["_id"]
+      }
+      this._appService.createactivity(activity).subscribe(data => { });
     }
     if (this.PostDisLiked) {
       this.disLikesCount--;
@@ -229,6 +269,13 @@ export class PostViewComponent implements OnInit {
       this.PostDisLiked = true;
       this.postLikedClass = "btn text-green";
       this.postDisLikedClass = "btn text-blue";
+      let activity = {
+        UserID: this.UserData["_id"],
+        Content: "disliked a challenge",
+        ActivityType: "POST_DISLIKE",
+        _redirect: this.post["_id"]
+      }
+      this._appService.createactivity(activity).subscribe(data => { });
     }
     if (this.PostLiked) {
       this.likesCount--;
@@ -238,4 +285,42 @@ export class PostViewComponent implements OnInit {
     }
     this._notificationsService.updateChatStatus();
   }
+  parentMethod(name: any) {
+    this.commentsRequested = true;
+    if (name == "INITIALIZE_COMMENTS")
+      this.comments = [];
+    if (name == "RETRIEVE_COMMENTS") {
+      this.commentsCount--;
+      this._appService.retrievecomments(this.route.snapshot.paramMap.get("id")).subscribe(data => {
+        this.comments = data;
+        if (this.comments.length > 0) {
+          this.topCommentId = this.comments[0]["_id"];
+          this.lastCommentID = this.comments[this.comments.length - 1]["_id"];
+        }
+        this.commentsRequested = false;
+      });
+    }
+  }
+  commentCallBack = (data: any, id: any): any => {
+    setTimeout(() => {
+      let elementHtml = document.getElementById(id) as HTMLElement;
+      let elementHtmlDel = document.getElementById(id + '-del') as HTMLElement;
+      if (elementHtml != null)
+        elementHtml.style.display = "none";
+      if (elementHtmlDel != null)
+        elementHtmlDel.style.display = "block";
+      this.commentsRequested = true;
+      this._appService.retrievecomments(this.route.snapshot.paramMap.get("id")).subscribe(data => {
+        this.comments = data;
+        if (this.comments.length > 0) {
+          this.topCommentId = this.comments[0]["_id"];
+          this.lastCommentID = this.comments[this.comments.length - 1]["_id"];
+        }
+        this.commentsRequested = false;
+      });
+    }, 500);
+  }
+}
+export interface ParentComponentApi {
+  callParentMethod: (any) => void
 }

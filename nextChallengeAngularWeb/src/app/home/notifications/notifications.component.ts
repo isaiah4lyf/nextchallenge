@@ -1,5 +1,6 @@
 import { HostListener, Component, OnInit } from '@angular/core';
 import { AppService } from "../.././services/app.service";
+import { ToastrService } from 'ngx-toastr';
 import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
@@ -13,7 +14,7 @@ export class NotificationsComponent implements OnInit {
   public UserData: any;
   public noitificationsRequested = true;
   public lastNotificationId = null;
-  constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
+  constructor(private _appService: AppService, private _notificationsService: NotificationsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -48,5 +49,47 @@ export class NotificationsComponent implements OnInit {
         }
       });
     }
+  }
+  notificationContent(notification) {
+    let data = JSON.parse(notification.Content);
+    if (data.ProfilePic == null)
+      data.ProfilePic = {
+        _id: "none",
+        FileName: "",
+        UserID: data._id,
+        FileType: "image",
+        UploadDateTime: new Date(),
+        FileBaseUrls: ["assets/images/image_placeholder.jpg"]
+      };
+    return data;
+  }
+  markAllAsSeen() {
+    this._appService.markallnotificationsasseen(this.UserData["_id"]).subscribe(data => { });
+    for (let i = 0; i < this.notifcations.length; i++) {
+      this.notifcations[i]["Read"] = true;
+    }
+    this.notifyHeader();
+  }
+  markAsSeen(notification) {
+    notification["Read"] = true;
+    this._appService.updatenotification(notification).subscribe(data => { });
+    this.notifyHeader();
+  }
+  delete(notification) {
+    this._appService.deletenotification(notification._id).subscribe(data => {
+      this.toastr.warning("", "Notification deleted successfully!");
+    })
+    this.notifcations.splice(this.notifcations.indexOf(this.notifcations.find(s => s._id == notification._id)), 1);
+    this.notifyHeader();
+  }
+  notifyHeader() {
+    let notificationData = {
+      NotificationType: "MESSAGES_READ",
+      NotificationFrom: this.UserData["_id"],
+      NotificationTo: this.UserData["_id"],
+      Data: "none"
+    };
+    let notificationsSocket = this._notificationsService.getNotificationsSocketNoSub();
+    notificationsSocket.send(JSON.stringify(notificationData));
   }
 }

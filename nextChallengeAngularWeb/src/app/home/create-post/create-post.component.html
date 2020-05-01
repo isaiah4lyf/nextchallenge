@@ -20,7 +20,7 @@
             <source src="" type="video/mp4"> </video>
         </div>
         <div class="tools">
-          <div #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
+          <div class="emojis" #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
             <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;" class=""
                 src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
         </div>

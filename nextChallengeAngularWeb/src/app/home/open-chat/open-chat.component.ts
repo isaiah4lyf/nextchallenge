@@ -10,7 +10,8 @@ import { NotificationsService } from "../.././services/notifications.service";
   styleUrls: ["./open-chat.component.css"]
 })
 export class OpenChatComponent implements OnInit {
-  public emojis = ["+1", "-1", "ant", "100"];
+  public Configurations: any;
+  public emojis: any = [];
   public messages: any;
   public UserData: any;
   public ToUserData: any;
@@ -22,11 +23,13 @@ export class OpenChatComponent implements OnInit {
   public stillActive = true;
   public messageInc = 0;
   public DataLoaded = false;
+  public Settings: any = null;
   constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
+      this.Settings = this._appService.getlocalsettings();
       this._appService.retrieveUserDataWithName(this.route.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
         if (data == null) {
           this.router.navigate(["/chat"]);
@@ -65,6 +68,16 @@ export class OpenChatComponent implements OnInit {
         }
       });
       this._notificationsService.updateChatStatus();
+      this.Configurations = this._appService.getconfigurations();
+      if (this.Configurations == null) {
+        this._appService.retrieveconfigurations().subscribe(data => {
+          this._appService.setconfigurations(data);
+          this.Configurations = this._appService.getconfigurations();
+          this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+        });
+      } else {
+        this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+      }
     }
   }
   ngOnDestroy() {
@@ -89,8 +102,15 @@ export class OpenChatComponent implements OnInit {
     }
   }
   submitWithEnter(event, textarea, sumbitbutton) {
-    event.preventDefault();
-    sumbitbutton.click();
+    if (this.Settings != null) {
+      if (this.Settings.find(s => s.Name == "SUBMIT_CHAT_MESSAGE_WITH_ENTER").Value) {
+        event.preventDefault();
+        sumbitbutton.click();
+      }
+    } else {
+      event.preventDefault();
+      sumbitbutton.click();
+    }
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
     if (fileInput.files.length == 0)

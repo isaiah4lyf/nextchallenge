@@ -4,9 +4,6 @@
     <div class="block-title">
         <h4 class="grey"><i class="icon ion-ios-heart-outline"></i>My Interests</h4>
         <div class="line"></div>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
-        <div class="line"></div>
     </div>
     <div class="edit-block">
         <ul class="list-inline interests">
@@ -18,7 +15,7 @@
         </ul>
         <div *ngIf="MyInterests.length > 0" class="line"></div>
         <div class="row">
-            <p class="custom-label"><strong>Add interests</strong></p>
+            <p class="custom-label"><span>Add interests</span></p>
             <div class="form-group col-sm-8">
                 <input #interestbox class="form-control input-group-lg" type="text"
                     placeholder="Interests. For example, photography" (keypress)="interestTextBoxChange(interestbox)" />

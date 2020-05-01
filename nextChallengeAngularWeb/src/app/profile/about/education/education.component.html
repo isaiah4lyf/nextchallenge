@@ -5,10 +5,6 @@
         <h4 class="grey"><i class="icon ion-ios-book-outline"></i>My education <button (click)="addSchools()"
                 class="btn btn-primary" style="float: right; margin-top: -10px;">Add</button></h4>
         <div class="line"></div>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
-
-        <div class="line"></div>
     </div>
     <div class="edit-block">
 
@@ -18,7 +14,7 @@
                 <ng-container [formGroupName]="i">
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <label for="school">My school</label><i (click)="deleteEduction(i)"
+                            <span for="school">My school</span><i (click)="deleteEduction(i)"
                                 class="icon ion-android-delete"
                                 style="float: right; font-size: 18px; color: rgb(218, 74, 74); cursor: pointer;"></i>
                             <input class="form-control input-group-lg" type="text" formControlName="Name"
@@ -27,19 +23,19 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-xs-6">
-                            <label for="date-from">From</label>
+                            <span for="date-from">From</span>
                             <input type="text" formControlName="From" class="form-control input-group-lg"
                                 placeholder="From" />
                         </div>
                         <div class="form-group col-xs-6">
-                            <label for="date-to" class="">To</label>
+                            <span for="date-to" class="">To</span>
                             <input class="form-control input-group-lg" type="text" title="Enter a Date" placeholder="To"
                                 formControlName="To" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-xs-12">
-                            <label for="edu-description">Description</label>
+                            <span for="edu-description">Description</span>
                             <textarea class="form-control" rows="4" cols="400" placeholder="Description"
                                 formControlName="Description"></textarea>
                         </div>

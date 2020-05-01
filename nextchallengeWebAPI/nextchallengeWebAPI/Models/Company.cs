@@ -19,6 +19,7 @@ namespace nextchallengeWebAPI.Models
         public string To { set; get; }
         public string CityOrTown { set; get; }
         public string Description { set; get; }
+        public DateTime CreateDateTime { set; get; }
     }
     public class CompanyPost
     {
@@ -30,6 +31,7 @@ namespace nextchallengeWebAPI.Models
         public string To { set; get; }
         public string CityOrTown { set; get; }
         public string Description { set; get; }
+        public DateTime CreateDateTime { set; get; }
     }
     public class CompanyConverter
     {
@@ -44,7 +46,8 @@ namespace nextchallengeWebAPI.Models
                 From = company.From,
                 To = company.To,
                 CityOrTown = company.CityOrTown,
-                Description = company.Description
+                Description = company.Description,
+                CreateDateTime = DateTime.Now
             };
         }
         public List<Company> ConvertMany(List<CompanyPost> companies)

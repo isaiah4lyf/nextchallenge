@@ -49,7 +49,29 @@ body {
   height: 100%;
   width: 100%;
 }
+.emojis{
+  height: 100px;
+  overflow-y: scroll;
+}
+/* width */
+.emojis::-webkit-scrollbar {
+  width: 5px;
+}
 
+/* Track */
+.emojis::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.emojis::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.emojis::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
 .led-green-global {
   position: absolute;
   left: 50px;
@@ -140,7 +162,7 @@ body {
   cursor: pointer;
 }
 .router-link:focus {
-  outline: 0;
+  outline: 0 !important; 
 }
 .router-link-none-click:focus {
   outline: 0;

@@ -17,7 +17,7 @@ import session.models.*;
 
 public class SessionService {
 	public HttpClient client = HttpClient.newHttpClient();
-	public String apiUrl = "http://www.nextchallenge.co.za:93/api/index/";
+	public String apiUrl = "http://www.nextchallenge.co.za/api/api/index/";
 	public HttpRequest getRequest(String actionParams) {
 		return HttpRequest.newBuilder()
 			      .uri(URI.create(apiUrl + actionParams))

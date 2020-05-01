@@ -26,6 +26,27 @@ namespace nextchallengeWebAPI.Models
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }
+    public class UserDetailed
+    {
+        [XmlIgnore]
+        public ObjectId _id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string EmailRegistration { get; set; }
+        public DateOfBirth DateOfBirth { get; set; }
+        public string Gender { get; set; }
+        public string City { get; set; }
+        public string AboutMe { get; set; }
+        public string ChatStatus { get; set; }
+        public int Attempts { get; set; }
+        public FileUpload ProfilePic { get; set; }
+        public FileUpload ProfileCoverPic { get; set; }
+        public Company LatestWork { set; get; }
+        public School LatestEducation { set; get; }
+        public int FriendsCount { set; get; }
+
+    }
     public class UserMinInfo
     {
         public ObjectId _id { get; set; }
@@ -79,6 +100,7 @@ namespace nextchallengeWebAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string EmailRegistration { get; set; }
         public DateOfBirth DateOfBirth { get; set; }
         public string Gender { get; set; }
         public string City { get; set; }
@@ -91,7 +113,8 @@ namespace nextchallengeWebAPI.Models
         public ObjectId _id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; }     
+        public string EmailRegistration { get; set; }
         public List<Friendship> friendships { get; set; }
         public DateOfBirth DateOfBirth { get; set; }
         public string Gender { get; set; }
@@ -100,6 +123,9 @@ namespace nextchallengeWebAPI.Models
         public string ChatStatus { get; set; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
+        public Company LatestWork { set; get; }
+        public School LatestEducation { set; get; }
+        public int FriendsCount { set; get;}
 
     }
     public class UserConverter 

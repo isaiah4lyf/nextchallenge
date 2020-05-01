@@ -16,7 +16,8 @@ namespace nextchallengeWebAPI.Models
         public string Name { set; get; }
         public string From { set; get; }
         public string To { set; get; }
-        public string Description { set; get; } 
+        public string Description { set; get; }
+        public DateTime CreateDateTime { set; get; }
     }
     public class SchoolPost
     {
@@ -26,6 +27,7 @@ namespace nextchallengeWebAPI.Models
         public string From { set; get; }
         public string To { set; get; }
         public string Description { set; get; }
+        public DateTime CreateDateTime { set; get; }
     }
     public class SchoolConverter 
     { 
@@ -38,7 +40,8 @@ namespace nextchallengeWebAPI.Models
                 Name = school.Name,
                 From = school.From,
                 To = school.To,
-                Description= school.Description
+                Description= school.Description,
+                CreateDateTime = DateTime.Now
             };
         }
         public List<School> ConvertMany(List<SchoolPost> schools)

@@ -4,34 +4,35 @@
     <div class="block-title">
         <h4 class="grey"><i class="icon ion-android-checkmark-circle"></i>Edit basic information</h4>
         <div class="line"></div>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
-        <div class="line"></div>
     </div>
     <div class="edit-block">
         <!--Register Form-->
         <form #User="ngForm" name="basic-info" id="basic-info" class="form-inline" (ngSubmit)="updateBasicInfo(User)">
             <div class="row">
-                <div class="form-group col-xs-6">
-                    <label for="firstname">First name</label>
-                    <input value="ffa " id="firstname" class="form-control input-group-lg" type="text" name="FirstName"
+                <div class="form-group col-xs-6" style="position: relative;">
+                    <span for="firstname">First Name<span class="text-red">*</span></span>
+                    <input #firstNameInput (change)="onFieldChange(firstNameInput,firstNameValRef,'FirstName')" id="firstname" class="form-control input-group-lg" type="text" name="FirstName"
                         title="Enter first name" placeholder="First name" [ngModel]="userModel['FirstName']" />
+                    <span #firstNameValRef class="validation-span" style="width: 150px; left: 15px;">Field required</span>
                 </div>
                 <div class="form-group col-xs-6">
-                    <label for="lastname">Last Name</label>
-                    <input id="lastname" class="form-control input-group-lg" type="text" name="LastName"
-                        title="Enter last name" placeholder="Last name" [ngModel]="userModel['LastName']"  />
+                    <span for="lastname">Last Name<span class="text-red">*</span></span>
+                    <input #lastNameInput (change)="onFieldChange(lastNameInput,lastNameValRef,'LastName')"  id="lastname" class="form-control input-group-lg" type="text" name="LastName"
+                        title="Enter last name" placeholder="Last name" [ngModel]="userModel['LastName']" />
+                        <span #lastNameValRef class="validation-span" style="width: 150px; left: 15px;">Field required</span>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-xs-12">
-                    <label for="email">Email</label>
-                    <input id="email" class="form-control input-group-lg" type="text" name="EmailRegistration" title="Enter Email"
-                        type="email" required placeholder="Your Email" [ngModel]="userModel['EmailRegistration']"  />
+                    <span for="email">Email<span class="text-red">*</span></span>
+                    <input #emailInput (change)="onFieldChange(emailInput,emailValRef,'Email')"  id="email" class="form-control input-group-lg" type="text" name="EmailRegistration"
+                        title="Enter Email" type="email" required placeholder="Your Email"
+                        [ngModel]="userModel['EmailRegistration']" />
+                        <span #emailValRef class="validation-span" style="width: 150px; left: 15px;">Field required</span>
                 </div>
             </div>
             <div class="row" ngModelGroup="DateOfBirth">
-                <p class="custom-label"><strong>Date of Birth</strong></p>
+                <p class="custom-label">Date of Birth</p>
                 <div class="form-group col-sm-3 col-xs-6">
                     <label for="month" class="sr-only"></label>
                     <select class="form-control" id="day" name="Day" [ngModel]="userModel.DateOfBirth.Day">
@@ -44,7 +45,7 @@
                         <option>6</option>
                         <option>7</option>
                         <option>8</option>
-                        <option>9</option>  
+                        <option>9</option>
                         <option>10</option>
                         <option>11</option>
                         <option>12</option>
@@ -108,7 +109,7 @@
             </div>
             <div class="row">
                 <div class="form-group col-xs-12">
-                    <span for="Gender"><strong>I am a: </strong></span>
+                    <span for="Gender">Gender: </span>
                     <select class="form-control" name="Gender" [ngModel]="userModel.Gender">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -117,23 +118,22 @@
             </div>
             <div class="row">
                 <div class="form-group  col-xs-12">
-                    <label for="city">City</label>
+                    <span for="city">City</span>
                     <input id="city" #gender class="form-control input-group-lg reg_name" type="text" name="City"
-                        title="Enter city" placeholder="Your city" [ngModel]="userModel['City']"  />
+                        title="Enter city" placeholder="Your city" [ngModel]="userModel['City']" />
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-xs-12">
-                    <label for="my-info">About me</label>
-                    <textarea id="my-info" name="AboutMe" class="form-control" placeholder=""
-                        rows="4" [ngModel]="userModel['AboutMe']"
-                        cols="400"></textarea>
+                    <span for="my-info">About me</span>
+                    <textarea id="my-info" name="AboutMe" class="form-control" placeholder="" rows="4"
+                        [ngModel]="userModel['AboutMe']" cols="400"></textarea>
                 </div>
             </div>
             <button class="btn btn-primary router-link" type="submit">Save Changes</button>
         </form>
     </div>
 </div>
-<div id="spinner-wrapper" *ngIf="basicInfoSpinner"> 
+<div id="spinner-wrapper" *ngIf="basicInfoSpinner">
     <div class="spinner"></div>
 </div>

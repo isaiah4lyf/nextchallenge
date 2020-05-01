@@ -17,7 +17,13 @@ export class TimelineComponent implements OnInit {
   public postsRequested = true;
   public UserLoaded = false;
   constructor(private _appService: AppService, private _notificationsService: NotificationsService, public route: ActivatedRoute, public router: Router) { }
-
+  getParentApi(): ParentComponentApi {
+    return {
+      callParentMethod: (name) => {
+        this.parentMethod(name);
+      }
+    }
+  }
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
@@ -71,4 +77,20 @@ export class TimelineComponent implements OnInit {
       this._notificationsService.updateChatStatus();
     }
   }
+  parentMethod(name: any) {
+    this.postsRequested = true;
+    if (name == "INITIALIZE_POSTS")
+      this.posts = [];
+    if (name == "RETRIEVE_POSTS")
+      this._appService.retrievetimelineposts(this.UserData["_id"], this.ViewedUserData["_id"]).subscribe(data => {
+        this.posts = data;
+        if (this.posts.length > 0) {
+          this.lastPostID = data[this.posts.length - 1]["_id"];
+          this.postsRequested = false;
+        }
+      });
+  }
+}
+export interface ParentComponentApi {
+  callParentMethod: (any) => void
 }

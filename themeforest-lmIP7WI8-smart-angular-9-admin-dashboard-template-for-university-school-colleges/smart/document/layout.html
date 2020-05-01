@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Smart - Angular 9+ Admin Dashboard Template for University, School & Colleges </title>
+    <!-- Favicon-->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+
+    <!-- Plugins Core Css -->
+    <link href="assets/css/app.min.css" rel="stylesheet">
+
+    <!-- Custom Css -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <link href="assets/css/prism.min.css" rel="stylesheet" />
+
+    <!-- You can choose a theme from css/styles instead of get all themes -->
+    <link href="assets/css/styles/theme-white.css" rel="stylesheet" />
+</head>
+
+<body class="menu_dark theme-white logo-black submenu-closed">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="m-t-30">
+                <img class="loading-img-spin" src="assets/images/loading.png" width="20" height="20" alt="admin">
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" /> <span
+                        class="logo-name">Smart</span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown user_profile">
+                        <p class="col-blue m-r-20">V 1.0.0</p>
+                    </li>
+                    <li class="dropdown user_profile m-r-20">
+                        <form action="#" method="get" target="_blank">
+                            <button type="submit" class="btn bg-blue waves-effect">Support</button>
+                        </form>
+                    </li>
+                    <li class="dropdown user_profile m-r-20">
+                        <form action="#" method="get" target="_blank">
+                            <button type="submit" class="btn bg-orange waves-effect">Buy
+                                Now</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li>
+                        <a href="index.html">
+                            <i class="material-icons">home</i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="intro.html">
+                            <i class="material-icons">info</i>
+                            <span>Introductions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="install.html">
+                            <i class="material-icons">build</i>
+                            <span>Installation</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="folder-structure.html">
+                            <i class="material-icons">folder</i>
+                            <span>Folder Structure</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="start-up.html">
+                            <i class="material-icons">select_all</i>
+                            <span>Start Up </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dyna-script.html">
+                            <i class="material-icons">find_in_page</i>
+                            <span>Dynamic Script Load </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="layout.html">
+                            <i class="material-icons">subtitles</i>
+                            <span>Layout</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sidebar-menu.html">
+                            <i class="material-icons">chrome_reader_mode</i>
+                            <span>Sidebar Menu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return false;" class="menu-toggle">
+                            <i class="material-icons">web</i>
+                            <span>Form</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="form-elements.html">Form Elements</a>
+                            </li>
+                            <li>
+                                <a href="form-validation.html">Form Validation</a>
+                            </li>
+                            <li>
+                                <a href="form-wizard.html">Form Wizard</a>
+                            </li>
+                            <li>
+                                <a href="editors.html">Editors</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return false;" class="menu-toggle">
+                            <i class="material-icons">border_all</i>
+                            <span>Tables</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="bootstrap-table.html">Bootstrap Table</a>
+                            </li>
+                            <li>
+                                <a href="material-table.html">Material Table</a>
+                            </li>
+                            <li>
+                                <a href="ngx-datatable.html">ngx-datatable</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return false;" class="menu-toggle">
+                            <i class="material-icons">equalizer</i>
+                            <span>Charts</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="echart.html">Echart Chart</a>
+                            </li>
+                            <li>
+                                <a href="morris.html">Morris Chart</a>
+                            </li>
+                            <li>
+                                <a href="apex.html">Apex Chart</a>
+                            </li>
+                            <li>
+                                <a href="chartjs.html">Chart js</a>
+                            </li>
+                            <li>
+                                <a href="gauge-chart.html">Gauge Chart</a>
+                            </li>
+                            <li>
+                                <a href="ngx-chart.html">ngx-chart</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="calendar.html">
+                            <i class="material-icons">event</i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="theme-setting.html">
+                            <i class="material-icons">color_lens</i>
+                            <span>Theme Setting</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="utilities.html">
+                            <i class="material-icons">format_paint</i>
+                            <span>Utilities</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="credits.html">
+                            <i class="material-icons">thumb_up</i>
+                            <span>Credits</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="changelog.html">
+                            <i class="material-icons">watch_later</i>
+                            <span>Changelog</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="support.html">
+                            <i class="material-icons">local_phone</i>
+                            <span>Support</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- #Menu -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix" id="line3">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="card-body">
+                                <h4>Header Structure</h4>
+                                <hr>
+                                <p> You can find header related HTML code in
+                                    <code>layout/header/header.component.html</code> file.
+                                    <pre class=" language-html">
+                         	<code>
+&lt;nav #navbar class="navbar active"&gt;
+    &lt;div class="container-fluid"&gt;
+        &lt;div class="navbar-header"&gt;
+            &lt;a href="#" onClick="return false;" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target="#navbar-collapse" aria-expanded="false"&gt;&lt;/a&gt;
+            &lt;a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"&gt;&lt;/a&gt;
+            &lt;a class="navbar-brand" routerLink="dashboard/main"&gt;
+                &lt;img src="assets/images/logo.png" alt="" /&gt;
+                &lt;span class="logo-name"&gt;Smart&lt;/span&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class="collapse navbar-collapse" id="navbar-collapse"&gt;
+            &lt;ul class="pull-left collapse-menu-icon"&gt;
+                &lt;li&gt;
+                    &lt;button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse"&gt;
+                        &lt;mat-icon&gt;menu&lt;/mat-icon&gt;
+                    &lt;/button&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;ul class="nav navbar-nav navbar-right"&gt;
+                &lt;!-- Full Screen Button --&gt;
+                &lt;li class="fullscreen"&gt;
+                    &lt;button mat-icon-button (click)="callFullscreen()" class=" nav-notification-icons"&gt;
+                        &lt;mat-icon&gt;fullscreen&lt;/mat-icon&gt;
+                    &lt;/button&gt;
+                &lt;/li&gt;
+                &lt;!-- #END# Full Screen Button --&gt;
+                &lt;!-- #START# Notifications--&gt;
+                &lt;li class="dropdown"&gt;
+                    &lt;button mat-icon-button data-toggle="dropdown" class=" nav-notification-icons"&gt;
+                        &lt;mat-icon&gt;notifications_none&lt;/mat-icon&gt;
+                        &lt;span class="label-count bg-orange"&gt;&lt;/span&gt;
+                    &lt;/button&gt;
+                    &lt;ul class="dropdown-menu pullDown"&gt;
+                        &lt;li class="header"&gt;NOTIFICATIONS&lt;/li&gt;
+                        &lt;li class="body"&gt;
+                            &lt;ul class="menu" style="position: relative; max-width: 600px; max-height: 200px;"
+                                [perfectScrollbar]&gt;
+                                &lt;li&gt;
+                                    &lt;a href="#" *ngFor="let notification of notifications" onClick="return false;"&gt;
+                                        &lt;span class="table-img msg-user"&gt;
+                                            &lt;img src="{{notification.userImg}}" alt=""&gt;
+                                        &lt;/span&gt;
+                                        &lt;span class="menu-info"&gt;
+                                            &lt;span class="menu-title"&gt;{{notification.userName}}&lt;/span&gt;
+                                            &lt;span class="menu-desc"&gt;
+                                                &lt;i class="material-icons"&gt;access_time&lt;/i&gt; {{notification.time}}
+                                            &lt;/span&gt;
+                                            &lt;span class="menu-desc"&gt;{{notification.message}}&lt;/span&gt;
+                                        &lt;/span&gt;
+                                    &lt;/a&gt;
+                                &lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                        &lt;li class="footer"&gt;
+                            &lt;a href="#" onClick="return false;"&gt;View All Notifications&lt;/a&gt;
+                        &lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/li&gt;
+                &lt;!-- #END# Notifications--&gt;
+                &lt;li class="dropdown user_profile"&gt;
+                    &lt;a href="#" onClick="return false;" data-toggle="dropdown" role="button" class="pt-0"&gt;
+                        &lt;img src="assets/images/user.jpg" class="rounded-circle" width="32" height="32" alt="User"&gt;
+                    &lt;/a&gt;
+                    &lt;ul class="dropdown-menu pullDown"&gt;
+                        &lt;li class="body"&gt;
+                            &lt;ul class="user_dw_menu"&gt;
+                                &lt;li&gt;
+                                    &lt;a href="#" onClick="return false;"&gt;
+                                        &lt;mat-icon aria-hidden="false" class="mr-2"&gt;person&lt;/mat-icon&gt;Profile
+                                    &lt;/a&gt;
+                                &lt;/li&gt;
+                                ......
+                            &lt;/ul&gt;
+                        &lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/li&gt;
+                &lt;!-- #END# Tasks --&gt;
+                &lt;li class="pull-right"&gt;
+                    &lt;button mat-icon-button (click)="toggleRightSidebar()"
+                        class="nav-notification-icons js-right-sidebar"&gt;
+                        &lt;mat-icon&gt;settings&lt;/mat-icon&gt;
+                    &lt;/button&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+							</code>
+						</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix" id="line3">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="card-body">
+                                <h4>Main Menu Sidebar</h4>
+                                <hr>
+                                <p> You can find main menu sidebar related HTML code in
+                                    <code>layout/sidebar/sidebar.component.html</code> file.
+                                    <pre class=" language-html">
+                         	<code>
+&lt;aside id="leftsidebar" class="sidebar" (mouseenter)="mouseHover($event)" (mouseleave)="mouseOut($event)"&gt;
+    &lt;!-- Menu --&gt;
+    &lt;div class="menu"&gt;
+        &lt;ul class="list"
+            [ngStyle]="{'position' : 'relative', 'max-height' : listMaxHeight+'px', 'max-width' : listMaxWidth+'px'}"
+            [perfectScrollbar]&gt;
+            &lt;li class="sidebar-user-panel"&gt;
+                &lt;div class="user-panel"&gt;
+                    &lt;div class=" image"&gt;
+                        &lt;img src="assets/images/usrbig.jpg" class="img-circle user-img-circle" alt="User Image" /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="profile-usertitle"&gt;
+                    &lt;div class="sidebar-userpic-name font-weight-bold"&gt;Emily Smith &lt;/div&gt;
+                    &lt;div class="profile-usertitle-job "&gt;Principal &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;!-- First level menu --&gt;
+            &lt;li [class.active]="showMenu === sidebarItem.title" *ngFor="let sidebarItem of sidebarItems"
+                [routerLinkActive]="sidebarItem.submenu.length != 0 ? '' : 'active'"&gt;
+                &lt;div class="header" *ngIf="sidebarItem.groupTitle === true"&gt;{{sidebarItem.title}}&lt;/div&gt;
+                &lt;a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null"
+                    *ngIf="!sidebarItem.groupTitle;" [ngClass]="[sidebarItem.class]"
+                    (click)="callMenuToggle($event, sidebarItem.title)"&gt;
+                    &lt;i [ngClass]="[sidebarItem.iconType]"&gt;{{sidebarItem.icon}}&lt;/i&gt;
+                    &lt;span class="hide-menu"&gt;{{sidebarItem.title}}
+                    &lt;/span&gt;
+                &lt;/a&gt;
+                &lt;!-- Second level menu --&gt;
+                &lt;ul class="ml-menu" *ngIf="sidebarItem.submenu.length &gt; 0"&gt;
+                    &lt;li *ngFor="let sidebarSubItem of sidebarItem.submenu"
+                        [class.activeSub]="showSubMenu === sidebarSubItem.title"
+                        [routerLinkActive]="sidebarSubItem.submenu.length &gt; 0 ? '' : 'active'"&gt;
+                        &lt;a [routerLink]="sidebarSubItem.submenu.length &gt; 0 ? null : [sidebarSubItem.path]"
+                            (click)="callSubMenuToggle(sidebarSubItem.title)" [ngClass]="[sidebarSubItem.class]"&gt;
+                            {{sidebarSubItem.title}}
+                        &lt;/a&gt;
+                        &lt;!-- Third level menu --&gt;
+                        &lt;ul class="collapse" *ngIf="sidebarSubItem.submenu.length &gt; 0"
+                            [ngClass]="{'in' : showSubMenu === sidebarSubItem.title }"&gt;
+                            &lt;li *ngFor="let sidebarSubsubItem of sidebarSubItem.submenu"
+                                [ngClass]="[sidebarSubsubItem.class]"&gt;
+                                &lt;a [routerLink]="[sidebarSubsubItem.path]"&gt;
+                                    {{sidebarSubsubItem.title}}
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;!-- #Menu --&gt;
+&lt;/aside&gt;
+                         	
+							</code>
+						</pre>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix" id="line3">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="card-body">
+                                <h4>Setting Sidebar</h4>
+                                <hr>
+                                <p> You can find setting sidebar related HTML code in
+                                    <code>layout/right-sidebar/right-sidebar.component.html</code> file.
+                                    <pre class=" language-html">
+                         	<code>
+&lt;aside id="rightsidebar" class="right-sidebar" [ngClass]="isOpenSidebar ? 'open' : 'close'"
+(clickOutside)="onClickedOutside($event)"&gt;
+    &lt;div class="rightSidebarClose" (click)="toggleRightSidebar()"&gt;&lt;i class="far fa-times-circle"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;ul class="nav nav-tabs tab-nav-right" role="tablist"&gt;
+        &lt;li role="presentation"&gt;
+            &lt;a href="#skins" data-toggle="tab" class="active"&gt;SKINS&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li role="presentation"&gt;
+            &lt;a href="#settings" data-toggle="tab"&gt;SETTINGS&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="tab-content"&gt;
+        &lt;div role="tabpanel" class="tab-pane in active in active stretchLeft" id="skins"&gt;
+            &lt;div class="demo-skin"
+                [ngStyle]="{'position' : 'relative', 'max-height' : maxHeight+'px', 'max-width' : maxWidth+'px'}"
+                [perfectScrollbar]&gt;
+                &lt;div class="rightSetting"&gt;
+                    &lt;p&gt;GENERAL SETTINGS&lt;/p&gt;
+                    &lt;ul class="setting-list list-unstyled m-t-20"&gt;
+                        &lt;li&gt;
+                            &lt;div class="form-check"&gt;
+                                &lt;div class="form-check m-l-10"&gt;
+                                    &lt;label class="form-check-label"&gt;
+                                        &lt;input class="form-check-input" type="checkbox" value="" checked&gt; Save
+                                        History
+                                        &lt;span class="form-check-sign"&gt;
+                                            &lt;span class="check"&gt;&lt;/span&gt;
+                                        &lt;/span&gt;
+                                    &lt;/label&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/li&gt;
+                        .....
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+                &lt;div class="rightSetting"&gt;
+                    &lt;p&gt;SIDEBAR MENU COLORS&lt;/p&gt;
+                    &lt;mat-button-toggle-group class="mt-2" [value]="isDarkSidebar ? 'dark' : 'light'"&gt;
+                        &lt;mat-button-toggle (click)="lightSidebarBtnClick()" value="light"&gt;Light&lt;/mat-button-toggle&gt;
+                        &lt;mat-button-toggle (click)="darkSidebarBtnClick()" value="dark"&gt;Dark&lt;/mat-button-toggle&gt;
+                    &lt;/mat-button-toggle-group&gt;
+                &lt;/div&gt;
+                &lt;div class="rightSetting"&gt;
+                    &lt;p&gt;THEME COLORS&lt;/p&gt;
+                    &lt;mat-button-toggle-group class="mt-2" [value]="isDarTheme ? 'dark' : 'light'"&gt;
+                        &lt;mat-button-toggle (click)="lightThemeBtnClick()" value="light"&gt;Light&lt;/mat-button-toggle&gt;
+                        &lt;mat-button-toggle (click)="darkThemeBtnClick()" value="dark"&gt;Dark&lt;/mat-button-toggle&gt;
+                    &lt;/mat-button-toggle-group&gt;
+                &lt;/div&gt;
+                &lt;div class="rightSetting"&gt;
+                    &lt;p&gt;SKINS&lt;/p&gt;
+                    &lt;ul class="demo-choose-skin choose-theme list-unstyled"&gt;
+                        &lt;li data-theme="white" [ngClass]="{'actived': selectedBgColor === 'white'}"
+                            (click)="selectTheme('white')"&gt;
+                            &lt;div class="white-theme white-theme-border"&gt;&lt;/div&gt;
+                        &lt;/li&gt;
+                        &lt;li data-theme="black" [ngClass]="{'actived': selectedBgColor === 'black'}"
+                            (click)="selectTheme('black')"&gt;
+                            &lt;div class="black-theme"&gt;&lt;/div&gt;
+                        &lt;/li&gt;
+                        .....
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+                &lt;div class="rightSetting"&gt;
+                    &lt;p&gt;Disk Space&lt;/p&gt;
+                    &lt;div class="sidebar-progress"&gt;
+                        &lt;div class="progress m-t-20"&gt;
+                            &lt;div class="progress-bar l-bg-cyan shadow-style width-per-45" role="progressbar"
+                                aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;span class="progress-description"&gt;
+                            &lt;small&gt;26% remaining&lt;/small&gt;
+                        &lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="rightSetting"&gt;
+                    &lt;p&gt;Server Load&lt;/p&gt;
+                    &lt;div class="sidebar-progress"&gt;
+                        &lt;div class="progress m-t-20"&gt;
+                            &lt;div class="progress-bar l-bg-orange shadow-style width-per-63" role="progressbar"
+                                aria-valuenow="63" aria-valuemin="0" aria-valuemax="100"&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;span class="progress-description"&gt;
+                            &lt;small&gt;Highly Loaded&lt;/small&gt;
+                        &lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div role="tabpanel" class="tab-pane stretchRight" id="settings"&gt;
+            &lt;div class="demo-settings"
+                [ngStyle]="{'position' : 'relative', 'max-height' : maxHeight+'px', 'max-width' : maxWidth+'px'}"
+                [perfectScrollbar]&gt;
+                &lt;p&gt;GENERAL SETTINGS&lt;/p&gt;
+                &lt;ul class="setting-list"&gt;
+                    &lt;li&gt;
+                        &lt;mat-slide-toggle checked&gt;Report Panel Usage&lt;/mat-slide-toggle&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;mat-slide-toggle&gt;Email Redirect&lt;/mat-slide-toggle&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;p&gt;SYSTEM SETTINGS&lt;/p&gt;
+                &lt;ul class="setting-list"&gt;
+                    &lt;li&gt;
+                        &lt;mat-slide-toggle&gt;Notifications&lt;/mat-slide-toggle&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;mat-slide-toggle checked&gt;Auto Updates&lt;/mat-slide-toggle&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;p&gt;ACCOUNT SETTINGS&lt;/p&gt;
+                &lt;ul class="setting-list"&gt;
+                    &lt;li&gt;
+                        &lt;mat-slide-toggle&gt;Offline&lt;/mat-slide-toggle&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;mat-slide-toggle checked&gt;Location Permission&lt;/mat-slide-toggle&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/aside&gt;        	
+							</code>
+						</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix" id="line3">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="card-body">
+                                <h4>Page Loader</h4>
+                                <hr>
+                                <p> You can find page loading process related HTML code in
+                                    <code>layout/page-loader/page-loader.component.html</code> file.
+                                    <pre class=" language-html">
+                         	<code>
+&lt;div class="loader"&gt;
+    &lt;mat-progress-bar mode="indeterminate"&gt; &lt;/mat-progress-bar&gt;
+&lt;/div&gt;                        	
+							</code>
+						</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="assets/js/prism.js"></script>
+    <script src="assets/js/app.min.js"></script>
+    <!-- Custom Js -->
+    <script src="assets/js/admin.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Add smooth scrolling to all links
+            $("a").on('click', function (event) {
+
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+        });
+    </script>
+</body>
+
+</html>

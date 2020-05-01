@@ -32,6 +32,8 @@ export class ProfileComponent implements OnInit {
   public profileCoverPicLink: any;
   public chatStatusClasses: any;
   public activities: any = [];
+  public updateRefGlobal: any;
+  public notificationsSocket: any = null;
   public mobileScreen = document.body.offsetWidth + window.innerWidth - $(window).width() < 992;
   public desktopScreen = document.body.offsetWidth + window.innerWidth - $(window).width() >= 992;
 
@@ -62,9 +64,6 @@ export class ProfileComponent implements OnInit {
     }, 5);
   }
   onComponentInit() {
-    this.profileCoverPicLink = this._sanitizer.bypassSecurityTrustStyle('url("http://placehold.it/1030x360") no-repeat');
-    this.profilePicLink = "http://placehold.it/300x300";
-
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
       this.aboutLink = "/" + this.route.snapshot.paramMap.get("id") + "/about";
@@ -165,52 +164,111 @@ export class ProfileComponent implements OnInit {
       FriendUserId: this.UserData["_id"]
     };
     this._appService.createfriendship(friendship).subscribe(data => {
-      let notification = {
-        UserID: viewerData["_id"],
-        Type: "FRIEND_REQUEST",
-        Read: false,
-        Content: JSON.stringify(this.UserData)
-      };
-      this._appService.updatenotification(notification).subscribe(data => {
-        this.toastr.info("Request sent to " + this.UserData["FirstName"] + " " + this.UserData["LastName"], "Friend request sent!");
-      });
+      if (data == null) {
+        this.toastr.warning("", "Friendship already exists!");
+      }
+      else {
+        let notification = {
+          UserID: viewerData["_id"],
+          Type: "FRIEND_REQUEST_SENT",
+          Read: false,
+          Content: JSON.stringify(this.UserData)
+        };
+        let viewerUser = this._appService.getUserData();
+        this._appService.updatenotification(notification).subscribe(data => {
+          let notify = {
+            NotificationType: "FRIEND_REQUEST_SENT",
+            NotificationFrom: viewerUser["_id"],
+            NotificationTo: viewerUser["_id"],
+            Data: JSON.stringify({
+              FirstName: this.UserData["FirstName"],
+              LastName: this.UserData["LastName"],
+            })
+          };
+          this.notificationsSocket.send(JSON.stringify(notify));
+        });
+        this.notificationsSocket = this._notificationsService.getNotificationsSocketNoSub();
+        if (this.notificationsSocket != null) {
+          let notificationData = {
+            NotificationType: "FRIEND_REQUEST",
+            NotificationFrom: viewerUser["_id"],
+            NotificationTo: this.UserData["_id"],
+            Data: JSON.stringify({
+              FirstName: viewerUser["FirstName"],
+              LastName: viewerUser["LastName"],
+            })
+          };
+          this.notificationsSocket.send(JSON.stringify(notificationData));
+        }
+      }
     });
   }
   logout() {
     this._notificationsService.getNotificationsSocketSideProf(null).close();
     this._appService.logout();
   }
-  inputFileChalge(fileInput, propicPrev) {
+  inputFileChalge(fileInput, propicPrev, profilePicValRef) {
     let mimeType = fileInput.files[0]["type"];
     if (mimeType.split("/")[0] === "image") {
       propicPrev.src = window.URL.createObjectURL(fileInput.files[0]);
-      //this.fileType = "image";
+      profilePicValRef.style.visibility = "hidden";
+    }
+    else {
+      profilePicValRef.style.visibility = "visible";
+      profilePicValRef.innerText = "File type not supported."
+      fileInput.value = "";
     }
   }
-  coverFile(fileInput, coverpicPrev) {
+  coverFile(fileInput, coverpicPrev, profileCoverPicValRef) {
     let mimeType = fileInput.files[0]["type"];
     if (mimeType.split("/")[0] === "image") {
       coverpicPrev.style.background = 'url(' + window.URL.createObjectURL(fileInput.files[0]) + ') no-repeat';
       coverpicPrev.style.backgroundPosition = 'center';
       coverpicPrev.style.backgroundSize = 'cover';
+      profileCoverPicValRef.style.visibility = "hidden";
+    }
+    else {
+      profileCoverPicValRef.style.visibility = "visible";
+      profileCoverPicValRef.innerText = "File type not supported."
+      fileInput.value = "";
     }
   }
-  updateProfilePic(fileInput) {
-    let formData = new FormData();
-    formData.append("FileType", "image");
-    formData.append("File", fileInput.files[0]);
-    formData.append("UserID", this.UserData["_id"]);
-    this._appService.updateprofilepic(formData, this.filesUploadCallBack);
+  updateProfilePic(fileInput, updateRef, profilePicValRef) {
+    if (fileInput.files.length > 0) {
+      updateRef.style.display = "block";
+      this.updateRefGlobal = updateRef;
+      let formData = new FormData();
+      formData.append("FileType", "image");
+      formData.append("File", fileInput.files[0]);
+      formData.append("UserID", this.UserData["_id"]);
+      this._appService.updateprofilepic(formData, this.filesUploadCallBack);
+      fileInput.value = "";
+    }
+    else {
+      profilePicValRef.style.visibility = "visible";
+      profilePicValRef.innerText = "Please select file."
+    }
   }
-  updateProfileCoverPic(fileInput) {
-    let formData = new FormData();
-    formData.append("FileType", "image");
-    formData.append("File", fileInput.files[0]);
-    formData.append("UserID", this.UserData["_id"]);
-    this._appService.updateprofilecoverpic(formData, this.filesUploadCallBack);
+  updateProfileCoverPic(fileInput, updateRef, profileCoverPicValRef) {
+    if (fileInput.files.length > 0) {
+      updateRef.style.display = "block";
+      this.updateRefGlobal = updateRef;
+      let formData = new FormData();
+      formData.append("FileType", "image");
+      formData.append("File", fileInput.files[0]);
+      formData.append("UserID", this.UserData["_id"]);
+      this._appService.updateprofilecoverpic(formData, this.filesUploadCallBack);
+      fileInput.value = "";
+    } else {
+      profileCoverPicValRef.style.visibility = "visible";
+      profileCoverPicValRef.innerText = "Please select file."
+    }
   }
   filesUploadCallBack = (result): void => {
     this._appService.setUserData(JSON.parse(result));
+    setTimeout(() => {
+      this.updateRefGlobal.style.display = "none";
+    }, 500);
   }
   convertDateTimeToWord(datetime, datetimecurrent) {
     return this._appService.convertDateTimeToWord(datetime, datetimecurrent);

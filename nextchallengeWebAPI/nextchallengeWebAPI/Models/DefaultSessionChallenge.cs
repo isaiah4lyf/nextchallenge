@@ -20,6 +20,13 @@ namespace nextchallengeWebAPI.Models
         public int TimeInSeconds { set; get; }
 
     }
+    public class DefaultSessionChallengeStats 
+    {
+        public int LikesCount { set; get; }
+        public int DislikesCount { set; get; }
+        public bool PostLiked { set; get; }
+        public bool PostDisLiked { set; get; }
+    }
     public class Clue {
         public string Type { set; get; }
         public string Description { set; get; }

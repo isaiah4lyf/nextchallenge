@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   public menuDropdownOpen = false;
   public profileCoverPicLink: any = "";
   public profilePicLink: any = "";
-  
+
   constructor(private _sanitizer: DomSanitizer, private _appService: AppService, private _notificationsService: NotificationsService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -88,7 +88,6 @@ export class HeaderComponent implements OnInit {
     this.menuDropdownOpen = menuDropdownTab.innerHTML.includes("assets/icons/down-arrow.svg");
   }
   search(searchInput) {
-
     if (searchInput.value.length > 1 && searchInput.value != "" && searchInput.value != " ") {
       this._appService.search(searchInput.value).subscribe(data => {
         this.searchHistory = false;
@@ -133,7 +132,55 @@ export class HeaderComponent implements OnInit {
     if (search['SearchType'] == 'user')
       this.router.navigate(["/" + search['_redirect'].split('@')[0] + "/timeline"]);
     search["UserID"] = this.UserData["_id"];
-    this._appService.createsearchhistory(search).subscribe(data => { });
+    this._appService.createsearchhistory(search).subscribe(data => {
+      if (data != null) {
+        if (data["SearchType"] == "user") {
+          this._appService.retrieveUserDataWithName(search['_redirect'].split('@')[0], this.UserData["Email"].split("@")[0]).subscribe(data => {
+            if (data["friendships"].length == 0 && data["_id"] != this.UserData["_id"]) {
+              setTimeout(() => {
+                this.notificationsSocket = this._notificationsService.getNotificationsSocketNoSub();
+                let notificationData1 = {
+                  UserID: this.UserData["_id"],
+                  Type: "NEW_SUGGESTION",
+                  Read: false,
+                  Content: JSON.stringify(data)
+                };
+                let _notificationData1 = {
+                  NotificationType: "NEW_SUGGESTION",
+                  NotificationFrom: this.UserData["_id"],
+                  NotificationTo: this.UserData["_id"],
+                  Data: JSON.stringify({
+                    FirstName: data["FirstName"],
+                    LastName: data["LastName"],
+                  })
+                };
+                this._appService.updatenotification(notificationData1).subscribe(data => {
+                  this.notificationsSocket.send(JSON.stringify(_notificationData1));
+                });
+                let notificationData2 = {
+                  UserID: data["_id"],
+                  Type: "NEW_SUGGESTION",
+                  Read: false,
+                  Content: JSON.stringify(this.UserData)
+                };
+                let _notificationData2 = {
+                  NotificationType: "NEW_SUGGESTION",
+                  NotificationFrom: this.UserData["_id"],
+                  NotificationTo: data["_id"],
+                  Data: JSON.stringify({
+                    FirstName: this.UserData["FirstName"],
+                    LastName: this.UserData["LastName"],
+                  })
+                };
+                this._appService.updatenotification(notificationData2).subscribe(data => {
+                  this.notificationsSocket.send(JSON.stringify(_notificationData2));
+                });
+              }, 25000);
+            }
+          });
+        }
+      }
+    });
   }
   showToastr() {
     this.toastr.info("Some message sge...", "New Message: Matome Ramafalo");
@@ -180,6 +227,27 @@ export class HeaderComponent implements OnInit {
         if (notification.NotificationTo == this.UserData["_id"])
           this._notificationsService.setChatStatusAutoUpdate(true);
       }
+    }
+    else if (notification.NotificationType == "FRIEND_REQUEST") {
+      this._appService.retrieveheaderstats(this.UserData["_id"]).subscribe(data => {
+        this.headerStats = data;
+        let requestData = JSON.parse(notification.Data);
+        this.toastr.info("Friend request from " + requestData["FirstName"] + " " + requestData["LastName"], "New friend request!");
+      });
+    }
+    else if (notification.NotificationType == "FRIEND_REQUEST_SENT") {
+      this._appService.retrieveheaderstats(this.UserData["_id"]).subscribe(data => {
+        this.headerStats = data;
+        let requestData = JSON.parse(notification.Data);
+        this.toastr.info("Request sent to " + requestData["FirstName"] + " " + requestData["LastName"], "Friend request sent!");
+      });
+    }
+    else if (notification.NotificationType == "NEW_SUGGESTION") {
+      this._appService.retrieveheaderstats(this.UserData["_id"]).subscribe(data => {
+        this.headerStats = data;
+        let requestData = JSON.parse(notification.Data);
+        this.toastr.info("Friend suggestion: " + requestData["FirstName"] + " " + requestData["LastName"], "New suggestion!");
+      });
     }
   }
   changeStatus(color) {

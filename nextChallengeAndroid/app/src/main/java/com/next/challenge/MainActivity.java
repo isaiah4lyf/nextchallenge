@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private NotificationCompat.Builder builder2;
     private  NotificationManager notificationManager;
 
-    private String url ="http://nextchallenge.co.za/";
+    private String url ="http://nextchallenge.co.za:4200/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             //intent.putExtra("url", url + "chat/tap.tap");
             Bundle pBundle = new Bundle();
-            pBundle.putString("url", "http://nextchallenge.co.za/" + "chat/tap.tap");
+            pBundle.putString("url", "http://nextchallenge.co.za:4200/" + "chat/tap.tap");
             intent.putExtras(pBundle);
             PendingIntent pendingIntent2 = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder2.setContentIntent(pendingIntent2);

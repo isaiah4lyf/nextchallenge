@@ -23,6 +23,8 @@ export class SettingsComponent implements OnInit {
   }
   onSettingChange(settingRef,setting){  
     setting["Value"] = settingRef.checked;  
-    this._appService.updatesetting(setting).subscribe(data => {});
+    this._appService.updatesetting(setting).subscribe(data => {
+      this._appService.updatelocalsettings();
+    });
   }
 }

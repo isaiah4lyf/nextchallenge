@@ -16,6 +16,7 @@ export class SessionLeaderboardsComponent implements OnInit {
   ngOnInit(): void {
     this.orderLeaderboards = this.leaderboards["LeaderboardSortedByScore"];
     this.UserData = this._appService.getUserData();
+    console.log(this.leaderboards);
   }
   orberbyScore() {
     this.orderLeaderboards = this.leaderboards["LeaderboardSortedByScore"];

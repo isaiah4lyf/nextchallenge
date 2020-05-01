@@ -37,7 +37,7 @@ import tech.gusavila92.websocketclient.WebSocketClient;
 public class app_service extends Service {
     private WebSocketClient webSocketClient;
 
-    public String apiUrl = "http://www.nextchallenge.co.za:93/api/index/";
+    public String apiUrl = "http://www.nextchallenge.co.za/api/api/index/";
     public OkHttpClient client = new OkHttpClient();
 
     @Nullable

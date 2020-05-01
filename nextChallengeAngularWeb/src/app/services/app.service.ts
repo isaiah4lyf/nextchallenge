@@ -8,22 +8,40 @@ import { NgForm } from "@angular/forms";
   providedIn: "root"
 })
 export class AppService {
-  //private configUrl = "http://www.nextchallenge.co.za:93/api/index/";
-  private configUrl = "http://localhost:44357/api/index/";
+  private configUrl = "http://www.nextchallenge.co.za/api/api/index/";
+  //private configUrl = "http://localhost:44357/api/index/";
   private httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
   private httpOptionsMultipart = { headers: new HttpHeaders({ "Content-Type": "multipart/form-data; boundary=--------------------------654287500409823045608277" }) };
   private UserData = null;
   private UserViewData = null;
   private SessionContentGlobal: any;
   private Configurations: any = null;
+  private Settings: any = null;
 
   constructor(private router: Router, private http: HttpClient) { }
 
   setconfigurations(Configurations) {
     this.Configurations = Configurations;
+    if (sessionStorage.getItem("logon") != "" && sessionStorage.getItem("logon") != null && sessionStorage.getItem("logon") != "null") {
+      sessionStorage.setItem("configurations", JSON.stringify(Configurations));
+    }
+    else {
+      localStorage.setItem("configurations", JSON.stringify(Configurations));
+    }
   }
   getconfigurations() {
+    if (this.Configurations == null) {
+      if (sessionStorage.getItem("configurations") != "" && sessionStorage.getItem("configurations") != null && sessionStorage.getItem("configurations") != "null") {
+        this.Configurations = JSON.parse(sessionStorage.getItem("configurations"));
+      }
+      else if (localStorage.getItem("configurations") != "" && localStorage.getItem("configurations") != null && localStorage.getItem("configurations") != "null") {
+        this.Configurations = JSON.parse(localStorage.getItem("configurations"));
+      }
+    }
     return this.Configurations;
+  }
+  updateconfiguration(body) {
+    return this.http.put(this.configUrl + "updateconfiguration", body, this.httpOptions);
   }
   retrieveconfigurations() {
     return this.http.get(this.configUrl + "retrieveconfigurations", this.httpOptions);
@@ -42,10 +60,19 @@ export class AppService {
   }
   logout() {
     this.setUserData(null);
+    this.Settings = null;
+    this.Configurations = null;
+    localStorage.setItem("settings", JSON.stringify(null));
+    sessionStorage.setItem("settings", JSON.stringify(null));
+    localStorage.setItem("configurations", JSON.stringify(null));
+    sessionStorage.setItem("configurations", JSON.stringify(null));
     this.router.navigate(["/login"]);
   }
   register(form: NgForm) {
     return this.http.post(this.configUrl + "createuser", JSON.stringify(form.value), this.httpOptions);
+  }
+  checkemail(email, userid) {
+    return this.http.get(this.configUrl + "checkemail?email=" + email + "&userid=" + userid, this.httpOptions);
   }
   updatebasicinfo(form) {
     return this.http.post(this.configUrl + "updatebasicinfo", form, this.httpOptions);
@@ -94,21 +121,40 @@ export class AppService {
     return this.http.get(this.configUrl + "retrieveabout?userid=" + userid, this.httpOptions);
   }
   setUserData(data) {
-    this.UserData = data;
-    //localStorage.setItem("logon", JSON.stringify(data));  //for keep signed in "localStorage.getItem("logon")"
-    sessionStorage.setItem("logon", JSON.stringify(data));
+    if (data != null) {
+      if (data["RememberMe"] != undefined) {
+        if (data["RememberMe"]) {
+          delete data.RememberMe;
+          localStorage.setItem("logon", JSON.stringify(data));
+        }
+        else {
+          delete data.RememberMe;
+          sessionStorage.setItem("logon", JSON.stringify(data));
+        }
+      }
+      else {
+        if (sessionStorage.getItem("logon") != "" && sessionStorage.getItem("logon") != null && sessionStorage.getItem("logon") != "null") {
+          sessionStorage.setItem("logon", JSON.stringify(data));
+        }
+        else {
+          localStorage.setItem("logon", JSON.stringify(data));
+        }
+      }
+    }
+    else {
+      this.UserData = data;
+      localStorage.setItem("logon", JSON.stringify(data));
+      sessionStorage.setItem("logon", JSON.stringify(data));
+    }
   }
   getUserData() {
     if (this.UserData == null) {
-
       if (sessionStorage.getItem("logon") != "" && sessionStorage.getItem("logon") != null && sessionStorage.getItem("logon") != "null") {
         this.UserData = JSON.parse(sessionStorage.getItem("logon"));
       }
-      /*
-      if (localStorage.getItem("logon") != "" && localStorage.getItem("logon") != null && localStorage.getItem("logon") != "null") {
+      else if (localStorage.getItem("logon") != "" && localStorage.getItem("logon") != null && localStorage.getItem("logon") != "null") {
         this.UserData = JSON.parse(localStorage.getItem("logon"));
-      } 
-       */
+      }
       else {
         this.router.navigate(["/login"]);
       }
@@ -146,13 +192,13 @@ export class AppService {
   setUserViewData(userdata) {
     this.UserViewData = userdata;
   }
-  createPost(form: NgForm, formData: FormData, createPostSpinnerRef) {
+  createPost(form: NgForm, formData: FormData, createPostSpinnerRef, filesUploadCallBack) {
     this.http.post(this.configUrl + "createpost", formData).subscribe(data => {
-      setTimeout(() => {
-        createPostSpinnerRef.style.display = "none";
-        form.reset();
-      }, 1000);
+      filesUploadCallBack(data, createPostSpinnerRef);
     });
+  }
+  deletepost(postid) {
+    return this.http.delete(this.configUrl + "deletepost?postid=" + postid, this.httpOptions);
   }
   retrieveposts(userid) {
     return this.http.get(this.configUrl + "retrieveposts?userid=" + userid, this.httpOptions);
@@ -169,15 +215,13 @@ export class AppService {
   retrievepost(postid, userid) {
     return this.http.get(this.configUrl + "retrievepost?postid=" + postid + "&userid=" + userid, this.httpOptions);
   }
-  createComment(form: NgForm, formData: FormData, id) {
+  createComment(form: NgForm, formData: FormData, id,callBackFun) {
     this.http.post(this.configUrl + "createcomment", formData).subscribe(data => {
-      setTimeout(() => {
-        let elementHtml = document.getElementById(id) as HTMLElement;
-        if (elementHtml != null)
-          elementHtml.style.display = "none";
-      }, 500);
-
+      callBackFun(data,id);
     });
+  }
+  deletecomment(commentid) {
+    return this.http.delete(this.configUrl + "deletecomment?commentid=" + commentid, this.httpOptions)
   }
   retrievecomments(postid) {
     return this.http.get(this.configUrl + "retrievecomments?postid=" + postid, this.httpOptions);
@@ -282,8 +326,8 @@ export class AppService {
   retrieveleaderboards(userid, orderby, page, prevPages) {
     return this.http.post(this.configUrl + "retrieveleaderboards?userid=" + userid + "&orderby=" + orderby + "&page=" + page, prevPages, this.httpOptions);
   }
-  searchleaderboards(query,orderby) {
-    return this.http.get(this.configUrl + "searchleaderboards?query=" + query + "&orderby=" + orderby , this.httpOptions);
+  searchleaderboards(query, orderby) {
+    return this.http.get(this.configUrl + "searchleaderboards?query=" + query + "&orderby=" + orderby, this.httpOptions);
   }
   createfriendship(friendship) {
     return this.http.post(this.configUrl + "createfriendship", friendship, this.httpOptions);
@@ -330,6 +374,12 @@ export class AppService {
   updatenotification(notification) {
     return this.http.post(this.configUrl + "updatenotification", notification, this.httpOptions);
   }
+  markallnotificationsasseen(userid) {
+    return this.http.put(this.configUrl + "markallnotificationsasseen?userid=" + userid, this.httpOptions);
+  }
+  deletenotification(notificationid) {
+    return this.http.delete(this.configUrl + "deletenotification?notificationid=" + notificationid, this.httpOptions);
+  }
   retrievenotifications(userid) {
     return this.http.get(this.configUrl + "retrievenotifications?userid=" + userid, this.httpOptions);
   }
@@ -363,7 +413,32 @@ export class AppService {
   retrievesettings(userid) {
     return this.http.get(this.configUrl + "retrievesettings?userid=" + userid, this.httpOptions);
   }
+  updatelocalsettings() {
+    this.retrievesettings(this.UserData["_id"]).subscribe(data => {
+      this.Settings = data;
+      if (sessionStorage.getItem("logon") != "" && sessionStorage.getItem("logon") != null && sessionStorage.getItem("logon") != "null") {
+        sessionStorage.setItem("settings", JSON.stringify(data));
+      }
+      else {
+        localStorage.setItem("settings", JSON.stringify(data));
+      }
+    });
+  }
+  getlocalsettings() {
+    if (this.Settings == null) {
+      if (sessionStorage.getItem("settings") != "" && sessionStorage.getItem("settings") != null && sessionStorage.getItem("settings") != "null") {
+        this.Settings = JSON.parse(sessionStorage.getItem("settings"));
+      }
+      else if (localStorage.getItem("settings") != "" && localStorage.getItem("settings") != null && localStorage.getItem("settings") != "null") {
+        this.Settings = JSON.parse(localStorage.getItem("settings"));
+      }
+    }
+    return this.Settings;
+  }
   retrievehelpitems() {
     return this.http.get(this.configUrl + "retrievehelpitems", this.httpOptions);
+  }
+  retrievedefaultsessionchallengestats(challengeid, userid) {
+    return this.http.get(this.configUrl + "retrievedefaultsessionchallengestats?challengeid=" + challengeid + "&userid=" + userid, this.httpOptions);
   }
 }

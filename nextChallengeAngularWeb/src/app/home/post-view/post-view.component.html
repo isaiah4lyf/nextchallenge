@@ -23,7 +23,7 @@
                 <tr>
                     <td>
                         <div class="user-info">
-                            <h5><a href="timeline.html" class="profile-link">{{post["Users"][0]["FirstName"]}}
+                            <h5><a [routerLink]='"/" + this.post["Users"][0]["Email"].split("@")[0]' class="profile-link">{{post["Users"][0]["FirstName"]}}
                                     {{post["Users"][0]["LastName"]}} </a></h5>
                             <p class="text-muted =" style="font-size: 11px;">{{postDate}}</p>
                         </div>
@@ -44,7 +44,7 @@
         <div class="post-text">
             <p #postContent></p>
         </div>
-        <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+        <app-comment *ngFor="let comment of comments" [comment]="comment" [parentApi]="getParentApi()"></app-comment>
     </div>
 </div>
 <div class="send-message" id="session-submit"
@@ -72,7 +72,7 @@
                             <source src="" type="video/mp4"> </video>
                     </div>
                     <div class="tools">
-                        <div #emojisRef
+                        <div class="emojis"  #emojisRef
                             style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
                             <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;"
                                 class="" src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />

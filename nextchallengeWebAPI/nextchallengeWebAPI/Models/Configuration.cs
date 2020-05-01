@@ -41,6 +41,13 @@ namespace nextchallengeWebAPI.Models
                 CreateDateTime = configuration.CreateDateTime
             };
         }
+        public List<Configuration> ConvertMany(List<ConfigurationPost> configs)
+        {
+            List<Configuration> configsConverted = new List<Configuration>();
+            foreach (ConfigurationPost config in configs)
+                configsConverted.Add(Convert(config));
+            return configsConverted;
+        }
     }
 
 }

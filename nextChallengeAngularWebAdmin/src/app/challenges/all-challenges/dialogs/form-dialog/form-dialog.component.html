@@ -1,0 +1,129 @@
+<div class="addContainer">
+    <div class="modalHeader">
+        <div class="editRowModal">
+            <div class="modalHeader clearfix">
+                <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 font-17">
+                        {{dialogTitle}}</div>
+                </div>
+            </div>
+        </div>
+        <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
+        <form class="register-form m-4" [formGroup]="departmentForm" (ngSubmit)="submit">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="Category" required>
+                            <mat-option [value]="'History & Mythology'">
+                                History & Mythology
+                            </mat-option>
+                            <mat-option [value]="'Science'">
+                                Science
+                            </mat-option>
+                            <mat-option [value]="'Sports'">
+                                Sports
+                            </mat-option>
+                            <mat-option [value]="'General'">
+                                General
+                            </mat-option>
+                            <mat-option [value]="'Religion'">
+                                Religion
+                            </mat-option>
+                            <mat-option [value]="'English & Literature'">
+                                English & Literature
+                            </mat-option>
+                            <mat-option [value]="'The world'">
+                                The world
+                            </mat-option>
+                            <mat-option [value]="'Art & Entertainment'">
+                                Art & Entertainment
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="departmentForm.get('Category').hasError('required')">
+                            Select Any Category
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Points</mat-label>
+                        <input matInput type="number" formControlName="Points" required>
+                        <mat-icon matSuffix>assessment</mat-icon>
+                        <mat-error *ngIf="departmentForm.get('Points').hasError('required')">
+                            Points required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Question</mat-label>
+                        <input matInput formControlName="Question" required>
+                        <mat-icon matSuffix>live_help</mat-icon>
+                        <mat-error *ngIf="departmentForm.get('Question').hasError('required')">
+                            Question is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Time In Seconds</mat-label>
+                        <input matInput type="number" formControlName="TimeInSeconds" required>
+                        <mat-icon matSuffix>query_builder</mat-icon>
+                        <mat-error
+                            *ngIf="departmentForm.get('TimeInSeconds').hasError('required')">
+                            Please Time In Seconds required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Answer</mat-label>
+                        <input matInput formControlName="Answer" required>
+                        <mat-icon matSuffix>question_answer</mat-icon>
+                        <mat-error *ngIf="departmentForm.get('Answer').hasError('required')">
+                            Answer required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class=" col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Clue Description</mat-label>
+                        <input matInput formControlName="Clue" required>
+                        <mat-icon matSuffix>info</mat-icon>
+                        <mat-error *ngIf="departmentForm.get('Clue').hasError('required')">
+                            Clue Description required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Upload Clue File</mat-label>
+                        <ngx-mat-file-input formControlName="clueFile">
+                        </ngx-mat-file-input>
+                        <mat-icon matSuffix>attachment</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                        <button mat-raised-button color="primary" [type]="submit" [disabled]="!departmentForm.valid"
+                            [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+                        <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

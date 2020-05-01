@@ -13,12 +13,13 @@ export class DefaultComponent implements OnInit {
   public postsTemp: any;
   public lastPostID: string;
   public postsRequested = true;
-
+  public userLoggedOn = false;
   constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
+      this.userLoggedOn = true;
       this._appService.retrieveposts(this.UserData["_id"]).subscribe(data => {
         this.posts = data;
         if (this.posts.length > 0) {

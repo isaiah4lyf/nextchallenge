@@ -27,6 +27,7 @@ export class LeaderboardsComponent implements OnInit {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
       this._appService.retrieveleaderboards(this.UserData["_id"], this.orderby, this.page, this.prevPages).subscribe(data => {
+        console.log(data);
         this.Leaderboards = data;
         this.Leaderboards.forEach(element => {
           if (!element["AddedLast"]) {

@@ -1,18 +1,13 @@
-<!-- Post Content
-                  ================================================= -->
 <div class="post-content">
-    <!-- <div *ngIf="profileRoute" class="post-date hidden-xs hidden-sm">
-        <h5>Sarah</h5>
-        <p class="text-grey">10/21/2016</p>
-    </div>-->
     <div *ngIf='post["FileType"] == "video"' style="position: relative;">
-        <!--Post Date End-->
-        <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 500px;" preload="none" [controls]='videoControls'
-            poster="{{post['Files'][0]['FilePosterUrls'][0]}}">
+        <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 500px;" preload="none"
+            [controls]='videoControls' poster="{{post['Files'][0]['FilePosterUrls'][0]}}">
             <source [src]='post["Files"][0]["FileBaseUrls"][0]' type="video/mp4">
         </video>
-        <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'" class="router-link" style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;" src="assets/icons/play_vid.svg"
-            alt="" />
+        <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'"
+            class="router-link"
+            style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;"
+            src="assets/icons/play_vid.svg" alt="" />
     </div>
     <img *ngIf='post["FileType"] == "image"' style="width: 100%; height: auto; max-height: 500px;"
         [src]='post["Files"][0]["FileBaseUrls"][0]' alt="" class="img-responsive post-image router-link"
@@ -41,51 +36,17 @@
                             <a [class]="postDisLikedClass" (click)="dislike()"><i class="fa fa-thumbs-down"></i>
                                 {{disLikesCount}}</a>
                         </div>
+
                     </td>
                 </tr>
             </table>
+            <i class="icon ion-android-delete" title="Delete" *ngIf="post['UserID'] == UserData['_id'] || post['TimelineUserID'] == UserData['_id']" (click)="deletePost(post['_id'])"
+                style="position: absolute; right: -8px; top: -18px; font-size: 15px; color: rgb(218, 74, 74); cursor: pointer;"></i>
         </div>
         <div class="post-text router-link" [routerLink]="postLink">
             <p #postContent></p>
         </div>
         <app-comment *ngIf="comments.length > 0" [comment]="comments[0]"></app-comment>
-        <!--
-        <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 110%; margin-left: -5%;">
-            <form #createCommentForm="ngForm"
-                (ngSubmit)="createComment(createCommentForm,filePreviewImg,fileInput, filePreviewVid)">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <textarea type="text" name="CommentContent" id="exampleTextarea" cols="500" rows="3"
-                                class="form-control" placeholder="Type a comment"
-                                style="border: none !important;	background-color: #f8f8f8; border-radius: 0;"
-                                ngModel></textarea>
-                        </div>
-                    </div>
-                    <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files"
-                        #fileInput type="file" style="display: none;" ngModel />
-                    <div class="col-md-12">
-                        <div class="video-wrapper">
-                            <img #filePreviewImg src="" alt="" filePreviewVidclass="img-responsive post-image"
-                                style="display: none; width: 100%; height: auto; max-height: 500px;" />
-                            <video #filePreviewVid class="post-video"
-                                style="display: none; width: 100%; height: auto; max-height: 500px;" controls>
-                                <source src="" type="video/mp4"> </video>
-                        </div>
-                        <div class="tools">
-                            <ul class="publishing-tools list-inline">
-                                <li><a><i class="ion-android-happy"></i></a></li>
-                                <li><a (click)="clikImages(fileInput)"><i class="ion-images"></i></a></li>
-                                <li><a (click)="clikVideos(fileInput)"><i class="ion-ios-videocam"></i></a></li>
-                                <li><a><i class="ion-map"></i></a></li>
-                            </ul>
-                            <button type="submit" class="btn btn-primary pull-right">comment</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-         -->
         <div class="create-post" style="border: none; padding-bottom: 0; margin: 0; width: 105%; margin-left: -2.5%;">
             <form #createPostForm="ngForm" style="margin-top: -16px; width: 100%;"
                 (ngSubmit)="createMessage(createPostForm,filePreviewImg,fileInput, filePreviewVid,textarea,emojisRef)">
@@ -109,7 +70,7 @@
                                 <source src="" type="video/mp4"> </video>
                         </div>
                         <div class="tools">
-                            <div #emojisRef
+                            <div class="emojis" #emojisRef
                                 style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
                                 <img (click)="emojiClick(textarea,emoji)"
                                     style="width: 20px; width: 20px; cursor: pointer;" class=""

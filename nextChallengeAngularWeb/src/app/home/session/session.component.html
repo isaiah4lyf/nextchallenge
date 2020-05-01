@@ -8,8 +8,17 @@
     <app-session-message [message]='sessionContent'
       *ngIf="sessionContent['Command'] == 'JOINED_SESSION' || sessionContent['Command'] == 'LEFT_SESSION' || sessionContent['Command'] == 'MESSAGE' || sessionContent['Command'] == 'CORRECT' || sessionContent['Command'] == 'INCORRECT_ANSWER' || sessionContent['Command'] == 'MESSAGE_LOCAL'">
     </app-session-message>
-    <app-session-leaderboards [leaderboards]="sessionContent" *ngIf="sessionContent['Command'] == 'RETRIEVE_LEADERBOARDS'">
+    <app-session-leaderboards [leaderboards]="sessionContent"
+      *ngIf="sessionContent['Command'] == 'RETRIEVE_LEADERBOARDS'">
     </app-session-leaderboards>
+    <div *ngIf="sessionContent['Command'] == 'SESSION_COMMANDS'" class="post-content" style="margin-bottom: 5px;">
+      <div class="post-container" style="padding-bottom: 0; padding-top: 0px;">
+        <h5>Session Commands</h5>
+        <div>.h = Session Commands</div>
+        <div>.q = Leave session</div>
+        <div>.l = Session Leaderboards</div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="send-message" id="session-submit"
@@ -38,7 +47,7 @@
               <source src="" type="video/mp4"> </video>
           </div>
           <div class="tools">
-            <div #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
+            <div class="emojis" #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
               <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;" class=""
                 src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
             </div>

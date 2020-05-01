@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AppService } from "../.././services/app.service";
 import { ToastrService } from 'ngx-toastr';
 import { ParentComponentApi } from '../suggestions.component';
+import { NotificationsService } from "../.././services/notifications.service";
 
 @Component({
   selector: 'app-suggestion',
@@ -13,7 +14,8 @@ export class SuggestionComponent implements OnInit {
   @Input() parentApi: ParentComponentApi;
 
   public chatStatusClasses: any;
-  constructor(private _appService: AppService, private toastr: ToastrService) { }
+  public notificationsSocket: any = null;
+  constructor(private _appService: AppService, private toastr: ToastrService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     if (this.suggestion != null)
@@ -46,15 +48,43 @@ export class SuggestionComponent implements OnInit {
       FriendUserId: this.suggestion["_id"]
     };
     this._appService.createfriendship(friendship).subscribe(data => {
-      let notification = {
-        UserID: viewerData["_id"],
-        Type: "FRIEND_REQUEST",
-        Read: false,
-        Content: JSON.stringify(this.suggestion)
-      };
-      this._appService.updatenotification(notification).subscribe(data => {
-        this.toastr.info("Request sent to " + this.suggestion["FirstName"] + " " + this.suggestion["LastName"], "Friend request sent!");
-      });
+      if (data == null) {
+        this.toastr.warning("", "Friendship already exists!");
+      }
+      else {
+        let notification = {
+          UserID: viewerData["_id"],
+          Type: "FRIEND_REQUEST_SENT",
+          Read: false,
+          Content: JSON.stringify(this.suggestion)
+        };
+        let viewerUser = this._appService.getUserData();
+        this._appService.updatenotification(notification).subscribe(data => {
+          let notify = {
+            NotificationType: "FRIEND_REQUEST_SENT",
+            NotificationFrom: viewerUser["_id"],
+            NotificationTo: viewerUser["_id"],
+            Data: JSON.stringify({
+              FirstName: this.suggestion["FirstName"],
+              LastName: this.suggestion["LastName"],
+            })
+          };
+          this.notificationsSocket.send(JSON.stringify(notify));
+        });
+        this.notificationsSocket = this._notificationsService.getNotificationsSocketNoSub();
+        if (this.notificationsSocket != null) {
+          let notificationData = {
+            NotificationType: "FRIEND_REQUEST",
+            NotificationFrom: viewerUser["_id"],
+            NotificationTo: this.suggestion["_id"],
+            Data: JSON.stringify({
+              FirstName: viewerUser["FirstName"],
+              LastName: viewerUser["LastName"],
+            })
+          };
+          this.notificationsSocket.send(JSON.stringify(notificationData));
+        }
+      }
     });
     this.parentApi.callParentMethod(this.suggestion);
   }

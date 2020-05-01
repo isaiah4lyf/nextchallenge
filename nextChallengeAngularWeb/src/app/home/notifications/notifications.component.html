@@ -1,25 +1,31 @@
-<div class="page-title-div">Notifications</div>
+<div class="page-title-div">
+    Notifications
+    <i class="icon ion-eye" title="Mark all as seen" *ngIf='notifcations.length > 0' (click)="markAllAsSeen()"
+    style="position: absolute; right: 15px; top: 7px; font-size: 18px;  cursor: pointer;"></i>
+</div>
 <div class="line-divider"></div>
 <table class="notifications-table">
-    <tr *ngFor="let notification of notifcations" [ngClass]="{ 'notifications-tr': true, 'read-notification': notification['Read'], 'uread-notification': !notification['Read'] }">
+    <tr *ngFor="let notification of notifcations"
+        [ngClass]="{ 'notifications-tr': true, 'read-notification': notification['Read'], 'uread-notification': !notification['Read'] }">
         <td class="notifications-td">
-            <img class='notification-img' src='assets/icons/user profile.svg' />
+            <img class='notification-img'  [routerLink]="'/' + notificationContent(notification)['Email'].split('@')[0]" style="border: 2px solid white; cursor: pointer;" [src]='notificationContent(notification)["ProfilePic"]["FileBaseUrls"][0]' />
         </td>
-        <td>
+        <td style="position: relative;">
             <div class="notififcation-text">
-                <div *ngIf="true">
-                    Friend request sent to <b>Matome Ramafalo</b>.
+                <div *ngIf="notification.Type == 'FRIEND_REQUEST_SENT'" style="font-size: 13px; margin-top: 6px;">
+                    Friend request sent to <b [routerLink]="'/' + notificationContent(notification)['Email'].split('@')[0]"  style="cursor: pointer;" [innerText]="notificationContent(notification)['FirstName'] + ' ' + notificationContent(notification)['LastName']"></b>.
                 </div>
-                <div *ngIf="false">
-                    You have invited <b>Matome Ramafalo</b> to a challenge.
-                </div>
-                <div *ngIf="false">
-                    You have sent <b>Matome Ramafalo</b> a friend request.
+                <div *ngIf="notification.Type == 'NEW_SUGGESTION'" style="font-size: 13px; margin-top: 6px;">
+                    New friend suggestion: <b [routerLink]="'/' + notificationContent(notification)['Email'].split('@')[0]"  style="cursor: pointer;" [innerText]="notificationContent(notification)['FirstName'] + ' ' + notificationContent(notification)['LastName']"></b>.
                 </div>
             </div>
-            <div class="notification-timestamp">
+            <div class="notification-timestamp" style="margin-top: -6px;">
                 {{notification["DateTimeConverted"]}}
             </div>
+            <i class="icon ion-eye" *ngIf='!notification["Read"]' title="Mark as seen" (click)="markAsSeen(notification); notification['Read'] = true;"
+                style="position: absolute; right: 25px; top: 2px; font-size: 18px;  cursor: pointer;"></i>
+            <i class="icon ion-android-delete" title="Delete" (click)="delete(notification)"
+                style="position: absolute; right: 5px; top: 2px; font-size: 15px; color: rgb(218, 74, 74); cursor: pointer;"></i>
         </td>
     </tr>
 </table>

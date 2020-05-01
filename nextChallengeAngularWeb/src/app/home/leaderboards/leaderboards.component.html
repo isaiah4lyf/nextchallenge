@@ -22,7 +22,7 @@
     </thead>
     <tbody>
         <ng-container *ngFor="let leaderboard of Leaderboards; index as i">
-            <tr [ngClass]="{ 'current-user-leaderboard': leaderboard['UserID'] == UserData['_id']}"
+            <tr routerLink="{{'/' + leaderboard['users'][0]['Email'].split('@')[0]}}" style="cursor: pointer;"  [ngClass]="{ 'current-user-leaderboard': leaderboard['UserID'] == UserData['_id']}"
                 *ngIf="leaderboard['users'][0] != null">
                 <td
                     [ngClass]=" { 'leaderboard-margin': Leaderboards.length == 11 && i == Leaderboards.length - 2, 'leaderboard-margin2': Leaderboards.length <= 10 && currentUserInList && i == Leaderboards.length - 2}">

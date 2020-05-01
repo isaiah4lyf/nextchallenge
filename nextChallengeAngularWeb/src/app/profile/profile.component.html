@@ -5,16 +5,19 @@
     ================================================= -->
     <div class="timeline">
         <div class="timeline-cover" #coverpicPrev [style.background]="profileCoverPicLink">
-            <div *ngIf="updateButtons" style="position: absolute; top: 20px; right: 25px;"><button
-                    (click)="coverpic.click()"
+            <div *ngIf="updateButtons" style="position: absolute; top: 20px; right: 25px;">
+                <button (click)="coverpic.click()"
                     style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8;"
                     class="btn-primary router-link"><i class="icon ion-android-camera" style="font-size: 18px;"></i>
-                </button><button (click)="updateProfileCoverPic(coverpic)"
+                </button>
+                <button (click)="updateProfileCoverPic(coverpic,updateRef,profileCoverPicValRef)"
                     style="border-radius: 0px 10px 10px 0px; height: 30px; padding-left: 20px; padding-top: 2px; padding-right: 10px; font-size: 18px; opacity: 0.6;"
                     class="btn-primary router-link"><span
                         style="font-size: 14px; position: relative; top: -3px; left: -5px;">update</span>
                 </button>
-                <input (change)="coverFile(coverpic,coverpicPrev)" #coverpic type="file" style="display: none;" />
+                <span #profileCoverPicValRef class="validation-span" style="width: 150px;"></span>
+                <input (change)="coverFile(coverpic,coverpicPrev,profileCoverPicValRef)" #coverpic type="file"
+                    style="display: none;" />
             </div>
             <!--Timeline Menu for Large Screens-->
             <div class="timeline-nav-bar hidden-sm hidden-xs">
@@ -22,24 +25,31 @@
                     <div class="col-md-3">
 
                         <div class="profile-info">
-                            <div *ngIf="updateButtons" style="position: absolute; top: 120px; left: 65px;"><button
-                                    (click)="propic.click()"
-                                    style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8;"
-                                    class="btn-primary router-link"><i class="icon ion-android-camera"
-                                        style="font-size: 18px;"></i>
-                                </button><button (click)="updateProfilePic(propic)"
+                            <div *ngIf="updateButtons" style="position: absolute; top: 120px; left: 65px;">
+                                <button (click)="propic.click()"
+                                    style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8; position: relative;"
+                                    class="btn-primary router-link">
+                                    <i class="icon ion-android-camera" style="font-size: 18px;"></i>
+                                </button>
+                                <span #profilePicValRef class="validation-span" style="width: 140px;"></span>
+                                <button (click)="updateProfilePic(propic,updateRef,profilePicValRef)"
                                     style="border-radius: 0px 10px 10px 0px; height: 30px; padding-left: 20px; padding-top: 2px; padding-right: 10px; font-size: 18px; opacity: 0.7;"
                                     class="btn-primary router-link"><span
                                         style="font-size: 14px; position: relative; top: -3px; left: -5px;">update</span>
                                 </button>
-                                <input (change)="inputFileChalge(propic,propicPrev)" #propic type="file"
-                                    style="display: none;" />
+                                <input (change)="inputFileChalge(propic,propicPrev,profilePicValRef)" #propic
+                                    type="file" style="display: none;" />
                             </div>
                             <img #propicPrev src="{{profilePicLink}}" alt="" class="img-responsive profile-photo" />
                             <span [ngClass]="chatStatusClasses"
                                 style="top: 180px; left: 135px; width: 23px; height: 23px; border: 3px solid white;"></span>
                             <h3>{{UserData["FirstName"]}} {{UserData["LastName"]}}</h3>
-                            <p class="text-muted">Creative Director</p>
+                            <p *ngIf='UserData["LatestWork"] != null ; else workElseBlock' class="text-muted">
+                                {{UserData["LatestWork"]["Designation"]}}</p>
+                            <ng-template #workElseBlock>
+                                <p *ngIf='UserData["LatestEducation"] != null' class="text-muted">Studied at
+                                    {{UserData["LatestEducation"]["Name"]}}</p>
+                            </ng-template>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -51,7 +61,7 @@
                             <li><a class="router-link" routerLink="{{galleryLink}}"
                                     routerLinkActive="active">Gallery</a></li>
                             <li><a class="router-link" routerLink="{{friendsLink}}"
-                                    routerLinkActive="active">Friends(3,500)</a></li>
+                                    routerLinkActive="active">Friends({{UserData["FriendsCount"] }})</a></li>
                         </ul>
                         <ul class="follow-me list-inline">
                             <li><button (click)="logout()" *ngIf="!isProfileView" class="btn-primary router-link"
@@ -72,24 +82,31 @@
             <!--Timeline Menu for Small Screens-->
             <div class="navbar-mobile hidden-lg hidden-md">
                 <div class="profile-info">
-                    <div *ngIf="updateButtons" style="position: absolute; top: 120px; left: calc(50% - 55px);"><button
-                            (click)="propic.click()"
+                    <div *ngIf="updateButtons" style="position: absolute; top: 120px; left: calc(50% - 55px);">
+                        <button (click)="propic.click()"
                             style="border-radius: 10px 0px 0px 10px; height: 30px; padding-left: 10px; padding-top: 2px; padding-right: 10px; opacity: 0.8;"
-                            class="btn-primary router-link"><i class="icon ion-android-camera"
-                                style="font-size: 18px;"></i>
-                        </button><button (click)="updateProfilePic(propic)"
+                            class="btn-primary router-link">
+                            <i class="icon ion-android-camera" style="font-size: 18px;"></i>
+                            <span #profilePicValRefTwo class="validation-span" style="width: 150px;"></span>
+                        </button>
+                        <button (click)="updateProfilePic(propic,updateRef,profilePicValRefTwo)"
                             style="border-radius: 0px 10px 10px 0px; height: 30px; padding-left: 20px; padding-top: 2px; padding-right: 10px; font-size: 18px; opacity: 0.6;"
                             class="btn-primary router-link"><span
                                 style="font-size: 14px; position: relative; top: -3px; left: -5px;">update</span>
                         </button>
-                        <input (change)="inputFileChalge(propic,propicPrevMob)" #propic type="file"
+                        <input (change)="inputFileChalge(propic,propicPrevMob,profilePicValRefTwo)" #propic type="file"
                             style="display: none;" />
                     </div>
                     <img #propicPrevMob src="{{profilePicLink}}" alt="" class="img-responsive profile-photo" />
                     <span [ngClass]="chatStatusClasses"
                         style="top: 179px; left: 53%; width: 23px; height: 23px; border: 3px solid white;"></span>
-                    <h4>Sarah Cruiz</h4>
-                    <p class="text-muted">Creative Director</p>
+                    <h3>{{UserData["FirstName"]}} {{UserData["LastName"]}}</h3>
+                    <p *ngIf='UserData["LatestWork"] != null ; else workElseBlockMob' class="text-muted">
+                        {{UserData["LatestWork"]["Designation"]}}</p>
+                    <ng-template #workElseBlockMob>
+                        <p *ngIf='UserData["LatestEducation"] != null' class="text-muted">Studied at
+                            {{UserData["LatestEducation"]["Name"]}}</p>
+                    </ng-template>
                 </div>
                 <div class="mobile-menu">
                     <ul class="list-inline">
@@ -98,7 +115,8 @@
                         <li><a class="router-link" routerLink="{{aboutLink}}" routerLinkActive="active">About</a></li>
                         <li><a class="router-link" routerLink="{{galleryLink}}" routerLinkActive="active">Gallery</a>
                         </li>
-                        <li><a class="router-link" routerLink="{{friendsLink}}" routerLinkActive="active">Friends(3,500)</a>
+                        <li><a class="router-link" routerLink="{{friendsLink}}"
+                                routerLinkActive="active">Friends({{UserData["FriendsCount"] }})</a>
                         </li>
                     </ul>
                     <button (click)="logout()" *ngIf="!isProfileView" class="btn-primary router-link"
@@ -130,9 +148,6 @@
                         <li class="router-link" routerLink="{{aboutInterestLink}}" routerLinkActive="active"><i
                                 class="icon ion-ios-heart-outline"></i><a>My
                                 Interests</a></li>
-                        <li class="router-link" routerLink="{{aboutSettingsLink}}" routerLinkActive="active"><i
-                                class="icon ion-ios-settings"></i><a>Account
-                                Settings</a></li>
                         <li class="router-link" routerLink="{{aboutChangePasswordLink}}" routerLinkActive="active"><i
                                 class="icon ion-ios-locked-outline"></i><a>Change
                                 Password</a></li>
@@ -190,4 +205,8 @@
             </div>
         </div>
     </div>
+</div>
+<!-- Post Create Box End-->
+<div #updateRef id="spinner-wrapper" class="spinner-wrapper-parent" style="display: none;">
+    <div class="spinner" style="z-index: 9;"></div>
 </div>

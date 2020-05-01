@@ -1,130 +1,76 @@
-<h3>Register Now</h3>
-<p class="text-muted">Be cool and join today.</p>
-
-<!--Register Form-->
-<form  #User="ngForm" name="registration_form" id='registration_form' class="form-inline" (ngSubmit)="register(User)">
-    <div class="row">
-        <div class="form-group col-xs-6">
-            <label for="firstname" class="sr-only">First Name</label>
-            <input value="ffa " id="firstname" class="form-control input-group-lg" type="text" name="FirstName"
-                title="Enter first name" placeholder="First name" ngModel />
-        </div>
-        <div class="form-group col-xs-6">
-            <label for="lastname" class="sr-only">Last Name</label>
-            <input id="lastname" class="form-control input-group-lg" type="text" name="LastName" title="Enter last name"
-                placeholder="Last name" ngModel />
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-xs-12">
-            <label for="email" class="sr-only">Email</label>
-            <input id="email" class="form-control input-group-lg" type="text" name="EmailRegistration" title="Enter Email" type="email" required    
-                placeholder="Your Email" ngModel />
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-xs-12">
-            <label for="password" class="sr-only">Password</label>
-            <input id="password" class="form-control input-group-lg" type="password" name="Password"
-                title="Enter password" placeholder="Password" ngModel />
-        </div>
-    </div>
-    <div class="row" ngModelGroup="DateOfBirth">
-        <p class="birth"><strong>Date of Birth</strong></p>
-        <div class="form-group col-sm-3 col-xs-6">
-            <label for="month" class="sr-only"></label>
-            <select class="form-control" id="day" name="Day" [ngModel]="userModel.DateOfBirth.Day">
-                <option value="0" disabled>Day</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-                <option>21</option>
-                <option>22</option>
-                <option>23</option>
-                <option>24</option>
-                <option>25</option>
-                <option>26</option>
-                <option>27</option>
-                <option>28</option>
-                <option>29</option>
-                <option>30</option>
-                <option>31</option>
-            </select>
-        </div>
-        <div class="form-group col-sm-3 col-xs-6">
-            <label for="month" class="sr-only"></label>
-            <select class="form-control" id="month" name="Month" [ngModel]="userModel.DateOfBirth.Month"> 
-                <option value="Month" disabled>Month</option>
-                <option>Jan</option>
-                <option>Feb</option>
-                <option>Mar</option>
-                <option>Apr</option>
-                <option>May</option>
-                <option>Jun</option>
-                <option>Jul</option>
-                <option>Aug</option>
-                <option>Sep</option>
-                <option>Oct</option>
-                <option>Nov</option>
-                <option>Dec</option>
-            </select>
-        </div>
-        <div class="form-group col-sm-6 col-xs-12">
-            <label for="year" class="sr-only"></label>
-            <select class="form-control" id="year" name="Year" [ngModel]="userModel.DateOfBirth.Year">
-                <option value="0" disabled>Year</option>
-                <option>2000</option>
-                <option>2001</option>
-                <option>2002</option>
-                <option>2004</option>
-                <option>2005</option>
-                <option>2006</option>
-                <option>2007</option>
-                <option>2008</option>
-                <option>2009</option>
-                <option>2010</option>
-                <option>2011</option>
-                <option>2012</option>
-            </select>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100" >
+            <form class="sign-in-form" #User="ngForm" name="registration_form" id='registration_form' (ngSubmit)="register(User,firstNameValRef,lastNameValRef,emailValRef,passwordValRef,termsConditionsRef,termsConditionsValRef)" > 
+                <div style="margin-top: -10px; margin-left: -15px; margin-bottom: 30px;">
+                    <a class="navbar-brand">
+                        <img style="width: 36px;height: 20px; margin-top: -2px" src="assets/images/logo (2).png" alt="logo" /></a>
+                      <span>
+                        <span class="brand-2" style="font-size: 22px; font-family: unset; font-weight: 600; color: rgb(131, 131, 131);">&nbsp; Sign up</span>
+                      </span>
+                </div>
+                <p class="sign-in-up-fieldset">
+                    <label class="sign-in-up-label image-replace cd-username" htmlFor="signin-first-name">First Name</label>
+                    <input (change)="firstNameChange(User, firstNameValRef)" (blur)="firstNameChange(User, firstNameValRef)" class="sign-in-up-input full-width has-padding has-border" id="signin-first-name" type="text"
+                        placeholder="First name" name="FirstName" ngModel />
+                    <span #firstNameValRef class="validation-span" style="width: 150px; left: 5px;">First name required</span>
+                </p>
+                <p class="sign-in-up-fieldset">
+                    <label class="sign-in-up-label image-replace cd-username" htmlFor="signin-last-name">Last name</label>
+                    <input (change)="lastNameChange(User, lastNameValRef)" (blur)="lastNameChange(User, lastNameValRef)" class="sign-in-up-input full-width has-padding has-border" id="signin-last-name" type="text"
+                        placeholder="Last name" name="LastName" ngModel />
+                    <span #lastNameValRef class="validation-span" style="width: 150px; left: 5px;">Last name required</span>
+                </p>
+                <p class="sign-in-up-fieldset">
+                    <label class="sign-in-up-label image-replace cd-email" htmlFor="signin-email">Email</label>
+                    <input (change)="emailChange(User, emailValRef)" (blur)="emailChange(User, emailValRef)" class="sign-in-up-input full-width has-padding has-border" id="signin-email" type="text"
+                        placeholder="Email" name="EmailRegistration" ngModel />
+                    <span class="sign-in-up-error-message" id="signin-email-error">Email</span>
+                    <span #emailValRef class="validation-span" style="width: 150px; left: 5px;">Email required</span>
+                </p>
+                <p class="sign-in-up-fieldset">
+                    <label class="sign-in-up-label image-replace cd-password" htmlFor="signin-password">Password</label>
+                    <input #passwordInput (change)="passwordChange(User, passwordValRef)" (blur)="passwordChange(User, passwordValRef)" class="sign-in-up-input full-width has-padding has-border" id="signin-password"
+                        type="password" placeholder="Password" style="padding-right: 65px;" name="Password" ngModel />
+                    <span #showPassRef (click)="showPass(showPassRef,passwordInput)" class="hide-password" style="font-size: 12px;" id="hide-password">show</span>
+                    <span #passwordValRef class="validation-span" style="width: 150px; left: 5px;">Password required</span>
+                </p>
+                <div class="remember-me-input" style="margin-bottom: 5px;">
+                    <div class="form-check" style="position: relative;" >
+                        <label class="form-check-label" style="position: relative; font-weight: normal !important; font-size: 12px !important;">
+                            <input (click)="terms(termsConditionsRef,termsConditionsValRef)" #termsConditionsRef class="form-check-input" type="checkbox" value=""> I agree to the
+                            <span class="form-check-sign" style="position: absolute; top: 3px;"> 
+                                <span class="check"></span>
+                            </span>        
+                        </label>
+                        <span  data-toggle="modal" data-target=".terms-and-conditions" style="color: #27aae1; position: relative; left: -11px; cursor: pointer;">terms and conditions.</span>
+                        <span #termsConditionsValRef class="validation-span" style="width: 250px; left: -22px;">You must accept terms and conditions.</span>
+                    </div>
+                    <div class="modal fade terms-and-conditions" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div style="height: 80vh; width: 100%; background-color: #ffffff !important; opacity: 0.9 !important;">
+                                    Terms and Conditions
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-bottom: 20px;">
+                    <input class="router-link btn btn-primary" style="border: 1px solid #27aae1; background-color: #ffffff; color: rgb(39, 38, 38); font-weight: normal; width: 100%;" type="submit" value="Sign up" />
+                </p>
+                <div class="sign-in-up-forgot-pass router-link" style="margin-bottom: 10px; color: #27aae1" routerLink="/login" ><span style="color: rgb(39, 38, 38); " >Already have an account?</span> Sign in.</div>
+            </form>
+            <div class="login100-more" style="background: #27aae1;">
+                <div style="height: 350px; font-size: 22px; font-family: unset; font-weight: 600; color: #ffffff; margin-left: 7.5%; margin-top: calc(50vh - 200px); width: 73%; text-align: center;">
+                    <div># Welcome</div> <br/>
+                    <div style="font-size: 16px; font-family: unset; font-weight: 500; color: #ffffff;">Make friends, connect with family, publish challenges and compete in trivia contest that spans music and entertainment, sports, the world, etc and stand a chance to win weekly prizes.</div><br/>
+                    <img style="width: 220px; height: 220px; margin-top: 20px;" src="assets/images/group.svg" alt="logo" />
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group col-xs-12">
-
-            <select class="form-control" name="Gender" [ngModel]="userModel.Gender" >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group  col-xs-12">
-            <label for="city" class="sr-only">City</label>
-            <input id="city" #gender   class="form-control input-group-lg reg_name" type="text" name="city" title="Enter city"
-                placeholder="Your city" ngModel />
-        </div>
-    </div>
-    <p><a href="#">Already have an account?</a></p>
-    <button type="submit" class="btn btn-primary">Register Now</button>
-</form>
-<!--Register Now Form Ends-->
-<div id="spinner-wrapper" *ngIf="registrationSpinner"> 
-    <div class="spinner"></div>
-  </div>
+</div>
+<div id="spinner-wrapper" *ngIf="registrationSpinner" >
+    <div class="spinner" style="z-index: 9;"></div>
+</div>

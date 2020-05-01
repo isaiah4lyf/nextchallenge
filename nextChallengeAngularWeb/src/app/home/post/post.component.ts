@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { AppService } from "../.././services/app.service";
+import { ParentComponentApi } from '../../profile/timeline/timeline.component';
 import { NotificationsService } from "../.././services/notifications.service";
 import { NgForm } from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-post",
@@ -11,14 +13,15 @@ import { NgForm } from "@angular/forms";
 })
 export class PostComponent implements OnInit {
   @Input("post") post: any;
+  @Input() parentApi: ParentComponentApi;
   @ViewChild("postContent") postContent: any;
-  public emojis = ["+1", "-1", "ant", "100"];
+  public emojis: any = [];
   public comments: any;
   public fileType = "none";
   public profileRoute = false;
   public postLink = "";
   public userLink = "";
-  private UserData = null;
+  public UserData = null;
   private latestComment: any;
   public postDate = "";
   public commentsCount = 0;
@@ -30,10 +33,13 @@ export class PostComponent implements OnInit {
   public postDisLikedClass = "btn text-red";
   public chatStatusClasses: any;
   public videoControls = false;
-  constructor(private router: Router, private _appService: AppService, private _notificationsService: NotificationsService) { }
+  public Settings: any = null;
+  public Configurations: any;
+  constructor(private router: Router, private _appService: AppService, private _notificationsService: NotificationsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
+    this.Settings = this._appService.getlocalsettings();
     this.postLink = "/post/" + this.post["_id"];
     this.userLink = "/" + this.post["Users"][0]["Email"].split("@")[0];
     this.comments = this.post["Comments"];
@@ -67,14 +73,30 @@ export class PostComponent implements OnInit {
         UploadDateTime: new Date(),
         FileBaseUrls: ["assets/images/image_placeholder.jpg"]
       };
-    console.log(this.post);
+    this.Configurations = this._appService.getconfigurations();
+    if (this.Configurations == null) {
+      this._appService.retrieveconfigurations().subscribe(data => {
+        this._appService.setconfigurations(data);
+        this.Configurations = this._appService.getconfigurations();
+        this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+      });
+    } else {
+      this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+    }
   }
   ngAfterViewInit() {
     this.postContent.nativeElement.innerHTML = this.post["PostContent"];
   }
   submitWithEnter(event, textarea, sumbitbutton) {
-    event.preventDefault();
-    sumbitbutton.click();
+    if (this.Settings != null) {
+      if (this.Settings.find(s => s.Name == "SUBMIT_PUBLISHED_CHALLENGED_COMMENT_WITH_ENTER").Value) {
+        event.preventDefault();
+        sumbitbutton.click();
+      }
+    } else {
+      event.preventDefault();
+      sumbitbutton.click();
+    }
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
     if (fileInput.files.length == 0)
@@ -109,13 +131,20 @@ export class PostComponent implements OnInit {
     setTimeout(() => {
       this.comments = [comment];
     }, 5);
-    this._appService.createComment(form, formData, "temp-" + this.post["_id"] + "-" + this.commentsCount);
+    this._appService.createComment(form, formData, "temp-" + this.post["_id"] + "-" + this.commentsCount, this.commentCallBack);
     this.commentsCount++;
     fileInput.value = "";
     this.fileType = "none";
     textarea.innerHTML = "";
     emojisRef.style.display = "none";
     this._notificationsService.updateChatStatus();
+    let activity = {
+      UserID: this.UserData["_id"],
+      Content: "commented on a challenge",
+      ActivityType: "POST_LIKE",
+      _redirect: this.post["_id"]
+    }
+    this._appService.createactivity(activity).subscribe(data => { });
   }
   emojiClick(textarea, emoji) {
     textarea.innerHTML += '<img class="message-emoji" src="assets/css/emoji/' + emoji + '.png" />';
@@ -164,7 +193,7 @@ export class PostComponent implements OnInit {
       this.postDisLikedClass = "btn text-red";
       let activity = {
         UserID: this.UserData["_id"],
-        Content: "liked a post",
+        Content: "liked a challenge",
         ActivityType: "POST_LIKE",
         _redirect: this.post["_id"]
       }
@@ -193,7 +222,7 @@ export class PostComponent implements OnInit {
       this.postDisLikedClass = "btn text-blue";
       let activity = {
         UserID: this.UserData["_id"],
-        Content: "disliked a post",
+        Content: "disliked a challenge",
         ActivityType: "POST_DISLIKE",
         _redirect: this.post["_id"]
       }
@@ -206,5 +235,22 @@ export class PostComponent implements OnInit {
       this.postLikedClass = "btn text-green";
     }
     this._notificationsService.updateChatStatus();
+  }
+  deletePost(_id) {
+    this._appService.deletepost(_id).subscribe(data => {
+      this.parentApi.callParentMethod("RETRIEVE_POSTS");
+      this.toastr.warning("", "Challenge deleted successfully.");
+    });
+    this.parentApi.callParentMethod("INITIALIZE_POSTS");
+  }
+  commentCallBack = (data: any,id: any): any => {
+    setTimeout(() => {
+      let elementHtml = document.getElementById(id) as HTMLElement;
+      let elementHtmlDel = document.getElementById(id + '-del') as HTMLElement;
+      if (elementHtml != null)
+        elementHtml.style.display = "none";
+      if (elementHtmlDel != null)
+        elementHtmlDel.style.display = "block";
+    }, 500);
   }
 }

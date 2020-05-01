@@ -10,7 +10,8 @@ import { Router, ActivatedRoute } from "@angular/router";
   styleUrls: ["./session.component.css"]
 })
 export class SessionComponent implements OnInit {
-  public emojis = ["+1", "-1", "ant", "100"];
+  public Configurations: any;
+  public emojis: any = [];
   private fileType = "none";
   public sessionContents = [];
   public sessionSocket: any;
@@ -20,11 +21,20 @@ export class SessionComponent implements OnInit {
   public element: HTMLElement;
   public UserData = null;
   public ServerData: any;
+  public Settings: any = null;
   constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
+      this.Settings = this._appService.getlocalsettings();
+      if (this.Settings.find(s => s.Name == "SESSION_COMMANDS_LIST_MESSAGE").Value) {
+        let messageData = {
+          Command: "SESSION_COMMANDS",
+          CommandJsonData: "commands"
+        };
+        this.sessionContents.push(messageData);
+      }
       if (this._appService.getSssionContents() != null || this._appService.getSssionContents() != undefined) {
         this.sessionContents = this._appService.getSssionContents();
         this.sessionsCount = this.sessionContents.length;
@@ -52,6 +62,16 @@ export class SessionComponent implements OnInit {
         }
       });
       this._notificationsService.updateChatStatus();
+      this.Configurations = this._appService.getconfigurations();
+      if (this.Configurations == null) {
+        this._appService.retrieveconfigurations().subscribe(data => {
+          this._appService.setconfigurations(data);
+          this.Configurations = this._appService.getconfigurations();
+          this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+        });
+      } else {
+        this.emojis = JSON.parse(this.Configurations.find(c => c.Name == "emojis").Value);
+      }
     }
   }
   ngOnDestroy() {
@@ -102,7 +122,7 @@ export class SessionComponent implements OnInit {
       this.sessionContents.push(data);
       this._appService.setSssionContents(this.sessionContents);
       setTimeout(() => {
-        if (this.sessionContents.length > 3) {
+        if (this.sessionContents.length > 3 && this.Settings.find(s => s.Name == "SESSION_SCROLL").Value) {
           window.scrollTo(0, document.body.scrollHeight);
         }
       }, 100);
@@ -112,75 +132,94 @@ export class SessionComponent implements OnInit {
   processClose = message => { };
 
   submitWithEnter(event, textarea, sumbitbutton) {
-    event.preventDefault();
-    sumbitbutton.click();
+    if (this.Settings != null) {
+      if (this.Settings.find(s => s.Name == "SUBMIT_SESSION_ANSWER_WITH_ENTER").Value) {
+        event.preventDefault();
+        sumbitbutton.click();
+      }
+    } else {
+      event.preventDefault();
+      sumbitbutton.click();
+    }
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea) {
-    let msg = {
-      Command: "MESSAGE_LOCAL",
-      FirstName: this.UserData["FirstName"],
-      LastName: this.UserData["LastName"],
-      UserId: this.UserData["_id"],
-      ProfilePic: this.UserData["ProfilePic"],
-      Email: this.UserData["Email"],
-      ChatStatus: this.UserData["ChatStatus"],
-      ProfileCoverPic: this.UserData["ProfileCoverPic"],
-      Message: textarea.innerHTML,
-      DateTime: new Date(),
-      MessageLocalId: "message-local-" + String(this.MessageLocalIdInc),
-      FileType: this.fileType,
-      fileUrl: fileInput.files.length == 0 ? "" : window.URL.createObjectURL(fileInput.files[0])
-    };
-    this.sessionContents.push(msg);
-    this.MessageLocalIdInc++;
-    if (textarea.innerHTML.startsWith(".l")) {
-      let messageData = {
-        Command: "RETRIEVE_LEADERBOARDS",
-        CommandJsonData: Number(this.route.snapshot.paramMap.get("session"))
+    if (textarea.innerHTML != '') {
+      let msg = {
+        Command: "MESSAGE_LOCAL",
+        FirstName: this.UserData["FirstName"],
+        LastName: this.UserData["LastName"],
+        UserId: this.UserData["_id"],
+        ProfilePic: this.UserData["ProfilePic"],
+        Email: this.UserData["Email"],
+        ChatStatus: this.UserData["ChatStatus"],
+        ProfileCoverPic: this.UserData["ProfileCoverPic"],
+        Message: textarea.innerHTML,
+        DateTime: new Date(),
+        MessageLocalId: "message-local-" + String(this.MessageLocalIdInc),
+        FileType: this.fileType,
+        fileUrl: fileInput.files.length == 0 ? "" : window.URL.createObjectURL(fileInput.files[0])
       };
-      this.sessionSocket.send(JSON.stringify(messageData));
-    }
-    else if (textarea.innerHTML.startsWith(".q")) {
-      let messageData = {
-        Command: "LEAVE_SESSION",
-        CommandJsonData: this.UserData["_id"],
-      };
-      this.sessionSocket.send(JSON.stringify(messageData));
-    } else {
-      if (fileInput.files.length == 0)
-        this.fileType = "none";
-      if (this.fileType != "none") {
-        let formData = new FormData();
-        formData.append("FileType", this.fileType);
-        formData.append("File", fileInput.files[0]);
-        formData.append("FileUploaderID", this.UserData["_id"]);
-        this._appService.uploadfiles(formData, this.filesUploadCallBack, this.MessageLocalIdInc, textarea.innerHTML);
-      } else {
+      this.sessionContents.push(msg);
+      this.MessageLocalIdInc++;
+      if (textarea.innerHTML.startsWith(".l") || textarea.innerHTML.startsWith(".L")) {
         let messageData = {
-          Command: "",
-          CommandJsonData: JSON.stringify({
-            UserId: this.UserData["_id"],
-            sessionId: 0,
-            Message: textarea.innerHTML
-          })
+          Command: "RETRIEVE_LEADERBOARDS",
+          CommandJsonData: Number(this.route.snapshot.paramMap.get("session"))
         };
         this.sessionSocket.send(JSON.stringify(messageData));
       }
-
-    }
-    filePreviewImg.style.display = "none";
-    filePreviewVid.style.display = "none";
-    fileInput.value = "";
-    textarea.innerHTML = "";
-    if (this.fileType == "none") {
+      else if (textarea.innerHTML.startsWith(".q") || textarea.innerHTML.startsWith(".Q")) {
+        let messageData = {
+          Command: "LEAVE_SESSION",
+          CommandJsonData: this.UserData["_id"],
+        };
+        this.sessionSocket.send(JSON.stringify(messageData));
+      }
+      else if (textarea.innerHTML.startsWith(".h") || textarea.innerHTML.startsWith(".H")) {
+        let messageData = {
+          Command: "SESSION_COMMANDS",
+          CommandJsonData: "commands"
+        };
+        this.sessionContents.push(messageData);
+      }
+      else {
+        if (fileInput.files.length == 0)
+          this.fileType = "none";
+        if (this.fileType != "none") {
+          let formData = new FormData();
+          formData.append("FileType", this.fileType);
+          formData.append("File", fileInput.files[0]);
+          formData.append("FileUploaderID", this.UserData["_id"]);
+          this._appService.uploadfiles(formData, this.filesUploadCallBack, this.MessageLocalIdInc, textarea.innerHTML);
+        } else {
+          let messageData = {
+            Command: "",
+            CommandJsonData: JSON.stringify({
+              UserId: this.UserData["_id"],
+              sessionId: 0,
+              Message: textarea.innerHTML
+            })
+          };
+          this.sessionSocket.send(JSON.stringify(messageData));
+        }
+      }
       setTimeout(() => {
-        let dateTime = new Date();
-        let element = document.getElementById("message-local-" + String(this.MessageLocalIdInc - 1)) as HTMLElement;
-        if (element != null)
-          element.innerHTML = '<span style="position: absolute; right: 12px;">' + dateTime.toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
+        window.scrollTo(0, document.body.scrollHeight);
       }, 100);
+      filePreviewImg.style.display = "none";
+      filePreviewVid.style.display = "none";
+      fileInput.value = "";
+      textarea.innerHTML = "";
+      if (this.fileType == "none") {
+        setTimeout(() => {
+          let dateTime = new Date();
+          let element = document.getElementById("message-local-" + String(this.MessageLocalIdInc - 1)) as HTMLElement;
+          if (element != null)
+            element.innerHTML = '<span style="position: absolute; right: 12px;">' + dateTime.toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
+        }, 100);
+      }
+      this.fileType = "none";
     }
-    this.fileType = "none";
     this._notificationsService.updateChatStatus();
   }
   filesUploadCallBack = (result, extraParam, extraParam1): void => {

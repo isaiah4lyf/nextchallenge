@@ -70,6 +70,14 @@ namespace nextchallengeWebAPI.Controllers
             database.GetCollection<Setting>("Settings").InsertMany(newUserSettings);
             return user;
         }
+        [Route("api/index/checkemail")]
+        [HttpGet]
+        public bool checkemail(string email,string userid) {
+            var collection = database.GetCollection<User>("Users");
+            if (collection.Find(u => u.EmailRegistration == email && u._id != ObjectId.Parse(userid)).ToList().Count() > 0)
+                return true;
+            return false;
+        }
         [Route("api/index/updatebasicinfo")]
         [HttpPost]
         public User updatebasicinfo([FromBody]UserPost user)
@@ -150,20 +158,63 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/login")]
         [HttpGet]
-        public User login(string email, string password)
+        public UserDetailed login(string email, string password)
         {
             var collection = database.GetCollection<User>("Users");
-            User user = collection.Find(x => (x.EmailRegistration == email || x.Email == email) && x.Password == password).FirstOrDefault();
-            if (user != null) user.Password = null;
+            var collectionFriendship = database.GetCollection<Friendship>("Friendships");
+            UserDetailed user = (from u in collection.AsQueryable()
+                                 where (u.EmailRegistration == email || u.Email == email) && u.Password == password
+                                 select new UserDetailed()
+                                 {
+                                     _id = u._id,
+                                     FirstName = u.FirstName,
+                                     LastName = u.LastName,
+                                     Email = u.Email,
+                                     EmailRegistration = u.EmailRegistration,
+                                     DateOfBirth = u.DateOfBirth,
+                                     Gender = u.Gender,
+                                     City = u.City,
+                                     AboutMe = u.AboutMe,
+                                     ChatStatus = u.ChatStatus,
+                                     Attempts = u.Attempts,
+                                     ProfilePic = u.ProfilePic,
+                                     ProfileCoverPic = u.ProfileCoverPic
+                                 }).FirstOrDefault();
+            if(user != null)
+            {
+                user.FriendsCount = Convert.ToInt32(collectionFriendship.CountDocuments(f => f.FriendshipApproved && (f.FriendshipStarterUserId == user._id || f.FriendUserId == user._id)));
+                user.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
+                user.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
+            }
             return user;
         }
         [Route("api/index/retrievelogonupdate")]
         [HttpGet]
-        public User retrievelogonupdate(string userid)
+        public UserDetailed retrievelogonupdate(string userid)
         {
             var collection = database.GetCollection<User>("Users");
-            User user = collection.Find(x => x._id == ObjectId.Parse(userid)).FirstOrDefault();
-            if (user != null) user.Password = null;
+            var collectionFriendship = database.GetCollection<Friendship>("Friendships");
+            UserDetailed user = (from u in collection.AsQueryable()
+                                 where u._id == ObjectId.Parse(userid)
+                                 select new UserDetailed()
+                                 {
+                                     _id = u._id,
+                                     FirstName = u.FirstName,
+                                     LastName = u.LastName,
+                                     Email = u.Email,
+                                     EmailRegistration = u.EmailRegistration,
+                                     DateOfBirth = u.DateOfBirth,
+                                     Gender = u.Gender,
+                                     City = u.City,
+                                     AboutMe = u.AboutMe,
+                                     ChatStatus = u.ChatStatus,
+                                     Attempts = u.Attempts,
+                                     ProfilePic = u.ProfilePic,
+                                     ProfileCoverPic = u.ProfileCoverPic
+                                 }).FirstOrDefault();
+            user.FriendsCount = Convert.ToInt32(collectionFriendship.CountDocuments(f => f.FriendshipApproved && (f.FriendshipStarterUserId == user._id || f.FriendUserId == user._id)));
+            user.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
+            user.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
             return user;
         }
         [Route("api/index/retrieveuser")]
@@ -184,6 +235,7 @@ namespace nextchallengeWebAPI.Controllers
                                         FirstName = u.FirstName,
                                         LastName = u.LastName,
                                         Email = u.Email,
+                                        EmailRegistration = u.EmailRegistration,
                                         DateOfBirth = u.DateOfBirth,
                                         Gender = u.Gender,
                                         City = u.City,
@@ -193,6 +245,9 @@ namespace nextchallengeWebAPI.Controllers
                                         ProfileCoverPic = u.ProfileCoverPic
                                     }).FirstOrDefault();
             user.friendships = collectionFriendship.Find(f => objects.Contains(f.FriendshipStarterUserId) && objects.Contains(f.FriendUserId)).ToList();
+            user.FriendsCount = Convert.ToInt32(collectionFriendship.CountDocuments(f => f.FriendshipApproved && (f.FriendshipStarterUserId == user._id || f.FriendUserId == user._id)));
+            user.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
+            user.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
             return user;
         }
         [Route("api/index/retrieveusermininfo")]
@@ -305,6 +360,7 @@ namespace nextchallengeWebAPI.Controllers
                                  FirstName = u.FirstName,
                                  LastName = u.LastName,
                                  Email = u.Email,
+                                 EmailRegistration = u.EmailRegistration,
                                  DateOfBirth = u.DateOfBirth,
                                  Gender = u.Gender,
                                  City = u.City,
@@ -333,7 +389,21 @@ namespace nextchallengeWebAPI.Controllers
             post.PostOnTimeline = provider.FormData["PostOnTimeline"] == "true";
             post.CreateDateTime = DateTime.Now;
             collectionPosts.InsertOne(post);
+            createactivity(new ActivityPost() {
+                UserID = post.UserID.ToString(),
+                Content = "published a challenge",
+                ActivityType = "POST_PUBLISH",
+                _redirect = post._id.ToString()
+            });;
             return Request.CreateResponse(HttpStatusCode.OK, "success");
+        }
+        [Route("api/index/deletepost")]
+        [HttpDelete]
+        public string deletepost(string postid)
+        {
+            var collection = database.GetCollection<Post>("Posts");
+            collection.DeleteOne(p => p._id == ObjectId.Parse(postid));
+            return "success";
         }
         [Route("api/index/retrieveposts")]
         [HttpGet]
@@ -345,21 +415,63 @@ namespace nextchallengeWebAPI.Controllers
             var collectionPostLikes = database.GetCollection<PostLike>("PostLikes");
             var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
 
-            List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
-                                        join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
-                                        where !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid)
-                                        orderby p.CreateDateTime descending
-                                        select new PostDetailed()
-                                        {
-                                            _id = p._id,
-                                            PostContent = p.PostContent,
-                                            FileType = p.FileType,
-                                            UserID = p.UserID,
-                                            CreateDateTime = p.CreateDateTime,
-                                            DateTimeNow = DateTime.Now,
-                                            Files = p.Files,
-                                            Users = (List<User>)user
-                                        }).Take(4).ToList();
+            List<PostDetailed> posts = new List<PostDetailed>();
+
+            List<Setting> settings = retrievesettings(userid);
+            if (!settings.Find(s => s.Name == "VIEW_POSTS").Value)
+            {
+                List<FriendshipDetailed> friendships = retrievefriendshipsall(userid);
+                ObjectId[] friendsids = new ObjectId[friendships.Count];
+                for (int i = 0; i < friendships.Count; i++)
+                {
+                    if (friendships.ElementAt(i).FriendshipStarterUserId != ObjectId.Parse(userid))
+                    {
+                        friendsids[i] = friendships.ElementAt(i).FriendshipStarterUserId;
+                    }
+                    else
+                    {
+                        friendsids[i] = friendships.ElementAt(i).FriendUserId;
+                    }
+                }
+                posts = (from p in collectionPosts.AsQueryable()
+                         join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                         where !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid) && friendsids.Contains(p.UserID)
+                         orderby p.CreateDateTime descending
+                         select new PostDetailed()
+                         {
+                             _id = p._id,
+                             PostContent = p.PostContent,
+                             FileType = p.FileType,
+                             UserID = p.UserID,
+                             CreateDateTime = p.CreateDateTime,
+                             DateTimeNow = DateTime.Now,
+                             Files = p.Files,
+                             TimelineUserID = p.TimelineUserID,
+                             PostOnTimeline = p.PostOnTimeline,
+                             Users = (List<User>)user
+                         }).Take(4).ToList();
+            }
+            else
+            {
+                posts = (from p in collectionPosts.AsQueryable()
+                         join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                         where !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid)
+                         orderby p.CreateDateTime descending
+                         select new PostDetailed()
+                         {
+                             _id = p._id,
+                             PostContent = p.PostContent,
+                             FileType = p.FileType,
+                             UserID = p.UserID,
+                             CreateDateTime = p.CreateDateTime,
+                             DateTimeNow = DateTime.Now,
+                             Files = p.Files,
+                             TimelineUserID = p.TimelineUserID,
+                             PostOnTimeline = p.PostOnTimeline,
+                             Users = (List<User>)user
+                         }).Take(4).ToList();
+            }
+
             for (int i = 0; i < posts.Count; i++)
             {
                 posts.ElementAt(i).Comments = retrievecomments(posts.ElementAt(i)._id.ToString());
@@ -382,22 +494,61 @@ namespace nextchallengeWebAPI.Controllers
             var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
             ObjectId objecto = ObjectId.Parse(postid);
             Post post = collectionPosts.Find(new BsonDocument("_id", objecto)).FirstOrDefault();
-
-            List<PostDetailed> posts = (from p in collectionPosts.AsQueryable()
-                                        join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
-                                        where p.CreateDateTime < post.CreateDateTime && !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid)
-                                        orderby p.CreateDateTime descending
-                                        select new PostDetailed()
-                                        {
-                                            _id = p._id,
-                                            PostContent = p.PostContent,
-                                            FileType = p.FileType,
-                                            UserID = p.UserID,
-                                            CreateDateTime = p.CreateDateTime,
-                                            DateTimeNow = DateTime.Now,
-                                            Files = p.Files,
-                                            Users = (List<User>)user
-                                        }).Take(4).ToList();
+            List<PostDetailed> posts = new List<PostDetailed>();
+            List<Setting> settings = retrievesettings(userid);
+            if (!settings.Find(s => s.Name == "VIEW_POSTS").Value)
+            {
+                List<FriendshipDetailed> friendships = retrievefriendshipsall(userid);
+                ObjectId[] friendsids = new ObjectId[friendships.Count];
+                for (int i = 0; i < friendships.Count; i++)
+                {
+                    if (friendships.ElementAt(i).FriendshipStarterUserId != ObjectId.Parse(userid))
+                    {
+                        friendsids[i] = friendships.ElementAt(i).FriendshipStarterUserId;
+                    }
+                    else
+                    {
+                        friendsids[i] = friendships.ElementAt(i).FriendUserId;
+                    }
+                }
+                posts = (from p in collectionPosts.AsQueryable()
+                         join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                         where p.CreateDateTime < post.CreateDateTime && !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid) && friendsids.Contains(p.UserID)
+                         orderby p.CreateDateTime descending
+                         select new PostDetailed()
+                         {
+                             _id = p._id,
+                             PostContent = p.PostContent,
+                             FileType = p.FileType,
+                             UserID = p.UserID,
+                             CreateDateTime = p.CreateDateTime,
+                             DateTimeNow = DateTime.Now,
+                             Files = p.Files,
+                             TimelineUserID = p.TimelineUserID,
+                             PostOnTimeline = p.PostOnTimeline,
+                             Users = (List<User>)user
+                         }).Take(4).ToList();
+            }
+            else
+            {
+                posts = (from p in collectionPosts.AsQueryable()
+                         join u in collectionUsers.AsQueryable() on p.UserID equals u._id into user
+                         where p.CreateDateTime < post.CreateDateTime && !p.PostOnTimeline && p.UserID != ObjectId.Parse(userid)
+                         orderby p.CreateDateTime descending
+                         select new PostDetailed()
+                         {
+                             _id = p._id,
+                             PostContent = p.PostContent,
+                             FileType = p.FileType,
+                             UserID = p.UserID,
+                             CreateDateTime = p.CreateDateTime,
+                             DateTimeNow = DateTime.Now,
+                             Files = p.Files,
+                             TimelineUserID = p.TimelineUserID,
+                             PostOnTimeline = p.PostOnTimeline,
+                             Users = (List<User>)user
+                         }).Take(4).ToList();
+            }
             for (int i = 0; i < posts.Count; i++)
             {
                 posts.ElementAt(i).Comments = retrievecomments(posts.ElementAt(i)._id.ToString());
@@ -433,6 +584,8 @@ namespace nextchallengeWebAPI.Controllers
                                             CreateDateTime = p.CreateDateTime,
                                             DateTimeNow = DateTime.Now,
                                             Files = p.Files,
+                                            TimelineUserID = p.TimelineUserID,
+                                            PostOnTimeline = p.PostOnTimeline,
                                             Users = (List<User>)user
                                         }).Take(4).ToList();
             for (int i = 0; i < posts.Count; i++)
@@ -471,6 +624,8 @@ namespace nextchallengeWebAPI.Controllers
                                             CreateDateTime = p.CreateDateTime,
                                             DateTimeNow = DateTime.Now,
                                             Files = p.Files,
+                                            TimelineUserID = p.TimelineUserID,
+                                            PostOnTimeline = p.PostOnTimeline,
                                             Users = (List<User>)user
                                         }).Take(4).ToList();
             for (int i = 0; i < posts.Count; i++)
@@ -511,6 +666,8 @@ namespace nextchallengeWebAPI.Controllers
                                          CreateDateTime = p.CreateDateTime,
                                          DateTimeNow = DateTime.Now,
                                          Files = p.Files,
+                                         TimelineUserID = p.TimelineUserID,
+                                         PostOnTimeline = p.PostOnTimeline,
                                          Users = (List<User>)user
                                      }).FirstOrDefault();
                 post.Comments = retrievecomments(post._id.ToString());
@@ -547,6 +704,14 @@ namespace nextchallengeWebAPI.Controllers
             collectionComments.InsertOne(comment);
 
             return Request.CreateResponse(HttpStatusCode.OK, "success");
+        }
+        [Route("api/index/deletecomment")]
+        [HttpDelete]
+        public string deletecomment(string commentid)
+        {
+            var collection = database.GetCollection<Comment>("Comments");
+            collection.DeleteOne(p => p._id == ObjectId.Parse(commentid));
+            return "success";
         }
         [Route("api/index/retrievecomments")]
         [HttpGet]
@@ -730,6 +895,7 @@ namespace nextchallengeWebAPI.Controllers
             collectionPostLikes.DeleteOne(d => d.PostID == postDisLike.PostID && d.UserID == postDisLike.UserID);
             return Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == postDisLike.PostID));
         }
+
         [Route("api/index/createmessage")]
         [HttpPost]
         public async Task<HttpResponseMessage> createmessage()
@@ -928,8 +1094,30 @@ namespace nextchallengeWebAPI.Controllers
             clue.Description = provider.FormData["Description"];
             clue.Files = files;
             challenge.Clue = clue;
+            string challengeId = provider.FormData["_id"];
+            if (challengeId.Length == 24)
+            {
+                challenge._id = ObjectId.Parse(challengeId);
+                if(clue.Files.Count == 0)
+                {
+                    DefaultSessionChallenge challlenge = collectionChallenges.Find(c => c._id == challenge._id).FirstOrDefault();
+                    Clue oldClue = challlenge.Clue;
+                    oldClue.Description = clue.Description;
+                    challenge.Clue = oldClue;
+                }
+                collectionChallenges.ReplaceOne(c => c._id == challenge._id, challenge);
+                return Request.CreateResponse(HttpStatusCode.OK, "success");
+            }
             collectionChallenges.InsertOne(challenge);
             return Request.CreateResponse(HttpStatusCode.OK, "success");
+        }
+        [Route("api/index/deletedefaultsessionchallenge")]
+        [HttpDelete]
+        public string deletedefaultsessionchallenge(string challengeid)
+        {
+            var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
+            collectionChallenges.DeleteOne(c => c._id == ObjectId.Parse(challengeid));
+            return "success";
         }
         [Route("api/index/retrievedefaultsessionchallenge")]
         [HttpGet]
@@ -938,7 +1126,19 @@ namespace nextchallengeWebAPI.Controllers
             var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
             return collectionChallenges.Find(new BsonDocument()).ToList();
         }
-
+        [Route("api/index/retrievedefaultsessionchallengestats")]
+        [HttpGet]
+        public DefaultSessionChallengeStats retrievedefaultsessionchallengestats(string challengeid,string userid)
+        {
+            var collectionPostLikes = database.GetCollection<PostLike>("PostLikes");
+            var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
+            DefaultSessionChallengeStats stats = new DefaultSessionChallengeStats();
+            stats.LikesCount = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == ObjectId.Parse(challengeid)));
+            stats.DislikesCount = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == ObjectId.Parse(challengeid)));
+            stats.PostLiked = Convert.ToInt32(collectionPostLikes.CountDocuments(d => d.PostID == ObjectId.Parse(challengeid) && d.UserID == ObjectId.Parse(userid))) > 0;
+            stats.PostDisLiked = Convert.ToInt32(collectionPostDisLikes.CountDocuments(d => d.PostID == ObjectId.Parse(challengeid) && d.UserID == ObjectId.Parse(userid))) > 0;
+            return stats;
+        }
         [Route("api/index/uploadfiles")]
         [HttpPost]
         public async Task<HttpResponseMessage> uploadfiles()
@@ -1341,8 +1541,19 @@ namespace nextchallengeWebAPI.Controllers
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
             friendship.CreateDateTime = DateTime.Now;
             Friendship friendship1 = new FriendshipConverter().Convert(friendship);
-            collectionFriendships.InsertOne(friendship1);
-            return friendship1;
+            ObjectId[] objects = new ObjectId[] { friendship1.FriendshipStarterUserId, friendship1.FriendUserId };
+            Friendship friendshipSearch = collectionFriendships.Find(f => objects.Contains(f.FriendshipStarterUserId) && objects.Contains(f.FriendUserId)).FirstOrDefault();
+            if (friendshipSearch != null)
+            {
+                friendshipSearch.CreateDateTime = DateTime.Now;
+                collectionFriendships.ReplaceOne(f => f._id == friendshipSearch._id, friendshipSearch);
+                return null;
+            }
+            else
+            {
+                collectionFriendships.InsertOne(friendship1);
+                return friendship1;
+            }
         }
         [Route("api/index/approvefriendship")]
         [HttpPost]
@@ -1385,6 +1596,29 @@ namespace nextchallengeWebAPI.Controllers
                         FriendshipStarter = (List<UserMinInfo>)starter,
                         FriendUser = (List<UserMinInfo>)friend
                     }).Take(12).ToList();
+        }
+        [Route("api/index/retrievefriendshipsall")]
+        [HttpGet]
+        public List<FriendshipDetailed> retrievefriendshipsall(string userid)
+        {
+            var collectionFriendships = database.GetCollection<Friendship>("Friendships");
+            var collectionUsers = database.GetCollection<UserMinInfo>("Users");
+            return (from f in collectionFriendships.AsQueryable()
+                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                    where f.FriendshipApproved && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
+                    orderby f.CreateDateTime descending
+                    select new FriendshipDetailed()
+                    {
+                        _id = f._id,
+                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                        FriendUserId = f.FriendUserId,
+                        CreateDateTime = f.CreateDateTime,
+                        FriendshipApproved = f.FriendshipApproved,
+                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                        FriendshipStarter = (List<UserMinInfo>)starter,
+                        FriendUser = (List<UserMinInfo>)friend
+                    }).ToList();
         }
         [Route("api/index/retrievefriendshipsafter")]
         [HttpGet]
@@ -1532,6 +1766,7 @@ namespace nextchallengeWebAPI.Controllers
                 searchList.ElementAt(0).CreateDateTime = DateTime.Now;
                 collection.ReplaceOne(s => s._id == searchList.ElementAt(0)._id, searchList.ElementAt(0));
                 searchConverted = searchList.ElementAt(0);
+                return null;
             }
             else
             {
@@ -1639,6 +1874,31 @@ namespace nextchallengeWebAPI.Controllers
 
             return notificationConverted;
         }
+        [Route("api/index/markallnotificationsasseen")]
+        [HttpPut]
+        public string markallnotificationsasseen(string userid)
+        {
+            var collection = database.GetCollection<Notification>("Notifications");
+            var update = Builders<Notification>.Update.Set(n => n.Read, true);
+            collection.UpdateMany(n => n.UserID == ObjectId.Parse(userid) && n.Read == false, update);
+            return "success";
+        }
+        [Route("api/index/deletenotification")]
+        [HttpDelete]
+        public string deletenotification(string notificationid)
+        {
+            var collection = database.GetCollection<Notification>("Notifications");
+            collection.DeleteOne(n => n._id == ObjectId.Parse(notificationid));
+            return "success";
+        }
+        [Route("api/index/deletenotifications")]
+        [HttpPut]
+        public string deletenotifications(string userid)
+        {
+            var collection = database.GetCollection<Notification>("Notifications");
+            collection.DeleteMany(n => n.UserID == ObjectId.Parse(userid));
+            return "success";
+        }
         [Route("api/index/retrievenotifications")]
         [HttpGet]
         public List<NotificationDetailed> retrievenotifications(string userid)
@@ -1693,7 +1953,7 @@ namespace nextchallengeWebAPI.Controllers
                                   where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved
                                   select f._id).Count(),
                 Notifications = (from n in collectionNotifications.AsQueryable()
-                                 where n.UserID == ObjectId.Parse(userid) && n.Read
+                                 where n.UserID == ObjectId.Parse(userid) && !n.Read
                                  select n._id).Count(),
                 Messages = (from m in collectionMessages.AsQueryable()
                             where m.ToUserID == ObjectId.Parse(userid) && !m.MessageRead
@@ -1801,16 +2061,19 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/updateconfiguration")]
         [HttpPut]
-        public Configuration updateconfiguration([FromBody]ConfigurationPost configuration)
+        public List<Configuration> updateconfiguration([FromBody]List<ConfigurationPost> configurations)
         {
             var collection = database.GetCollection<Configuration>("Configurations");
-            Configuration configurationConverted = new ConfigurationConverter().Convert(configuration);
-            configurationConverted.CreateDateTime = DateTime.Now;
-            if (configurationConverted._id == ObjectId.Parse("000000000000000000000000"))
-                collection.InsertOne(configurationConverted);
-            if (configurationConverted._id != ObjectId.Parse("000000000000000000000000"))
-                collection.ReplaceOne(l => l._id == configurationConverted._id, configurationConverted);
-            return configurationConverted;
+            List<Configuration> configurationsConverted = new ConfigurationConverter().ConvertMany(configurations);
+            foreach(Configuration configurationConverted in configurationsConverted)
+            {
+                configurationConverted.CreateDateTime = DateTime.Now;
+                if (configurationConverted._id == ObjectId.Parse("000000000000000000000000"))
+                    collection.InsertOne(configurationConverted);
+                if (configurationConverted._id != ObjectId.Parse("000000000000000000000000"))
+                    collection.ReplaceOne(l => l._id == configurationConverted._id, configurationConverted);
+            }
+            return configurationsConverted;
         }
         [Route("api/index/retrieveconfigurations")]
         [HttpGet]

@@ -12,8 +12,5 @@ export class AppComponent implements OnInit {
   constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
-    this._appService.retrieveconfigurations().subscribe(data => {
-      this._appService.setconfigurations(data);
-    });
   }
 }
