@@ -58,6 +58,10 @@ export class FormDialogComponent {
       Answer: [this.department.Answer, [Validators.required]],
       Clue: [this.department.Clue == null ? '' : this.department.Clue.Description, [Validators.required]],
       clueFile: [''],
+      Source: [this.department.Clue == null ? '' : this.department.Clue.Source],
+      By: [this.department.Clue == null ? '' : this.department.Clue.By],
+      Licence: [this.department.Clue == null ? '' : this.department.Clue.Licence],
+      LicenceReference: [this.department.Clue == null ? '' : this.department.Clue.LicenceReference],
     });
   }
   submit() {
@@ -89,16 +93,28 @@ export class FormDialogComponent {
     formData.append("TimeInSeconds", formDataRaw.TimeInSeconds);
     formData.append("Description", formDataRaw.Clue);
     formData.append("_id", formDataRaw._id);
+    formData.append("Source", formDataRaw.Source);
+    formData.append("By", formDataRaw.By);
+    formData.append("Licence", formDataRaw.Licence);
+    formData.append("LicenceReference", formDataRaw.LicenceReference);
     console.log(formDataRaw._id);
     if (formDataRaw._id != null) {
       let newClue = this.department.Clue;
       newClue.Description = formDataRaw.Clue;
+      newClue.Source = formDataRaw.Source;
+      newClue.By = formDataRaw.By;
+      newClue.Licence = formDataRaw.Licence;
+      newClue.LicenceReference = formDataRaw.LicenceReference;
       formDataRaw.Clue = newClue;
     } else {
       let clueNew = {
         Description: formDataRaw.Clue,
         Files: null,
         Type: fileType,
+        Source: formDataRaw.Source,
+        By: formDataRaw.By,
+        Licence: formDataRaw.Licence,
+        LicenceReference: formDataRaw.LicenceReference,
       };
       formDataRaw.Clue = clueNew;
     }

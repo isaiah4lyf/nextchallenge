@@ -22,8 +22,8 @@
                             <mat-option [value]="'History & Mythology'">
                                 History & Mythology
                             </mat-option>
-                            <mat-option [value]="'Science'">
-                                Science
+                            <mat-option [value]="'Science & Technology'">
+                                Science & Technology
                             </mat-option>
                             <mat-option [value]="'Sports'">
                                 Sports
@@ -76,13 +76,12 @@
                         <mat-label>Time In Seconds</mat-label>
                         <input matInput type="number" formControlName="TimeInSeconds" required>
                         <mat-icon matSuffix>query_builder</mat-icon>
-                        <mat-error
-                            *ngIf="departmentForm.get('TimeInSeconds').hasError('required')">
+                        <mat-error *ngIf="departmentForm.get('TimeInSeconds').hasError('required')">
                             Please Time In Seconds required
                         </mat-error>
                     </mat-form-field>
                 </div>
-            </div> 
+            </div>
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                     <mat-form-field class="example-full-width mb-3" appearance="outline">
@@ -112,6 +111,38 @@
                         <ngx-mat-file-input formControlName="clueFile">
                         </ngx-mat-file-input>
                         <mat-icon matSuffix>attachment</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Source</mat-label>
+                        <input matInput formControlName="Source">
+                        <mat-icon matSuffix>bookmark</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class=" col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>By</mat-label>
+                        <input matInput formControlName="By">
+                        <mat-icon matSuffix>account_circle</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Licence</mat-label>
+                        <input matInput formControlName="Licence">
+                        <mat-icon matSuffix>verified_user</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class=" col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-label>Licence Reference</mat-label>
+                        <input matInput formControlName="LicenceReference">
+                        <mat-icon matSuffix>bookmark</mat-icon>
                     </mat-form-field>
                 </div>
             </div>

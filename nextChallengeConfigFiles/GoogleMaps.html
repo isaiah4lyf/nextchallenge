@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>534.30
+
+<head>
+  <title>Simple Map</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+      height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    var map;
+    var coord = {"type": "FeatureCollection", "features": [{"type": "Feature", "id": "andes_fpk.1", "geometry": {"type": "Point", "coordinates": [-72.06372154080076, 8.572756824242866]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-72.06372154080076, 8.572756824242866, -72.06372154080076, 8.572756824242866]}}, {"type": "Feature", "id": "andes_fpk.2", "geometry": {"type": "Point", "coordinates": [-75.66723716529854, 2.8030233630777697]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-75.66723716529854, 2.8030233630777697, -75.66723716529854, 2.8030233630777697]}}, {"type": "Feature", "id": "andes_fpk.3", "geometry": {"type": "Point", "coordinates": [-78.74340903987107, -1.2387300965222423]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-78.74340903987107, -1.2387300965222423, -78.74340903987107, -1.2387300965222423]}}, {"type": "Feature", "id": "andes_fpk.4", "geometry": {"type": "Point", "coordinates": [-78.47973716490705, -6.672908872319463]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-78.47973716490705, -6.672908872319463, -78.47973716490705, -6.672908872319463]}}, {"type": "Feature", "id": "andes_fpk.5", "geometry": {"type": "Point", "coordinates": [-71.71215904084936, -14.612934803186025]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-71.71215904084936, -14.612934803186025, -71.71215904084936, -14.612934803186025]}}, {"type": "Feature", "id": "andes_fpk.6", "geometry": {"type": "Point", "coordinates": [-67.66919029141187, -21.706030937455974]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-67.66919029141187, -21.706030937455974, -67.66919029141187, -21.706030937455974]}}, {"type": "Feature", "id": "andes_fpk.7", "geometry": {"type": "Point", "coordinates": [-70.04223716608155, -31.959253522431162]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-70.04223716608155, -31.959253522431162, -70.04223716608155, -31.959253522431162]}}, {"type": "Feature", "id": "andes_fpk.8", "geometry": {"type": "Point", "coordinates": [-72.15161216578815, -44.908497625818036]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-72.15161216578815, -44.908497625818036, -72.15161216578815, -44.908497625818036]}}, {"type": "Feature", "id": "andes_fpk.9", "geometry": {"type": "Point", "coordinates": [-71.25518429823785, -38.85269647530825]}, "geometry_name": "the_geom", "properties": {"Name": null, "Description": null, "Start_Date": null, "End_Date": null, "String_Value_1": null, "String_Value_2": null, "Number_Value_1": null, "Number_Value_2": null, "bbox": [-71.25518429823785, -38.85269647530825, -71.25518429823785, -38.85269647530825]}}], "crs": {"type": "EPSG", "properties": {"code": "4326"}}, "bbox": [-78.7434090398711, -44.908497625818, -67.6691902914119, 8.57275682424287]};
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 8.572756824242866, lng: -72.06372154080076},
+        zoom: 4
+      });
+      let fet = coord.features;
+      for (let i = 0; i < fet.length; i++) {
+        let box = fet[i].properties.bbox;
+        let triangleCoords = [];
+        let modCords = {};
+        modCords["lat"] = box[0];
+        modCords["lng"] = box[1];
+        triangleCoords[0] = modCords;
+        // Construct the polygon.
+        var citymap = {
+          chicago: {
+            center: {lat: -27.124072, lng: 132.5348982},
+            population: 108000
+          },
+          newyork: {
+            center: {lat: 2.8030233630777697, lng: -75.66723716529854},
+            population: 108000
+          },
+          losangeles: {
+            center: {lat: -1.2387300965222423, lng: -78.74340903987107},
+            population: 108000
+          },
+          vancouver: {
+            center: {lat: -6.672908872319463, lng: -78.47973716490705},
+            population: 108000
+          }
+          ,
+          vancouver2: {
+            center: {lat: -14.612934803186025, lng: -71.71215904084936},
+            population: 108000
+          }
+          ,
+          vancouver3: {
+            center: {lat: -21.706030937455974, lng: -67.66919029141187},
+            population: 108000
+          }
+          ,
+          vancouver5: {
+            center: {lat: -31.959253522431162, lng: -70.04223716608155},
+            population: 108000
+          }
+          ,
+          vancouver7: {
+            center: {lat: -44.908497625818036, lng: -72.15161216578815},
+            population: 108000
+          }
+          ,
+          vancouver8: {
+            center: {lat: -38.85269647530825, lng: -71.25518429823785},
+            population: 108000
+          }
+        };
+        for (var city in citymap) {
+          // Add the circle for this city to the map.
+          var cityCircle = new google.maps.Circle({
+            strokeColor: '#149ac9',
+            strokeOpacity: 1,
+            strokeWeight: 5,
+            fillColor: '#149ac9',
+            fillOpacity: 1,
+            map: map,
+            center: citymap[city].center,
+            radius: Math.sqrt(citymap[city].population) * 100
+          });
+        }
+        console.log(triangleCoords);
+      }
+
+      /*
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 11.854987291273346, lng: 37.11301150930905},
+        zoom: 8
+      });
+      let fets = coord.features;
+      for (let i = 0; i < fets.length; i++) {
+        let cords = fets[i].geometry.coordinates;
+        for (let k = 0; k < cords.length; k++) {
+          //console.log(cords);
+          for (let m = 0; m < cords[k].length; m++) {
+            let con = cords[k];
+            let triangleCoords = [];
+            for (let j = 0; j < con.length; j++) {
+              let modCords = {};
+              modCords["lng"] = con[j][0];
+              modCords["lat"] = con[j][1];
+              triangleCoords[j] = modCords;
+            }
+            // Construct the polygon.
+            var bermudaTriangle = new google.maps.Polygon({
+              paths: triangleCoords,
+              strokeColor: '#149ac9',
+              strokeOpacity: 0.9,
+              strokeWeight: 1,
+              fillColor: '#149ac9',
+              fillOpacity: 1
+            });
+            bermudaTriangle.setMap(map);
+            console.log(triangleCoords);
+          }
+        }
+      }
+      *
+      /*
+      console.log(coord[2][0][0]);
+      let triangleCoords = [];
+      for (let i = 0; i < coord[2][0].length; i++) {
+          let modCords = {};
+          modCords["lng"] = coord[2][0][i][0];
+          modCords["lat"] = coord[2][0][i][1];
+          triangleCoords[i] = modCords;
+      }
+      console.log(triangleCoords);
+      console.log(triangleCoords[0]);
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: triangleCoords[0],
+        zoom: 8
+      });
+      var bermudaTriangle = new google.maps.Polygon({
+          paths: triangleCoords,
+          strokeColor: '#149ac9',
+          strokeOpacity: 0.9,
+          strokeWeight: 1,
+          fillColor: '#149ac9',
+          fillOpacity: 1
+        });
+        bermudaTriangle.setMap(map);
+      */
+      // Define the LatLng coordinates for the polygon's path.
+      /*
+      var coords = coord[0].split(" ");
+      let triangleCoords = [];
+      for (let i = 0; i < coords.length; i++) {
+        let modCords = {};
+        modCords["lng"] = parseFloat(coords[i].split(",")[0]);
+        modCords["lat"] = parseFloat(coords[i].split(",")[1]);
+        triangleCoords[i] = modCords;
+      }
+      console.log(triangleCoords);
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: triangleCoords[0],
+        zoom: 8
+      });
+
+      for (let k = 0; k < coord.length; k++) {
+        var coords = coord[k].split(" ");
+        let triangleCoords = [];
+        for (let i = 0; i < coords.length; i++) {
+          let modCords = {};
+          modCords["lng"] = parseFloat(coords[i].split(",")[0]);
+          modCords["lat"] = parseFloat(coords[i].split(",")[1]);
+          triangleCoords[i] = modCords;
+        }
+
+        // Construct the polygon.
+        var bermudaTriangle = new google.maps.Polygon({
+          paths: triangleCoords,
+          strokeColor: '#149ac9',
+          strokeOpacity: 0.9,
+          strokeWeight: 1,
+          fillColor: '#149ac9',
+          fillOpacity: 1
+        });
+        bermudaTriangle.setMap(map);
+        console.log(triangleCoords);
+      }
+      */
+    }
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI63wmkmE0fWNWgv4tCOB3cALl-W5N2RI&callback=initMap"
+    async defer></script>
+</body>
+
+</html>

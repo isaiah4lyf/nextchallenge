@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private NotificationCompat.Builder builder2;
     private  NotificationManager notificationManager;
 
-    private String url ="http://nextchallenge.co.za:4200/";
+    private String url ="http://www.nextchallenge.co.za/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

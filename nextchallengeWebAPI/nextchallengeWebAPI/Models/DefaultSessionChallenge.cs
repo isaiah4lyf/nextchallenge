@@ -12,6 +12,7 @@ namespace nextchallengeWebAPI.Models
         [XmlIgnore]
         public ObjectId _id { set; get; }
         public string Answer { set; get; }
+        public bool Active { set; get; }
         public string Category { set; get; }
         public Clue Clue { set; get; }
         public DateTime CreateDateTime { set; get; }
@@ -30,6 +31,10 @@ namespace nextchallengeWebAPI.Models
     public class Clue {
         public string Type { set; get; }
         public string Description { set; get; }
+        public string Source { set; get; }
+        public string By { set; get; }
+        public string Licence { set; get; }
+        public string LicenceReference { set; get; }
         public List<FileUpload> Files { set; get; } 
     }
 }

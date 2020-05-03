@@ -1,6 +1,6 @@
 <div class="post-content" style="margin-bottom: 5px;">
     <img *ngIf="challenge.Clue.Type == 'image'" src="{{challenge['Clue']['Files'][0]['FileBaseUrls'][0]}}" alt=""
-        class="img-responsive post-image" style="max-height: 400px;" />
+        class="img-responsive post-image" style="max-height: 700px;" />
     <div *ngIf="challenge.Clue.Type == 'video'" style="position: relative;">
         <!--Post Date End-->
         <video #VideoRef class="post-video" style="width: 100%; height: auto; max-height: 400px;" preload="none"
@@ -15,6 +15,8 @@
     <div class="post-container" style="padding-bottom: 0; padding-top: 3px;">
         <div *ngIf="challenge.Clue.Type == 'none' && challenge.Clue.Description != 'none'" style="font-size: 12px;">
             <i>hint: {{challenge.Clue.Description}}</i></div>
+        <div *ngIf="challenge.Clue.Source != 'null' && challenge.Clue.Source != null && challenge.Clue.Type == 'image'" style="font-size: 11px;">
+            <i><a href="{{challenge.Clue.Source}}">Photo</a> by {{challenge.Clue.By}} / <a href="{{challenge.Clue.LicenceReference}}">{{challenge.Clue.Licence}}</a> </i></div>
         <table style="width: 100%;">
             <tr>
                 <td>
@@ -22,9 +24,11 @@
                 </td>
                 <td align="right">
                     <div class="reaction pull-right">
-                        <a *ngIf="displayStats" [class]="postLikedClass" (click)="like()"><i class="icon ion-thumbsup"></i>
+                        <a *ngIf="displayStats" [class]="postLikedClass" (click)="like()"><i
+                                class="icon ion-thumbsup"></i>
                             {{likesCount}}</a>
-                        <a *ngIf="displayStats" [class]="postDisLikedClass" style="margin-right: 10px;" (click)="dislike()"><i class="fa fa-thumbs-down"></i>
+                        <a *ngIf="displayStats" [class]="postDisLikedClass" style="margin-right: 10px;"
+                            (click)="dislike()"><i class="fa fa-thumbs-down"></i>
                             {{disLikesCount}}</a>
                         <a id="{{challenge['challnegeId']}}"
                             style="border-radius: 2px; height: 15px; width: 15px; position: relative; top: 2px; ">0</a>

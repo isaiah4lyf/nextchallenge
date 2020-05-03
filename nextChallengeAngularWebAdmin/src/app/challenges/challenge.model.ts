@@ -7,6 +7,7 @@ export class Challenge {
   Question: string;
   TimeInSeconds: number;
   Answer: string;
+  Active: boolean;
   constructor(challenge) {
     {
       this._id = challenge._id || null;
@@ -17,6 +18,7 @@ export class Challenge {
       this.TimeInSeconds = challenge.TimeInSeconds || '';
       this.Answer = challenge.Answer || '';
       this.Clue = challenge.Clue || null;
+      this.Active = challenge.Active;
     }
   }
 
@@ -31,10 +33,18 @@ class Clue {
   Description: string;
   Files: File[];
   Type: string;
+  Source: string;
+  By: string;
+  Licence: string;
+  LicenceReference: string;
   constructor(clue) {
     this.Description = clue.Description || '';
     this.Files = clue.Files || null;
     this.Type = clue.Type || '';
+    this.Source = clue.Source || '';
+    this.By = clue.By || '';
+    this.Licence = clue.Licence || '';
+    this.LicenceReference = clue.LicenceReference || '';
   }
 }
 

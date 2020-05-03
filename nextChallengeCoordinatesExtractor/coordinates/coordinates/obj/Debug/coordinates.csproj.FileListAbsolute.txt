@@ -1,0 +1,9 @@
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\bin\Debug\coordinates.exe.config
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\bin\Debug\coordinates.exe
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\bin\Debug\coordinates.pdb
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\obj\Debug\coordinates.csprojAssemblyReference.cache
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\obj\Debug\coordinates.exe
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\obj\Debug\coordinates.pdb
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\bin\Debug\Newtonsoft.Json.dll
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\bin\Debug\Newtonsoft.Json.xml
+C:\Users\isaia\nextchallenge\nextChallengeCoordinatesExtractor\coordinates\coordinates\obj\Debug\coordinates.csproj.CopyComplete

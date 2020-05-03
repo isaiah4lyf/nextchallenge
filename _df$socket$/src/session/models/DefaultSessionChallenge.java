@@ -11,7 +11,15 @@ public class DefaultSessionChallenge {
     private int Points;
     private String Question;
     private int TimeInSeconds;
-	
+	private boolean Active;
+	public boolean isActive() {
+		return Active;
+	}
+
+	public void setActive(boolean active) {
+		Active = active;
+	}
+
 	public String getAnswer() {
 		return Answer;
 	}
@@ -82,6 +90,10 @@ public class DefaultSessionChallenge {
 		private String Type;
 		private String Description;
 		private List<FileUpload> Files;
+        public String Source;
+        public String By;
+        public String Licence;
+        public String LicenceReference;
 		
 		public List<FileUpload> getFiles() {
 			return Files;

@@ -1,0 +1,1741 @@
+{
+	"info": {
+		"_postman_id": "272e7f6c-6958-4c91-8896-c3267fc898d9",
+		"name": "NextChallengeAPIRequests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "checkregistrationemail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/checkregistrationemail?email=isaiah@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"checkregistrationemail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "isaiah@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createuser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"FirstName\": \"isaiah\",\n    \"LastName\": \"ramafalo\",\n    \"EmailRegistration\": \"isaiah4@gmail.com\",\n    \"Password\": \"123\",\n    \"DateOfBirth\": {\n        \"Day\": \"3\",\n        \"Month\": \"Apr\",\n        \"Year\": \"2001\"\n    },\n    \"Gender\": \"Female\",\n    \"city\": \"Johannesburg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatebasicinfo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"_id\" : \"5e7f36d94842ce3f18d50af8\",\r\n        \"FirstName\" : \"isaiah4\",\r\n        \"LastName\" : \"ramafalo4\",\r\n        \"EmailRegistration\" : \"isaiah4@gmail.com\",\r\n        \"Email\" : \"isaiah.ramafalo.4@nextchallenge.co.za\",\r\n        \"Password\" : \"123\",\r\n        \"DateOfBirth\" : {\r\n                \"Day\" : 3,\r\n                \"Month\" : \"Apr\",\r\n                \"Year\" : 2001\r\n        },\r\n        \"Gender\" : \"Female\",\r\n        \"City\" : \"Johannesburg\",\r\n        \"AboutMe\": \"hey hey\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/updatebasicinfo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"updatebasicinfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateschools",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"UserID\": \"5e7f36d94842ce3f18d50af8\",\n        \"Name\": \"Mokutu\",\n        \"From\": \"2016\",\n        \"To\": \"Present\",\n        \"Description\": \"123\"\n    },\n    {\n    \t \"_id\": \"5e80f4fe4842ce067c60dc92\",\n        \"UserID\": \"5e7f36d94842ce3f18d50af8\",\n        \"Name\": \"Mokutu some\",\n        \"From\": \"2016\",\n        \"To\": \"Present\",\n        \"Description\": \"123\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/updateschools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"updateschools"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveschools",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrieveschools?userid=5e7f36d94842ce3f18d50af8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrieveschools"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e7f36d94842ce3f18d50af8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteschool",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/deleteschool?schoolid=5e80f52e4842ce067c60dc94",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"deleteschool"
+					],
+					"query": [
+						{
+							"key": "schoolid",
+							"value": "5e80f52e4842ce067c60dc94"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatecompanies",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"UserID\": \"5e7f36d94842ce3f18d50af8\",\n        \"Name\": \"Mokutu\",\n        \"Designation\": \"sdfs\",\n        \"From\": \"2016\",\n        \"To\": \"Present\",\n        \"CityOrTown\": \"efa\",\n        \"Description\": \"123\"\n    },\n    {\n        \"UserID\": \"5e7f36d94842ce3f18d50af8\",\n        \"Name\": \"Mokutu some\",\n        \"Designation\": \"sdfs\",\n        \"From\": \"2016\",\n        \"To\": \"Present\",\n        \"CityOrTown\": \"efa\",\n        \"Description\": \"123\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/updatecompanies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"updatecompanies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievecompanies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievecompanies?userid=5e7f36d94842ce3f18d50af8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievecompanies"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e7f36d94842ce3f18d50af8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletecompany",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/deletecompany?companyid=5e81a4cc4842ce645857bfb9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"deletecompany"
+					],
+					"query": [
+						{
+							"key": "companyid",
+							"value": "5e81a4cc4842ce645857bfb9"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createinterest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"UserID\": \"5e7f36d94842ce3f18d50af8\",\n    \"InterestName\": \"interesg 1\",\n    \"IconName\": \"icon ion-ios-heart-outline\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createinterest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveinterests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrieveinterests?userid=5e7f36d94842ce3f18d50af8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrieveinterests"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e7f36d94842ce3f18d50af8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteinterest",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/deleteinterest?interestid=5e81f22a4842ce68b43559d0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"deleteinterest"
+					],
+					"query": [
+						{
+							"key": "interestid",
+							"value": "5e81f22a4842ce68b43559d0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/login?email=awe&password=123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "awe"
+						},
+						{
+							"key": "password",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveuser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrieveuser?name=isaiah.ramafalo&viewername=isaiah.ramafalo.1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrieveuser"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "isaiah.ramafalo"
+						},
+						{
+							"key": "viewername",
+							"value": "isaiah.ramafalo.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createpost",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Pictures/ExtchallengeFiles/Avengers_Endgame_poster.jpg"
+						},
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Videos/aXjoZ9b_460svvp9.webm",
+							"disabled": true
+						},
+						{
+							"key": "PostContent",
+							"value": "sgges rare",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "video",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "UserID",
+							"value": "5e6d10044842ce46dc5ed185",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "image",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createpost",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createpost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveposts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrieveposts?userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrieveposts"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievepostsafter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievepostsafter?postid=5e6e1c8a4842ce5d343a65d7&userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievepostsafter"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6e1c8a4842ce5d343a65d7"
+						},
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrivepost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievepost?postid=5e6ce7624842ce34607f60c0&userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievepost"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6ce7624842ce34607f60c0"
+						},
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createcomment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Pictures/ExtchallengeFiles/Avengers_Endgame_poster.jpg"
+						},
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Videos/aXjoZ9b_460svvp9.webm",
+							"disabled": true
+						},
+						{
+							"key": "CommentContent",
+							"value": "sgges rare",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "video",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "UserID",
+							"value": "5e6cd6154842ce64b4c5cf15",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "image",
+							"type": "text"
+						},
+						{
+							"key": "PostID",
+							"value": "5e6d2fc24842ce72d02a7841",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createcomment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createcomment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievecomments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievecomments?postid=5e6d3b894842ce757ce42f31",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievecomments"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6d3b894842ce757ce42f31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievecommentssafter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievecommentsafter?commentid=5e6dbe324842ce4a18dd8b5c&postid=5e6d3b894842ce757ce42f31",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievecommentsafter"
+					],
+					"query": [
+						{
+							"key": "commentid",
+							"value": "5e6dbe324842ce4a18dd8b5c"
+						},
+						{
+							"key": "postid",
+							"value": "5e6d3b894842ce757ce42f31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievecommentslatest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievecommentslatest?commentid=5e6dcd064842ce530cd04bbc&postid=5e6d3b894842ce757ce42f31",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievecommentslatest"
+					],
+					"query": [
+						{
+							"key": "commentid",
+							"value": "5e6dcd064842ce530cd04bbc"
+						},
+						{
+							"key": "postid",
+							"value": "5e6d3b894842ce757ce42f31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrivecommentlatest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievecommentlatest?postid=5e6d1b884842ce73642c443f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievecommentlatest"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6d1b884842ce73642c443f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dislikepost",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/dislikepost?postid=5e6e22ba4842ce5d343a65e8&userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"dislikepost"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6e22ba4842ce5d343a65e8"
+						},
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletepostdislike",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/deletepostdislike?postid=5e6e22ba4842ce5d343a65e8&userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"deletepostdislike"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6e22ba4842ce5d343a65e8"
+						},
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "likepost",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/likepost?postid=5e6e22ba4842ce5d343a65e8&userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"likepost"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6e22ba4842ce5d343a65e8"
+						},
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletepostlike",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/deletepostlike?postid=5e6e22ba4842ce5d343a65e8&userid=5e6cd6154842ce64b4c5cf15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"deletepostlike"
+					],
+					"query": [
+						{
+							"key": "postid",
+							"value": "5e6e22ba4842ce5d343a65e8"
+						},
+						{
+							"key": "userid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createmessage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Pictures/ExtchallengeFiles/Avengers_Endgame_poster.jpg",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Videos/aXjoZ9b_460svvp9.webm"
+						},
+						{
+							"key": "MessageContent",
+							"value": "sgges rare",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "video",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "ToUserID",
+							"value": "5e6cd6154842ce64b4c5cf15",
+							"type": "text"
+						},
+						{
+							"key": "FromUserID",
+							"value": "5e6f62bc4842ce3e0c6e13ba",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createmessage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createmessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievemessages",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievemessages?fromuserid=5e6cd6154842ce64b4c5cf15&touserid=5e6f62bc4842ce3e0c6e13ba",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievemessages"
+					],
+					"query": [
+						{
+							"key": "fromuserid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						},
+						{
+							"key": "touserid",
+							"value": "5e6f62bc4842ce3e0c6e13ba"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievemessagesafter",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievemessagesafter?fromuserid=5e6cd6154842ce64b4c5cf15&touserid=5e6f62bc4842ce3e0c6e13ba&lastmessageid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievemessagesafter"
+					],
+					"query": [
+						{
+							"key": "fromuserid",
+							"value": "5e6cd6154842ce64b4c5cf15"
+						},
+						{
+							"key": "touserid",
+							"value": "5e6f62bc4842ce3e0c6e13ba"
+						},
+						{
+							"key": "lastmessageid",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveativechats",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/activechats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"activechats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createdefaultsessionchallenge",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Pictures/ExtchallengeFiles/Avengers_Endgame_poster.jpg"
+						},
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Videos/aXjoZ9b_460svvp9.webm",
+							"disabled": true
+						},
+						{
+							"key": "PostContent",
+							"value": "sgges rare",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "image",
+							"type": "text"
+						},
+						{
+							"key": "ChallengeCreatorID",
+							"value": "5e6d10044842ce46dc5ed185",
+							"type": "text"
+						},
+						{
+							"key": "Answer",
+							"value": "image with spaces",
+							"type": "text"
+						},
+						{
+							"key": "Category",
+							"value": "Science",
+							"type": "text"
+						},
+						{
+							"key": "Points",
+							"value": "15",
+							"type": "text"
+						},
+						{
+							"key": "Question",
+							"value": "Question goes here",
+							"type": "text"
+						},
+						{
+							"key": "TimeInSeconds",
+							"value": "15",
+							"type": "text"
+						},
+						{
+							"key": "Description",
+							"value": "Clue desceiption",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createdefaultsessionchallenge",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createdefaultsessionchallenge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievedefaultsessionchallenge",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/activechats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"activechats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uploadfiles",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Pictures/ExtchallengeFiles/Avengers_Endgame_poster.jpg"
+						},
+						{
+							"key": "",
+							"type": "file",
+							"src": "/C:/Users/isaia/Videos/aXjoZ9b_460svvp9.webm",
+							"disabled": true
+						},
+						{
+							"key": "PostContent",
+							"value": "sgges rare",
+							"type": "text"
+						},
+						{
+							"key": "FileType",
+							"value": "image",
+							"type": "text"
+						},
+						{
+							"key": "FileUploaderID",
+							"value": "5e6d10044842ce46dc5ed185",
+							"type": "text"
+						},
+						{
+							"key": "Answer",
+							"value": "image with spaces",
+							"type": "text"
+						},
+						{
+							"key": "Category",
+							"value": "Science",
+							"type": "text"
+						},
+						{
+							"key": "Points",
+							"value": "15",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/uploadfiles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"uploadfiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateleaderboard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"UserID\": \"5e6d10044842ce46dc5ed185\",\n    \"TotalScore\": 4,\n    \"WeeklyScore\": 0,\n    \"WeekendScore\": 0,\n    \"HighestStreak\": 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/updateleaderboard",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"updateleaderboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveleaderboard",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/activechats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"activechats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveleaderboards",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrieveleaderboards?orderby=streak&page=1&userid=5e70e57b4842ce43e81c7575",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrieveleaderboards"
+					],
+					"query": [
+						{
+							"key": "orderby",
+							"value": "streak"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "userid",
+							"value": "5e70e57b4842ce43e81c7575"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createfriendship",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FriendshipStarterUserId\": \"5e70e93f4842ce559ce93912\",\r\n    \"FriendUserId\": \"5e70e57b4842ce43e81c7575\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/createfriendship",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"createfriendship"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approvefriendship",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FriendshipStarterUserId\": \"5e70e93f4842ce559ce93912\",\r\n    \"FriendUserId\": \"5e70e57b4842ce43e81c7575\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/approvefriendship?friendshipid=5e7f1bd24842ce49b4813e73",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"approvefriendship"
+					],
+					"query": [
+						{
+							"key": "friendshipid",
+							"value": "5e7f1bd24842ce49b4813e73"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletefriendship",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/deletefriendship?friendshipid=5e7f19c04842ce65941e0826",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"deletefriendship"
+					],
+					"query": [
+						{
+							"key": "friendshipid",
+							"value": "5e7f19c04842ce65941e0826"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievefriendships",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievefriendships?userid=5e70e93f4842ce559ce93912",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievefriendships"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e70e93f4842ce559ce93912"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievefriendshipsafter",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievefriendshipsafter?userid=5e7f36964842ce3f18d50af2&lastfriendshipid=5e7f6bdb4842ce2e3c021b8b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievefriendshipsafter"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e7f36964842ce3f18d50af2"
+						},
+						{
+							"key": "lastfriendshipid",
+							"value": "5e7f6bdb4842ce2e3c021b8b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievefriendshiprequests",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievefriendshiprequests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievefriendshiprequests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievefriendshiprequestsafter",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/retrievefriendshiprequestsafter?userid=5e7f36964842ce3f18d50af2&lastfriendshipid=5e7f6d9f4842ce2e3c021b99",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"retrievefriendshiprequestsafter"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "5e7f36964842ce3f18d50af2"
+						},
+						{
+							"key": "lastfriendshipid",
+							"value": "5e7f6d9f4842ce2e3c021b99"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:44357/api/index/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "44357",
+					"path": [
+						"api",
+						"index",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -26,6 +26,7 @@ export class AllChallengesComponent implements OnInit {
     'Points',
     'TimeInSeconds',
     'Clue',
+    'Active',
     'actions'
   ];
   exampleDatabase: ChallengesService | null;
@@ -71,6 +72,15 @@ export class AllChallengesComponent implements OnInit {
         );
       }
     });
+  }
+  updateStatusAll(event) {
+    this.departmentService.changedefaultsessionchallengesstatus(event.target.checked).subscribe(data => {
+      console.log(data);
+      this.refresh();
+    });
+  }
+  updateStatus(event, row) {
+    this.departmentService.changedefaultsessionchallengestatus(row._id, event.target.checked);
   }
   editCall(row) {
     console.log(row);
@@ -216,8 +226,8 @@ export class ExampleDataSource extends DataSource<Challenge> {
       return data;
     }
     return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
+      let propertyA: number | boolean | string = '';
+      let propertyB: number | boolean | string = '';
       switch (this._sort.active) {
         case '_id':
           [propertyA, propertyB] = [a._id, b._id];
@@ -236,6 +246,9 @@ export class ExampleDataSource extends DataSource<Challenge> {
           break;
         case 'TimeInSeconds':
           [propertyA, propertyB] = [a.TimeInSeconds, b.TimeInSeconds];
+          break;
+        case 'Active':
+          [propertyA, propertyB] = [a.Active, b.Active];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

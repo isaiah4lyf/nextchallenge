@@ -27,7 +27,7 @@ export class ChallengesService {
     this.httpClient.get(this.configUrl + "retrievedefaultsessionchallenge", this.httpOptions).subscribe(data => {
       console.log(data);
     });
-    this.httpClient.get<Challenge[]>(this.configUrl + "retrievedefaultsessionchallenge", this.httpOptions).subscribe(
+    this.httpClient.get<Challenge[]>(this.configUrl + "retrievedefaultsessionchallengeall", this.httpOptions).subscribe(
       data => {
         this.dataChange.next(data);
       },
@@ -35,6 +35,14 @@ export class ChallengesService {
         console.log(error.name + ' ' + error.message);
       }
     );
+  }
+  changedefaultsessionchallengestatus(challengeid, status): void {
+    this.httpClient.put(this.configUrl + "changedefaultsessionchallengestatus?challengeid=" + challengeid + "&status=" + status, this.httpOptions).subscribe(data => {
+      console.log(data);
+    });
+  }
+  changedefaultsessionchallengesstatus(status) {
+    return this.httpClient.put(this.configUrl + "changedefaultsessionchallengesstatus?status=" + status, this.httpOptions);
   }
   createdefaultsessionchallenge(formData) {
     this.httpClient.post(this.configUrl + "createdefaultsessionchallenge", formData).subscribe(data => {

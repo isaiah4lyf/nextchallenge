@@ -1093,18 +1093,27 @@ namespace nextchallengeWebAPI.Controllers
             clue.Type = files.Count > 0 ? files.ElementAt(0).FileType : "none";
             clue.Description = provider.FormData["Description"];
             clue.Files = files;
+            clue.Source = provider.FormData["Source"];
+            clue.By = provider.FormData["By"];
+            clue.Licence = provider.FormData["Licence"];
+            clue.LicenceReference = provider.FormData["LicenceReference"];
             challenge.Clue = clue;
             string challengeId = provider.FormData["_id"];
             if (challengeId.Length == 24)
             {
                 challenge._id = ObjectId.Parse(challengeId);
-                if(clue.Files.Count == 0)
+                DefaultSessionChallenge challlenge = collectionChallenges.Find(c => c._id == challenge._id).FirstOrDefault();
+                if (clue.Files.Count == 0 && clue.Description.ToLower() != "none" && clue.Description.ToLower() != "none.")
                 {
-                    DefaultSessionChallenge challlenge = collectionChallenges.Find(c => c._id == challenge._id).FirstOrDefault();
                     Clue oldClue = challlenge.Clue;
                     oldClue.Description = clue.Description;
+                    oldClue.Source = provider.FormData["Source"];
+                    oldClue.By = provider.FormData["By"];
+                    oldClue.Licence = provider.FormData["Licence"];
+                    oldClue.LicenceReference = provider.FormData["LicenceReference"];
                     challenge.Clue = oldClue;
                 }
+                challenge.Active = challlenge.Active;
                 collectionChallenges.ReplaceOne(c => c._id == challenge._id, challenge);
                 return Request.CreateResponse(HttpStatusCode.OK, "success");
             }
@@ -1119,12 +1128,37 @@ namespace nextchallengeWebAPI.Controllers
             collectionChallenges.DeleteOne(c => c._id == ObjectId.Parse(challengeid));
             return "success";
         }
+        [Route("api/index/changedefaultsessionchallengestatus")]
+        [HttpPut]
+        public string changedefaultsessionchallengestatus(string challengeid,bool status)
+        {
+            var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
+            var update = Builders<DefaultSessionChallenge>.Update.Set(n => n.Active, status);
+            collectionChallenges.UpdateOne(n => n._id == ObjectId.Parse(challengeid), update);
+            return "success";
+        }
+        [Route("api/index/changedefaultsessionchallengesstatus")]
+        [HttpPut]
+        public string changedefaultsessionchallengesstatus(bool status)
+        {
+            var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
+            var update = Builders<DefaultSessionChallenge>.Update.Set(n => n.Active, status);
+            collectionChallenges.UpdateMany(n => n.Active != status, update);
+            return "success";
+        }
+        [Route("api/index/retrievedefaultsessionchallengeall")]
+        [HttpGet]
+        public List<DefaultSessionChallenge> retrievedefaultsessionchallengeall()
+        {
+            var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
+            return collectionChallenges.Find(new BsonDocument()).ToList();
+        }
         [Route("api/index/retrievedefaultsessionchallenge")]
         [HttpGet]
         public List<DefaultSessionChallenge> retrievedefaultsessionchallenge()
         {
             var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
-            return collectionChallenges.Find(new BsonDocument()).ToList();
+            return collectionChallenges.Find(c => c.Active).ToList();
         }
         [Route("api/index/retrievedefaultsessionchallengestats")]
         [HttpGet]
