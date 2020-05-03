@@ -2,4 +2,6 @@
 /.recommenders/
 /apache-tomcat-9.0.14/
 /nextChallengeAngularWeb/node_modules/
+/nextChallengeAngularWebAdmin/node_modules/
 *.mp4
+*.kml
