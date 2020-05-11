@@ -22,9 +22,11 @@ export class AllChallengesComponent implements OnInit {
   displayedColumns = [
     'Category',
     'Question',
+    'ChallengeType',
     'Answer',
     'Points',
     'TimeInSeconds',
+    'Levels',
     'Clue',
     'Active',
     'actions'

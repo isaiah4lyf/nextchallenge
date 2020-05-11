@@ -19,7 +19,14 @@ namespace nextchallengeWebAPI.Models
         public int Points { set; get; }
         public string Question { set; get; }
         public int TimeInSeconds { set; get; }
-
+        public string ChallengeType { set; get; }
+        public List<_Level> _Levels { set; get; }
+        public List<string> MultipleAnswers { set; get; }
+    }
+    public class _Level
+    {
+        public int _level { set; get; }
+        public bool _checked { set; get;}
     }
     public class DefaultSessionChallengeStats 
     {

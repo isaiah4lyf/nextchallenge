@@ -79,14 +79,24 @@
                                         {{row.Category}}</mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="Question">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Question
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                                        style="min-width: 320px; padding-left: 5px;">Question
                                     </mat-header-cell>
-                                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                                        style="min-width: 320px; padding-left: 5px; padding-right: 10px;">
                                         {{row.Question}}</mat-cell>
                                 </ng-container>
-                                <ng-container matColumnDef="Answer">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Answer</mat-header-cell>
+                                <ng-container matColumnDef="ChallengeType">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Type
+                                    </mat-header-cell>
                                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                                        {{row.ChallengeType}}</mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="Answer">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px;">Answer
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                                        style="min-width: 150px;">
                                         {{row.Answer }}
                                     </mat-cell>
                                 </ng-container>
@@ -99,6 +109,20 @@
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Time(s)</mat-header-cell>
                                     <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                                         {{row.TimeInSeconds}}</mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="Levels">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 150px;">Levels
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                                        style="min-width: 150px;">
+                                        <ng-container *ngIf="row._Levels != null">
+                                            <label *ngFor="let level of row._Levels; let i = index;">
+                                                <ng-container *ngIf="level._checked">
+                                                    <ng-container *ngIf="i != 0">,</ng-container>   {{level._level}}                                                
+                                                </ng-container>
+                                            </label>
+                                        </ng-container>
+                                    </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="Clue">
                                     <mat-header-cell *matHeaderCellDef mat-sort-header>Clue

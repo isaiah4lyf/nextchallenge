@@ -1144,6 +1144,9 @@ namespace nextchallengeWebAPI.Controllers
             challenge.CreateDateTime = datetime;
             challenge.Points = Convert.ToInt32(provider.FormData["Points"]);
             challenge.Question = provider.FormData["Question"];
+            challenge.ChallengeType = provider.FormData["ChallengeType"];
+            challenge._Levels = JsonConvert.DeserializeObject<List<_Level>>(provider.FormData["_Levels"]);
+            challenge.MultipleAnswers = JsonConvert.DeserializeObject<List<string>>(provider.FormData["multipleChoice"]);
             challenge.TimeInSeconds = Convert.ToInt32(provider.FormData["TimeInSeconds"]);
             Clue clue = new Clue();
             clue.Type = files.Count > 0 ? files.ElementAt(0).FileType : "none";

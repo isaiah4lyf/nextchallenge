@@ -30,11 +30,13 @@ export class SessionsComponent implements OnInit {
     }
   }
   ngOnDestroy() {
-    let messageData = {
-      Command: "RETRIEVE_SESSIONS_DISCONNECT",
-      CommandJsonData: this.UserData["_id"]
-    };
-    this.sessionSocket.send(JSON.stringify(messageData));
+    if (this.sessionSocket != null) {
+      let messageData = {
+        Command: "RETRIEVE_SESSIONS_DISCONNECT",
+        CommandJsonData: this.UserData["_id"]
+      };
+      this.sessionSocket.send(JSON.stringify(messageData));
+    }
   }
   clickSession(level) {
     this.ServerSessions = [];

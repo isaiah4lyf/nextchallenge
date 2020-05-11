@@ -12,6 +12,33 @@ public class DefaultSessionChallenge {
     private String Question;
     private int TimeInSeconds;
 	private boolean Active;
+	private String ChallengeType;
+	private List<_Level> _Levels;
+	private List<String> MultipleAnswers;
+	public String getChallengeType() {
+		return ChallengeType;
+	}
+
+	public void setChallengeType(String challengeType) {
+		ChallengeType = challengeType;
+	}
+
+	public List<_Level> get_Levels() {
+		return _Levels;
+	}
+
+	public void set_Levels(List<_Level> _Levels) {
+		this._Levels = _Levels;
+	}
+
+	public List<String> getMultipleAnswers() {
+		return MultipleAnswers;
+	}
+
+	public void setMultipleAnswers(List<String> multipleAnswers) {
+		MultipleAnswers = multipleAnswers;
+	}
+
 	public boolean isActive() {
 		return Active;
 	}
@@ -84,17 +111,57 @@ public class DefaultSessionChallenge {
 		TimeInSeconds = timeInSeconds;
 	}
 
-
+	public class _Level
+	{
+		private int _level;
+		private boolean _checked;
+		public int get_level() {
+			return _level;
+		}
+		public void set_level(int _level) {
+			this._level = _level;
+		}
+		public boolean is_checked() {
+			return _checked;
+		}
+		public void set_checked(boolean _checked) {
+			this._checked = _checked;
+		}
+	}
 
 	public class Clue {
 		private String Type;
 		private String Description;
 		private List<FileUpload> Files;
-        public String Source;
-        public String By;
-        public String Licence;
-        public String LicenceReference;
-		
+		private String Source;
+		private String By;
+		private String Licence;
+        private String LicenceReference;
+        
+		public String getSource() {
+			return Source;
+		}
+		public void setSource(String source) {
+			Source = source;
+		}
+		public String getBy() {
+			return By;
+		}
+		public void setBy(String by) {
+			By = by;
+		}
+		public String getLicence() {
+			return Licence;
+		}
+		public void setLicence(String licence) {
+			Licence = licence;
+		}
+		public String getLicenceReference() {
+			return LicenceReference;
+		}
+		public void setLicenceReference(String licenceReference) {
+			LicenceReference = licenceReference;
+		}		
 		public List<FileUpload> getFiles() {
 			return Files;
 		}

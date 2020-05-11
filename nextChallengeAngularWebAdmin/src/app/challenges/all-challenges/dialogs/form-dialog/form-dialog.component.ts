@@ -20,12 +20,31 @@ export class FormDialogComponent {
   dialogTitle: string;
   departmentForm: FormGroup;
   department: Challenge;
-  constructor(
-    public dialogRef: MatDialogRef<FormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public departmentService: ChallengesService,
-    private fb: FormBuilder
-  ) {
+  multipleChoice: any = [];
+  levels: any = [
+    {
+      _level: 1,
+      _checked: false
+    },
+    {
+      _level: 2,
+      _checked: false
+    },
+    {
+      _level: 3,
+      _checked: false
+    },
+    {
+      _level: 4,
+      _checked: false
+    },
+    {
+      _level: 5,
+      _checked: false
+    }
+  ];
+  levelsSubmit: any = [];
+  constructor(public dialogRef: MatDialogRef<FormDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public departmentService: ChallengesService, private fb: FormBuilder) {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
@@ -37,10 +56,16 @@ export class FormDialogComponent {
       this.department = new Challenge({});
     }
     this.departmentForm = this.createContactForm();
+    if (this.department._Levels != null)
+      if (this.department._Levels.length == this.levels.length)
+        this.levels = this.department._Levels;
+    this.multipleChoice = this.department.MultipleAnswers;
   }
+
   formControl = new FormControl('', [
     Validators.required
   ]);
+
   getErrorMessage() {
     return this.formControl.hasError('required')
       ? 'Required field'
@@ -55,8 +80,9 @@ export class FormDialogComponent {
       Points: [this.department.Points, [Validators.required]],
       Question: [this.department.Question, [Validators.required]],
       TimeInSeconds: [this.department.TimeInSeconds, [Validators.required]],
+      ChallengeType: [this.department.ChallengeType, [Validators.required]],
       Answer: [this.department.Answer, [Validators.required]],
-      Clue: [this.department.Clue == null ? '' : this.department.Clue.Description, [Validators.required]],
+      Clue: [this.department.Clue == null ? '' : this.department.Clue.Description],
       clueFile: [''],
       Source: [this.department.Clue == null ? '' : this.department.Clue.Source],
       By: [this.department.Clue == null ? '' : this.department.Clue.By],
@@ -87,6 +113,7 @@ export class FormDialogComponent {
     formData.append("FileType", fileType);
     formData.append("ChallengeCreatorID", "5e6d10044842ce46dc5ed185");
     formData.append("Answer", formDataRaw.Answer);
+    formData.append("ChallengeType", formDataRaw.ChallengeType);
     formData.append("Category", formDataRaw.Category);
     formData.append("Points", formDataRaw.Points);
     formData.append("Question", formDataRaw.Question);
@@ -97,6 +124,8 @@ export class FormDialogComponent {
     formData.append("By", formDataRaw.By);
     formData.append("Licence", formDataRaw.Licence);
     formData.append("LicenceReference", formDataRaw.LicenceReference);
+    formData.append("_Levels", JSON.stringify(this.levels));
+    formData.append("multipleChoice", JSON.stringify(this.multipleChoice));
     console.log(formDataRaw._id);
     if (formDataRaw._id != null) {
       let newClue = this.department.Clue;
@@ -118,8 +147,23 @@ export class FormDialogComponent {
       };
       formDataRaw.Clue = clueNew;
     }
+    formDataRaw.MultipleAnswers = this.multipleChoice;
+    formDataRaw._Levels = this.levels;
+    formDataRaw.Active = this.department.Active;
     console.log(formDataRaw);
     this.departmentService.addDepartment(formDataRaw);
     this.departmentService.createdefaultsessionchallenge(formData);
+  }
+  addChoice(add_choice) {
+    if (add_choice.value != "") {
+      this.multipleChoice.push(add_choice.value);
+      add_choice.value = "";
+    }
+  }
+  close(i) {
+    this.multipleChoice.splice(i, 1);
+  }
+  checkLevel(event, i) {
+    this.levels[i]._checked = event.target.checked;
   }
 }

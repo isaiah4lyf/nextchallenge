@@ -8,6 +8,9 @@ export class Challenge {
   TimeInSeconds: number;
   Answer: string;
   Active: boolean;
+  ChallengeType: string;
+  MultipleAnswers: [];
+  _Levels: [];
   constructor(challenge) {
     {
       this._id = challenge._id || null;
@@ -19,6 +22,9 @@ export class Challenge {
       this.Answer = challenge.Answer || '';
       this.Clue = challenge.Clue || null;
       this.Active = challenge.Active;
+      this.ChallengeType = challenge.ChallengeType || "";
+      this.MultipleAnswers = challenge.MultipleAnswers || [];
+      this._Levels = challenge._Levels || [];
     }
   }
 
@@ -27,6 +33,14 @@ export class Challenge {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     };
     return S4() + S4();
+  }
+}
+class _Levels {
+  _level: string;
+  _checked: boolean;
+  constructor(level) {
+    this._level = level._level || '';
+    this._checked = level._checked || false;
   }
 }
 class Clue {
