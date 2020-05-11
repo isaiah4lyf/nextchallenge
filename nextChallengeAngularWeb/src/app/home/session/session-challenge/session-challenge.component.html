@@ -38,7 +38,7 @@
         </table>
 
         <div class="line-divider"></div>
-        <p>{{challenge["Question"]}}</p>
+        <p class="challenge-question">{{challenge["Question"]}}</p>
         <div class="line-divider"></div>
         <label *ngFor="let box of challenge['Answer'].split('')"
             [ngClass]="{ 'challenge-answer-box': box != ' ', 'challenge-answer-box-borderless': box == ' ' }"></label>

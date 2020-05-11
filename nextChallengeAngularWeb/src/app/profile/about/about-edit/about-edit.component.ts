@@ -16,6 +16,8 @@ export class AboutEditComponent implements OnInit {
   public UserData: any;
   public basicInfoSpinner = false;
   public updateValid = false;
+  public years: any = [];
+  public daysInMonthArr: any = [];
   constructor(private _appService: AppService, private router: Router, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
@@ -25,10 +27,12 @@ export class AboutEditComponent implements OnInit {
     if (this.userModel.DateOfBirth == null) {
       this.userModel.DateOfBirth = new DateOfBirth(0, "Month", 0);
     }
-    console.log(this.userModel);
+    let yearCurrent = new Date().getFullYear() - 10;
+    for (let i = 0; i < 75; i++) {
+      this.years.push(yearCurrent - i);
+    }
   }
   updateBasicInfo(form: NgForm) {
-    console.log(this.updateValid);
     if (this.updateValid) {
       let data = form.value;
       data["_id"] = this.UserData["_id"];
@@ -41,6 +45,9 @@ export class AboutEditComponent implements OnInit {
           let link = "/" + data["Email"].split("@")[0] + "/about/basic-info";
           this.router.navigate([link]);
         }, 500);
+        this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+          this._appService.setUserData(data);
+        });
       });
     }
     this._notificationsService.updateChatStatus();

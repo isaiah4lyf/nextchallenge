@@ -72,7 +72,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/checkemail")]
         [HttpGet]
-        public bool checkemail(string email,string userid) {
+        public bool checkemail(string email, string userid) {
             var collection = database.GetCollection<User>("Users");
             if (collection.Find(u => u.EmailRegistration == email && u._id != ObjectId.Parse(userid)).ToList().Count() > 0)
                 return true;
@@ -88,6 +88,9 @@ namespace nextchallengeWebAPI.Controllers
             usertemp.Password = useroldData.Password;
             usertemp.ProfilePic = useroldData.ProfilePic;
             usertemp.ProfileCoverPic = useroldData.ProfileCoverPic;
+            usertemp.Attempts = useroldData.Attempts;
+            usertemp.ChallengesAnswered = useroldData.ChallengesAnswered;
+            usertemp.ChatStatus = useroldData.ChatStatus;
             string Email = usertemp.FirstName.ToLower() + "." + usertemp.LastName.ToLower();
             if ((Email + atNextMail) != user.Email)
             {
@@ -106,7 +109,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/updatechatstatus")]
         [HttpPut]
-        public long updatechatstatus(string userid,string chatstatus)
+        public long updatechatstatus(string userid, string chatstatus)
         {
             var collection = database.GetCollection<User>("Users");
             var update = Builders<User>.Update.Set(u => u.ChatStatus, chatstatus);
@@ -114,7 +117,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/updateattempts")]
         [HttpPut]
-        public long updateattempts(string userid,int attemptscount)
+        public long updateattempts(string userid, int attemptscount)
         {
             var collection = database.GetCollection<User>("Users");
             var update = Builders<User>.Update.Set(u => u.Attempts, attemptscount);
@@ -129,6 +132,24 @@ namespace nextchallengeWebAPI.Controllers
                          where u._id == ObjectId.Parse(userid)
                          select u).FirstOrDefault();
             return user.Attempts;
+        }
+        [Route("api/index/updatechallengesanswered")]
+        [HttpPut]
+        public long updatechallengesanswered(string userid, int challengesanswered)
+        {
+            var collection = database.GetCollection<User>("Users");
+            var update = Builders<User>.Update.Set(u => u.ChallengesAnswered, challengesanswered);
+            return collection.UpdateOne(u => u._id == ObjectId.Parse(userid), update).ModifiedCount;
+        }
+        [Route("api/index/retrievechallengesanswered")]
+        [HttpGet]
+        public int retrievechallengesanswered(string userid)
+        {
+            var collection = database.GetCollection<User>("Users");
+            User user = (from u in collection.AsQueryable()
+                         where u._id == ObjectId.Parse(userid)
+                         select u).FirstOrDefault();
+            return user.ChallengesAnswered;
         }
         [Route("api/index/updateprofilepic")]
         [HttpPost]
@@ -177,16 +198,24 @@ namespace nextchallengeWebAPI.Controllers
                                      AboutMe = u.AboutMe,
                                      ChatStatus = u.ChatStatus,
                                      Attempts = u.Attempts,
+                                     ChallengesAnswered = u.ChallengesAnswered,
                                      ProfilePic = u.ProfilePic,
                                      ProfileCoverPic = u.ProfileCoverPic
                                  }).FirstOrDefault();
-            if(user != null)
+            if (user != null)
             {
                 user.FriendsCount = Convert.ToInt32(collectionFriendship.CountDocuments(f => f.FriendshipApproved && (f.FriendshipStarterUserId == user._id || f.FriendUserId == user._id)));
                 user.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
                 user.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();
             }
+
             return user;
+        }
+        [Route("api/index/sendemail")]
+        [HttpGet]
+        public string sendemail()
+        {
+            return new SendEmail().Send();
         }
         [Route("api/index/retrievelogonupdate")]
         [HttpGet]
@@ -209,6 +238,7 @@ namespace nextchallengeWebAPI.Controllers
                                      AboutMe = u.AboutMe,
                                      ChatStatus = u.ChatStatus,
                                      Attempts = u.Attempts,
+                                     ChallengesAnswered = u.ChallengesAnswered,
                                      ProfilePic = u.ProfilePic,
                                      ProfileCoverPic = u.ProfileCoverPic
                                  }).FirstOrDefault();
@@ -379,7 +409,7 @@ namespace nextchallengeWebAPI.Controllers
             var collectionPosts = database.GetCollection<Post>("Posts");
             string root = HttpContext.Current.Server.MapPath("~/Files");
             var provider = new MultipartFormDataStreamProvider(root);
-            await Request.Content.ReadAsMultipartAsync(provider);            
+            await Request.Content.ReadAsMultipartAsync(provider);
             Post post = new Post();
             post.PostContent = provider.FormData["PostContent"];
             post.Files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["UserID"]);
@@ -394,7 +424,7 @@ namespace nextchallengeWebAPI.Controllers
                 Content = "published a challenge",
                 ActivityType = "POST_PUBLISH",
                 _redirect = post._id.ToString()
-            });;
+            }); ;
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
         [Route("api/index/deletepost")]
@@ -563,7 +593,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/retrievetimelineposts")]
         [HttpGet]
-        public List<PostDetailed> retrievetimelineposts(string userid,string timelineuserid)
+        public List<PostDetailed> retrievetimelineposts(string userid, string timelineuserid)
         {
             var collectionPosts = database.GetCollection<Post>("Posts");
             var collectionUsers = database.GetCollection<User>("Users");
@@ -945,9 +975,29 @@ namespace nextchallengeWebAPI.Controllers
             var update = Builders<Message>.Update.Set(m => m.MessageRead, true);
             return collectionMessages.UpdateMany(m => m.FromUserID == fromuser._id && m.ToUserID == touser._id, update).ModifiedCount;
         }
+        [Route("api/index/markmessageasdeleted")]
+        [HttpPut]
+        public string markmessageasdeleted(string messageid, string deletefor)
+        {
+            var collectionMessages = database.GetCollection<Message>("Messages");
+            Message message = collectionMessages.Find(m => m._id == ObjectId.Parse(messageid)).FirstOrDefault();
+            if (message != null)
+            {
+                if (message.DeleteFor != null || !message.MessageRead)
+                {
+                    collectionMessages.DeleteOne(m => m._id == ObjectId.Parse(messageid));
+                }
+                else
+                {
+                    var update = Builders<Message>.Update.Set(m => m.DeleteFor, deletefor);
+                    collectionMessages.UpdateOne(m => m._id == ObjectId.Parse(messageid), update);
+                }
+            }
+            return "success";
+        }
         [Route("api/index/retrievemessages")]
         [HttpGet]
-        public List<MessageDetailed> retrievemessages(string userone, string usertwo)
+        public List<MessageDetailed> retrievemessages(string userone, string usertwo, string retriever)
         {
             var collectionMessages = database.GetCollection<Message>("Messages");
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
@@ -955,29 +1005,30 @@ namespace nextchallengeWebAPI.Controllers
             UserMinInfo user2 = collectionUsers.Find(u => u.Email == usertwo + atNextMail).FirstOrDefault();
             if (user._id == null || user2._id == null) return new List<MessageDetailed>();
             var inq = new ObjectId[] { user._id, user2._id };
-            return (from m in collectionMessages.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
-                    join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
-                    where inq.Contains(m.FromUserID) && inq.Contains(m.ToUserID)
-                    orderby m.CreateDateTime descending
-                    select new MessageDetailed()
-                    {
-                        _id = m._id,
-                        MessageRead = m.MessageRead,
-                        FileType = m.FileType,
-                        MessageContent = m.MessageContent,
-                        FromUserID = m.FromUserID,
-                        ToUserID = m.ToUserID,
-                        CreateDateTime = m.CreateDateTime,
-                        DateTimeNow = DateTime.Now,
-                        Files = m.Files,
-                        FromUsers = (List<UserMinInfo>)fromusers,
-                        ToUsers = (List<UserMinInfo>)tousers
-                    }).Take(12).ToList().OrderBy(m => m.CreateDateTime).ToList();
+            List<MessageDetailed> messages = (from m in collectionMessages.AsQueryable()
+                                              join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
+                                              join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
+                                              where inq.Contains(m.FromUserID) && inq.Contains(m.ToUserID) && m.DeleteFor != retriever
+                                              orderby m.CreateDateTime descending
+                                              select new MessageDetailed()
+                                              {
+                                                  _id = m._id,
+                                                  MessageRead = m.MessageRead,
+                                                  FileType = m.FileType,
+                                                  MessageContent = m.MessageContent,
+                                                  FromUserID = m.FromUserID,
+                                                  ToUserID = m.ToUserID,
+                                                  CreateDateTime = m.CreateDateTime,
+                                                  DateTimeNow = DateTime.Now,
+                                                  Files = m.Files,
+                                                  FromUsers = (List<UserMinInfo>)fromusers,
+                                                  ToUsers = (List<UserMinInfo>)tousers
+                                              }).Take(12).ToList().OrderBy(m => m.CreateDateTime).ToList();
+            return messages;
         }
         [Route("api/index/retrievemessagesafter")]
         [HttpGet]
-        public List<MessageDetailed> retrievemessagesafter(string userone, string usertwo, string lastmessageid)
+        public List<MessageDetailed> retrievemessagesafter(string userone, string usertwo, string lastmessageid, string retriever)
         {
             var collectionMessages = database.GetCollection<Message>("Messages");
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
@@ -986,25 +1037,26 @@ namespace nextchallengeWebAPI.Controllers
             if (user._id == null || user2._id == null) return new List<MessageDetailed>();
             var inq = new ObjectId[] { user._id, user2._id };
             Message message = collectionMessages.Find(m => m._id == ObjectId.Parse(lastmessageid)).FirstOrDefault();
-            return (from m in collectionMessages.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
-                    join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
-                    where inq.Contains(m.FromUserID) && inq.Contains(m.ToUserID) && message.CreateDateTime > m.CreateDateTime
-                    orderby m.CreateDateTime descending
-                    select new MessageDetailed()
-                    {
-                        _id = m._id,
-                        MessageRead = m.MessageRead,
-                        FileType = m.FileType,
-                        MessageContent = m.MessageContent,
-                        FromUserID = m.FromUserID,
-                        ToUserID = m.ToUserID,
-                        CreateDateTime = m.CreateDateTime,
-                        DateTimeNow = DateTime.Now,
-                        Files = m.Files,
-                        FromUsers = (List<UserMinInfo>)fromusers,
-                        ToUsers = (List<UserMinInfo>)tousers
-                    }).Take(12).ToList().OrderBy(m => m.CreateDateTime).ToList();
+            List<MessageDetailed> messages = (from m in collectionMessages.AsQueryable()
+                                              join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
+                                              join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
+                                              where inq.Contains(m.FromUserID) && inq.Contains(m.ToUserID) && message.CreateDateTime > m.CreateDateTime && m.DeleteFor != retriever
+                                              orderby m.CreateDateTime descending
+                                              select new MessageDetailed()
+                                              {
+                                                  _id = m._id,
+                                                  MessageRead = m.MessageRead,
+                                                  FileType = m.FileType,
+                                                  MessageContent = m.MessageContent,
+                                                  FromUserID = m.FromUserID,
+                                                  ToUserID = m.ToUserID,
+                                                  CreateDateTime = m.CreateDateTime,
+                                                  DateTimeNow = DateTime.Now,
+                                                  Files = m.Files,
+                                                  FromUsers = (List<UserMinInfo>)fromusers,
+                                                  ToUsers = (List<UserMinInfo>)tousers
+                                              }).Take(12).ToList().OrderBy(m => m.CreateDateTime).ToList();
+            return messages;
         }
         [Route("api/index/retrieveundreadmessagescount")]
         [HttpGet]
@@ -1016,26 +1068,26 @@ namespace nextchallengeWebAPI.Controllers
                     select m._id
                    ).Count();
         }
-        [Route("api/index/retrievemessagebetween")]
+        [Route("api/index/retrievelatestmessagebetween")]
         [HttpGet]
-        public Message retrievemessagebetween(string userone, string usertwo)
+        public Message retrievelatestmessagebetween(string userone, string usertwo, string retriever)
         {
             var collectionMessages = database.GetCollection<Message>("Messages");
-
-            return (from m in collectionMessages.AsQueryable()
-                    where m.FromUserID == ObjectId.Parse(userone) && m.ToUserID == ObjectId.Parse(usertwo)
-                    orderby m.CreateDateTime descending
-                    select new Message()
-                    {
-                        _id = m._id,
-                        MessageRead = m.MessageRead,
-                        FileType = m.FileType,
-                        MessageContent = m.MessageContent,
-                        FromUserID = m.FromUserID,
-                        ToUserID = m.ToUserID,
-                        CreateDateTime = m.CreateDateTime,
-                        Files = m.Files
-                    }).FirstOrDefault();
+            Message messageFrom = (from m in collectionMessages.AsQueryable()
+                                   where m.FromUserID == ObjectId.Parse(userone) && m.ToUserID == ObjectId.Parse(usertwo) && m.DeleteFor != retriever
+                                   orderby m.CreateDateTime descending
+                                   select new Message()
+                                   {
+                                       _id = m._id,
+                                       MessageRead = m.MessageRead,
+                                       FileType = m.FileType,
+                                       MessageContent = m.MessageContent,
+                                       FromUserID = m.FromUserID,
+                                       ToUserID = m.ToUserID,
+                                       CreateDateTime = m.CreateDateTime,
+                                       Files = m.Files
+                                   }).FirstOrDefault();
+            return messageFrom;
         }
         [Route("api/index/retrieveactivechats")]
         [HttpGet]
@@ -1044,28 +1096,32 @@ namespace nextchallengeWebAPI.Controllers
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
             var collectionMessages = database.GetCollection<Message>("Messages");
             List<ActiveChat> chats = (from m in collectionMessages.AsQueryable()
-                                       join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
-                                       join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
-                                       where m.FromUserID == ObjectId.Parse(userid) || m.ToUserID == ObjectId.Parse(userid)
-                                       select new ActiveChat()
-                                       {
-                                           FromUserId = m.FromUserID,
-                                           ToUserId = m.ToUserID,
-                                           FromUsers = (List<UserMinInfo>)fromusers,
-                                           ToUsers = (List<UserMinInfo>)tousers,
-                                           DateTimeNow = DateTime.Now
-                                       }
+                                      join u in collectionUsers.AsQueryable() on m.FromUserID equals u._id into fromusers
+                                      join u2 in collectionUsers.AsQueryable() on m.ToUserID equals u2._id into tousers
+                                      where m.DeleteFor != userid && (m.FromUserID == ObjectId.Parse(userid) || m.ToUserID == ObjectId.Parse(userid))
+                                      select new ActiveChat()
+                                      {
+                                          FromUserId = m.FromUserID,
+                                          ToUserId = m.ToUserID,
+                                          FromUsers = (List<UserMinInfo>)fromusers,
+                                          ToUsers = (List<UserMinInfo>)tousers,
+                                          DateTimeNow = DateTime.Now
+                                      }
                     ).Distinct().ToList();
             for (int i = 0; i < chats.Count; i++)
             {
-                chats.ElementAt(i).LatestMessage = retrievemessagebetween(chats.ElementAt(i).FromUserId.ToString(), chats.ElementAt(i).ToUserId.ToString());
+                chats.ElementAt(i).LatestMessage = retrievelatestmessagebetween(chats.ElementAt(i).FromUserId.ToString(), chats.ElementAt(i).ToUserId.ToString(), userid);
                 chats.ElementAt(i).LastMessageDate = chats.ElementAt(i).LatestMessage.CreateDateTime;
             }
             chats = chats.OrderByDescending(c => c.LastMessageDate).ToList();
             List<ActiveChat> ActiveChat = new List<ActiveChat>();
             foreach (ActiveChat chat in chats)
-                if (!ActiveChat.Any(item => item.FromUserId == chat.ToUserId && item.ToUserId == chat.FromUserId))
+            {
+                var inq = new ObjectId[] { chat.FromUserId, chat.ToUserId };
+                if (!ActiveChat.Any(item => inq.Contains(item.FromUserId) && inq.Contains(item.ToUserId)))
                     ActiveChat.Add(chat);
+            }
+
             for (int i = 0; i < ActiveChat.Count; i++)
                 if (!chats.ElementAt(i).LatestMessage.FromUserID.ToString().Equals(userid))
                     ActiveChat.ElementAt(i).UnreadMessagesCount = retrieveundreadmessagescount(chats.ElementAt(i).LatestMessage.FromUserID.ToString(), userid);
@@ -1130,7 +1186,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/changedefaultsessionchallengestatus")]
         [HttpPut]
-        public string changedefaultsessionchallengestatus(string challengeid,bool status)
+        public string changedefaultsessionchallengestatus(string challengeid, bool status)
         {
             var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
             var update = Builders<DefaultSessionChallenge>.Update.Set(n => n.Active, status);
@@ -1162,7 +1218,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/retrievedefaultsessionchallengestats")]
         [HttpGet]
-        public DefaultSessionChallengeStats retrievedefaultsessionchallengestats(string challengeid,string userid)
+        public DefaultSessionChallengeStats retrievedefaultsessionchallengestats(string challengeid, string userid)
         {
             var collectionPostLikes = database.GetCollection<PostLike>("PostLikes");
             var collectionPostDisLikes = database.GetCollection<PostDisLike>("PostDisLikes");
@@ -1182,6 +1238,32 @@ namespace nextchallengeWebAPI.Controllers
             await Request.Content.ReadAsMultipartAsync(provider);
             List<FileUpload> files = new FileManager().UploadFiles(provider, database, root, provider.FormData["FileType"], provider.FormData["FileUploaderID"]);
             return Request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(files));
+        }
+        [Route("api/index/deletefile")]
+        [HttpDelete]
+        public string deletefile(string fileid)
+        {
+            var collection = database.GetCollection<FileUpload>("Files");
+            FileUpload file = collection.Find(f => f._id == ObjectId.Parse(fileid)).FirstOrDefault();
+            if (file != null)
+            {
+                var collectionUser = database.GetCollection<User>("Users");
+                User user = collectionUser.Find(u => u._id == file.UserID).FirstOrDefault();
+                if (user.ProfilePic != null)
+                    if (user.ProfilePic._id == file._id)
+                    {
+                        user.ProfilePic = null;
+                        collectionUser.ReplaceOne(u => u._id == user._id, user);
+                    }
+                if (user.ProfileCoverPic != null)
+                    if (user.ProfileCoverPic._id == file._id)
+                    {
+                        user.ProfileCoverPic = null;
+                        collectionUser.ReplaceOne(u => u._id == user._id, user);
+                    }
+                collection.DeleteOne(f => f._id == file._id);
+            }
+            return "success";
         }
         [Route("api/index/updateleaderboard")]
         [HttpPost]
@@ -1448,7 +1530,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/searchleaderboards")]
         [HttpGet]
-        public List<LeaderboardDetailed> searchleaderboards(string query,string orderby)
+        public List<LeaderboardDetailed> searchleaderboards(string query, string orderby)
         {
             var querySplit = query.Split(' ');
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
@@ -1475,7 +1557,7 @@ namespace nextchallengeWebAPI.Controllers
                 foreach (UserMinInfo search in searchesTemp)
                 {
                     if (searches.Count > 15) break;
-                    if(!searches.Any(s => s._id == search._id)) searches.Add(search);
+                    if (!searches.Any(s => s._id == search._id)) searches.Add(search);
                 }
             }
             List<LeaderboardDetailed> leaderboards = new List<LeaderboardDetailed>();
@@ -1614,22 +1696,36 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
-            return (from f in collectionFriendships.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
-                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
-                    where f.FriendshipApproved && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
-                    orderby f.CreateDateTime descending
-                    select new FriendshipDetailed()
-                    {
-                        _id = f._id,
-                        FriendshipStarterUserId = f.FriendshipStarterUserId,
-                        FriendUserId = f.FriendUserId,
-                        CreateDateTime = f.CreateDateTime,
-                        FriendshipApproved = f.FriendshipApproved,
-                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<UserMinInfo>)starter,
-                        FriendUser = (List<UserMinInfo>)friend
-                    }).Take(12).ToList();
+            List<FriendshipDetailed> friendships = (from f in collectionFriendships.AsQueryable()
+                                                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                                                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                                                    where f.FriendshipApproved && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
+                                                    orderby f.CreateDateTime descending
+                                                    select new FriendshipDetailed()
+                                                    {
+                                                        _id = f._id,
+                                                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                                                        FriendUserId = f.FriendUserId,
+                                                        CreateDateTime = f.CreateDateTime,
+                                                        FriendshipApproved = f.FriendshipApproved,
+                                                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                                                        FriendshipStarter = (List<UserMinInfo>)starter,
+                                                        FriendUser = (List<UserMinInfo>)friend
+                                                    }).Take(12).ToList();
+            foreach (FriendshipDetailed friendshipRet in friendships)
+            {
+                if (friendshipRet.FriendshipStarterUserId != ObjectId.Parse(userid))
+                {
+                    friendshipRet.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendshipRet.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendshipRet.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendshipRet.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+                else
+                {
+                    friendshipRet.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendshipRet.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendshipRet.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendshipRet.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+            }
+            return friendships;
         }
         [Route("api/index/retrievefriendshipsall")]
         [HttpGet]
@@ -1637,22 +1733,23 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
-            return (from f in collectionFriendships.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
-                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
-                    where f.FriendshipApproved && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
-                    orderby f.CreateDateTime descending
-                    select new FriendshipDetailed()
-                    {
-                        _id = f._id,
-                        FriendshipStarterUserId = f.FriendshipStarterUserId,
-                        FriendUserId = f.FriendUserId,
-                        CreateDateTime = f.CreateDateTime,
-                        FriendshipApproved = f.FriendshipApproved,
-                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<UserMinInfo>)starter,
-                        FriendUser = (List<UserMinInfo>)friend
-                    }).ToList();
+            List<FriendshipDetailed> friendships = (from f in collectionFriendships.AsQueryable()
+                                                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                                                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                                                    where f.FriendshipApproved && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
+                                                    orderby f.CreateDateTime descending
+                                                    select new FriendshipDetailed()
+                                                    {
+                                                        _id = f._id,
+                                                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                                                        FriendUserId = f.FriendUserId,
+                                                        CreateDateTime = f.CreateDateTime,
+                                                        FriendshipApproved = f.FriendshipApproved,
+                                                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                                                        FriendshipStarter = (List<UserMinInfo>)starter,
+                                                        FriendUser = (List<UserMinInfo>)friend
+                                                    }).ToList();
+            return friendships;
         }
         [Route("api/index/retrievefriendshipsafter")]
         [HttpGet]
@@ -1661,22 +1758,36 @@ namespace nextchallengeWebAPI.Controllers
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
             var collectionUsers = database.GetCollection<UserMinInfo>("Users");
             Friendship friendship = collectionFriendships.Find(f => f._id == ObjectId.Parse(lastfriendshipid)).FirstOrDefault();
-            return (from f in collectionFriendships.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
-                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
-                    where f.FriendshipApproved && friendship.CreateDateTime > f.CreateDateTime && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
-                    orderby f.CreateDateTime descending
-                    select new FriendshipDetailed()
-                    {
-                        _id = f._id,
-                        FriendshipStarterUserId = f.FriendshipStarterUserId,
-                        FriendUserId = f.FriendUserId,
-                        CreateDateTime = f.CreateDateTime,
-                        FriendshipApproved = f.FriendshipApproved,
-                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<UserMinInfo>)starter,
-                        FriendUser = (List<UserMinInfo>)friend
-                    }).Take(12).ToList();
+            List<FriendshipDetailed> friendships = (from f in collectionFriendships.AsQueryable()
+                                                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                                                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                                                    where f.FriendshipApproved && friendship.CreateDateTime > f.CreateDateTime && (f.FriendUserId == ObjectId.Parse(userid) || f.FriendshipStarterUserId == ObjectId.Parse(userid))
+                                                    orderby f.CreateDateTime descending
+                                                    select new FriendshipDetailed()
+                                                    {
+                                                        _id = f._id,
+                                                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                                                        FriendUserId = f.FriendUserId,
+                                                        CreateDateTime = f.CreateDateTime,
+                                                        FriendshipApproved = f.FriendshipApproved,
+                                                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                                                        FriendshipStarter = (List<UserMinInfo>)starter,
+                                                        FriendUser = (List<UserMinInfo>)friend
+                                                    }).Take(12).ToList();
+            foreach (FriendshipDetailed friendshipRet in friendships)
+            {
+                if (friendshipRet.FriendshipStarterUserId != ObjectId.Parse(userid))
+                {
+                    friendshipRet.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendshipRet.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendshipRet.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendshipRet.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+                else
+                {
+                    friendshipRet.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendshipRet.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendshipRet.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendshipRet.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+            }
+            return friendships;
         }
         [Route("api/index/retrievefriendshiprequests")]
         [HttpGet]
@@ -1684,22 +1795,36 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
             var collectionUsers = database.GetCollection<User>("Users");
-            return (from f in collectionFriendships.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
-                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
-                    where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved
-                    orderby f.CreateDateTime descending
-                    select new FriendshipDetailed()
-                    {
-                        _id = f._id,
-                        FriendshipStarterUserId = f.FriendshipStarterUserId,
-                        FriendUserId = f.FriendUserId,
-                        CreateDateTime = f.CreateDateTime,
-                        FriendshipApproved = f.FriendshipApproved,
-                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<UserMinInfo>)starter,
-                        FriendUser = (List<UserMinInfo>)friend
-                    }).Take(12).ToList();
+            List<FriendshipDetailed> friendships = (from f in collectionFriendships.AsQueryable()
+                                                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                                                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                                                    where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved
+                                                    orderby f.CreateDateTime descending
+                                                    select new FriendshipDetailed()
+                                                    {
+                                                        _id = f._id,
+                                                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                                                        FriendUserId = f.FriendUserId,
+                                                        CreateDateTime = f.CreateDateTime,
+                                                        FriendshipApproved = f.FriendshipApproved,
+                                                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                                                        FriendshipStarter = (List<UserMinInfo>)starter,
+                                                        FriendUser = (List<UserMinInfo>)friend
+                                                    }).Take(12).ToList();
+            foreach (FriendshipDetailed friendship in friendships)
+            {
+                if (friendship.FriendshipStarterUserId != ObjectId.Parse(userid))
+                {
+                    friendship.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendship.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendship.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendship.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+                else
+                {
+                    friendship.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendship.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendship.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendship.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+            }
+            return friendships;
         }
         [Route("api/index/retrievefriendshiprequestsafter")]
         [HttpGet]
@@ -1708,22 +1833,36 @@ namespace nextchallengeWebAPI.Controllers
             var collectionFriendships = database.GetCollection<Friendship>("Friendships");
             var collectionUsers = database.GetCollection<User>("Users");
             Friendship friendship = collectionFriendships.Find(f => f._id == ObjectId.Parse(lastfriendshipid)).FirstOrDefault();
-            return (from f in collectionFriendships.AsQueryable()
-                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
-                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
-                    where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved && friendship.CreateDateTime > f.CreateDateTime
-                    orderby f.CreateDateTime descending
-                    select new FriendshipDetailed()
-                    {
-                        _id = f._id,
-                        FriendshipStarterUserId = f.FriendshipStarterUserId,
-                        FriendUserId = f.FriendUserId,
-                        CreateDateTime = f.CreateDateTime,
-                        FriendshipApproved = f.FriendshipApproved,
-                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
-                        FriendshipStarter = (List<UserMinInfo>)starter,
-                        FriendUser = (List<UserMinInfo>)friend
-                    }).Take(12).ToList();
+            List<FriendshipDetailed> friendships = (from f in collectionFriendships.AsQueryable()
+                                                    join u in collectionUsers.AsQueryable() on f.FriendshipStarterUserId equals u._id into starter
+                                                    join u2 in collectionUsers.AsQueryable() on f.FriendUserId equals u2._id into friend
+                                                    where f.FriendUserId == ObjectId.Parse(userid) && !f.FriendshipApproved && friendship.CreateDateTime > f.CreateDateTime
+                                                    orderby f.CreateDateTime descending
+                                                    select new FriendshipDetailed()
+                                                    {
+                                                        _id = f._id,
+                                                        FriendshipStarterUserId = f.FriendshipStarterUserId,
+                                                        FriendUserId = f.FriendUserId,
+                                                        CreateDateTime = f.CreateDateTime,
+                                                        FriendshipApproved = f.FriendshipApproved,
+                                                        FriendshipApproveDatetime = f.FriendshipApproveDatetime,
+                                                        FriendshipStarter = (List<UserMinInfo>)starter,
+                                                        FriendUser = (List<UserMinInfo>)friend
+                                                    }).Take(12).ToList();
+            foreach (FriendshipDetailed friendshipRet in friendships)
+            {
+                if (friendshipRet.FriendshipStarterUserId != ObjectId.Parse(userid))
+                {
+                    friendshipRet.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendshipRet.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendshipRet.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendshipRet.FriendshipStarterUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+                else
+                {
+                    friendshipRet.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == friendshipRet.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                    friendshipRet.LatestEducation = (from c in database.GetCollection<School>("Schools").AsQueryable() where c.UserID == friendshipRet.FriendUserId orderby c.CreateDateTime descending select c).FirstOrDefault();
+                }
+            }
+            return friendships;
         }
         [Route("api/index/search")]
         [HttpGet]
@@ -2007,7 +2146,7 @@ namespace nextchallengeWebAPI.Controllers
             User currentuser = collectionUsers.Find(u => u._id == ObjectId.Parse(userid)).FirstOrDefault();
             Leaderboard leaderboardcurrent = collectionLeaderboards.Find(l => l.UserID == ObjectId.Parse(userid)).FirstOrDefault();
             List<Search> searches = (from s in collectionSearch.AsQueryable()
-                                     where s.UserID == ObjectId.Parse(userid) || s._redirect == currentuser.Email 
+                                     where s.UserID == ObjectId.Parse(userid) || s._redirect == currentuser.Email
                                      orderby s.CreateDateTime descending
                                      select s).Take(10).ToList();
             List<Leaderboard> _similarLeaderboards = (from l in collectionLeaderboards.AsQueryable()
@@ -2040,17 +2179,17 @@ namespace nextchallengeWebAPI.Controllers
                 index++;
             }
             List<UserMinInfo> users = (from u in collectionUsers.AsQueryable()
-                                           where _userfiltered.Contains(u._id) && u._id != currentuser._id
-                                           select new UserMinInfo()
-                                           {
-                                               _id = u._id,
-                                               FirstName = u.FirstName,
-                                               LastName = u.LastName,
-                                               Email = u.Email,
-                                               ChatStatus = u.ChatStatus,
-                                               ProfilePic = u.ProfilePic,
-                                               ProfileCoverPic = u.ProfileCoverPic
-                                           }).ToList();
+                                       where _userfiltered.Contains(u._id) && u._id != currentuser._id
+                                       select new UserMinInfo()
+                                       {
+                                           _id = u._id,
+                                           FirstName = u.FirstName,
+                                           LastName = u.LastName,
+                                           Email = u.Email,
+                                           ChatStatus = u.ChatStatus,
+                                           ProfilePic = u.ProfilePic,
+                                           ProfileCoverPic = u.ProfileCoverPic
+                                       }).ToList();
             List<UserMinInfo> suggestions = new List<UserMinInfo>();
             foreach (UserMinInfo user in users)
             {
@@ -2099,7 +2238,7 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collection = database.GetCollection<Configuration>("Configurations");
             List<Configuration> configurationsConverted = new ConfigurationConverter().ConvertMany(configurations);
-            foreach(Configuration configurationConverted in configurationsConverted)
+            foreach (Configuration configurationConverted in configurationsConverted)
             {
                 configurationConverted.CreateDateTime = DateTime.Now;
                 if (configurationConverted._id == ObjectId.Parse("000000000000000000000000"))
@@ -2169,7 +2308,7 @@ namespace nextchallengeWebAPI.Controllers
                             AttemptsPriceID = p.AttemptsPriceID,
                             Status = p.Status,
                             PurchaseDateTime = p.PurchaseDateTime,
-                            Prices = (List<AttemptsPrice>) prices
+                            Prices = (List<AttemptsPrice>)prices
                         }).FirstOrDefault();
             }
             catch (Exception ex)
@@ -2188,7 +2327,7 @@ namespace nextchallengeWebAPI.Controllers
             var paymentid = HttpContext.Current.Request.Params["m_payment_id"];
             var update = Builders<AttemptsPurchase>.Update.Set(p => p.Status, status);
             collection.UpdateOne(u => u._id == ObjectId.Parse(paymentid), update);
-            if (status.Equals("COMPLETE")) 
+            if (status.Equals("COMPLETE"))
             {
                 var collectionPrices = database.GetCollection<AttemptsPrice>("AttemptsPrices");
                 AttemptsPurchase purchase = collection.Find(p => p._id == ObjectId.Parse(paymentid)).FirstOrDefault();
@@ -2233,7 +2372,7 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/updatesettings")]
         [HttpPut]
-        public string updatesettings([FromBody]Setting setting,string name)
+        public string updatesettings([FromBody]Setting setting, string name)
         {
             var collection = database.GetCollection<Setting>("Settings");
             var collectionDefault = database.GetCollection<DefaultSetting>("DefaultSettings");
@@ -2261,7 +2400,7 @@ namespace nextchallengeWebAPI.Controllers
             Setting settingConverted = new SettingConverter().Convert(setting);
             collection.ReplaceOne(s => s._id == settingConverted._id, settingConverted);
             return settingConverted;
-        } 
+        }
         [Route("api/index/retrievesettings")]
         [HttpGet]
         public List<Setting> retrievesettings(string userid)
@@ -2326,13 +2465,101 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/deletehelpinstruction")]
         [HttpDelete]
-        public string deletehelpinstruction(string helpitemid,int instructionsortby)
+        public string deletehelpinstruction(string helpitemid, int instructionsortby)
         {
             var collection = database.GetCollection<HelpItem>("Help");
             HelpItem help = collection.Find(h => h._id == ObjectId.Parse(helpitemid)).FirstOrDefault();
             help.Instructions.Remove(help.Instructions.Find(i => i.SortBy == instructionsortby));
             collection.ReplaceOne(h => h._id == help._id, help);
             return "success";
+        }
+        [Route("api/index/updateadmintask")]
+        [HttpPut]
+        public List<AdminTask> updateadmintask([FromBody]List<AdminTaskPost> taskposts)
+        {
+            var collection = database.GetCollection<AdminTask>("AdminTasks");
+            List<AdminTask> tasks = new AdminTaskConverter().ConvertMany(taskposts);
+            foreach (AdminTask task in tasks)
+            {
+                task.LastRan = DateTime.Now;
+                if (task._id == ObjectId.Parse("000000000000000000000000"))
+                    collection.InsertOne(task);
+                if (task._id != ObjectId.Parse("000000000000000000000000"))
+                    collection.ReplaceOne(s => s._id == task._id, task);
+            }
+            return tasks;
+        }
+        [Route("api/index/deleteadmintask")]
+        [HttpDelete]
+        public string deleteadmintask(string taskid)
+        {
+            var collection = database.GetCollection<AdminTask>("AdminTasks");
+            collection.DeleteOne(t => t._id == ObjectId.Parse(taskid));
+            return "success";
+        }
+        [Route("api/index/retrieveadmintasks")]
+        [HttpGet]
+        public List<AdminTask> retrieveadmintasks()
+        {
+            var collection = database.GetCollection<AdminTask>("AdminTasks");
+            return collection.Find(new BsonDocument()).ToList();
+        }
+        [Route("api/index/runattemptsupdatetask")]
+        [HttpGet]
+        public long runattemptsupdatetask()
+        {
+            var collection = database.GetCollection<User>("Users");
+            var collectionConfig = database.GetCollection<Configuration>("Configurations");
+            int attemptsUpdate = Convert.ToInt32(collectionConfig.Find(x => x.Name == "Daily_Attempts").FirstOrDefault().Value);
+            var update = Builders<User>.Update.Set(u => u.Attempts, attemptsUpdate);
+            return collection.UpdateMany(u => u.Attempts < attemptsUpdate, update).ModifiedCount;
+        }
+        [Route("api/index/runweeklyscoreupdatetask")]
+        [HttpGet]
+        public long runweeklyscoreupdatetask()
+        {
+            var collection = database.GetCollection<Leaderboard>("Leaderboards");
+            var update = Builders<Leaderboard>.Update.Set(l => l.WeeklyScore, 0);
+            return collection.UpdateMany(l => l.WeeklyScore > 0, update).ModifiedCount;
+        }
+        [Route("api/index/runweekendscoreupdatetask")]
+        [HttpGet]
+        public long runweekendscoreupdatetask()
+        {
+            var collection = database.GetCollection<Leaderboard>("Leaderboards");
+            var update = Builders<Leaderboard>.Update.Set(l => l.WeekendScore, 0);
+            return collection.UpdateMany(l => l.WeekendScore > 0, update).ModifiedCount;
+        }
+        [Route("api/index/updatelevels")]
+        [HttpPut]
+        public List<Level> updatelevels([FromBody]List<LevelPost> levels)
+        {
+            var collection = database.GetCollection<Level>("Levels");
+            List<Level> levelsConverted = new LevelConverter().ConvertMany(levels);
+            foreach (Level level in levelsConverted)
+            {
+                level.CreateDateTime = DateTime.Now;
+                if (level._id == ObjectId.Parse("000000000000000000000000"))
+                    collection.InsertOne(level);
+                if (level._id != ObjectId.Parse("000000000000000000000000"))
+                    collection.ReplaceOne(s => s._id == level._id, level);
+            }
+            return levelsConverted;
+        }
+        [Route("api/index/deletelevel")]
+        [HttpDelete]
+        public string deletelevel(string levelid)
+        {
+            var collection = database.GetCollection<Level>("Levels");
+            collection.DeleteOne(l => l._id == ObjectId.Parse(levelid));
+            return "success";
+        }
+        [Route("api/index/retrievelevels")]
+        [HttpGet]
+        public List<Level> retrievelevels()
+        {
+            var collection = database.GetCollection<Level>("Levels");
+            return collection.Find(new BsonDocument()).ToList();
         }
     }
 }

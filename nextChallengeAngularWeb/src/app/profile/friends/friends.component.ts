@@ -16,6 +16,7 @@ export class FriendsComponent implements OnInit {
   public lastFriendshipId: string;
   public friendshipsRequested = true;
   public UnfrienButtonVisible = false;
+  public notificationsSocket: any;
   constructor(private _sanitizer: DomSanitizer, public route: ActivatedRoute, private _appService: AppService, public router: Router, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
@@ -28,6 +29,18 @@ export class FriendsComponent implements OnInit {
           if (this.FriendRequests.length > 11) {
             this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
             this.friendshipsRequested = false;
+          }
+        });
+        this._appService.UserDataObservable.subscribe(data => {
+          if (data != null) {
+            this.UserData = data;
+            this._appService.retrievefriendships(this.UserData["_id"]).subscribe(data => {
+              this.FriendRequests = data;
+              if (this.FriendRequests.length > 11) {
+                this.lastFriendshipId = data[this.FriendRequests.length - 1]["_id"];
+                this.friendshipsRequested = false;
+              }
+            });
           }
         });
       } else {
@@ -50,12 +63,27 @@ export class FriendsComponent implements OnInit {
     }
   }
   unfriend(friendship) {
+    this.notificationsSocket = this._notificationsService.getNotificationsSocketNoSub();
     for (let index = 0; index < this.FriendRequests.length; index++) {
       if (this.FriendRequests[index]["_id"] == friendship["_id"])
         this.FriendRequests.splice(index, 1);
     }
     if (this.FriendRequests.length > 0) this.lastFriendshipId = this.FriendRequests[this.FriendRequests.length - 1]["_id"];
-    this._appService.deletefriendship(friendship["_id"]).subscribe(data => { });
+    this._appService.deletefriendship(friendship["_id"]).subscribe(data => {
+      this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+        this._appService.setUserData(data);
+      });
+      let notify = {
+        NotificationType: "UNFRIENDED",
+        NotificationFrom: this.UserData["_id"],
+        NotificationTo: friendship["FriendshipStarterUserId"] != this.UserData["_id"] ? friendship["FriendshipStarterUserId"] : friendship["FriendUserId"],
+        Data: JSON.stringify({
+          FirstName: this.UserData["FirstName"],
+          LastName: this.UserData["LastName"],
+        })
+      };
+      this.notificationsSocket.send(JSON.stringify(notify));
+    });
     this._notificationsService.updateChatStatus();
   }
   @HostListener("window:scroll", ["$event"])

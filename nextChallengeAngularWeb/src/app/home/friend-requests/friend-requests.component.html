@@ -4,29 +4,40 @@
     <div class="row">
         <div class="col-md-6 col-sm-6" *ngFor="let request of FriendRequests">
             <div class="friend-card">
-                <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
-                <div class="card-info">
-                    <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                <div class="friend-cover" [style.background]="profileCoverPic(request)"></div>
+                <div class="card-info" style="position: relative;" >
+                    <img [src]="profilePic(request)" alt="user" class="profile-photo-lg" />
+                    <span *ngIf="UserData['_id'] != request['FriendUserId']; else elseBlockStatus"
+                        [ngClass]="userChatStatusClass(request['FriendUser'][0])" style="top: 13px; left: 67px;"></span>
+                    <ng-template #elseBlockStatus>
+                        <span [ngClass]="userChatStatusClass(request['FriendshipStarter'][0])"
+                            style="top: 13px; left: 67px;"></span>
+                    </ng-template>
                     <div class="friend-info">
                         <a (click)="rejectFriendship(request)" class="pull-right text-red"
                             style="font-size: 14px; margin-left: 7px; cursor: pointer;">reject</a>
                         <span class="pull-right" style="color: silver;">|</span>
                         <a (click)="approveFriendship(request)" class="pull-right text-green"
                             style="font-size: 14px; margin-right: 7px; cursor: pointer;">accept</a>
-                        <h5 class="profile-link router-link"
+                        <h5 class="profile-link router-link text-ellipsis"
                             routerLink="{{'/' + request['FriendUser'][0]['Email'].split('@')[0]}}"
                             *ngIf="UserData['_id'] != request['FriendUserId']; else elseBlock"><a class="profile-link"
-                                style="cursor: pointer;">{{request["FriendUser"][0]["FirstName"]}}
+                                style="cursor: pointer;  width: 140px;">{{request["FriendUser"][0]["FirstName"]}}
                                 {{request["FriendUser"][0]["LastName"]}}</a></h5>
                         <ng-template #elseBlock>
-                            <h5><a class="profile-link router-link"
+                            <h5><a class="profile-link router-link text-ellipsis"
                                     routerLink="{{'/' + request['FriendshipStarter'][0]['Email'].split('@')[0]}}"
-                                    style="cursor: pointer;">{{request["FriendshipStarter"][0]["FirstName"]}}
+                                    style="cursor: pointer;  width: 140px;">{{request["FriendshipStarter"][0]["FirstName"]}}
                                     {{request["FriendshipStarter"][0]["LastName"]}}</a></h5>
                         </ng-template>
-                        <p>Student at Harvard</p>
                     </div>
                 </div>
+                <p *ngIf='request["LatestWork"] != null ; else workElseBlock' class="text-muted text-ellipsis" style="margin-left: 5%; width: 90%;" >
+                    {{request["LatestWork"]["Designation"]}}</p>
+                <ng-template #workElseBlock>
+                    <p *ngIf='request["LatestEducation"] != null' class="text-muted text-ellipsis" style="margin-left: 5%; width: 90%;">Studied at
+                        {{request["LatestEducation"]["Name"]}}</p>
+                </ng-template>
             </div>
         </div>
     </div>

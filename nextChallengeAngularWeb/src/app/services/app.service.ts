@@ -3,13 +3,14 @@ import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { HttpHeaders } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
-
+import { Observable } from 'rxjs-observable';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: "root"
 })
 export class AppService {
-  private configUrl = "http://www.nextchallenge.co.za/api/api/index/";
-  //private configUrl = "http://localhost:44357/api/index/";
+  //private configUrl = "http://www.nextchallenge.co.za/api/api/index/";
+  private configUrl = "http://localhost:44357/api/index/";
   private httpOptions = { headers: new HttpHeaders({ "Content-Type": "application/json" }) };
   private httpOptionsMultipart = { headers: new HttpHeaders({ "Content-Type": "multipart/form-data; boundary=--------------------------654287500409823045608277" }) };
   private UserData = null;
@@ -17,7 +18,7 @@ export class AppService {
   private SessionContentGlobal: any;
   private Configurations: any = null;
   private Settings: any = null;
-
+  public UserDataObservable = new BehaviorSubject(null);
   constructor(private router: Router, private http: HttpClient) { }
 
   setconfigurations(Configurations) {
@@ -140,12 +141,14 @@ export class AppService {
           localStorage.setItem("logon", JSON.stringify(data));
         }
       }
+      this.UserData = data;
     }
     else {
       this.UserData = data;
       localStorage.setItem("logon", JSON.stringify(data));
       sessionStorage.setItem("logon", JSON.stringify(data));
     }
+    this.UserDataObservable.next(this.UserData);
   }
   getUserData() {
     if (this.UserData == null) {
@@ -215,9 +218,9 @@ export class AppService {
   retrievepost(postid, userid) {
     return this.http.get(this.configUrl + "retrievepost?postid=" + postid + "&userid=" + userid, this.httpOptions);
   }
-  createComment(form: NgForm, formData: FormData, id,callBackFun) {
+  createComment(form: NgForm, formData: FormData, id, callBackFun) {
     this.http.post(this.configUrl + "createcomment", formData).subscribe(data => {
-      callBackFun(data,id);
+      callBackFun(data, id);
     });
   }
   deletecomment(commentid) {
@@ -309,11 +312,14 @@ export class AppService {
   markmessagesasread(from, to) {
     return this.http.put(this.configUrl + "markmessagesasread?from=" + from + "&to=" + to, []);
   }
-  retrievemessages(userone, usertwo) {
-    return this.http.get(this.configUrl + "retrievemessages?userone=" + userone + "&usertwo=" + usertwo, this.httpOptions);
+  markmessageasdeleted(messageid, deletefor){
+    return this.http.put(this.configUrl + "markmessageasdeleted?messageid=" + messageid + "&deletefor=" + deletefor, this.httpOptions);
   }
-  retrievemessagesafter(userone, usertwo, lastmessageid) {
-    return this.http.get(this.configUrl + "retrievemessagesafter?userone=" + userone + "&usertwo=" + usertwo + "&lastmessageid=" + lastmessageid, this.httpOptions);
+  retrievemessages(userone, usertwo,retriever) {
+    return this.http.get(this.configUrl + "retrievemessages?userone=" + userone + "&usertwo=" + usertwo + "&retriever=" + retriever, this.httpOptions);
+  }
+  retrievemessagesafter(userone, usertwo, lastmessageid,retriever) {
+    return this.http.get(this.configUrl + "retrievemessagesafter?userone=" + userone + "&usertwo=" + usertwo + "&lastmessageid=" + lastmessageid + "&retriever=" + retriever, this.httpOptions);
   }
   retrieveactivechats(userid) {
     return this.http.get(this.configUrl + "retrieveactivechats?userid=" + userid, this.httpOptions);
@@ -322,6 +328,9 @@ export class AppService {
     this.http.post(this.configUrl + "uploadfiles", formData).subscribe(data => {
       callBackFunction(data, extraParam, extraParam1);
     });
+  }
+  deletefile(fileid){
+    return this.http.delete(this.configUrl + "deletefile?fileid=" + fileid,this.httpOptions);
   }
   retrieveleaderboards(userid, orderby, page, prevPages) {
     return this.http.post(this.configUrl + "retrieveleaderboards?userid=" + userid + "&orderby=" + orderby + "&page=" + page, prevPages, this.httpOptions);
@@ -440,5 +449,8 @@ export class AppService {
   }
   retrievedefaultsessionchallengestats(challengeid, userid) {
     return this.http.get(this.configUrl + "retrievedefaultsessionchallengestats?challengeid=" + challengeid + "&userid=" + userid, this.httpOptions);
+  }
+  retrievelevels(){
+    return this.http.get(this.configUrl + "retrievelevels", this.httpOptions);
   }
 }

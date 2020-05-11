@@ -1,22 +1,25 @@
 <div class="send-message" id="open-chat-bar"
-    style="  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25); z-index: 9; top: 50px; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: 55px; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
-    <img *ngIf="DataLoaded" src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" style="margin: 8px;" />
-    <div style="height: 5px;"></div>
-    <h5  *ngIf="DataLoaded" >
-        <b style="font-weight: bolder;">{{ToUserData["FirstName"] + " " + ToUserData["LastName"]}}</b>
-        <div [ngClass]="{  'led-silver': ToUserData['ChatStatus'] == 'offline', 'led-green': ToUserData['ChatStatus'] == 'available','led-red': ToUserData['ChatStatus'] == 'busy','led-yellow': ToUserData['ChatStatus'] == 'away' }" style="margin-top: 2px; font-size: 12px;"><i>{{ToUserData["ChatStatus"]}}</i></div>
-    </h5>
+  style="  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25); z-index: 9; top: 50px; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: 55px; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
+  <img *ngIf="DataLoaded" src='{{ToUserData["ProfilePic"]["FileBaseUrls"][0]}}' alt=""
+    class="profile-photo-sm pull-left" style="margin: 8px;" />
+  <div style="height: 5px;"></div>
+  <h5 *ngIf="DataLoaded">
+    <a class="profile-link" [routerLink]='"/" + ToUserData["Email"].split("@")[0]'><b
+        style="font-weight: bolder;">{{ToUserData["FirstName"] + " " + ToUserData["LastName"]}}</b></a>
+    <div
+      [ngClass]="{  'led-silver': ToUserData['ChatStatus'] == 'offline', 'led-green': ToUserData['ChatStatus'] == 'available','led-red': ToUserData['ChatStatus'] == 'busy','led-yellow': ToUserData['ChatStatus'] == 'away' }"
+      style="margin-top: 2px; font-size: 12px;"><i>{{ToUserData["ChatStatus"]}}</i></div>
+  </h5>
 </div>
-<!--Chat Messages in Right-->
 <div class="tab-content"
-    style="border-left: solid 1px silver; border-right: solid 1px silver; padding: 10px; min-height: 120vh; padding-top: 40px; padding-bottom: 80px;">
-    <div class="tab-pane active" id="contact-1">
-        <div class="chat-body">
-            <ul class="chat-message">
-                <app-message *ngFor="let message of messages" [message]="message"></app-message>
-            </ul>
-        </div>
+  style="border-left: solid 1px silver; border-right: solid 1px silver; padding: 10px; min-height: 120vh; padding-top: 40px; padding-bottom: 80px;">
+  <div class="tab-pane active" id="contact-1">
+    <div class="chat-body">
+      <ul class="chat-message">
+        <app-message *ngFor="let message of messages" [message]="message" [parentApi]="getParentApi()" ></app-message>
+      </ul>
     </div>
+  </div>
 </div>
 <div class="send-message" id="session-submit"
   style="bottom: 0vh; position: fixed; width: 300px; background-color: silver; margin-left: 0px; height: auto; background-color: rgb(250, 250, 250); border-left: solid 1px silver; border-right: solid 1px silver;">
@@ -36,15 +39,19 @@
         <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files" #fileInput
           type="file" style="display: none;" ngModel />
         <div class="col-md-12">
-          <div class="video-wrapper">
+          <div class="video-wrapper" style="position: relative;">
             <img #filePreviewImg src="" alt="" filePreviewVidclass="img-responsive post-image"
               style="display: none; width: 100%; height: auto; max-height: 500px;" />
             <video #filePreviewVid class="post-video"
               style="display: none; width: 100%; height: auto; max-height: 500px;" controls>
               <source src="" type="video/mp4"> </video>
+            <i *ngIf="filePreviewImg.style.display == 'block' || filePreviewVid.style.display == 'block'"
+              class="ion-android-cancel" (click)="clearFileInput(filePreviewImg,filePreviewVid,fileInput)"
+              style="position: absolute; opacity: 0.8; right: 15px; top: 8px; font-size: 20px; cursor: pointer;"></i>
           </div>
           <div class="tools">
-            <div class="emojis" #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
+            <div class="emojis" #emojisRef
+              style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
               <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;" class=""
                 src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
             </div>

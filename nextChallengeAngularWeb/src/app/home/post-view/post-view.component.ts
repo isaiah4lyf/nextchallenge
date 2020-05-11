@@ -144,51 +144,53 @@ export class PostViewComponent implements OnInit {
     }
   }
   createMessage(form: NgForm, filePreviewImg, fileInput, filePreviewVid, textarea, emojisRef) {
-    if (fileInput.files.length == 0)
-      this.fileType = "none";
-    let formData = new FormData();
-    formData.append("CommentContent", textarea.innerHTML);
-    formData.append("File", fileInput.files[0]);
-    formData.append("FileType", this.fileType);
-    formData.append("UserID", this.UserData["_id"]);
-    formData.append("PostID", this.route.snapshot.paramMap.get("id"));
-    filePreviewImg.style.display = "none";
-    filePreviewVid.style.display = "none";
-    let comment = {
-      _id: "temp-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount,
-      PostID: this.route.snapshot.paramMap.get("id"),
-      CommentContent: textarea.innerHTML,
-      FileType: this.fileType,
-      UserID: this.UserData["_id"],
-      CreateDateTime: new Date(),
-      DateTimeNow: new Date(),
-      Files: fileInput.files.length == 0 ? [] : [{
-        _id: "temp-file-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount,
-        FileName: "none",
-        UserID: this.UserData["_id"],
+    if (textarea.innerHTML != "" || fileInput.files.length > 0) {
+      if (fileInput.files.length == 0)
+        this.fileType = "none";
+      let formData = new FormData();
+      formData.append("CommentContent", textarea.innerHTML);
+      formData.append("File", fileInput.files[0]);
+      formData.append("FileType", this.fileType);
+      formData.append("UserID", this.UserData["_id"]);
+      formData.append("PostID", this.route.snapshot.paramMap.get("id"));
+      filePreviewImg.style.display = "none";
+      filePreviewVid.style.display = "none";
+      let comment = {
+        _id: "temp-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount,
+        PostID: this.route.snapshot.paramMap.get("id"),
+        CommentContent: textarea.innerHTML,
         FileType: this.fileType,
-        UploadDateTime: new Date(),
-        FileBaseUrls: [window.URL.createObjectURL(fileInput.files[0])]
-      }],
-      Users: [this.UserData]
-    };
-    this.comments.unshift(comment);
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 50);
-    this._appService.createComment(form, formData, "temp-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount, this.commentCallBack);
-    this.commentsCount++;
-    fileInput.value = "";
-    this.fileType = "none";
-    textarea.innerHTML = "";
-    emojisRef.style.display = "none";
-    let activity = {
-      UserID: this.UserData["_id"],
-      Content: "commented on a challenge",
-      ActivityType: "POST_LIKE",
-      _redirect: this.post["_id"]
+        UserID: this.UserData["_id"],
+        CreateDateTime: new Date(),
+        DateTimeNow: new Date(),
+        Files: fileInput.files.length == 0 ? [] : [{
+          _id: "temp-file-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount,
+          FileName: "none",
+          UserID: this.UserData["_id"],
+          FileType: this.fileType,
+          UploadDateTime: new Date(),
+          FileBaseUrls: [window.URL.createObjectURL(fileInput.files[0])]
+        }],
+        Users: [this.UserData]
+      };
+      this.comments.unshift(comment);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 50);
+      this._appService.createComment(form, formData, "temp-" + this.route.snapshot.paramMap.get("id") + "-" + this.commentsCount, this.commentCallBack);
+      this.commentsCount++;
+      fileInput.value = "";
+      this.fileType = "none";
+      textarea.innerHTML = "";
+      emojisRef.style.display = "none";
+      let activity = {
+        UserID: this.UserData["_id"],
+        Content: "commented on a challenge",
+        ActivityType: "POST_LIKE",
+        _redirect: this.post["_id"]
+      }
+      this._appService.createactivity(activity).subscribe(data => { });
     }
-    this._appService.createactivity(activity).subscribe(data => { });
     this._notificationsService.updateChatStatus();
   }
   emojiClick(textarea, emoji) {
@@ -222,6 +224,12 @@ export class PostViewComponent implements OnInit {
     } else {
       this.fileType = "none";
     }
+  }
+  clearFileInput(filePreviewImg, filePreviewVid, fileInput) {
+    filePreviewImg.style.display = "none";
+    filePreviewVid.style.display = "none";
+    fileInput.value = "";
+    this.fileType = "none";
   }
   like() {
     if (this.PostLiked) {

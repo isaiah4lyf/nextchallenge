@@ -28,7 +28,7 @@
                     [ngClass]=" { 'leaderboard-margin': Leaderboards.length == 11 && i == Leaderboards.length - 2, 'leaderboard-margin2': Leaderboards.length <= 10 && currentUserInList && i == Leaderboards.length - 2}">
                     {{leaderboard["Position"]}}
                 </td>
-                <td>{{leaderboard["users"][0]["FirstName"]}} {{leaderboard["users"][0]["LastName"]}}</td>
+                <td><div class="text-ellipsis" style="width: 120px;">{{leaderboard["users"][0]["FirstName"]}} {{leaderboard["users"][0]["LastName"]}}</div></td>
                 <td align="center">{{leaderboard["WeeklyScore"]}}</td>
                 <td align="center">{{leaderboard["WeekendScore"]}}</td>
                 <td align="center">{{leaderboard["HighestStreak"]}}</td>

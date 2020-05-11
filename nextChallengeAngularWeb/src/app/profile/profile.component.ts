@@ -111,6 +111,10 @@ export class ProfileComponent implements OnInit {
         this._appService.retrieveactivities(this.UserData["_id"]).subscribe(data => {
           this.activities = data;
         });
+        this._appService.UserDataObservable.subscribe(data => {
+          if (data != null)
+            if (data["_id"] == this.UserData["_id"]) this.UserData = data;
+        });
       } else {
         this._appService.retrieveUserDataWithName(this.route.snapshot.paramMap.get("id"), this.UserData["Email"].split("@")[0]).subscribe(data => {
           if (data == null) {
@@ -266,6 +270,9 @@ export class ProfileComponent implements OnInit {
   }
   filesUploadCallBack = (result): void => {
     this._appService.setUserData(JSON.parse(result));
+    this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+      this._appService.setUserData(data);
+    });
     setTimeout(() => {
       this.updateRefGlobal.style.display = "none";
     }, 500);

@@ -6,7 +6,9 @@
                 <table style="width: 100%; height: 24px;">
                     <tr>
                         <td>
-                            <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a></h5>
+                            <h5><a class="text-ellipsis" style="width: 160px;"
+                                    routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a>
+                            </h5>
                         </td>
                         <td style="width: 75px;" valign="middle">
                             <small class="text-muted" style="width: 120px !important; top: 10px;"><span
@@ -24,14 +26,16 @@
         <img src='{{message["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-right" />
         <div class="chat-item" style="padding-bottom: 1px;">
             <div class="chat-item-header">
-                <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a></h5>
+                <h5><a class="text-ellipsis" style="width: 160px;"
+                        routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a>
+                </h5>
 
                 <small id="{{message['MessageLocalId']}}" class="text-muted"
                     style="width: 120px !important; top: 10px;">
                     <div class="loader"></div>
                 </small>
             </div>
-            <p #messageContent></p>
+            <p style="word-wrap: break-word; width: 100%" #messageContent></p>
             <img *ngIf="message['FileType'] == 'image'" #msgFile alt=""
                 style="width: 100%; height: auto; max-height: 500px; margin-bottom: 5px;" />
             <video *ngIf="message['FileType'] == 'video'" #msgFile class="post-video"
@@ -43,20 +47,21 @@
         <img src='{{message["ProfilePic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
         <div class="chat-item chat-item-session-incorrect" style="background-color: #ffcccb; padding-bottom: 1px;">
             <div class="chat-item-header" style="border-bottom: 1px dotted #FFA6A6;">
-                <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a></h5>
+                <h5><a class="text-ellipsis" style="width: 160px;"
+                        routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"]}}</a>
+                </h5>
                 <small class="text-muted" style="width: 120px !important; top: 10px;"><span
                         style="position: absolute; right: 12px;">{{ResponseTime}}</span>
                     <i class="icon ion-forward" style="position: absolute; font-size: 24px; right: -10px;"></i>
                 </small>
             </div>
-            <p #messageContent></p>
+            <p style="word-wrap: break-word; width: 100%" #messageContent></p>
             <img *ngIf="IncorrectAnswerFileType == 'image'" #msgFile alt=""
                 style="width: 100%; height: auto; max-height: 500px; margin-bottom: 5px;" />
-            <div *ngIf='IncorrectAnswerFileType == "video"'
-                style="position: relative;">
+            <div *ngIf='IncorrectAnswerFileType == "video"' style="position: relative;">
                 <!--Post Date End-->
-                <video #VideoRef class="post-video" #msgFile style="width: 100%; height: auto; max-height: 500px;" preload="none"
-                    [controls]='videoControls' poster="{{videoPoster}}">
+                <video #VideoRef class="post-video" #msgFile style="width: 100%; height: auto; max-height: 500px;"
+                    preload="none" [controls]='videoControls' poster="{{videoPoster}}">
                     <source type="video/mp4">
                 </video>
                 <img #VideoPlayer (click)="videoControls = true; VideoRef.play(); VideoPlayer.style.display = 'none'"
@@ -75,7 +80,22 @@
                 <table style="width: 100%; height: 24px;">
                     <tr>
                         <td>
-                            <h5><a routerLink="{{'/' + message['Email'].split('@')[0]}}">{{message["FirstName"] + " " + message["LastName"] + " "}}</a> <i>{{message["Message"]}}</i></h5>
+                            <h5>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <a routerLink="{{'/' + message['Email'].split('@')[0]}}">
+                                                <span class="text-ellipsis"
+                                                    style="width: 100px;">{{message["FirstName"] + " " + message["LastName"] + " "}}
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <i>{{message["Message"]}}</i>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h5>
                         </td>
                         <td style="width: 75px;" valign="middle">
                             <small class="text-muted" style="width: 120px !important; top: 10px;"><span

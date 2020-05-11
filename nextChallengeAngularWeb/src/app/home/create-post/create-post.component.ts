@@ -105,4 +105,10 @@ export class CreatePostComponent implements OnInit {
       this.fileType = "none";
     }
   }
+  clearFileInput(filePreviewImg, filePreviewVid, fileInput) {
+    filePreviewImg.style.display = "none";
+    filePreviewVid.style.display = "none";
+    fileInput.value = "";
+    this.fileType = "none";
+  }
 }

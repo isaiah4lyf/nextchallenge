@@ -1,28 +1,37 @@
 <!-- Photo Album
               ================================================= -->
 <div class="row album-photos" style="margin-bottom: 15px; margin-left: 0.3%;">
-    <div  class="custom-col-gal" *ngFor="let file of GalleryFiles; let i = index;" style="border: 0.005mm solid #dddddd9d;">
+    <div class="custom-col-gal" *ngFor="let file of GalleryFiles; let i = index;"
+        style="border: 0.005mm solid #dddddd9d;" style="position: relative;">
         <div class="img-wrapper" data-toggle="modal" [attr.data-target]="'.photo-' + i">
-            <div *ngIf="file['FileType'] == 'video'; else elseBlock;" style="width: 100%; height: 155px; margin-bottom: 0px;" >
-                <video style="height: 151px; margin-top: 2px;" preload="none" poster="{{file['FilePosterUrls'][0]}}">
+            <div *ngIf="file['FileType'] == 'video'; else elseBlock;"
+                style="width: 100%; height: 155px; margin-bottom: 0px;">
+                <video [id]="file['_id']" style="height: 151px; margin-top: 2px;" preload="none" poster="{{file['FilePosterUrls'][0]}}">
                     <source src="{{file['FileBaseUrls'][0]}}" type="video/mp4" />
                 </video>
-                <img class="router-link" style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;" src="assets/icons/play_vid.svg"
-                alt="" />
+
             </div>
-            <ng-template #elseBlock >
+            <ng-template #elseBlock>
                 <img src="{{file['FileBaseUrls'][0]}}" alt="photo" style="width: 100%; height: 155px;" />
             </ng-template>
+
         </div>
+        <img #player *ngIf="file['FileType'] == 'video'" class="router-link" (click)="playVid(file['_id'],player)"
+            style="position: absolute; left: calc(50% - 25px); top: calc(50% - 30px); width: 50px; height: 50px; border: 1.5px white solid; border-radius: 50%; opacity: 0.8;"
+            src="assets/icons/play_vid.svg" alt="" />
+        <i *ngIf='deleteImageButton' class="icon ion-android-delete" (click)="deleteFile(file['_id'])"
+            style="position: absolute; bottom: 1px; right: 8px; font-size: 18px; color: rgb(218, 74, 74); cursor: pointer; z-index: 9 !important;"></i>
         <div class="modal fade photo-{{i}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div *ngIf="file['FileType'] == 'video';" style="width: 100%; max-height: 700px;"  >
-                        <video controls style="max-height: 700px;" poster="{{file['FilePosterUrls'][0]}}" preload="none" >
+                    <div *ngIf="file['FileType'] == 'video';" style="width: 100%; max-height: 700px;">
+                        <video controls style="max-height: 700px;" poster="{{file['FilePosterUrls'][0]}}"
+                            preload="none">
                             <source src="{{file['FileBaseUrls'][0]}}" type="video/mp4" />
                         </video>
                     </div>
-                    <img *ngIf="file['FileType'] == 'image';" src="{{file['FileBaseUrls'][0]}}" alt="photo" style="width: 100%; max-height: 700px; height: auto;" />
+                    <img *ngIf="file['FileType'] == 'image';" src="{{file['FileBaseUrls'][0]}}" alt="photo"
+                        style="width: 100%; max-height: 700px; height: auto;" />
                 </div>
             </div>
         </div>

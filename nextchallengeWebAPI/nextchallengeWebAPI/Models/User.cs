@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Xml.Serialization;
 
@@ -23,6 +24,7 @@ namespace nextchallengeWebAPI.Models
         public string AboutMe { get; set; }
         public string ChatStatus { get; set; }
         public int Attempts { get; set; }
+        public int ChallengesAnswered { set; get; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }
@@ -40,6 +42,7 @@ namespace nextchallengeWebAPI.Models
         public string AboutMe { get; set; }
         public string ChatStatus { get; set; }
         public int Attempts { get; set; }
+        public int ChallengesAnswered { set; get; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
         public Company LatestWork { set; get; }
@@ -68,6 +71,7 @@ namespace nextchallengeWebAPI.Models
         public string ChatStatus { get; set; }
         [JsonIgnore, XmlIgnore]
         public int Attempts { set { } get { return 0; } }
+        public int ChallengesAnswered { set; get; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }
@@ -85,6 +89,7 @@ namespace nextchallengeWebAPI.Models
         public string AboutMe { get; set; }
         public string ChatStatus { get; set; }
         public int Attempts { get; set; }
+        public int ChallengesAnswered { set; get; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
     }

@@ -4,16 +4,18 @@
     <span [ngClass]="chatStatusClasses" style="position: absolute; top: 30px; left: 25px;"></span>
     <div *ngIf="comment['_id'].includes('temp')" id="{{comment['_id']}}" class="loader"
         style="position: absolute; right: 5px;"></div>
-    <i *ngIf="comment['_id'].includes('temp') && router.url.includes('/post/') && comment['UserID'] == UserData['_id']" class="icon ion-android-delete" title="Delete" id="{{comment['_id'] + '-del'}}" (click)="deleteComment(comment['_id'])"
+    <i *ngIf="comment['_id'].includes('temp') && router.url.includes('/post/') && comment['UserID'] == UserData['_id']"
+        class="icon ion-android-delete" title="Delete" id="{{comment['_id'] + '-del'}}"
+        (click)="deleteComment(comment['_id'])"
         style="position: absolute; right: 5px; color: rgb(218, 74, 74); cursor: pointer; display: none;"></i>
-    <i *ngIf="!comment['_id'].includes('temp') && router.url.includes('/post/') && comment['UserID'] == UserData['_id']" class="icon ion-android-delete" title="Delete" (click)="deleteComment(comment['_id'])"
-        style="position: absolute; right: 5px; color: rgb(218, 74, 74); cursor: pointer;"></i> 
-    <div class="post-text">
-        <a class="router-link" routerLink='/{{comment["Users"][0]["Email"].split("@")[0]}}'
-            class="profile-link">{{comment["Users"][0]["FirstName"]}} {{comment["Users"][0]["LastName"]}} <br /></a>
-        <span #commentContent>
-        </span>
-        <br />
+    <i *ngIf="!comment['_id'].includes('temp') && router.url.includes('/post/') && comment['UserID'] == UserData['_id']"
+        class="icon ion-android-delete" title="Delete" (click)="deleteComment(comment['_id'])"
+        style="position: absolute; right: 5px; color: rgb(218, 74, 74); cursor: pointer;"></i>
+    <div class="post-text" style="word-wrap: break-word; width: 91%">
+        <a class="router-link text-ellipsis" style="width: 160px;"
+            routerLink='/{{comment["Users"][0]["Email"].split("@")[0]}}'>{{comment["Users"][0]["FirstName"]}}
+            {{comment["Users"][0]["LastName"]}} <br /></a>
+        <p #commentContent> </p>
         <video #commentFile *ngIf='comment["FileType"] == "video" && comment["_id"].includes("temp")' class="post-video"
             style="width: 100%; height: auto; max-height: 500px;" controls>
             <source src='' type="video/mp4"> </video>

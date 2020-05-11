@@ -2,7 +2,7 @@
     <img style="border: 3px solid white;" src='{{suggestion["ProfileCoverPic"]["FileBaseUrls"][0]}}' alt="" class="profile-photo-sm pull-left" />
     <span [ngClass]="chatStatusClasses" style="top: 30px; left: 25px;" ></span>
     <div>
-        <h5><a routerLink="{{'/' + suggestion['Email'].split('@')[0]}}">{{suggestion["FirstName"] + " " + suggestion["LastName"]}}</a></h5>
+        <h5><a class="text-ellipsis" style="width: 160px;" routerLink="{{'/' + suggestion['Email'].split('@')[0]}}">{{suggestion["FirstName"] + " " + suggestion["LastName"]}}</a></h5>
         <a class="text-green" (click)="addFriend()" style="cursor: pointer;" >Add Friend</a>
     </div>
 </div>

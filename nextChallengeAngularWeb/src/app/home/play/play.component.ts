@@ -12,10 +12,23 @@ export class PlayComponent implements OnInit {
   public PlayServersTemp: any;
   public UserData: any;
   public Sockets = [];
+  public Categories: any = [
+    { Label: "All", Code: "all", Color: "purple", Stats: "34/500" },
+    { Label: "The world", Code: "the-world", Color: "indigo", Stats: "100/400" },
+    { Label: "History & Mythology", Code: "history-mythology", Color: "forestgreen", Stats: "34/700" },
+    { Label: "English & Literature", Code: "english-literature", Color: "crimson", Stats: "44/800" },
+    { Label: "Art & Entertainment", Code: "art-entertainment", Color: "mediumvioletred", Stats: "314/500" },
+    { Label: "Science & Technology", Code: "science-technology", Color: "#27aae1", Stats: "334/500" },
+    { Label: "Religion", Code: "relegion", Color: "#27aae1", Stats: "134/500" },
+    { Label: "General", Code: "general", Color: "#27aae1", Stats: "134/500" },
+    { Label: "Sports", Code: "sports", Color: "#27aae1", Stats: "14/500" }
+  ];
   constructor(private _appService: AppService, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
+
+    /*
     if (this.UserData != null) {
       this._appService.retrieveservers("WebSocket").subscribe(data => {
         this.PlayServersTemp = data;
@@ -36,9 +49,10 @@ export class PlayComponent implements OnInit {
       });
       this._notificationsService.updateChatStatus();
     }
-
+    */
   }
   ngOnDestroy() {
+    /*
     this.Sockets.forEach(element => {
       let messageData = {
         Command: "RETRIEVE_SESSIONS_DISCONNECT",
@@ -46,7 +60,9 @@ export class PlayComponent implements OnInit {
       };
       element.send(JSON.stringify(messageData));
     });
+    */
   }
+  /*
   processOpen = (message, socket, server): any => {
     let messageData = {
       Command: "RETRIEVE_SESSIONS",
@@ -73,4 +89,5 @@ export class PlayComponent implements OnInit {
   processClose = message => {
 
   };
+  */
 }

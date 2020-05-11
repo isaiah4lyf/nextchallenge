@@ -33,7 +33,7 @@
                     </table>
                 </span>
             </div>
-            <h5><a *ngIf="DataLoaded" class="router-link" routerLink='/{{UserData["Email"].split("@")[0]}}' class="text-white"><b>{{UserData["FirstName"]}} {{UserData["LastName"]}}</b></a></h5>
+            <h5><a *ngIf="DataLoaded" class="router-link" routerLink='/{{UserData["Email"].split("@")[0]}}' class="text-white"><b class="text-ellipsis" style="width: 120px;" >{{UserData["FirstName"]}} {{UserData["LastName"]}}</b></a></h5>
             <span *ngIf="DataLoaded" ><i class="ion ion-leaf"></i> <span id="attempts-element"> {{UserData["Attempts"]}} attempts</span></span>
         </div>
         <!--profile card ends-->

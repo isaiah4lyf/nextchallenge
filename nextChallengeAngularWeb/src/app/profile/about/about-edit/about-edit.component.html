@@ -35,7 +35,7 @@
                 <p class="custom-label">Date of Birth</p>
                 <div class="form-group col-sm-3 col-xs-6">
                     <label for="month" class="sr-only"></label>
-                    <select class="form-control" id="day" name="Day" [ngModel]="userModel.DateOfBirth.Day">
+                    <select class="form-control" id="day" name="Day" [ngModel]="userModel.DateOfBirth.Day" (change)="onFieldChange(emailInput,emailValRef,'Email')" >
                         <option value="0" disabled>Day</option>
                         <option>1</option>
                         <option>2</option>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group col-sm-3 col-xs-6">
                     <label for="month" class="sr-only"></label>
-                    <select class="form-control" id="month" name="Month" [ngModel]="userModel.DateOfBirth.Month">
+                    <select class="form-control" id="month" name="Month" [ngModel]="userModel.DateOfBirth.Month" (change)="onFieldChange(emailInput,emailValRef,'Email')" >
                         <option value="Month" disabled>Month</option>
                         <option>Jan</option>
                         <option>Feb</option>
@@ -90,27 +90,16 @@
                 </div>
                 <div class="form-group col-sm-6 col-xs-12">
                     <label for="year" class="sr-only"></label>
-                    <select class="form-control" id="year" name="Year" [ngModel]="userModel.DateOfBirth.Year">
+                    <select class="form-control" id="year" name="Year" [ngModel]="userModel.DateOfBirth.Year" (change)="onFieldChange(emailInput,emailValRef,'Email')" >
                         <option value="0" disabled>Year</option>
-                        <option>2000</option>
-                        <option>2001</option>
-                        <option>2002</option>
-                        <option>2004</option>
-                        <option>2005</option>
-                        <option>2006</option>
-                        <option>2007</option>
-                        <option>2008</option>
-                        <option>2009</option>
-                        <option>2010</option>
-                        <option>2011</option>
-                        <option>2012</option>
+                        <option *ngFor="let year of years">{{year}}</option>               
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-xs-12">
                     <span for="Gender">Gender: </span>
-                    <select class="form-control" name="Gender" [ngModel]="userModel.Gender">
+                    <select class="form-control" name="Gender" [ngModel]="userModel.Gender" (change)="onFieldChange(emailInput,emailValRef,'Email')" >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
@@ -119,7 +108,7 @@
             <div class="row">
                 <div class="form-group  col-xs-12">
                     <span for="city">City</span>
-                    <input id="city" #gender class="form-control input-group-lg reg_name" type="text" name="City"
+                    <input id="city" #gender class="form-control input-group-lg reg_name" type="text" name="City" (change)="onFieldChange(emailInput,emailValRef,'Email')" 
                         title="Enter city" placeholder="Your city" [ngModel]="userModel['City']" />
                 </div>
             </div>
@@ -127,7 +116,7 @@
                 <div class="form-group col-xs-12">
                     <span for="my-info">About me</span>
                     <textarea id="my-info" name="AboutMe" class="form-control" placeholder="" rows="4"
-                        [ngModel]="userModel['AboutMe']" cols="400"></textarea>
+                        [ngModel]="userModel['AboutMe']" cols="400" (change)="onFieldChange(emailInput,emailValRef,'Email')" ></textarea>
                 </div>
             </div>
             <button class="btn btn-primary router-link" type="submit">Save Changes</button>

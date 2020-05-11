@@ -39,15 +39,19 @@
         <input (change)="inputFileChalge(fileInput,filePreviewImg,filePreviewVid)" name="post-files" #fileInput
           type="file" style="display: none;" ngModel />
         <div class="col-md-12">
-          <div class="video-wrapper">
+          <div class="video-wrapper" style="position: relative;">
             <img #filePreviewImg src="" alt="" filePreviewVidclass="img-responsive post-image"
               style="display: none; width: 100%; height: auto; max-height: 500px;" />
             <video #filePreviewVid class="post-video"
               style="display: none; width: 100%; height: auto; max-height: 500px;" controls>
               <source src="" type="video/mp4"> </video>
+            <i *ngIf="filePreviewImg.style.display == 'block' || filePreviewVid.style.display == 'block'"
+              class="ion-android-cancel" (click)="clearFileInput(filePreviewImg,filePreviewVid,fileInput)"
+              style="position: absolute; opacity: 0.8; right: 15px; top: 8px; font-size: 20px; cursor: pointer;"></i>
           </div>
           <div class="tools">
-            <div class="emojis" #emojisRef style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
+            <div class="emojis" #emojisRef
+              style="width: 99% !important; margin-left: 0.5%; display: none; margin-bottom: 5px; ">
               <img (click)="emojiClick(textarea,emoji)" style="width: 20px; width: 20px; cursor: pointer;" class=""
                 src="assets/css/emoji/{{emoji}}.png" *ngFor="let emoji of emojis" />
             </div>

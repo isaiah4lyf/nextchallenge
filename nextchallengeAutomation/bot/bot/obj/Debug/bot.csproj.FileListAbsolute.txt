@@ -1,0 +1,13 @@
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\bot.exe.config
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\bot.exe
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\bot.pdb
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\WebDriver.dll
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\WebDriver.xml
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\obj\Debug\bot.csprojAssemblyReference.cache
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\obj\Debug\bot.csproj.CopyComplete
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\obj\Debug\bot.exe
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\obj\Debug\bot.pdb
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\Newtonsoft.Json.dll
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\Newtonsoft.Json.xml
+C:\Users\isaia\nextchallenge\nextchallengeAutomation\bot\bot\bin\Debug\System.Net.Http.Formatting.xml

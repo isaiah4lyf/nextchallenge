@@ -9,25 +9,25 @@
                     <h5>Email</h5>
                     <p>{{About["BasicInfo"]["EmailRegistration"]}}</p>
                 </td>
-                <td>
+                <td *ngIf='About["BasicInfo"]["DateOfBirth"] != null'> 
                     <h5>Date of Birth</h5>
                     <p>{{About["BasicInfo"]["DateOfBirth"]["Day"] + " " + About["BasicInfo"]["DateOfBirth"]["Month"] + " " + About["BasicInfo"]["DateOfBirth"]["Year"]}}
                     </p>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td *ngIf='About["BasicInfo"]["Gender"] != null'>
                     <h5>Gender</h5>
                     <p>{{About["BasicInfo"]["Gender"]}}</p>
                 </td>
-                <td>
+                <td *ngIf='About["BasicInfo"]["City"] != null'>
                     <h5>City</h5>
                     <p>{{About["BasicInfo"]["City"]}}</p>
                 </td>
             </tr>
         </table>
-        <h5>About</h5>
-        <p>{{About["BasicInfo"]["AboutMe"]}}</p>
+        <h5 *ngIf='About["BasicInfo"]["AboutMe"] != null'>About</h5>
+        <p *ngIf='About["BasicInfo"]["AboutMe"] != null'>{{About["BasicInfo"]["AboutMe"]}}</p>
     </div>
     <div class="about-content-block">
         <h4 class="grey"><i class="ion-ios-book-outline icon-in-title"></i>Education</h4>

@@ -37,6 +37,8 @@ namespace nextchallengeWebAPI.Models
 		public DateTime FriendshipApproveDatetime { get; set; }
 		public List<UserMinInfo> FriendshipStarter { set; get; }
 		public List<UserMinInfo> FriendUser { set; get; }
+		public Company LatestWork { set; get; }
+		public School LatestEducation { set; get; }
 	}
 	public class FriendshipConverter 
 	{

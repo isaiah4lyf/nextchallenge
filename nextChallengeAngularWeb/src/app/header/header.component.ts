@@ -223,7 +223,10 @@ export class HeaderComponent implements OnInit {
       if (notification.NotificationFrom == this.UserData["_id"]) {
         this.currenLed = notification.Data;
         this.UserData["ChatStatus"] = notification.Data;
-        this._appService.setUserData(this.UserData);
+        this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+          this._appService.setUserData(data);
+          this.UserData = data;
+        });
         if (notification.NotificationTo == this.UserData["_id"])
           this._notificationsService.setChatStatusAutoUpdate(true);
       }
@@ -234,6 +237,7 @@ export class HeaderComponent implements OnInit {
         let requestData = JSON.parse(notification.Data);
         this.toastr.info("Friend request from " + requestData["FirstName"] + " " + requestData["LastName"], "New friend request!");
       });
+      this._appService.setUserData(this.UserData);
     }
     else if (notification.NotificationType == "FRIEND_REQUEST_SENT") {
       this._appService.retrieveheaderstats(this.UserData["_id"]).subscribe(data => {
@@ -241,12 +245,24 @@ export class HeaderComponent implements OnInit {
         let requestData = JSON.parse(notification.Data);
         this.toastr.info("Request sent to " + requestData["FirstName"] + " " + requestData["LastName"], "Friend request sent!");
       });
+      this._appService.setUserData(this.UserData);
     }
     else if (notification.NotificationType == "NEW_SUGGESTION") {
       this._appService.retrieveheaderstats(this.UserData["_id"]).subscribe(data => {
         this.headerStats = data;
         let requestData = JSON.parse(notification.Data);
         this.toastr.info("Friend suggestion: " + requestData["FirstName"] + " " + requestData["LastName"], "New suggestion!");
+      });
+      this._appService.setUserData(this.UserData);
+    }
+    else if (notification.NotificationType == "FRIEND_REQUEST_ACCEPTED") {
+      this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+        this._appService.setUserData(data);
+      });
+    }
+    else if (notification.NotificationType == "UNFRIENDED") {
+      this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+        this._appService.setUserData(data);
       });
     }
   }

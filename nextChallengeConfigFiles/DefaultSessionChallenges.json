@@ -2,27 +2,30 @@
     {
         "_id": "5e7f3f844842ce3f18d50afd",
         "Answer": "Nelson Mandela",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
-            "Type": "video",
-            "Description": "none",
+            "Type": "image",
+            "Description": "file",
+            "Source": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Texas_Governor_Ann_Richards%2C_His_Excellency_Nelson_Mandela%2C_Dominique_de_Menil%2C_Texas_State_Senator_Rodney_Ellis.jpg",
+            "By": "Rodneyellis",
+            "Licence": "GFDL",
+            "LicenceReference": "http://www.gnu.org/copyleft/fdl.html",
             "Files": [
                 {
-                    "_id": "5ea80bd672feae5af0bb0d08",
-                    "FileName": "aXjoZ9b_460svvp9.webm",
+                    "_id": "5eac999a72feaf335c9fff71",
+                    "FileName": "Mandela_1991.jpg",
                     "UserID": "5e6d10044842ce46dc5ed185",
-                    "FileType": "video",
-                    "UploadDateTime": "2020-04-28T10:56:22.5Z",
-                    "FilePosterUrls": [
-                        "http://www.nextchallenge.co.za/api/files/5ea80bd672feae5af0bb0d08.jpeg"
-                    ],
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-01T21:50:18.492Z",
+                    "FilePosterUrls": [],
                     "FileBaseUrls": [
-                        "http://www.nextchallenge.co.za/api/files/5ea80bd672feae5af0bb0d08.webm"
+                        "http://www.nextchallenge.co.za/api/files/5eac999a72feaf335c9fff71.jpg"
                     ]
                 }
             ]
         },
-        "CreateDateTime": "2020-04-30T12:11:56.733Z",
+        "CreateDateTime": "2020-05-01T21:50:18.529Z",
         "Points": 5,
         "Question": "Who was the first president of the democratic South Africa?",
         "TimeInSeconds": 20
@@ -30,10 +33,15 @@
     {
         "_id": "5e7f3f954842ce3f18d50aff",
         "Answer": "1994",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
             "Type": "image",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": [
                 {
                     "_id": "5e7f3f954842ce3f18d50afe",
@@ -56,51 +64,37 @@
     {
         "_id": "5e7f3f9e4842ce3f18d50b01",
         "Answer": "1995",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
-            "Type": "image",
+            "Type": "none",
             "Description": "none",
-            "Files": [
-                {
-                    "_id": "5ea7255b4842ce27249fa91d",
-                    "FileName": "300px-Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched (1).JPG",
-                    "UserID": "5e6d10044842ce46dc5ed185",
-                    "FileType": "image",
-                    "UploadDateTime": "2020-04-27T18:32:58.479Z",
-                    "FilePosterUrls": [],
-                    "FileBaseUrls": [
-                        "http://www.nextchallenge.co.za/api/files/5ea7255b4842ce27249fa91d.JPG"
-                    ]
-                }
-            ]
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:14:33.358Z",
+        "CreateDateTime": "2020-05-03T11:35:56.872Z",
         "Points": 10,
-        "Question": "When did South Africa win their first rugby world cup?",
+        "Question": "When did South Africa win their first rugby world cup ?",
         "TimeInSeconds": 16
     },
     {
         "_id": "5ea70d834842ce315c1a8d48",
         "Answer": "16 August 2012.",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
-            "Type": "image",
+            "Type": "none",
             "Description": "none",
-            "Files": [
-                {
-                    "_id": "5ea70d824842ce315c1a8d47",
-                    "FileName": "260px-Parker_Solar_Probe.jpg",
-                    "UserID": "5e6d10044842ce46dc5ed185",
-                    "FileType": "image",
-                    "UploadDateTime": "2020-04-27T16:51:14.037Z",
-                    "FilePosterUrls": [],
-                    "FileBaseUrls": [
-                        "http://www.nextchallenge.co.za/api/files/5ea70d824842ce315c1a8d47.jpg"
-                    ]
-                }
-            ]
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:15:10.809Z",
+        "CreateDateTime": "2020-05-08T17:28:11.023Z",
         "Points": 20,
         "Question": "When did the Marikana massacre take place ?",
         "TimeInSeconds": 30
@@ -108,53 +102,68 @@
     {
         "_id": "5ea729874842ce27249fa920",
         "Answer": "china",
+        "Active": true,
         "Category": "The world",
         "Clue": {
             "Type": "image",
-            "Description": "none",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": [
                 {
-                    "_id": "5ea735e172feae5af0bb0cfc",
-                    "FileName": "Avengers_Endgame_poster.jpg",
+                    "_id": "5eac9e0572feaf335c9fff72",
+                    "FileName": "China_map.PNG",
                     "UserID": "5e6d10044842ce46dc5ed185",
                     "FileType": "image",
-                    "UploadDateTime": "2020-04-27T19:43:29.903Z",
+                    "UploadDateTime": "2020-05-01T22:09:09.704Z",
                     "FilePosterUrls": [],
                     "FileBaseUrls": [
-                        "http://www.nextchallenge.co.za/api/files/5ea735e172feae5af0bb0cfc.jpg"
+                        "http://www.nextchallenge.co.za/api/files/5eac9e0572feaf335c9fff72.PNG"
                     ]
                 }
             ]
         },
-        "CreateDateTime": "2020-04-30T12:15:30.471Z",
+        "CreateDateTime": "2020-05-02T10:56:11.17Z",
         "Points": 5,
-        "Question": "In Which country did the covid-19 pandemic start ?",
+        "Question": "In which country did the covid-19 pandemic start ?",
         "TimeInSeconds": 15
     },
     {
         "_id": "5ea7fbcf72feae5af0bb0cfd",
         "Answer": "H20",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
             "Type": "none",
-            "Description": "It has two hydrogens.",
+            "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-28T17:36:07.028Z",
+        "CreateDateTime": "2020-05-03T11:41:37.608Z",
         "Points": 5,
-        "Question": "What is the chemical formula of water?",
+        "Question": "What is the chemical formula of water ?",
         "TimeInSeconds": 10
     },
     {
         "_id": "5ea7fdbb72feae5af0bb0cfe",
         "Answer": "Hydrogen",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
             "Type": "none",
-            "Description": "It has an atomic number of 1",
+            "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-28T17:36:14.229Z",
+        "CreateDateTime": "2020-05-03T11:41:49.937Z",
         "Points": 5,
         "Question": "What is the first element on the periodic table ?",
         "TimeInSeconds": 15
@@ -162,13 +171,18 @@
     {
         "_id": "5ea7fe3c72feae5af0bb0cff",
         "Answer": "Light",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-28T17:35:59.063Z",
+        "CreateDateTime": "2020-05-02T12:49:23.029Z",
         "Points": 5,
         "Question": "What is faster between sound and light ?",
         "TimeInSeconds": 10
@@ -176,13 +190,18 @@
     {
         "_id": "5ea7fe8072feae5af0bb0d00",
         "Answer": "True",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-28T17:36:22.018Z",
+        "CreateDateTime": "2020-05-02T12:49:28.814Z",
         "Points": 5,
         "Question": "True or False:  lightning and silica sand can form glass.",
         "TimeInSeconds": 10
@@ -190,27 +209,61 @@
     {
         "_id": "5ea7fed272feae5af0bb0d01",
         "Answer": "Jupiter",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
-            "Type": "none",
-            "Description": "5th planet from the sun",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "http://www.spacetelescope.org/images/heic1410a/",
+            "By": "NASA, ESA, and A. Simon",
+            "Licence": "Public Domain",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eaeae2f72fead6ad88b9899",
+                    "FileName": "Jupiter_and_its_shrunken_Great_Red_Spot.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:42:39.685Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeae2f72fead6ad88b9899.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-28T10:00:50.306Z",
+        "CreateDateTime": "2020-05-03T11:42:39.688Z",
         "Points": 15,
-        "Question": "What is the biggest planet ( by surface area) ?",
+        "Question": "What is the biggest planet in our solar system ?",
         "TimeInSeconds": 20
     },
     {
         "_id": "5ea7ff2272feae5af0bb0d02",
         "Answer": "Anfield",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "it has the kopp end",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/ruaraidhg/29676137824/",
+            "By": "Ruaraidh Gillies",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/2.0",
+            "Files": [
+                {
+                    "_id": "5eaeb13f72fead6ad88b989f",
+                    "FileName": "Panorama_of_Anfield_with_new_main_stand_(29676137824).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:55:43.984Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeb13f72fead6ad88b989f.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-28T17:35:07.569Z",
+        "CreateDateTime": "2020-05-03T11:55:43.986Z",
         "Points": 15,
         "Question": "What is Liverpool FC’s home stadium?",
         "TimeInSeconds": 15
@@ -218,27 +271,30 @@
     {
         "_id": "5ea7ff6c72feae5af0bb0d03",
         "Answer": "The theatre of dreams",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
+            "Type": "image",
             "Description": "none",
-            "Files": []
+            "Source": "https://www.flickr.com/photos/swampa/8051523746/",
+            "By": "Steve Collis from Melbourne, Australia.",
+            "Licence": "CC BY",
+            "LicenceReference": "https://creativecommons.org/licenses/by/2.0",
+            "Files": [
+                {
+                    "_id": "5eb5029f72feac3954db27bd",
+                    "FileName": "Manchester_United_Panorama_(8051523746).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T06:56:31.542Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb5029f72feac3954db27bd.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-28T17:35:14.667Z",
-        "Points": 20,
-        "Question": "What is the nickname of Manchester United’s home stadium ?",
-        "TimeInSeconds": 20
-    },
-    {
-        "_id": "5ea7ff8972feae5af0bb0d04",
-        "Answer": "The theatre of dreams",
-        "Category": "Sports",
-        "Clue": {
-            "Type": "none",
-            "Description": "old trafford",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-28T17:35:21.055Z",
+        "CreateDateTime": "2020-05-08T06:56:32.861Z",
         "Points": 20,
         "Question": "What is the nickname of Manchester United’s home stadium ?",
         "TimeInSeconds": 20
@@ -246,13 +302,30 @@
     {
         "_id": "5ea7ffcb72feae5af0bb0d05",
         "Answer": "Cricket",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "The official is an umpire",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "null",
+            "By": "JokerDurden",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/4.0",
+            "Files": [
+                {
+                    "_id": "5eb58cfc72feaf395413f301",
+                    "FileName": "Eden_Gardens_under_floodlights_during_a_match.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T16:46:52.083Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb58cfc72feaf395413f301.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-28T17:35:31.602Z",
+        "CreateDateTime": "2020-05-08T16:46:52.087Z",
         "Points": 15,
         "Question": "Which sport requires a wicket keeper?",
         "TimeInSeconds": 10
@@ -260,10 +333,15 @@
     {
         "_id": "5ea8002372feae5af0bb0d06",
         "Answer": "Soweto Derby",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-28T17:35:41.835Z",
@@ -274,13 +352,30 @@
     {
         "_id": "5ea8007572feae5af0bb0d07",
         "Answer": "Basketball",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
+            "Type": "image",
             "Description": "none",
-            "Files": []
+            "Source": "https://www.flickr.com/photos/edrost88/39731134795/",
+            "By": "Erik Drost ",
+            "Licence": "CC BY",
+            "LicenceReference": "https://creativecommons.org/licenses/by/2.0",
+            "Files": [
+                {
+                    "_id": "5eb511c072feac3954db27bf",
+                    "FileName": "LeBron_James_Layup_(Cleveland_vs_Brooklyn_2018).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T08:01:04.175Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb511c072feac3954db27bf.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-28T17:35:48.737Z",
+        "CreateDateTime": "2020-05-08T08:01:04.178Z",
         "Points": 10,
         "Question": "Michael Jordan is  a legend of which sport?",
         "TimeInSeconds": 15
@@ -288,10 +383,15 @@
     {
         "_id": "5ea8686172feae5af0bb0d1e",
         "Answer": "cape town",
+        "Active": true,
         "Category": "The world",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:25:44.649Z",
@@ -302,13 +402,30 @@
     {
         "_id": "5ea8689872feae5af0bb0d1f",
         "Answer": "Germany",
+        "Active": true,
         "Category": "General",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eaeabd572fead6ad88b9898",
+                    "FileName": "Germany_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:32:37.569Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeabd572fead6ad88b9898.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-28T17:32:08.023Z",
+        "CreateDateTime": "2020-05-03T11:32:37.573Z",
         "Points": 5,
         "Question": "Which country won the 2014 FIFA world cup ?",
         "TimeInSeconds": 20
@@ -316,10 +433,15 @@
     {
         "_id": "5ea868c172feae5af0bb0d20",
         "Answer": "six",
+        "Active": true,
         "Category": "The world",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:25:29.59Z",
@@ -330,10 +452,15 @@
     {
         "_id": "5ea868fa72feae5af0bb0d21",
         "Answer": "mponeng",
+        "Active": true,
         "Category": "General",
         "Clue": {
             "Type": "none",
             "Description": "Gold mine located in carletonville, South Africa.",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:19:16.223Z",
@@ -344,10 +471,15 @@
     {
         "_id": "5ea8693972feae5af0bb0d23",
         "Answer": "E",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:25:04.481Z",
@@ -358,24 +490,34 @@
     {
         "_id": "5ea86a2572feae5af0bb0d24",
         "Answer": "Triskaidekaphobia",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:24:54.486Z",
+        "CreateDateTime": "2020-05-03T11:29:08.178Z",
         "Points": 30,
-        "Question": "What is the extreme fear of the number 13?",
+        "Question": "What is the extreme fear of the number 13 ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5ea86a5772feae5af0bb0d25",
         "Answer": "Foreigners",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:24:48.025Z",
@@ -386,10 +528,15 @@
     {
         "_id": "5ea86a8372feae5af0bb0d26",
         "Answer": "S",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:24:39.702Z",
@@ -400,10 +547,15 @@
     {
         "_id": "5ea86aaa72feae5af0bb0d27",
         "Answer": "Pangram",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:24:32.2Z",
@@ -414,24 +566,34 @@
     {
         "_id": "5ea86ad772feae5af0bb0d28",
         "Answer": "Muhammad",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-28T17:41:43.913Z",
+        "CreateDateTime": "2020-05-03T11:40:20.533Z",
         "Points": 20,
-        "Question": "Central Figure of ISLAM?",
+        "Question": "Central Figure of ISLAM ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5ea86b1072feae5af0bb0d2a",
         "Answer": "Crucifixion",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-28T17:42:40.21Z",
@@ -442,10 +604,15 @@
     {
         "_id": "5ea86b4b72feae5af0bb0d2b",
         "Answer": "Martyr",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-28T17:43:39.722Z",
@@ -456,10 +623,15 @@
     {
         "_id": "5ea86b8772feae5af0bb0d2c",
         "Answer": "Books",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-28T17:44:39.903Z",
@@ -470,10 +642,15 @@
     {
         "_id": "5ea86bae72feae5af0bb0d2d",
         "Answer": "Christmas",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-28T17:45:18.575Z",
@@ -484,52 +661,46 @@
     {
         "_id": "5ea86bdc72feae5af0bb0d2e",
         "Answer": "New York City",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "null",
+            "By": "Jerry Saliu",
+            "Licence": "CC BY-SA ",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/4.0",
+            "Files": [
+                {
+                    "_id": "5eb58ea972feaf395413f306",
+                    "FileName": "LadyLiberty02.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T16:54:01.054Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb58ea972feaf395413f306.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T12:24:20.909Z",
+        "CreateDateTime": "2020-05-08T16:54:01.057Z",
         "Points": 20,
         "Question": "The statue of liberty is located in which City ? ",
         "TimeInSeconds": 30
     },
     {
-        "_id": "5ea86c0672feae5af0bb0d2f",
-        "Answer": "Apia",
-        "Category": "The world",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T12:24:14.52Z",
-        "Points": 40,
-        "Question": "What is the capital city of Samoa ?",
-        "TimeInSeconds": 30
-    },
-    {
-        "_id": "5ea86c3c72feae5af0bb0d30",
-        "Answer": "Algeria",
-        "Category": "The world",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T12:24:05.801Z",
-        "Points": 20,
-        "Question": "Smallest country in Africa by area? ",
-        "TimeInSeconds": 30
-    },
-    {
         "_id": "5ea86c6d72feae5af0bb0d31",
         "Answer": "False",
+        "Active": true,
         "Category": "General",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:23:56.699Z",
@@ -540,10 +711,15 @@
     {
         "_id": "5ea86c9772feae5af0bb0d32",
         "Answer": "54",
+        "Active": true,
         "Category": "The world",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:23:15.931Z",
@@ -554,10 +730,15 @@
     {
         "_id": "5ea9e93a72feac7b50379869",
         "Answer": "Italy",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-29T20:53:14.905Z",
@@ -566,71 +747,94 @@
         "TimeInSeconds": 30
     },
     {
-        "_id": "5ea9e98672feac7b5037986a",
-        "Answer": "Siphiwe Tshabalala",
-        "Category": "Sports",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-29T20:54:30.339Z",
-        "Points": 20,
-        "Question": "Who scored the first goal of the 2010 FIFA world cup in South Africa ? ",
-        "TimeInSeconds": 30
-    },
-    {
         "_id": "5ea9ea4c72feac7b5037986b",
         "Answer": "Arnold Schwarzenegger",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/gageskidmore/albums/72157709798674486",
+            "By": "Gage Skidmore",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eaea97c72fead6ad88b9895",
+                    "FileName": "Arnold_Schwarzenegger_by_Gage_Skidmore_4.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:22:36.62Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaea97c72fead6ad88b9895.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T12:23:03.922Z",
+        "CreateDateTime": "2020-05-03T11:22:36.623Z",
         "Points": 40,
-        "Question": "Who starred in the terminator movie franchise?",
+        "Question": "Who starred in the terminator movie franchise ?",
         "TimeInSeconds": 40
     },
     {
         "_id": "5ea9eaaa72feac7b5037986c",
         "Answer": "Sylvester Stallone ",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/22785954@N08/3916212826/",
+            "By": "nicolas genin",
+            "Licence": "CC BY-SA ",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/2.0",
+            "Files": [
+                {
+                    "_id": "5eaeaa0672fead6ad88b9896",
+                    "FileName": "Flickr_-_nicogenin_-_66ème_Festival_de_Venise_(Mostra)_-_Sylvester_Stallone_(26).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:24:54.729Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeaa0672fead6ad88b9896.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T12:22:56.731Z",
+        "CreateDateTime": "2020-05-03T11:24:54.732Z",
         "Points": 25,
         "Question": "John Rambo's real name ? ",
         "TimeInSeconds": 30
     },
     {
-        "_id": "5ea9eb4672feac7b5037986d",
-        "Answer": "Mario Gotze",
-        "Category": "Sports",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-29T21:01:58.147Z",
-        "Points": 30,
-        "Question": "Who scored the only goal of the 2014 FIFA world cup final?",
-        "TimeInSeconds": 35
-    },
-    {
         "_id": "5ea9eb9072feac7b5037986e",
         "Answer": "Cristiano Ronaldo",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.soccer.ru/galery/1053759/photo/730330",
+            "By": "Анна Нэсси",
+            "Licence": "CC BY-SA 3.0 GFDL",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0/za/",
+            "Files": [
+                {
+                    "_id": "5eae51e872fead6ad88b9878",
+                    "FileName": "Cristiano_Ronaldo_2018.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T05:08:56.952Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae51e872fead6ad88b9878.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-29T21:03:12.522Z",
+        "CreateDateTime": "2020-05-03T05:08:56.956Z",
         "Points": 15,
         "Question": "He is known as CR7.",
         "TimeInSeconds": 30
@@ -638,66 +842,91 @@
     {
         "_id": "5ea9ebd572feac7b5037986f",
         "Answer": "Queen Sono",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:22:40.181Z",
+        "CreateDateTime": "2020-05-03T11:25:09.936Z",
         "Points": 30,
-        "Question": "What is the first African TV series to premier on netflix?",
+        "Question": "What is the first African TV series to premier on netflix ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5ea9eda872feac7b50379870",
         "Answer": "Southampton ",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
             "Type": "none",
             "Description": "English City",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:15:44.785Z",
+        "CreateDateTime": "2020-05-03T11:38:39.149Z",
         "Points": 40,
-        "Question": "In 1912 , the titanic was travelling to New York from which city ? ",
+        "Question": "In 1912, the titanic was travelling to New York from which city ? ",
         "TimeInSeconds": 40
     },
     {
         "_id": "5ea9ee0372feac7b50379872",
         "Answer": "Freedom Day",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:15:55.298Z",
+        "CreateDateTime": "2020-05-03T11:38:59.578Z",
         "Points": 15,
-        "Question": "Which South African Holiday is celebrated on April 27th?",
+        "Question": "Which South African Holiday is celebrated on April 27th ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5ea9ee8572feac7b50379873",
         "Answer": "Fear of flying",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:22:25.529Z",
+        "CreateDateTime": "2020-05-03T11:32:00.718Z",
         "Points": 30,
-        "Question": "What fear is  Aerophobia?",
+        "Question": "What fear is  Aerophobia ?",
         "TimeInSeconds": 40
     },
     {
         "_id": "5ea9ef3b72feac7b50379874",
         "Answer": "arm",
+        "Active": true,
         "Category": "General",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-29T21:18:51.737Z",
@@ -708,10 +937,15 @@
     {
         "_id": "5ea9ef6b72feac7b50379875",
         "Answer": "Heart",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:22:03.764Z",
@@ -722,10 +956,15 @@
     {
         "_id": "5ea9eff272feac7b50379876",
         "Answer": "Autophobia",
+        "Active": true,
         "Category": "General",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-29T21:21:54.354Z",
@@ -734,29 +973,20 @@
         "TimeInSeconds": 35
     },
     {
-        "_id": "5ea9f02472feac7b50379877",
-        "Answer": "Israel",
-        "Category": "The world",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T12:21:43.166Z",
-        "Points": 20,
-        "Question": "Which country  is Jerusalem ?",
-        "TimeInSeconds": 30
-    },
-    {
         "_id": "5ea9f07c72feac7b50379878",
-        "Answer": "twelve",
+        "Answer": "Twelve",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:12:38.126Z",
+        "CreateDateTime": "2020-05-03T11:39:36.727Z",
         "Points": 30,
         "Question": "How many disciples did Jesus Christ have ? ",
         "TimeInSeconds": 35
@@ -764,13 +994,30 @@
     {
         "_id": "5ea9f10c72feac7b50379879",
         "Answer": "Einstein",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Orren Jack Turner, Princeton, N.J.",
+            "Licence": "Public Domain",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eaeaece72fead6ad88b989b",
+                    "FileName": "Albert_Einstein_Head.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:45:18.531Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeaece72fead6ad88b989b.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-29T21:26:36.565Z",
+        "CreateDateTime": "2020-05-03T11:45:18.533Z",
         "Points": 20,
         "Question": "Genius is associated with which name ?",
         "TimeInSeconds": 30
@@ -778,10 +1025,15 @@
     {
         "_id": "5ea9f15072feac7b5037987a",
         "Answer": "Gastro",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T12:21:30.079Z",
@@ -790,169 +1042,189 @@
         "TimeInSeconds": 35
     },
     {
-        "_id": "5eaa851372feac7b5037987b",
-        "Answer": "Trent Alexander-Arnold",
-        "Category": "Sports",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T07:58:11.477Z",
-        "Points": 40,
-        "Question": "Who was the first teenager to play in back to back champions league finals?",
-        "TimeInSeconds": 40
-    },
-    {
-        "_id": "5eaa856572feac7b5037987c",
-        "Answer": "Cricket",
-        "Category": "Sports",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T07:59:33.943Z",
-        "Points": 5,
-        "Question": "Hashim Amla plays which sport?",
-        "TimeInSeconds": 30
-    },
-    {
         "_id": "5eaa879f72feac7b5037987d",
         "Answer": "Cassper Nyovest",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "http://livemag.co.za/back-city-festival-2014/",
+            "By": "Thabiso Molatlhwa",
+            "Licence": "CC BY 2.5 ZA ",
+            "LicenceReference": "https://creativecommons.org/licenses/by/2.5/za/deed.en",
+            "Files": [
+                {
+                    "_id": "5eaeaaa772fead6ad88b9897",
+                    "FileName": "Cassper_Nyovest_Back_to_the_City_2014.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:27:35.319Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeaaa772fead6ad88b9897.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T12:21:09.105Z",
+        "CreateDateTime": "2020-05-03T11:29:26.562Z",
         "Points": 5,
-        "Question": "Who sings Doc Shebeleza?",
+        "Question": "Who sings Doc Shebeleza ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eaa8a7572feac7b5037987e",
         "Answer": "Dreamt and Undreamt",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:20:56.051Z",
+        "CreateDateTime": "2020-05-03T11:31:03.671Z",
         "Points": 35,
-        "Question": "The only two  English Letters ending ''mt''?",
+        "Question": "The only two  English Letters ending ''mt'' ?",
         "TimeInSeconds": 40
     },
     {
         "_id": "5eaa8b5e72feac7b5037987f",
         "Answer": "The king is helpless",
+        "Active": true,
         "Category": "General",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T08:25:02.291Z",
+        "CreateDateTime": "2020-05-03T11:34:02.692Z",
         "Points": 40,
-        "Question": "Checkmate in chess comes from the persian phrase ''shah mat'' meaning ....",
+        "Question": "Checkmate in chess comes from the persian phrase ''shah mat'' meaning  ______",
         "TimeInSeconds": 40
     },
     {
         "_id": "5eaa8c0372feac7b50379880",
         "Answer": "North Korea and Cuba",
+        "Active": true,
         "Category": "General",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T08:27:47.453Z",
+        "CreateDateTime": "2020-05-03T11:34:46.748Z",
         "Points": 40,
-        "Question": "Which are the only two nations where you cant buy Coca Cola?",
-        "TimeInSeconds": 40
-    },
-    {
-        "_id": "5eaa8d2672feac7b50379882",
-        "Answer": "Mamungkukumpurangkuntjunya",
-        "Category": "The world",
-        "Clue": {
-            "Type": "none",
-            "Description": "its In Australia",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T12:20:25.573Z",
-        "Points": 100,
-        "Question": "what is the longest place name on the planet?",
-        "TimeInSeconds": 50
+        "Question": "Which are the only two nations where you cant buy Coca Cola ?",
+        "TimeInSeconds": 30
     },
     {
         "_id": "5eaa8df572feac7b50379883",
         "Answer": "−89.2 degrees Celsius",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T12:18:05.236Z",
+        "CreateDateTime": "2020-05-03T11:45:34.77Z",
         "Points": 30,
-        "Question": "What was the coldest temperature ever recorded?",
+        "Question": "What was the coldest temperature ever recorded ?",
         "TimeInSeconds": 30
-    },
-    {
-        "_id": "5eaa8e9972feac7b50379884",
-        "Answer": "Nicaragua and Dominica",
-        "Category": "The world",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T12:19:49.732Z",
-        "Points": 30,
-        "Question": "The only two Nations with purple in their national flags?",
-        "TimeInSeconds": 40
     },
     {
         "_id": "5eab14ec72feac0f08634006",
         "Answer": "Jaws",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T18:11:56.158Z",
+        "CreateDateTime": "2020-05-03T05:01:29.075Z",
         "Points": 15,
-        "Question": "“You're gonna need a bigger boat.”",
+        "Question": "Name the movie: “You're gonna need a bigger boat.”",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab164172feac0f08634007",
-        "Answer": "left",
+        "Answer": "Left",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eae3ac972fead6ad88b986d",
+                    "FileName": "ZA_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T03:30:17.227Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae3ac972fead6ad88b986d.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:17:37.223Z",
+        "CreateDateTime": "2020-05-03T04:55:42.818Z",
         "Points": 5,
-        "Question": "Drivers use which side of the road in South Africa?",
+        "Question": "Drivers use which side of the road in South Africa ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab169272feac0f08634008",
         "Answer": "Nile River",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "located in africa",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eae395772fead6ad88b986c",
+                    "FileName": "Nile_River_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T03:24:07.919Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae395772fead6ad88b986c.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:18:58.492Z",
+        "CreateDateTime": "2020-05-03T03:24:07.922Z",
         "Points": 10,
         "Question": "What is the longest river in the world?",
         "TimeInSeconds": 30
@@ -960,52 +1232,65 @@
     {
         "_id": "5eab172472feac0f08634009",
         "Answer": "LMFAO",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
             "Type": "none",
             "Description": "None",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T18:21:24.659Z",
+        "CreateDateTime": "2020-05-03T11:29:49.724Z",
         "Points": 20,
-        "Question": "Who sings \" party rock anthem\"",
+        "Question": "Who sings party rock anthem ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5eab17d372feac0f0863400a",
         "Answer": "Childish Gambino",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/nasahqphoto/20716556524/",
+            "By": "NASA/Bill Ingalls",
+            "Licence": "Public Domain",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eae324b72fead6ad88b986b",
+                    "FileName": "Donald_Glover_TIFF_2015.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T02:54:03.46Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae324b72fead6ad88b986b.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:24:19.095Z",
+        "CreateDateTime": "2020-05-03T02:54:03.574Z",
         "Points": 30,
-        "Question": "Who won the 2019 Grammy awards with the song \" This is america\"?",
+        "Question": "Who won the 2019 Grammy awards with the song \" This is america\" ?",
         "TimeInSeconds": 40
-    },
-    {
-        "_id": "5eab185472feac0f0863400b",
-        "Answer": "Siya Kolisi",
-        "Category": "Sports",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T18:26:28.927Z",
-        "Points": 20,
-        "Question": "Who captained South Africa to the 2019 Rugby world cup?",
-        "TimeInSeconds": 35
     },
     {
         "_id": "5eab189672feac0f0863400c",
         "Answer": "Hemophobia",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T18:27:34.178Z",
@@ -1016,10 +1301,15 @@
     {
         "_id": "5eab192072feac0f0863400d",
         "Answer": "True",
+        "Active": true,
         "Category": "The world",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T18:29:52.791Z",
@@ -1030,55 +1320,68 @@
     {
         "_id": "5eab19a572feac0f0863400e",
         "Answer": "A la recherche du temps perdu’",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T18:32:05.728Z",
+        "CreateDateTime": "2020-05-03T02:48:43.793Z",
         "Points": 120,
-        "Question": "What is the longest book in the world?",
-        "TimeInSeconds": 45
+        "Question": "What is the longest book in the world ?",
+        "TimeInSeconds": 40
     },
     {
         "_id": "5eab1a4172feac0f0863400f",
         "Answer": "Kathleen",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T18:34:41.219Z",
+        "CreateDateTime": "2020-05-03T11:31:48.044Z",
         "Points": 30,
         "Question": "What does the 'K' in JK Rowling stands for ? ",
         "TimeInSeconds": 30
     },
     {
-        "_id": "5eab1b4972feac0f08634010",
-        "Answer": "Papua New Guinea",
-        "Category": "General",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T18:39:05.62Z",
-        "Points": 40,
-        "Question": "which country has over 820 languages listed as being spoken in its country?",
-        "TimeInSeconds": 40
-    },
-    {
         "_id": "5eab1ba572feac0f08634011",
         "Answer": "False",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead84e872feb2335cd854d5",
+                    "FileName": "Libya_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T14:34:16.841Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead84e872feb2335cd854d5.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:40:37.698Z",
+        "CreateDateTime": "2020-05-02T14:34:16.843Z",
         "Points": 10,
         "Question": "True or False : 20% of Libya is covered in desert",
         "TimeInSeconds": 30
@@ -1086,24 +1389,46 @@
     {
         "_id": "5eab1c0072feac0f08634012",
         "Answer": "True",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead843072feb2335cd854d4",
+                    "FileName": "Norway_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T14:31:12.381Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead843072feb2335cd854d4.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:42:08.068Z",
+        "CreateDateTime": "2020-05-02T14:31:12.437Z",
         "Points": 10,
-        "Question": "True Or false :There is a town in Norway just called A.",
+        "Question": "True Or false : There is a town in Norway just called A.",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab1cac72feac0f08634013",
         "Answer": "Footaball",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T18:45:00.396Z",
@@ -1114,55 +1439,111 @@
     {
         "_id": "5eab1e9372feac0f08634014",
         "Answer": "Neymar",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.soccer.ru/galery/1054845/photo/732220",
+            "By": "Кирилл Венедиктов",
+            "Licence": "CC BY-SA 3.0 GFDL",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0/za/",
+            "Files": [
+                {
+                    "_id": "5eae2eb272fead6ad88b9869",
+                    "FileName": "Neymar.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T02:38:42.07Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae2eb272fead6ad88b9869.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:53:07.569Z",
+        "CreateDateTime": "2020-05-03T04:58:07.831Z",
         "Points": 20,
-        "Question": "As from 2020, who is the world's most expensive player?",
+        "Question": "As from 2020, who is the world's most expensive player ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab1ee372feac0f08634015",
         "Answer": "Lionel Messi",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.soccer.ru/galery/1055457/photo/733494",
+            "By": "Кирилл Венедиктов",
+            "Licence": "CC BY-SA 3.0 GFDL ",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0/za/",
+            "Files": [
+                {
+                    "_id": "5ead829c72feb2335cd854d3",
+                    "FileName": "Messi_vs_Nigeria_2018.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T14:24:28.258Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead829c72feb2335cd854d3.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T18:54:27.594Z",
+        "CreateDateTime": "2020-05-03T04:58:18.538Z",
         "Points": 25,
-        "Question": "Who scored 91 goals in a calendar year in 2012?",
+        "Question": "Who scored 91 goals in a calendar year in 2012 ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab21f172feac0f08634016",
         "Answer": "Pheidippides",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
             "Type": "none",
-            "Description": "none",
+            "Description": "image",
+            "Source": "Transferred from en.wikipedia to Commons.; transfer was stated to be made by deerstop",
+            "By": "The original uploader was Hammer of the Gods27 at English Wikipedia.",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "http://creativecommons.org/licenses/by-sa/3.0/",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T19:07:29.188Z",
+        "CreateDateTime": "2020-05-08T16:39:41.061Z",
         "Points": 35,
-        "Question": "which Greek hero who ran 150 miles from Marathon to Sparta to get help against the Persians.?",
+        "Question": "Which Greek hero who ran 150 miles from Marathon to Sparta to get help against the Persians ?",
         "TimeInSeconds": 40
     },
     {
         "_id": "5eab221a72feac0f08634017",
         "Answer": "Neil Armstrong",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eae2dd772fead6ad88b9868",
+                    "FileName": "Neil_Armstrong_pose.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T02:35:03.457Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae2dd772fead6ad88b9868.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:08:10.883Z",
+        "CreateDateTime": "2020-05-03T02:35:03.486Z",
         "Points": 10,
         "Question": "Who was the first man to walk on the moon ?",
         "TimeInSeconds": 30
@@ -1170,10 +1551,15 @@
     {
         "_id": "5eab224872feac0f08634018",
         "Answer": "Rhythm",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T19:08:56.263Z",
@@ -1184,10 +1570,15 @@
     {
         "_id": "5eab22aa72feac0f08634019",
         "Answer": "Hera",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T19:10:34.444Z",
@@ -1197,14 +1588,31 @@
     },
     {
         "_id": "5eab22e372feac0f0863401a",
-        "Answer": "Poseidon.",
+        "Answer": "Poseidon",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
-            "Type": "none",
+            "Type": "image",
             "Description": "none",
-            "Files": []
+            "Source": "null",
+            "By": "Ricardo André Frantz",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5ead813c72feb2335cd854d2",
+                    "FileName": "0036MAN_Poseidon.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T14:18:36.441Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead813c72feb2335cd854d2.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:11:31.364Z",
+        "CreateDateTime": "2020-05-02T14:18:36.444Z",
         "Points": 20,
         "Question": "Greek god of the sea?",
         "TimeInSeconds": 35
@@ -1212,13 +1620,30 @@
     {
         "_id": "5eab231672feac0f0863401b",
         "Answer": "Sky",
+        "Active": true,
         "Category": "History & Mythology",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "null",
+            "By": "Marie-Lan Nguyen",
+            "Licence": "Public Domain",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead80af72feb2335cd854d1",
+                    "FileName": "Zeus_de_Esmirna_(Louvre).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T14:16:15.97Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead80af72feb2335cd854d1.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:12:22.305Z",
+        "CreateDateTime": "2020-05-02T14:16:16Z",
         "Points": 15,
         "Question": "Zeus is the greek god of _____",
         "TimeInSeconds": 30
@@ -1226,83 +1651,118 @@
     {
         "_id": "5eab23a072feac0f0863401c",
         "Answer": "Amazon Rainforest",
-        "Category": "Science",
+        "Active": true,
+        "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead7f8072feb2335cd854d0",
+                    "FileName": "AmazonForest_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T14:11:12.529Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead7f8072feb2335cd854d0.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:14:40.179Z",
+        "CreateDateTime": "2020-05-02T14:11:12.665Z",
         "Points": 30,
-        "Question": "Which forest produces 20% of the world's oxygen?",
+        "Question": "Which forest produces 20% of the world's oxygen ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5eab242f72feac0f0863401d",
         "Answer": "false",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T19:17:03.427Z",
+        "CreateDateTime": "2020-05-03T11:52:36.702Z",
         "Points": 10,
-        "Question": "True or false: t takes 60 minutes, 19 seconds for light to travel from the Sun to the Earth",
+        "Question": "True or false: It takes 60 minutes, 19 seconds for light to travel from the Sun to the Earth.",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab247472feac0f0863401e",
         "Answer": "False",
-        "Category": "Science",
+        "Active": true,
+        "Category": "Science & Technology",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eaeb04d72fead6ad88b989e",
+                    "FileName": "OSIRIS_Mars_true_color.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:51:41.151Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeb04d72fead6ad88b989e.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:18:12.8Z",
+        "CreateDateTime": "2020-05-03T11:51:41.562Z",
         "Points": 15,
-        "Question": "Mars is the only planet to spin clockwise",
-        "TimeInSeconds": 30
-    },
-    {
-        "_id": "5eab248372feac0f0863401f",
-        "Answer": "False",
-        "Category": "Science",
-        "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
-        },
-        "CreateDateTime": "2020-04-30T19:18:27.42Z",
-        "Points": 15,
-        "Question": "True or False: Mars is the only planet to spin clockwise",
+        "Question": "True or False: Mars is the only planet to spin clockwise.",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab252372feac0f08634020",
         "Answer": "Jesus ",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T19:21:07.682Z",
+        "CreateDateTime": "2020-05-03T04:57:29.624Z",
         "Points": 15,
-        "Question": "Central figure of Christianity?",
+        "Question": "Central figure of Christianity ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab25de72feac0f08634021",
-        "Answer": "christianity",
+        "Answer": "Christianity",
+        "Active": true,
         "Category": "Religion",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T19:24:14.861Z",
+        "CreateDateTime": "2020-05-02T13:13:13.806Z",
         "Points": 15,
         "Question": "What is the world's largest religion ?",
         "TimeInSeconds": 30
@@ -1310,97 +1770,204 @@
     {
         "_id": "5eab261572feac0f08634022",
         "Answer": "Germany",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead71b872feb2335cd854ce",
+                    "FileName": "Germany_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T13:12:24.096Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead71b872feb2335cd854ce.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:25:09.117Z",
+        "CreateDateTime": "2020-05-09T10:11:22.375Z",
         "Points": 20,
-        "Question": "in 2014, Brazil lost 7-1 in the FIFA world cup in Brazil to which Nation ?",
+        "Question": "In 2014, Brazil lost 7-1 in the FIFA world cup Semi Final in Brazil to which Nation ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab266772feac0f08634023",
         "Answer": "World Wrestling Federation",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T19:26:31.38Z",
+        "CreateDateTime": "2020-05-02T11:15:35.652Z",
         "Points": 30,
-        "Question": "in wresting, what does WWF stand for ?",
+        "Question": "In wresting, what does WWF stand for ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5eab26c072feac0f08634024",
         "Answer": "Dwayne Johnson",
+        "Active": true,
         "Category": "Art & Entertainment",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/evarinaldiphotography/8557374952/",
+            "By": "Eva Rinaldi",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/2.0",
+            "Files": [
+                {
+                    "_id": "5ead703172feb2335cd854cd",
+                    "FileName": "Dwayne_Johnson_2,_2013.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T13:05:53.383Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead703172feb2335cd854cd.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:28:00.435Z",
+        "CreateDateTime": "2020-05-02T13:05:53.385Z",
         "Points": 30,
-        "Question": "The Rock's birth name?",
+        "Question": "The Rock's birth name ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5eab275472feac0f08634025",
         "Answer": "Mark Zuckerberg",
+        "Active": true,
         "Category": "General",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "file",
+            "Source": "https://www.flickr.com/photos/quintanomedia/41118886324/",
+            "By": "Anthony Quintano",
+            "Licence": "CC BY",
+            "LicenceReference": "https://creativecommons.org/licenses/by/2.0",
+            "Files": [
+                {
+                    "_id": "5ead563f72feb2335cd854cb",
+                    "FileName": "Mark_Zuckerberg_F8_2018_Keynote_(cropped_2).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T11:15:11.936Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead563f72feb2335cd854cb.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:30:28.293Z",
+        "CreateDateTime": "2020-05-02T11:43:05.85Z",
         "Points": 30,
-        "Question": "The creator of facebook?",
+        "Question": "He is the co-founder of Facebook, Inc.",
         "TimeInSeconds": 35
     },
     {
         "_id": "5eab27dc72feac0f08634026",
         "Answer": "Steve Jobs",
+        "Active": true,
         "Category": "General",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "file",
+            "Source": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Steve_Jobs_Headshot_2010-CROP_%28cropped_2%29.jpg",
+            "By": "Matthew Yohe",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5ead556672feb2335cd854ca",
+                    "FileName": "Steve_Jobs_Headshot_2010-CROP_(cropped_2).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T11:11:34.787Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead556672feb2335cd854ca.jpg"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:32:44.472Z",
+        "CreateDateTime": "2020-05-02T11:41:41.88Z",
         "Points": 10,
-        "Question": "Who is the Creator Of apple?",
+        "Question": "He was the co-founder of Apple, Inc.",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab282672feac0f08634027",
         "Answer": "Gaborone",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead544972feb2335cd854c9",
+                    "FileName": "Botswana_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T11:06:49.485Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead544972feb2335cd854c9.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:33:58.749Z",
+        "CreateDateTime": "2020-05-02T13:01:35.799Z",
         "Points": 30,
-        "Question": "What is the Capital city of Botswana?",
+        "Question": "What is the Capital city of Botswana ?",
         "TimeInSeconds": 35
     },
     {
         "_id": "5eab287472feac0f08634028",
         "Answer": "Antananarivo",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead53b072feb2335cd854c8",
+                    "FileName": "Madagascar_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T11:04:16.576Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead53b072feb2335cd854c8.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:35:16.131Z",
+        "CreateDateTime": "2020-05-02T11:04:16.579Z",
         "Points": 35,
         "Question": "What is the capital city of Madagascar ? ",
         "TimeInSeconds": 30
@@ -1408,10 +1975,15 @@
     {
         "_id": "5eab2a0772feac0f08634029",
         "Answer": "Pneumonoultramicroscopicsilicovolcanoconiosis",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T19:41:59.519Z",
@@ -1422,10 +1994,15 @@
     {
         "_id": "5eab2a6872feac0f0863402a",
         "Answer": "Ghost word",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": null,
+            "By": null,
+            "Licence": null,
+            "LicenceReference": null,
             "Files": []
         },
         "CreateDateTime": "2020-04-30T19:43:36.472Z",
@@ -1435,14 +2012,19 @@
     },
     {
         "_id": "5eab2acc72feac0f0863402b",
-        "Answer": "ambigrams",
+        "Answer": "Ambigrams",
+        "Active": true,
         "Category": "English & Literature",
         "Clue": {
             "Type": "none",
             "Description": "none",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
             "Files": []
         },
-        "CreateDateTime": "2020-04-30T19:45:16.152Z",
+        "CreateDateTime": "2020-05-03T04:56:20.689Z",
         "Points": 40,
         "Question": "Words that read the same even when upside down ?",
         "TimeInSeconds": 40
@@ -1450,13 +2032,30 @@
     {
         "_id": "5eab2c8272feac0f0863402c",
         "Answer": "South Africa",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead52a772feb2335cd854c7",
+                    "FileName": "ZA_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T10:59:51.153Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead52a772feb2335cd854c7.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:52:34.631Z",
+        "CreateDateTime": "2020-05-02T10:59:51.155Z",
         "Points": 15,
         "Question": "The first heart Transplant took place in ?",
         "TimeInSeconds": 30
@@ -1464,29 +2063,1431 @@
     {
         "_id": "5eab2cbd72feac0f0863402d",
         "Answer": "South Africa",
+        "Active": true,
         "Category": "Sports",
         "Clue": {
-            "Type": "none",
-            "Description": "none",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5ead528272feb2335cd854c6",
+                    "FileName": "ZA_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-02T10:59:14.452Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5ead528272feb2335cd854c6.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:53:33.409Z",
+        "CreateDateTime": "2020-05-02T10:59:14.456Z",
         "Points": 15,
         "Question": "The first african nation to host a FIFA world cup ?",
         "TimeInSeconds": 30
     },
     {
         "_id": "5eab2cf072feac0f0863402e",
-        "Answer": "right",
+        "Answer": "Right",
+        "Active": true,
         "Category": "The world",
         "Clue": {
-            "Type": "none",
-            "Description": "none.",
-            "Files": []
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eae4ee772fead6ad88b9877",
+                    "FileName": "USA_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T04:56:07.855Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae4ee772fead6ad88b9877.PNG"
+                    ]
+                }
+            ]
         },
-        "CreateDateTime": "2020-04-30T19:54:24.888Z",
+        "CreateDateTime": "2020-05-03T04:56:07.858Z",
         "Points": 10,
         "Question": "USA drive on which side of the road ?",
         "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eae436672fead6ad88b9871",
+        "Answer": "Andes",
+        "Active": true,
+        "Category": "The world",
+        "Clue": {
+            "Type": "image",
+            "Description": "map",
+            "Source": "null",
+            "By": "null",
+            "Licence": "null",
+            "LicenceReference": "null",
+            "Files": [
+                {
+                    "_id": "5eae4b4472fead6ad88b9875",
+                    "FileName": "Andes_map.PNG",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T04:40:36.755Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae4b4472fead6ad88b9875.PNG"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T04:55:34.879Z",
+        "Points": 15,
+        "Question": "What is the longest mountain range in the world(about 7 000 km) ?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eae490772fead6ad88b9873",
+        "Answer": "Juno spacecraft ",
+        "Active": true,
+        "Category": "Science & Technology",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "NASA",
+            "Licence": "Public Domain",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eae497772fead6ad88b9874",
+                    "FileName": "Juno_spacecraft.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T04:32:55.969Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae497772fead6ad88b9874.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T04:32:55.978Z",
+        "Points": 10,
+        "Question": "What is the fastest man-made object in space ?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eae92c372fead6ad88b987c",
+        "Answer": "Peregrine falcon",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "http://www.comebirdwatching.blogspot.com/?view=classic",
+            "By": "Christopher Watson",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eae970a72fead6ad88b9883",
+                    "FileName": "Falco_peregrinus_good_-_Christopher_Watson.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T10:03:54.017Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae970a72fead6ad88b9883.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T10:03:54.022Z",
+        "Points": 15,
+        "Question": "What is the fastest animal in the world ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eae931972fead6ad88b987d",
+        "Answer": "Cheetah",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Godot13",
+            "Licence": " CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eae971972fead6ad88b9884",
+                    "FileName": "Cheetah_(Kruger_National_Park,_South_Africa,_2001).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T10:04:09.779Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae971972fead6ad88b9884.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T10:04:09.783Z",
+        "Points": 15,
+        "Question": "What is the fastest land animal in the world ?",
+        "TimeInSeconds": 15
+    },
+    {
+        "_id": "5eae937272fead6ad88b987e",
+        "Answer": "Sailfish",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "© Citron",
+            "Licence": "CC BY-SA 3.0",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eae95c372fead6ad88b9881",
+                    "FileName": "Sailfish.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T09:58:27.435Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae95c372fead6ad88b9881.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T09:59:21.081Z",
+        "Points": 15,
+        "Question": "What is the fastest animal in water ?",
+        "TimeInSeconds": 15
+    },
+    {
+        "_id": "5eae945972fead6ad88b987f",
+        "Answer": "Usain bolt",
+        "Active": true,
+        "Category": "Sports",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "http://agenciabrasil.ebc.com.br/rio-2016/foto/2016-08/bolt-se-aposenta-com-medalha-de-ouro-no-4-x-100-metros",
+            "By": "Fernando Frazão/Agência Brasil",
+            "Licence": "CC BY 3.0 BR",
+            "LicenceReference": "https://creativecommons.org/licenses/by/3.0/br/deed.en",
+            "Files": [
+                {
+                    "_id": "5eae951772fead6ad88b9880",
+                    "FileName": "Bolt_se_aposenta_com_medalha_de_ouro_no_4_x_100_metros_1039118-19.08.2016_frz-9565_(cropped).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T09:55:35.623Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eae951772fead6ad88b9880.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T09:55:35.625Z",
+        "Points": 20,
+        "Question": "Which former sprinter is widely considered to be the greatest sprinter of all time ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eae992672fead6ad88b9887",
+        "Answer": "Bugatti chiron",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/94169616@N03/27785299372/",
+            "By": "Matthew Lamb",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/2.0",
+            "Files": [
+                {
+                    "_id": "5eaea85972fead6ad88b9894",
+                    "FileName": "FoS20162016_0624_132444AA_(27785299372).jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:17:45.715Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaea85972fead6ad88b9894.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T11:17:45.718Z",
+        "Points": 20,
+        "Question": "The modified version(super sport) of this car is the first car to break the 300 mph barrier.",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eae9b0672fead6ad88b988a",
+        "Answer": "Concorde",
+        "Active": true,
+        "Category": "Science & Technology",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "http://www.airliners.net/photo/British-Airways/Aerospatiale-BAC-Concorde-102/1406076/L/&width=1024&height=699&sok=WHERE__(photographer_%3D_%27Eduard_Marmet%27)_&sort=_order_by_photo_id_DESC_&photo_nr=67&prev_id=1406077&next_id=1406075",
+            "By": "Eduard Marmet",
+            "Licence": "CC BY-SA 3.0 GFDL",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0/za/",
+            "Files": [
+                {
+                    "_id": "5eaea84672fead6ad88b9893",
+                    "FileName": "British_Airways_Concorde_G-BOAC_03.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:17:26.871Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaea84672fead6ad88b9893.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T11:17:26.873Z",
+        "Points": 20,
+        "Question": "What is the world's first supersonic passenger-carrying commercial airplane ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eae9c1972fead6ad88b988d",
+        "Answer": "Tupolev Tu-144",
+        "Active": true,
+        "Category": "Science & Technology",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Zimin.V.G. ",
+            "Licence": "Public Domain",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eaea82f72fead6ad88b9892",
+                    "FileName": "МАКС-2007-ЗВГ-002.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:17:03.961Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaea82f72fead6ad88b9892.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T11:17:03.992Z",
+        "Points": 20,
+        "Question": "What is the world's second supersonic passenger-carrying commercial airplane ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eaea7d972fead6ad88b9891",
+        "Answer": "Shanghai maglev",
+        "Active": true,
+        "Category": "Science & Technology",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Alex Needham",
+            "Licence": "Public Domain",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eaea7d972fead6ad88b9890",
+                    "FileName": "A_maglev_train_coming_out,_Pudong_International_Airport,_Shanghai.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:15:37.306Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaea7d972fead6ad88b9890.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T11:15:37.309Z",
+        "Points": 35,
+        "Question": "What is the fastest commercial electric train in the world ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eaeafff72fead6ad88b989d",
+        "Answer": "Theory of relativity",
+        "Active": true,
+        "Category": "Science & Technology",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Mysid",
+            "Licence": "CC BY-SA",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eaeafff72fead6ad88b989c",
+                    "FileName": "Spacetime_lattice_analogy.svg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-03T11:50:23.441Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eaeafff72fead6ad88b989c.svg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-03T11:50:23.445Z",
+        "Points": 25,
+        "Question": "What is Albert Einstein's most famous theory ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eaec61e72fead6ad88b9903",
+        "Answer": "Koala",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Diliff",
+            "Licence": "CC BY-SA ",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eb5870772feaf395413f2fe",
+                    "FileName": "Koala_climbing_tree.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T16:21:27.148Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb5870772feaf395413f2fe.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-08T16:21:27.196Z",
+        "Points": 20,
+        "Question": "The fingerprints of these animals are so close to humans that they could taint crime scenes.",
+        "TimeInSeconds": 25
+    },
+    {
+        "_id": "5eaec6c572fead6ad88b9904",
+        "Answer": "Giraffe",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-03T13:27:33.985Z",
+        "Points": 25,
+        "Question": "Which animal's tongue can be as long as 50 centimetres (20 inches) and is blue-black in colour to prevent it getting sunburnt.?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eaec72172fead6ad88b9905",
+        "Answer": "True",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-03T13:29:05.203Z",
+        "Points": 10,
+        "Question": "True or False : A zebra’s stripes are as unique as a human fingerprint",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eaec79672fead6ad88b9906",
+        "Answer": "Northern Transvaal",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-03T13:31:02.854Z",
+        "Points": 30,
+        "Question": "What was Limpopo called Before 1994?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eaec84f72fead6ad88b9907",
+        "Answer": "Limpopo",
+        "Active": true,
+        "Category": "The world",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-03T13:34:07.68Z",
+        "Points": 20,
+        "Question": "The largest baobab tree is located in which South African Province?",
+        "TimeInSeconds": 26
+    },
+    {
+        "_id": "5eaeca8372fead6ad88b990a",
+        "Answer": "pneumonoultramicroscopicsilicovolcanoconiosis",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-03T13:43:31.85Z",
+        "Points": 150,
+        "Question": "What is the longest name in the English language?",
+        "TimeInSeconds": 40
+    },
+    {
+        "_id": "5eaecb0e72fead6ad88b990b",
+        "Answer": "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "image",
+            "Description": "none",
+            "Source": "https://en.wikipedia.org/wiki/Wikipedia:Non-free_content_criteria#4",
+            "By": "https://en.wikipedia.org/wiki/Associated_Press",
+            "Licence": "Public Domain",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eb51e2072feac3954db27c1",
+                    "FileName": "Hubert_Blaine_Wolfeschlegelsteinhausenbergerdorff,_Sr.png",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T08:53:52.149Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb51e2072feac3954db27c1.png"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-08T08:53:52.178Z",
+        "Points": 180,
+        "Question": "what is the name of a German-born American typesetter who has held the record for the longest personal name ever used?",
+        "TimeInSeconds": 45
+    },
+    {
+        "_id": "5eaecfd172fead6ad88b990d",
+        "Answer": "Snow White and the Seven Dwarfs",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-03T14:06:09.708Z",
+        "Points": 30,
+        "Question": "“Magic Mirror on the wall, who is the fairest one of all?\"",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafddea72fead6ad88b990e",
+        "Answer": "Congregation",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:18:34.457Z",
+        "Points": 30,
+        "Question": "A group of alligators?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafde3872fead6ad88b990f",
+        "Answer": "Shrewdness",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:19:52.29Z",
+        "Points": 30,
+        "Question": "A group of apes.",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafdec472fead6ad88b9910",
+        "Answer": "intrusion.",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:22:12.991Z",
+        "Points": 25,
+        "Question": "A group of cockroaches Cockroaches.",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafdfdc72fead6ad88b9911",
+        "Answer": "Convocation.",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:26:52.545Z",
+        "Points": 30,
+        "Question": "A group of eagles .",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafe09772fead6ad88b9913",
+        "Answer": "Parrots",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Benjamint444",
+            "Licence": "GFDL 1.2 ",
+            "LicenceReference": "http://www.gnu.org/licenses/old-licenses/fdl-1.2.html",
+            "Files": [
+                {
+                    "_id": "5eb51df172feac3954db27c0",
+                    "FileName": "parrots.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T08:53:05.915Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb51df172feac3954db27c0.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-08T08:53:05.917Z",
+        "Points": 35,
+        "Question": "Pandemonium is a group of ?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafe0de72fead6ad88b9914",
+        "Answer": "Pack",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:31:10.888Z",
+        "Points": 10,
+        "Question": "A group of wolves.",
+        "TimeInSeconds": 18
+    },
+    {
+        "_id": "5eafe11172fead6ad88b9915",
+        "Answer": "Zebra",
+        "Active": true,
+        "Category": "English & Literature",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:32:01.699Z",
+        "Points": 20,
+        "Question": "\"zeal\" is a group of ...",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eafe1a272fead6ad88b9917",
+        "Answer": "Star Wars.",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:34:26.576Z",
+        "Points": 20,
+        "Question": "“ May the Force be with you.”",
+        "TimeInSeconds": 18
+    },
+    {
+        "_id": "5eafe2b372fead6ad88b991a",
+        "Answer": "My mama always said life was like a box of chocolates. You never know what you're gonna get",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:38:59.959Z",
+        "Points": 100,
+        "Question": "Famous quote in Forrest Gump, 1994.",
+        "TimeInSeconds": 36
+    },
+    {
+        "_id": "5eafe2f672fead6ad88b991b",
+        "Answer": "Life is a banquet, and most poor suckers are starving to death",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:40:06.957Z",
+        "Points": 90,
+        "Question": "Famous Quote in Auntie Mame, 1958.",
+        "TimeInSeconds": 33
+    },
+    {
+        "_id": "5eafe35172fead6ad88b991c",
+        "Answer": "The Godfather 2",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T09:41:37.422Z",
+        "Points": 30,
+        "Question": "Keep your friends close, but your enemies closer.",
+        "TimeInSeconds": 25
+    },
+    {
+        "_id": "5eafe74372fead6ad88b9920",
+        "Answer": "Scarlett Johansson",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "Popsugar.celebrity",
+            "By": "Getty/Dimitrios Kambouris",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": [
+                {
+                    "_id": "5eafe74372fead6ad88b991f",
+                    "FileName": "Sexy-Scarlett-Johansson-Pictures.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-04T09:58:27.664Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eafe74372fead6ad88b991f.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-04T09:58:27.684Z",
+        "Points": 20,
+        "Question": "Who is the actress on the picture?",
+        "TimeInSeconds": 23
+    },
+    {
+        "_id": "5eafe82572fead6ad88b9922",
+        "Answer": "Game of thrones",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-04T10:02:13.917Z",
+        "Points": 30,
+        "Question": "Any king who says \" i'm the king' is no king at all.",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eb4732572feac3954db27b0",
+        "Answer": "Hakuna Matata",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T20:44:21.512Z",
+        "Points": 15,
+        "Question": "According to the lion king king, which saying means '' no worries for the rest of your life'?",
+        "TimeInSeconds": 25
+    },
+    {
+        "_id": "5eb4748472feac3954db27b1",
+        "Answer": "Apollo 11",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T20:50:12.349Z",
+        "Points": 15,
+        "Question": "What was the first Apollo to land on the moon?",
+        "TimeInSeconds": 25
+    },
+    {
+        "_id": "5eb4769672feac3954db27b2",
+        "Answer": "Romulus",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T20:59:02.523Z",
+        "Points": 20,
+        "Question": "According to roman mythology , who found the city of Rome ?",
+        "TimeInSeconds": 24
+    },
+    {
+        "_id": "5eb4771772feac3954db27b3",
+        "Answer": "Remus",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T21:01:11.556Z",
+        "Points": 20,
+        "Question": "In roman history, Who was killed by his twin brother Romulus? ",
+        "TimeInSeconds": 23
+    },
+    {
+        "_id": "5eb479b772feac3954db27b4",
+        "Answer": "Rio De Janeiro",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://commons.wikimedia.org/wiki/File:Vista_do_Morro_Dona_Marta.jpg",
+            "By": "Chronus",
+            "Licence": "CC BY-SA ",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eb50f7372feac3954db27be",
+                    "FileName": "Rio_Collage.png",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T07:51:15.382Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb50f7372feac3954db27be.png"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-08T07:52:05.458Z",
+        "Points": 30,
+        "Question": "Christ the redeemer statue is located in which city ?",
+        "TimeInSeconds": 26
+    },
+    {
+        "_id": "5eb47ae972feac3954db27b5",
+        "Answer": "Tsotsi",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T21:17:29.526Z",
+        "Points": 15,
+        "Question": "South African word for thief.",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb47b3872feac3954db27b6",
+        "Answer": "Barbecue",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "",
+            "By": "Hedwig Storch ",
+            "Licence": "CC BY-SA ",
+            "LicenceReference": "https://creativecommons.org/licenses/by-sa/3.0",
+            "Files": [
+                {
+                    "_id": "5eb521f772feac3954db27c2",
+                    "FileName": "Barbecue_DSCF0013.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-08T09:10:15.401Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb521f772feac3954db27c2.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-08T09:10:36.797Z",
+        "Points": 20,
+        "Question": "American word for braai.",
+        "TimeInSeconds": 24
+    },
+    {
+        "_id": "5eb47bbc72feac3954db27b7",
+        "Answer": "The terminator",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T21:21:00.488Z",
+        "Points": 20,
+        "Question": "\"Hastla la vista , babe\"",
+        "TimeInSeconds": 25
+    },
+    {
+        "_id": "5eb47c6c72feac3954db27b8",
+        "Answer": "Spanish",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T21:23:56.61Z",
+        "Points": 15,
+        "Question": "Which language do Mexicans speak?",
+        "TimeInSeconds": 23
+    },
+    {
+        "_id": "5eb47d7372feac3954db27b9",
+        "Answer": "Peso",
+        "Active": true,
+        "Category": "The world",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T21:28:19.81Z",
+        "Points": 15,
+        "Question": "What is the currency of Cuba ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb47dc972feac3954db27ba",
+        "Answer": "India",
+        "Active": true,
+        "Category": "The world",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-07T21:29:45.204Z",
+        "Points": 15,
+        "Question": "Rupee is the currency of ?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb5998f72feaf395413f31e",
+        "Answer": "Adele",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T17:40:31.615Z",
+        "Points": 20,
+        "Question": "\t\"Rolling in the Deep\"",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb59a0572feaf395413f31f",
+        "Answer": "Rihanna Featuring Calvin Harris",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://commons.wikimedia.org/wiki/Category:Vimeo",
+            "By": "SIGMA ",
+            "Licence": "CC BY",
+            "LicenceReference": "https://creativecommons.org/licenses/by/3.0",
+            "Files": [
+                {
+                    "_id": "5eb6b05172feb039543f5518",
+                    "FileName": "Rihanna_Fenty_2018.png",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-09T13:29:53.333Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb6b05172feb039543f5518.png"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-09T13:29:53.337Z",
+        "Points": 30,
+        "Question": "\"We Found Love\"",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb59a6b72feaf395413f322",
+        "Answer": "LMFAO featuring Lauren Bennett and GoonRock",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "None",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T17:44:11.081Z",
+        "Points": 40,
+        "Question": "\"Party Rock Anthem\"",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eb59b6a72feaf395413f326",
+        "Answer": "Black Eyed Peas",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "image",
+            "Description": "image",
+            "Source": "https://www.flickr.com/photos/walmartcorporate/5793542639/",
+            "By": "Walmart",
+            "Licence": "CC BY",
+            "LicenceReference": "https://creativecommons.org/licenses/by/2.0",
+            "Files": [
+                {
+                    "_id": "5eb6b18e72feb039543f5519",
+                    "FileName": "Black_Eyed_Peas_at_Walmart_meeting.jpg",
+                    "UserID": "5e6d10044842ce46dc5ed185",
+                    "FileType": "image",
+                    "UploadDateTime": "2020-05-09T13:35:10.834Z",
+                    "FilePosterUrls": [],
+                    "FileBaseUrls": [
+                        "http://www.nextchallenge.co.za/api/files/5eb6b18e72feb039543f5519.jpg"
+                    ]
+                }
+            ]
+        },
+        "CreateDateTime": "2020-05-09T13:35:10.836Z",
+        "Points": 20,
+        "Question": "\"I Gotta Feeling\"",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb59bd372feaf395413f327",
+        "Answer": "Mario and Luigi",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T17:50:11.171Z",
+        "Points": 20,
+        "Question": "Super Mario Brothers?",
+        "TimeInSeconds": 21
+    },
+    {
+        "_id": "5eb59d4572feaf395413f328",
+        "Answer": "The National Party",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T17:56:21.045Z",
+        "Points": 25,
+        "Question": "Apartheid was an ideology supported by which party?",
+        "TimeInSeconds": 21
+    },
+    {
+        "_id": "5eb59d6872feaf395413f329",
+        "Answer": "Drake",
+        "Active": true,
+        "Category": "Art & Entertainment",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T17:56:56.872Z",
+        "Points": 20,
+        "Question": "\"God's Plan\"",
+        "TimeInSeconds": 16
+    },
+    {
+        "_id": "5eb59dc672feaf395413f32a",
+        "Answer": "1948",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T17:58:30.718Z",
+        "Points": 25,
+        "Question": "When was apartheid introduced in South Africa ?",
+        "TimeInSeconds": 19
+    },
+    {
+        "_id": "5eb59e8572feaf395413f330",
+        "Answer": "Apartness",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-08T18:01:41.533Z",
+        "Points": 25,
+        "Question": "''Apartheid\" is Translated from the Afrikaans language  meaning?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb6999e72feaf395413f36c",
+        "Answer": "Proteas",
+        "Active": true,
+        "Category": "Sports",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T11:53:02.379Z",
+        "Points": 15,
+        "Question": "What is the name of the South African National Cricket Team?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb69c6772feaf395413f371",
+        "Answer": "Acquired Immune Deficiency Syndrome",
+        "Active": true,
+        "Category": "The world",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T12:04:55.706Z",
+        "Points": 35,
+        "Question": "What does AIDS stand for In HIV & AIDS?",
+        "TimeInSeconds": 30
+    },
+    {
+        "_id": "5eb69ff972feaf395413f379",
+        "Answer": "Sadio Mane",
+        "Active": true,
+        "Category": "Sports",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T12:20:09.887Z",
+        "Points": 25,
+        "Question": "He scored a hat-trick for Southampton in 176 seconds in a 6-1 win over Aston Villa in 2015.",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb6a1ac72feaf395413f37a",
+        "Answer": "True",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "20",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T12:27:24.868Z",
+        "Points": 10,
+        "Question": "True or false : Children of twins are genetically Siblings Than cousins.",
+        "TimeInSeconds": 15
+    },
+    {
+        "_id": "5eb6a1e272feaf395413f37b",
+        "Answer": "True",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T12:28:18.76Z",
+        "Points": 10,
+        "Question": "True or false : Babies have more bones than adults.",
+        "TimeInSeconds": 18
+    },
+    {
+        "_id": "5eb6a2e672feaf395413f37d",
+        "Answer": "African Elephant",
+        "Active": true,
+        "Category": "General",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T12:32:38.142Z",
+        "Points": 30,
+        "Question": "What is the largest land animal ?",
+        "TimeInSeconds": 18
+    },
+    {
+        "_id": "5eb6a87172feb039543f550d",
+        "Answer": "Chris Hani",
+        "Active": true,
+        "Category": "History & Mythology",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T12:56:17.056Z",
+        "Points": 25,
+        "Question": "Which Anti-Apartheid leader was assassinated on 10 April 1993?",
+        "TimeInSeconds": 20
+    },
+    {
+        "_id": "5eb6aafb72feb039543f5514",
+        "Answer": "Brock Lesnar",
+        "Active": true,
+        "Category": "Sports",
+        "Clue": {
+            "Type": "none",
+            "Description": "none",
+            "Source": "",
+            "By": "",
+            "Licence": "",
+            "LicenceReference": "",
+            "Files": []
+        },
+        "CreateDateTime": "2020-05-09T13:07:07.614Z",
+        "Points": 30,
+        "Question": "Who is the only person in history to hold the WWE Championship and the UFC Championship?",
+        "TimeInSeconds": 20
     }
 ]

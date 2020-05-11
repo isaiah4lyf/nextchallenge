@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { AppService } from "../.././services/app.service";
 import { NotificationsService } from "../.././services/notifications.service";
 
@@ -14,30 +14,19 @@ export class SessionsComponent implements OnInit {
   public ServerSessions: any;
   public ServerSessionsTemp: any;
   public sessionSocket = null;
-  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService) { }
+  public levels: any = [];
+  constructor(private _appService: AppService, private router: Router, private _notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
-      this._appService.retrieveserver(this.route.snapshot.paramMap.get("id")).subscribe(data => {
-        if (data == null) {
-          this.router.navigate(["/play"]);
-        } else {
-          this.ServerData = data;
-          this.sessionSocket = new WebSocket(
-            "ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session"
-          );
-          this.sessionSocket.onopen = message => {
-            this.processOpen(message, this.sessionSocket, this.ServerData);
-          };
-          this.sessionSocket.onmessage = message => {
-            this.processMessage(message, this.sessionSocket, this.ServerData);
-          };;
-          this.sessionSocket.onerror = this.processError;
-          this.sessionSocket.onclose = this.processClose;
-        }
+      this._appService.retrievelevels().subscribe(data => {
+        this.levels = data;
       });
-      this._notificationsService.updateChatStatus();
+      this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+        this._appService.setUserData(data);
+        this.UserData = data;
+      });
     }
   }
   ngOnDestroy() {
@@ -46,6 +35,29 @@ export class SessionsComponent implements OnInit {
       CommandJsonData: this.UserData["_id"]
     };
     this.sessionSocket.send(JSON.stringify(messageData));
+  }
+  clickSession(level) {
+    this.ServerSessions = [];
+    if (this.sessionSocket != null) this.sessionSocket.close();
+    this._appService.retrieveserver("ntp045df5").subscribe(data => {
+      if (data == null) {
+        this.router.navigate(["/play"]);
+      } else {
+        this.ServerData = data;
+        this.sessionSocket = new WebSocket(
+          "ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session/level_" + level._level
+        );
+        this.sessionSocket.onopen = message => {
+          this.processOpen(message, this.sessionSocket, this.ServerData);
+        };
+        this.sessionSocket.onmessage = message => {
+          this.processMessage(message, this.sessionSocket, this.ServerData);
+        };;
+        this.sessionSocket.onerror = this.processError;
+        this.sessionSocket.onclose = this.processClose;
+      }
+    });
+    this._notificationsService.updateChatStatus();
   }
   processOpen = (message, socket, server): any => {
     let messageData = {
@@ -69,6 +81,15 @@ export class SessionsComponent implements OnInit {
 
   };
   processClose = message => {
-
   };
+  untilNextLevelText(level) {
+    if (level._level < this.levels.length)
+      if (this.UserData.ChallengesAnswered < this.levels[level._level].UnlockedAt) {
+        return this.UserData.ChallengesAnswered + "/" + this.levels[level._level].UnlockedAt;
+      }
+      else {
+        return this.levels[level._level].UnlockedAt + "/" + this.levels[level._level].UnlockedAt;
+      }
+    return level.UnlockedAt + "/" + level.UnlockedAt;
+  }
 }

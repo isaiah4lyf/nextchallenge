@@ -2,6 +2,7 @@ import { HostListener, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AppService } from "../.././services/app.service";
 import { NotificationsService } from "../.././services/notifications.service";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-gallery',
@@ -14,12 +15,13 @@ export class GalleryComponent implements OnInit {
   public GalleryFilesTemp: any;
   public filesRequested = true;
   public lastFileID: any;
-
-  constructor(private _appService: AppService, private router: Router, public route: ActivatedRoute, private _notificationsService: NotificationsService) { }
+  public deleteImageButton = false;
+  constructor(private _appService: AppService, private router: Router, public route: ActivatedRoute, private _notificationsService: NotificationsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
     if (this.UserData != null) {
+      this.deleteImageButton = this.UserData["Email"].split("@")[0] == this.route.parent.snapshot.paramMap.get("id")
       if (this.UserData["Email"].split("@")[0] == this.route.parent.snapshot.paramMap.get("id")) {
         if (this.UserData != null) {
           this._appService.retrievegalleryfiles(this.UserData["_id"]).subscribe(data => {
@@ -67,5 +69,19 @@ export class GalleryComponent implements OnInit {
       });
       this._notificationsService.updateChatStatus();
     }
+  }
+  deleteFile(fileid) {
+    this.GalleryFiles.splice(this.GalleryFiles.indexOf(this.GalleryFiles.find(s => s._id == fileid)), 1);
+    this._appService.deletefile(fileid).subscribe(data => {
+      this.toastr.warning("", "File deleted successfully.");
+      this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
+        this._appService.setUserData(data);
+      });
+    });
+  }
+  playVid(vid, player) {
+    let elementHtml = document.getElementById(vid) as HTMLMediaElement;
+    elementHtml.play();
+    player.style.display = "none";
   }
 }

@@ -49,12 +49,12 @@ export class SessionComponent implements OnInit {
           });
         }, 500);
       }
-      this._appService.retrieveserver(this.route.snapshot.paramMap.get("id")).subscribe(data => {
+      this._appService.retrieveserver("ntp045df5").subscribe(data => {
         if (data == null) {
           this.router.navigate(["/play"]);
         } else {
           this.ServerData = data;
-          this.sessionSocket = new WebSocket("ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session");
+          this.sessionSocket = new WebSocket("ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session/" + this.route.snapshot.paramMap.get("id"));
           this.sessionSocket.onopen = this.processOpen;
           this.sessionSocket.onmessage = this.processMessage;
           this.sessionSocket.onerror = this.processError;
@@ -222,6 +222,12 @@ export class SessionComponent implements OnInit {
     }
     this._notificationsService.updateChatStatus();
   }
+  clearFileInput(filePreviewImg, filePreviewVid, fileInput) {
+    filePreviewImg.style.display = "none";
+    filePreviewVid.style.display = "none";
+    fileInput.value = "";
+    this.fileType = "none";
+  }
   filesUploadCallBack = (result, extraParam, extraParam1): void => {
     let data = JSON.parse(result.toString());
     let dateTime = new Date(data[0]["UploadDateTime"]);
@@ -240,7 +246,6 @@ export class SessionComponent implements OnInit {
         })
       })
     };
-    console.log(data);
     this.sessionSocket.send(JSON.stringify(messageData));
   };
   emojiClick(textarea, emoji) {

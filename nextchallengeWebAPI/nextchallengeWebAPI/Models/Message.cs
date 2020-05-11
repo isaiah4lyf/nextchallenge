@@ -18,6 +18,7 @@ namespace nextchallengeWebAPI.Models
         public bool MessageRead { set; get; }
         public DateTime CreateDateTime { set; get; }
         public List<FileUpload> Files { get; set; }
+        public string DeleteFor { set; get; }
     }
     public class MessageDetailed
     {
@@ -33,5 +34,7 @@ namespace nextchallengeWebAPI.Models
         public List<UserMinInfo> FromUsers { get; set; }
         public List<UserMinInfo> ToUsers { get; set; }
         public DateTime DateTimeNow { get; set; }
+        public string DeleteFor { set; get; }
+
     }
 }

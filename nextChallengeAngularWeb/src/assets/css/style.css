@@ -49,6 +49,12 @@ body {
   height: 100%;
   width: 100%;
 }
+.text-ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+}
 .emojis{
   height: 100px;
   overflow-y: scroll;

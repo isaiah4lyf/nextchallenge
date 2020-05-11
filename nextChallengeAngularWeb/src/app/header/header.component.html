@@ -4,7 +4,7 @@
   <nav class="navbar navbar-default navbar-fixed-top menu" id="navnav" style="background-color: white;">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
-      <div [ngClass]="{ 'navbar-header': true, 'mobile-tab-header': tabletScreen }" > 
+      <div [ngClass]="{ 'navbar-header': true, 'mobile-tab-header': tabletScreen }">
         <span *ngIf="desktopScreen" routerLink="/home" [ngClass]="{'router-link': true, 'mobile-brand': mobileScreen }">
           <a class="navbar-brand">
             <img style="width: 38px;height: 22px; margin-top: 0px" src="assets/images/logo (2).png" alt="logo" /></a>
@@ -24,26 +24,30 @@
                 src="assets/images/logo (2).png" alt="logo" />
             </td>
             <td align="center" style="width: 16.6%;">
-              <img class="router-link" routerLink="/play" style="margin-right: -5px" src="assets/icons/play.svg" alt="" />
+              <img class="router-link" routerLink="/play" style="margin-right: -5px" src="assets/icons/play.svg"
+                alt="" />
             </td>
             <td align="center" style="position: relative; width: 16.6%;">
-              <img class="router-link" routerLink="/friend-requests" style="margin-right: -5px" src="assets/icons/friends.svg" alt="" />
+              <img class="router-link" routerLink="/friend-requests" style="margin-right: -5px"
+                src="assets/icons/friends.svg" alt="" />
               <span *ngIf="headerStats['FriendRequests'] > 0" class="badge"
                 style="position: absolute; top: -2px; right: 25%;">{{headerStats['FriendRequests']}}</span>
             </td>
             <td align="center" style="position: relative; width: 16.6%;">
-              <img class="router-link" routerLink="/notifications" style="margin-right: -5px" src="assets/icons/notification.svg" alt="" />
+              <img class="router-link" routerLink="/notifications" style="margin-right: -5px"
+                src="assets/icons/notification.svg" alt="" />
               <span *ngIf="headerStats['Notifications'] > 0" class="badge"
                 style="position: absolute; top: -2px; right: 25%;">{{headerStats['Notifications']}}</span>
             </td>
             <td align="center" style="position: relative; width: 16.6%;">
-              <img class="router-link" routerLink="/chat" style="margin-right: -5px" src="assets/icons/chat.svg" alt="" />
+              <img class="router-link" routerLink="/chat" style="margin-right: -5px" src="assets/icons/chat.svg"
+                alt="" />
               <span *ngIf="headerStats['Messages'] > 0" class="badge"
                 style="position: absolute; top: -2px; right: 23%;">{{headerStats['Messages']}}</span>
             </td>
             <td *ngIf="mobileScreen" align="center" style="width: 16.6%;">
-              <img class="router-link" routerLink="{{profileLink}}" style="width: 28px; height: 28px; margin-right: -5px"
-                src="assets/icons/account.svg" alt="" />
+              <img class="router-link" routerLink="{{profileLink}}"
+                style="width: 28px; height: 28px; margin-right: -5px" src="assets/icons/account.svg" alt="" />
             </td>
             <td *ngIf="tabletScreen" align="right" style="width: 16.6%;">
               <img class="router-link" routerLink="{{profileLink}}" style="width: 28px; height: 28px;"
@@ -80,7 +84,7 @@
         </ul>
         <form class="navbar-form navbar-right hidden-sm" style="min-width: 200px;">
           <div class="form-group">
-            <i class="icon ion-android-search icon-search" ></i>
+            <i class="icon ion-android-search icon-search"></i>
             <input #searchInput type="text" [ngClass]="searchInputClasses" placeholder="Search"
               (keyup)="search(searchInput)" (focus)="search(searchInput)" (blur)="inputBlur()" />
             <div *ngIf="searchdata.length > 0" class="search-dropdown-content">
@@ -89,11 +93,12 @@
                 History</div>
               <div *ngFor="let search of searchdata; let i = index"
                 [class.search-row-border]="i != searchdata.length - 1" (click)="searchRowClick(search)">
-                <i *ngIf="search['SearchType'] == 'user'" class="icon ion-person"
-                  style="position: relative; margin-right: 20px; left: 13px;"></i>
-                <i *ngIf="search['SearchType'] == 'post'" class="icon ion-android-search"
-                  style="position: relative; margin-right: 20px; left: 13px;"></i>
-                {{search['SearchContent']}}
+                <div class="text-ellipsis" style="width: 95%;"> <i *ngIf="search['SearchType'] == 'user'" class="icon ion-person"
+                    style="position: relative; margin-right: 20px; left: 13px;"></i>
+                  <i *ngIf="search['SearchType'] == 'post'" class="icon ion-android-search"
+                    style="position: relative; margin-right: 20px; left: 13px;"></i>
+                  {{search['SearchContent']}}</div>
+
               </div>
             </div>
           </div>
@@ -128,7 +133,7 @@
   <div class="container tab-dropdown-content" style="display: none;">
     <form>
       <div class="form-group">
-        <i class="icon ion-android-search icon-search" style="margin-top: 2.5px !important;"></i>
+        <i class="icon ion-android-search icon-search" style="margin-top: 0px !important;"></i>
         <input #searchInputTwo type="text" [ngClass]="searchInputClasses" placeholder="Search"
           (keyup)="search(searchInputTwo)" (focus)="search(searchInputTwo)" (blur)="inputBlur()" />
         <div *ngIf="searchdata.length > 0" class="search-dropdown-content" style="position: relative;">
@@ -137,11 +142,12 @@
             History</div>
           <div *ngFor="let search of searchdata; let i = index" [class.search-row-border]="i != searchdata.length - 1"
             (click)="searchRowClick(search)">
+            <div class="text-ellipsis" style="width: 98%;"> 
             <i *ngIf="search['SearchType'] == 'user'" class="icon ion-person"
-              style="position: relative; margin-right: 20px; left: 13px;"></i>
+              style="position: relative; margin-right: 10px; left: 0px;"></i>
             <i *ngIf="search['SearchType'] == 'post'" class="icon ion-android-search"
-              style="position: relative; margin-right: 20px; left: 13px;"></i>
-            {{search['SearchContent']}}
+              style="position: relative; margin-right: 10px; left: 0px;"></i>
+            {{search['SearchContent']}}</div>
           </div>
         </div>
       </div>
@@ -149,7 +155,7 @@
     <br />
     <div class="col-md-3 static noselect" style="text-align: left;">
       <div style="position: relative; min-width: 250px;">
-        <div class="profile-card" [style.background]="profileCoverPicLink" >
+        <div class="profile-card" [style.background]="profileCoverPicLink">
           <img src='{{profilePicLink}}' alt="user" class="profile-photo" />
           <div (click)="toggleChangeStatus()"
             [ngClass]="{ 'led-green': currenLed == 'available','led-red': currenLed == 'busy','led-yellow': currenLed == 'away' }">
@@ -183,8 +189,9 @@
             </span>
           </div>
           <h5>
-            <a class="router-link" routerLink='/{{UserData["Email"].split("@")[0]}}'
-              class="text-white"><b>{{UserData["FirstName"]}} {{UserData["LastName"]}}</b></a></h5>
+            <a class="router-link" routerLink='/{{UserData["Email"].split("@")[0]}}' class="text-white"><b
+                class="text-ellipsis" style="width: 150px;">{{UserData["FirstName"]}} {{UserData["LastName"]}}</b></a>
+          </h5>
           <span><i class="ion ion-leaf"></i> <span id="attempts-element"> {{UserData["Attempts"]}}
               attempts</span></span>
         </div>

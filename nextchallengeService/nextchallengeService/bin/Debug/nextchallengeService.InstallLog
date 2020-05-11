@@ -1,0 +1,95 @@
+﻿Installing assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Installing service Next Challenge Service...
+Service Next Challenge Service has been successfully installed.
+Creating EventLog source Next Challenge Service in log Application...
+Committing assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Attempt to stop service Next Challenge Service.
+Installing assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Installing service Next Challenge Service...
+Creating EventLog source Next Challenge Service in log Application...
+Rolling back assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Restoring event log to previous state for source Next Challenge Service.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Attempt to stop service Next Challenge Service.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Attempt to stop service Next Challenge Service.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Attempt to stop service Next Challenge Service.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Attempt to stop service Next Challenge Service.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.
+Uninstalling assembly 'C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.InstallLog
+   assemblypath = C:\Users\isaia\nextchallenge\nextchallengeService\nextchallengeService\bin\Debug\nextchallengeService.exe
+Removing EventLog source Next Challenge Service.
+Service Next Challenge Service is being removed from the system...
+Service Next Challenge Service was successfully removed from the system.

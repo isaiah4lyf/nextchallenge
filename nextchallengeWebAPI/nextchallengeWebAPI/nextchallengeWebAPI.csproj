@@ -202,10 +202,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileManager.cs" />
+    <Compile Include="Helpers\SendEmail.cs" />
     <Compile Include="Helpers\SystemVariables.cs" />
     <Compile Include="Models\About.cs" />
     <Compile Include="Models\ActiveChat.cs" />
     <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\AdminTask.cs" />
     <Compile Include="Models\AttemptsPrice.cs" />
     <Compile Include="Models\AttemptsPurchase.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Models\Help.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Leaderboard.cs" />
+    <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Post.cs" />

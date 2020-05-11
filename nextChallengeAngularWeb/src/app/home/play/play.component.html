@@ -1,17 +1,16 @@
-<div class="page-title-div">Servers</div>
+<div class="page-title-div">Play</div>
 <div class="line-divider"></div>
 <div class="container" style="width: 101%; margin-top: 25px;">
     <div class="row" style="margin-bottom: 15px;">
-        <div *ngFor="let server of PlayServers" class="custom-col router-link" routerLink="/play/{{server['Name']}}" style="margin-bottom: 8px;">
+        <div *ngFor="let Category of Categories" class="custom-col router-link" routerLink="/play/ntp045df5"
+            style="margin-bottom: 8px; padding-top: 8px;">
             <div class="custom-col-text" style="margin-bottom: 5px; height: 18px;">
-                <div style="float: left;" >Name: {{server["Name"]}}</div>
-                <div *ngIf="!server['ClientInSession'] && server['UsersCount'] == 6000"  style="float: right; color: #c63f3f; font-size: 12px;" >Full</div>
-                <div *ngIf="server['ClientInSession']"  style="float: right; color: #8dc63f; font-size: 12px;" >Resume</div>
+                <div [style]="'float: left; font-weight: normal; color: ' + Category.Color + ';'">Category: {{Category.Label}}</div>
+                <div style="float: right; color: #6d6e71; font-size: 12px;"><i class="icon ion-ios-pie" [style]="'font-size: 17px; font-weight: bold; color:' + Category.Color + ';'"></i></div>
             </div>
-            <div class="custom-col-text"><b>Location: {{server["Location"]}}</b></div>
-            <div *ngIf="server['UsersCount'] == 6000" class="custom-col-button" style="background-color: #c63f3f; margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >{{server["UsersCount"]}}/6 000</div>
-            <div *ngIf="server['UsersCount'] < 6000" class="custom-col-button" style="margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit" >{{server["UsersCount"]}}/6 000</div>
+            <div class="custom-col-text" style="font-family: 'Times New Roman', Times, serif; font-size: 15px;">Challenges: {{Category.Stats.split("/")[1]}}</div>
+            <div class="custom-col-button" 
+                style="margin-top: 5px;  text-align: center; padding-top: 3px;" type="submit">{{Category.Stats.split("/")[0]}} <i class="icon ion-android-done-all" style="font-size: 16px; font-weight: bold;"></i></div>
         </div>
     </div>
 </div>
-
