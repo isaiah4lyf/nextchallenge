@@ -137,6 +137,9 @@ namespace nextchallengeWebAPI.Controllers
         [HttpPut]
         public long updatechallengesanswered(string userid, int challengesanswered)
         {
+            List<Level> levels = retrievelevels();
+            if (challengesanswered > levels.ElementAt(levels.Count - 1).UnlockedAt)
+                challengesanswered = levels.ElementAt(levels.Count - 1).UnlockedAt;
             var collection = database.GetCollection<User>("Users");
             var update = Builders<User>.Update.Set(u => u.ChallengesAnswered, challengesanswered);
             return collection.UpdateOne(u => u._id == ObjectId.Parse(userid), update).ModifiedCount;
@@ -1211,6 +1214,19 @@ namespace nextchallengeWebAPI.Controllers
         {
             var collectionChallenges = database.GetCollection<DefaultSessionChallenge>("Challenges");
             return collectionChallenges.Find(new BsonDocument()).ToList();
+        }
+        [Route("api/index/retrievedefaultsessionchallengebylevel")]
+        [HttpGet]
+        public List<DefaultSessionChallenge> retrievedefaultsessionchallengebylevel(int level)
+        {
+            List<DefaultSessionChallenge> challenges = retrievedefaultsessionchallenge();
+            List<DefaultSessionChallenge> challengesFiltered = new List<DefaultSessionChallenge>();
+            foreach (DefaultSessionChallenge challenge in challenges)
+                if (challenge._Levels != null)
+                    foreach (_Level _level in challenge._Levels)
+                        if (_level._level == level && _level._checked)
+                            challengesFiltered.Add(challenge);
+            return challengesFiltered;
         }
         [Route("api/index/retrievedefaultsessionchallenge")]
         [HttpGet]

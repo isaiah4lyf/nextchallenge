@@ -18,6 +18,9 @@ export class AppService {
   private SessionContentGlobal: any;
   private Configurations: any = null;
   private Settings: any = null;
+  public CurrentSession: any = null;
+  public CurrentLevel: any = null;
+  public sessionSocket: any = null;
   public UserDataObservable = new BehaviorSubject(null);
   constructor(private router: Router, private http: HttpClient) { }
 
@@ -312,13 +315,13 @@ export class AppService {
   markmessagesasread(from, to) {
     return this.http.put(this.configUrl + "markmessagesasread?from=" + from + "&to=" + to, []);
   }
-  markmessageasdeleted(messageid, deletefor){
+  markmessageasdeleted(messageid, deletefor) {
     return this.http.put(this.configUrl + "markmessageasdeleted?messageid=" + messageid + "&deletefor=" + deletefor, this.httpOptions);
   }
-  retrievemessages(userone, usertwo,retriever) {
+  retrievemessages(userone, usertwo, retriever) {
     return this.http.get(this.configUrl + "retrievemessages?userone=" + userone + "&usertwo=" + usertwo + "&retriever=" + retriever, this.httpOptions);
   }
-  retrievemessagesafter(userone, usertwo, lastmessageid,retriever) {
+  retrievemessagesafter(userone, usertwo, lastmessageid, retriever) {
     return this.http.get(this.configUrl + "retrievemessagesafter?userone=" + userone + "&usertwo=" + usertwo + "&lastmessageid=" + lastmessageid + "&retriever=" + retriever, this.httpOptions);
   }
   retrieveactivechats(userid) {
@@ -329,8 +332,8 @@ export class AppService {
       callBackFunction(data, extraParam, extraParam1);
     });
   }
-  deletefile(fileid){
-    return this.http.delete(this.configUrl + "deletefile?fileid=" + fileid,this.httpOptions);
+  deletefile(fileid) {
+    return this.http.delete(this.configUrl + "deletefile?fileid=" + fileid, this.httpOptions);
   }
   retrieveleaderboards(userid, orderby, page, prevPages) {
     return this.http.post(this.configUrl + "retrieveleaderboards?userid=" + userid + "&orderby=" + orderby + "&page=" + page, prevPages, this.httpOptions);
@@ -450,7 +453,7 @@ export class AppService {
   retrievedefaultsessionchallengestats(challengeid, userid) {
     return this.http.get(this.configUrl + "retrievedefaultsessionchallengestats?challengeid=" + challengeid + "&userid=" + userid, this.httpOptions);
   }
-  retrievelevels(){
+  retrievelevels() {
     return this.http.get(this.configUrl + "retrievelevels", this.httpOptions);
   }
 }

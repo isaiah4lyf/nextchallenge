@@ -15,6 +15,23 @@ public class DefaultSessionChallenge {
 	private String ChallengeType;
 	private List<_Level> _Levels;
 	private List<String> MultipleAnswers;
+	public DefaultSessionChallenge Clone(DefaultSessionChallenge object) 
+	{
+		DefaultSessionChallenge clone = new DefaultSessionChallenge();
+		clone.set_id(object.get_id());
+		clone.setAnswer(object.getAnswer());
+		clone.setCategory(object.getCategory());
+		clone.setClue(object.getClue());
+		clone.setCreateDateTime(object.getCreateDateTime());
+		clone.setPoints(object.getPoints());
+		clone.setQuestion(object.getQuestion());
+		clone.setTimeInSeconds(object.getTimeInSeconds());
+		clone.setActive(object.isActive());
+		clone.setChallengeType(object.getChallengeType());
+		clone.set_Levels(object.get_Levels());
+		clone.setMultipleAnswers(object.getMultipleAnswers());
+		return clone;
+	}
 	public String getChallengeType() {
 		return ChallengeType;
 	}

@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { AppService } from "../.././services/app.service";
 import { NotificationsService } from "../.././services/notifications.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-session",
@@ -22,7 +23,10 @@ export class SessionComponent implements OnInit {
   public UserData = null;
   public ServerData: any;
   public Settings: any = null;
-  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService) { }
+  public MutlipleChoice: any = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
+  public CurrentChallenge: any = null;
+  public Quit = false;
+  constructor(private _appService: AppService, private router: Router, private route: ActivatedRoute, private _notificationsService: NotificationsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -35,32 +39,40 @@ export class SessionComponent implements OnInit {
         };
         this.sessionContents.push(messageData);
       }
-      if (this._appService.getSssionContents() != null || this._appService.getSssionContents() != undefined) {
-        this.sessionContents = this._appService.getSssionContents();
-        this.sessionsCount = this.sessionContents.length;
-        this.MessageLocalIdInc = this.sessionContents.length;
-        setTimeout(() => {
-          this.sessionContents.forEach(element => {
-            if (JSON.stringify(element).includes("MessageLocalId")) {
-              let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
-              if (elementHtml != null) elementHtml.innerHTML = '<span style="position: absolute; right: 12px;">' + new Date(element["DateTime"]).toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
+      if (this._appService.CurrentLevel == this.route.snapshot.paramMap.get("id") && this._appService.CurrentSession == this.route.snapshot.paramMap.get("session") && this._appService.sessionSocket != null) {
+        this.sessionSocket = this._appService.sessionSocket;
+        if (this._appService.getSssionContents() != null && this._appService.getSssionContents() != undefined) {
+          this.sessionContents = this._appService.getSssionContents();
+          this.sessionsCount = this.sessionContents.length;
+          this.MessageLocalIdInc = this.sessionContents.length;
+          setTimeout(() => {
+            this.sessionContents.forEach(element => {
+              if (JSON.stringify(element).includes("MessageLocalId")) {
+                let elementHtml = document.getElementById(element["MessageLocalId"]) as HTMLElement;
+                if (elementHtml != null) elementHtml.innerHTML = '<span style="position: absolute; right: 12px;">' + new Date(element["DateTime"]).toLocaleString().split(",")[1] + '</span> <i class="icon ion-reply" style="position: absolute; font-size: 24px; right: -10px;"></i>';
 
-            }
-          });
-        }, 500);
-      }
-      this._appService.retrieveserver("ntp045df5").subscribe(data => {
-        if (data == null) {
-          this.router.navigate(["/play"]);
-        } else {
-          this.ServerData = data;
-          this.sessionSocket = new WebSocket("ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session/" + this.route.snapshot.paramMap.get("id"));
-          this.sessionSocket.onopen = this.processOpen;
-          this.sessionSocket.onmessage = this.processMessage;
-          this.sessionSocket.onerror = this.processError;
-          this.sessionSocket.onclose = this.processClose;
+              }
+            });
+          }, 500);
         }
-      });
+      }
+      else {
+        if (this._appService.sessionSocket != null) {
+          let messageData = {
+            Command: "LEAVE_SESSION",
+            CommandJsonData: this.UserData["_id"],
+          };
+          this._appService.sessionSocket.send(JSON.stringify(messageData));
+          setTimeout(() => {
+            this.connectSessionServer();
+          }, 1000);
+        } else {
+          this.connectSessionServer();
+        }
+
+      }
+      this._appService.CurrentLevel = this.route.snapshot.paramMap.get("id");
+      this._appService.CurrentSession = this.route.snapshot.paramMap.get("session");
       this._notificationsService.updateChatStatus();
       this.Configurations = this._appService.getconfigurations();
       if (this.Configurations == null) {
@@ -77,6 +89,16 @@ export class SessionComponent implements OnInit {
   ngOnDestroy() {
     this._appService.setSssionContents(this.sessionContents);
   }
+  connectSessionServer() {
+    this._appService.retrieveserver("ntp045df5").subscribe(data => {
+      this.ServerData = data;
+      this.sessionSocket = new WebSocket("ws://" + this.ServerData.IPAddresses.find(p => p.Name == "WebSocket").IPAddress + ":" + this.ServerData.Ports.find(p => p.Name == "WebSocket").Port + "/_df$socket$/session/" + this.route.snapshot.paramMap.get("id"));
+      this.sessionSocket.onopen = this.processOpen;
+      this.sessionSocket.onmessage = this.processMessage;
+      this.sessionSocket.onerror = this.processError;
+      this.sessionSocket.onclose = this.processClose;
+    });
+  }
   processOpen = message => {
     let messageData = {
       Command: "JOIN_GAME_SESSION",
@@ -85,6 +107,7 @@ export class SessionComponent implements OnInit {
         SessionId: Number(this.route.snapshot.paramMap.get("session"))
       })
     };
+    this._appService.sessionSocket = this.sessionSocket;
     this.sessionSocket.send(JSON.stringify(messageData));
   };
   processMessage = message => {
@@ -106,8 +129,21 @@ export class SessionComponent implements OnInit {
       this.sessionContents.push(data);
     }
     else if (messageData.Command == "LEAVE_SESSION") {
+      if (this.Quit) {
+        this.sessionContents = null;
+        this._appService.sessionSocket = null;
+        this._appService.CurrentLevel = "";
+        this._appService.CurrentSession = "";
+        this.router.navigate(["/play"]);
+      }
+    }
+    else if (messageData.Command == "LEVEL_LOCKED") {
       this.sessionContents = null;
+      this._appService.sessionSocket = null;
+      this._appService.CurrentLevel = "";
+      this._appService.CurrentSession = "";
       this.router.navigate(["/play"]);
+      this.toastr.warning("", "Level locked!");
     }
     else if (messageData.Command == "RETRIEVE_ATTEMPTS") {
       let elementHtml = document.getElementById("attempts-element") as HTMLElement;
@@ -115,19 +151,44 @@ export class SessionComponent implements OnInit {
     } else {
       let data = JSON.parse(messageData.CommandJsonData);
       data["Command"] = String(messageData.Command);
+      let pushData = true;
       if (messageData.Command === "SESSION_CHALLENGE") {
         data["challnegeId"] = "session-challenge-" + this.sessionsCount;
         this.sessionsCount++;
+        if (this.CurrentChallenge != null && this.sessionsCount == 2)
+          if (this.CurrentChallenge._id == data._id) {
+            pushData = false;
+            this.sessionsCount--;
+          }
+        this.CurrentChallenge = data;
+        if (data.ChallengeType == "Multiple Choice") {
+          data.MultipleAnswers = this.shuffle(data.MultipleAnswers);
+          let multi = data.MultipleAnswers;
+          for (let i = 0; i < multi.length; i++) {
+            multi[i] = this.MutlipleChoice[i] + ". " + multi[i];
+          }
+        }
+
       }
-      this.sessionContents.push(data);
+      if (pushData) this.sessionContents.push(data);
       this._appService.setSssionContents(this.sessionContents);
       setTimeout(() => {
         if (this.sessionContents.length > 3 && this.Settings.find(s => s.Name == "SESSION_SCROLL").Value) {
           window.scrollTo(0, document.body.scrollHeight);
+          setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 200);
+          setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 500);
+          setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 800);
         }
       }, 100);
     }
   };
+  shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
   processError = message => { };
   processClose = message => { };
 
@@ -173,6 +234,7 @@ export class SessionComponent implements OnInit {
           Command: "LEAVE_SESSION",
           CommandJsonData: this.UserData["_id"],
         };
+        this.Quit = true;
         this.sessionSocket.send(JSON.stringify(messageData));
       }
       else if (textarea.innerHTML.startsWith(".h") || textarea.innerHTML.startsWith(".H")) {
@@ -192,12 +254,21 @@ export class SessionComponent implements OnInit {
           formData.append("FileUploaderID", this.UserData["_id"]);
           this._appService.uploadfiles(formData, this.filesUploadCallBack, this.MessageLocalIdInc, textarea.innerHTML);
         } else {
+          let messageToSend = textarea.innerHTML;
+          if (messageToSend.length == 1) {
+            if (this.CurrentChallenge != null) {
+              if (this.CurrentChallenge.ChallengeType == "Multiple Choice") {
+                let index = this.MutlipleChoice.indexOf(this.MutlipleChoice.find(s => s == messageToSend.toLocaleUpperCase()));
+                if (index != -1) messageToSend = this.CurrentChallenge.MultipleAnswers[index].substring(2);
+              }
+            }
+          }
           let messageData = {
             Command: "",
             CommandJsonData: JSON.stringify({
               UserId: this.UserData["_id"],
               sessionId: 0,
-              Message: textarea.innerHTML
+              Message: messageToSend
             })
           };
           this.sessionSocket.send(JSON.stringify(messageData));

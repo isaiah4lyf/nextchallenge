@@ -17,7 +17,8 @@ import session.models.*;
 
 public class SessionService {
 	public HttpClient client = HttpClient.newHttpClient();
-	public String apiUrl = "http://www.nextchallenge.co.za/api/api/index/";
+	//public String apiUrl = "http://www.nextchallenge.co.za/api/api/index/";
+	public String apiUrl = "http://localhost:44357/api/index/";
 	public HttpRequest getRequest(String actionParams) {
 		return HttpRequest.newBuilder()
 			      .uri(URI.create(apiUrl + actionParams))
@@ -71,12 +72,12 @@ public class SessionService {
 		}
 		return attempts;
 	}
-	public List<DefaultSessionChallenge> retrievedefaultchallenges() {
+	public List<DefaultSessionChallenge> retrievedefaultchallenges(int level) {
 		Type listType = new TypeToken<List<DefaultSessionChallenge>>() {}.getType();
 		List<DefaultSessionChallenge> challenges = null;
 		HttpResponse<String> response;
 		try {
-			response = client.send(getRequest("retrievedefaultsessionchallenge"), BodyHandlers.ofString());
+			response = client.send(getRequest("retrievedefaultsessionchallengebylevel?level=" + level), BodyHandlers.ofString());
 			challenges = new Gson().fromJson(response.body(), listType);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -104,5 +105,38 @@ public class SessionService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void updatechallengesanswered(String userid, int challengesanswered) {
+		try {
+			client.send(putRequest("updatechallengesanswered?userid=" + userid + "&challengesanswered=" + challengesanswered,""), BodyHandlers.ofString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public int retrievechallengesanswered(String userid) {
+		int value = 0;
+		HttpResponse<String> response;
+		try {
+			response = client.send(getRequest("retrievechallengesanswered?userid=" + userid), BodyHandlers.ofString());
+			value = Integer.parseInt(response.body());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return value;
+	}
+	public List<Level> retrievelevels() {
+		Type listType = new TypeToken<List<Level>>() {}.getType();
+		List<Level> levels = null;
+		HttpResponse<String> response;
+		try {
+			response = client.send(getRequest("retrievelevels"), BodyHandlers.ofString());
+			levels = new Gson().fromJson(response.body(), listType);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return levels;
 	}
 }

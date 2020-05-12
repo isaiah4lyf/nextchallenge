@@ -22,6 +22,7 @@ import javax.websocket.*;
 
 @ServerEndpoint("/session/level_5")
 public class Level_5 {
+	static volatile int _level = 5;
 	static volatile int MaxNumOfSessionUsers = 10;
 	static List<DefaultSession> GameSessions = Collections.synchronizedList(new ArrayList<DefaultSession>());
 	static List<RetrieveSessionsData> RetrieveSessionsClients = Collections.synchronizedList(new ArrayList<RetrieveSessionsData>());
@@ -67,13 +68,30 @@ public class Level_5 {
 				}
 				break;
 			case "JOIN_GAME_SESSION":  
-				JoinSessionData joinSession = gson.fromJson(messageData.getCommandJsonData(), JoinSessionData.class);				
-				handleJoinGameSessionCommand(joinSession,clientSession);				
-				Iterator<RetrieveSessionsData> iterator = RetrieveSessionsClients.iterator();
-				while(iterator.hasNext())
-				{
-					handleRetrieveSessions(iterator.next());
-				}				
+				JoinSessionData joinSession = gson.fromJson(messageData.getCommandJsonData(), JoinSessionData.class);
+				int numQuestionsAnswered = sessionService.retrievechallengesanswered(joinSession.getUserId());
+				List<Level> levels = sessionService.retrievelevels();
+				if(numQuestionsAnswered < levels.stream().filter(level -> level.get_level() == _level).collect(Collectors.toList()).get(0).getUnlockedAt()) {
+					MessageData leave = new MessageData();
+					leave.setCommand("LEVEL_LOCKED");
+					leave.setCommandJsonData("ok");
+					String response = gson.toJson(leave);
+					try {
+						clientSession.getBasicRemote().sendText(response);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else {
+					handleJoinGameSessionCommand(joinSession,clientSession);				
+					Iterator<RetrieveSessionsData> iterator = RetrieveSessionsClients.iterator();
+					while(iterator.hasNext())
+					{
+						handleRetrieveSessions(iterator.next());
+					}				
+				
+				}
 				break; 
 			case "RETRIEVE_LEADERBOARDS":
 				handleRetrieveLeaderboards(messageData.getCommandJsonData(),clientSession);
@@ -328,64 +346,70 @@ public class Level_5 {
 		response.setProfileCoverPic(client.getProfileCoverPic());
 		response.setChatStatus(client.getChatStatus());
 		response.setRepsoneDateTime(new Date().toLocaleString());
-			
 		int checkattempts = sessionService.retrieveattemptscount(client.getClientID());
-		
-		String answer = def.getMessage().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").toLowerCase();
-		if(answer.equals(question.getAnswer().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").toLowerCase()))
-		{
-			if(!client.isCurrentChallengeAnswered()) {
-				response.setStreakCount(client.getSessionStreak()+1);
-				response.setMessage("CORRECT");	
-				messageData.setCommand("CORRECT");
-				messageData.setCommandJsonData(gson.toJson(response));			
-				
-				GameSessions.get(GameSessionID).SendSessionClientsMessage(gson.toJson(messageData));
-				GameSessions.get(GameSessionID).SetSessionClientLeaderboardsWithId(client.getClientID(),client.getSessionScore()+question.getPoints(),client.getSessionStreak()+1);
-						
+		if(checkattempts > 0) {
 
-				GameSessions.get(GameSessionID).SetClientCurrentQAnswered(client.getClientID(), true);
 			
-				if(checkattempts > 0) {
-					Leaderboard leaderboard = sessionService.retrieveleaderboard(client.getClientID());
-					Calendar c = Calendar.getInstance();
-					c.setTime(new Date());
-					int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-					if(dayOfWeek >= 2 && dayOfWeek <= 6)
-					{
-						if(dayOfWeek == 6)
+			String answer = def.getMessage().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").replace("!","").toLowerCase();
+			if(answer.equals("t") && question.getChallengeType().equals("True or False")) answer = "true";
+			if(answer.equals("f") && question.getChallengeType().equals("True or False")) answer = "false";
+			if(answer.equals(question.getAnswer().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").replace("!","").toLowerCase()))
+			{
+				if(!client.isCurrentChallengeAnswered()) {
+					int numQuestionsAnswered = sessionService.retrievechallengesanswered(client.getClientID());
+					sessionService.updatechallengesanswered(client.getClientID(),numQuestionsAnswered + 1);
+					response.setStreakCount(client.getSessionStreak()+1);
+					response.setMessage("CORRECT");	
+					messageData.setCommand("CORRECT");
+					messageData.setCommandJsonData(gson.toJson(response));			
+					
+					GameSessions.get(GameSessionID).SendSessionClientsMessage(gson.toJson(messageData));
+					GameSessions.get(GameSessionID).SetSessionClientLeaderboardsWithId(client.getClientID(),client.getSessionScore()+question.getPoints(),client.getSessionStreak()+1);
+							
+
+					GameSessions.get(GameSessionID).SetClientCurrentQAnswered(client.getClientID(), true);
+				
+					if(checkattempts > 0) {
+						Leaderboard leaderboard = sessionService.retrieveleaderboard(client.getClientID());
+						Calendar c = Calendar.getInstance();
+						c.setTime(new Date());
+						int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+						if(dayOfWeek >= 2 && dayOfWeek <= 6)
 						{
-							if(c.get(Calendar.HOUR) >= 20 && c.get(Calendar.MINUTE) >= 0)
+							if(dayOfWeek == 6)
 							{
-								leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
+								if(c.get(Calendar.HOUR) >= 20 && c.get(Calendar.MINUTE) >= 0)
+								{
+									leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
+								}
 							}
 						}
-					}
-					else
-					{
-						leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
+						else
+						{
+							leaderboard.setWeekendScore(leaderboard.getWeekendScore() + question.getPoints());
+						}	
+						leaderboard.setWeeklyScore(leaderboard.getWeeklyScore() + question.getPoints());
+						leaderboard.setTotalScore(leaderboard.getTotalScore() + question.getPoints());
+						if(client.getSessionStreak() > leaderboard.getHighestStreak()) {
+							leaderboard.setHighestStreak(client.getSessionStreak());
+						}
+						else {
+							leaderboard.setHighestStreak(leaderboard.getHighestStreak());
+						}
+						sessionService.updateleaderboard(leaderboard);			
 					}	
-					leaderboard.setWeeklyScore(leaderboard.getWeeklyScore() + question.getPoints());
-					leaderboard.setTotalScore(leaderboard.getTotalScore() + question.getPoints());
-					if(client.getSessionStreak() > leaderboard.getHighestStreak()) {
-						leaderboard.setHighestStreak(client.getSessionStreak());
-					}
-					else {
-						leaderboard.setHighestStreak(leaderboard.getHighestStreak());
-					}
-					sessionService.updateleaderboard(leaderboard);			
 				}	
-			}	
-		}
-		else
-		{
-			response.setStreakCount(0);
-			response.setMessage(def.getMessage());
-			messageData.setCommandJsonData(gson.toJson(response));
-			
-			GameSessions.get(GameSessionID).SendSessionClientsMessage(gson.toJson(messageData));
-		}
-		if(checkattempts > 0) {
+			}
+			else
+			{
+				response.setStreakCount(0);
+				response.setMessage(def.getMessage());	
+				messageData.setCommandJsonData(gson.toJson(response));
+				if(!question.getChallengeType().equals("True or False") && !question.getChallengeType().equals("Multiple Choice"))
+					GameSessions.get(GameSessionID).SendSessionClientsMessage(gson.toJson(messageData));
+				if(question.getChallengeType().equals("True or False") || question.getChallengeType().equals("Multiple Choice"))
+					GameSessions.get(GameSessionID).SetClientCurrentQAnswered(client.getClientID(), true);
+			}
 			sessionService.updateattempts(client.getClientID(),checkattempts - 1);
 			GameSessions.get(GameSessionID).SetClientAttempts(client.getClientID(),checkattempts - 1);
 			HandleRetrieveAttempts(client.getClientID(),clientSession);		
@@ -464,7 +488,7 @@ public class Level_5 {
 						}
 					}).start();
 
-					AllQuestionsData = sessionService.retrievedefaultchallenges();
+					AllQuestionsData = sessionService.retrievedefaultchallenges(_level);
 			
 					int CountSleep = 0;
 					int ExactSecond = 0;
@@ -493,8 +517,10 @@ public class Level_5 {
 									GameSessions.get(0).UpdateSessionUsersStreak();
 									GameSessions.get(0).SetAllClientsCurrentQAnswered(false);
 								}
-								DefaultSessionChallenge CurrentQuestionLocal = AllQuestionsData.get(n);
-								
+								DefaultSessionChallenge CurrentQuestionLocal = new DefaultSessionChallenge().Clone(AllQuestionsData.get(n));
+								CurrentQuestionLocal.setAnswer(CurrentQuestionLocal.getAnswer().replaceAll("(\\p{Alpha})", "@"));
+								if(CurrentQuestionLocal.getChallengeType().equals("True or False") || CurrentQuestionLocal.getChallengeType().equals("Multiple Choice"))
+									CurrentQuestionLocal.setAnswer("@");
 								MessageData messageData = new MessageData();
 								messageData.setCommand("SESSION_CHALLENGE");
 								String challengeJsnData = gson.toJson(CurrentQuestionLocal);
@@ -527,7 +553,7 @@ public class Level_5 {
 									}
 									else
 									{
-										AllQuestionsData = sessionService.retrievedefaultchallenges();
+										AllQuestionsData = sessionService.retrievedefaultchallenges(_level);
 									}
 	
 								}
@@ -538,8 +564,10 @@ public class Level_5 {
 							else
 							{
 
-								DefaultSessionChallenge CurrentQuestionLocal = CurrentQuestion;
-								
+								DefaultSessionChallenge CurrentQuestionLocal = new DefaultSessionChallenge().Clone(CurrentQuestion);
+								CurrentQuestionLocal.setAnswer(CurrentQuestionLocal.getAnswer().replaceAll("(\\p{Alpha})", "@"));
+								if(CurrentQuestionLocal.getChallengeType().equals("True or False") || CurrentQuestionLocal.getChallengeType().equals("Multiple Choice"))
+									CurrentQuestionLocal.setAnswer("@");
 								MessageData messageData = new MessageData();
 								messageData.setCommand("SESSION_CHALLENGE");
 								String challengeJsnData = gson.toJson(CurrentQuestionLocal);
@@ -598,7 +626,7 @@ public class Level_5 {
 					// TODO Auto-generated method stub
 					while(true)
 					{
-						GlobalQuestions = sessionService.retrievedefaultchallenges();
+						GlobalQuestions = sessionService.retrievedefaultchallenges(_level);
 						GlobalQuestions = Collections.synchronizedList(new ArrayList<DefaultSessionChallenge>());
 						try {
 							Thread.sleep(60000);
@@ -710,7 +738,7 @@ public class Level_5 {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
-								AllQuestionsData = sessionService.retrievedefaultchallenges();
+								AllQuestionsData = sessionService.retrievedefaultchallenges(_level);
 	
 								int CountSleep = 0;
 								int n = 0;
@@ -742,7 +770,10 @@ public class Level_5 {
 												GameSessions.get(GameSessionID).UpdateSessionUsersStreak();
 												GameSessions.get(GameSessionID).SetAllClientsCurrentQAnswered(false);
 											}
-											DefaultSessionChallenge CurrentQuestionLocal = CurrentQuestion;
+											DefaultSessionChallenge CurrentQuestionLocal = new DefaultSessionChallenge().Clone(AllQuestionsData.get(n));
+											CurrentQuestionLocal.setAnswer(CurrentQuestionLocal.getAnswer().replaceAll("(\\p{Alpha})", "@"));
+											if(CurrentQuestionLocal.getChallengeType().equals("True or False") || CurrentQuestionLocal.getChallengeType().equals("Multiple Choice"))
+												CurrentQuestionLocal.setAnswer("@");
 	
 											MessageData messageData = new MessageData();
 											messageData.setCommand("SESSION_CHALLENGE");
@@ -779,7 +810,7 @@ public class Level_5 {
 												else
 												{
 
-													AllQuestionsData = sessionService.retrievedefaultchallenges();
+													AllQuestionsData = sessionService.retrievedefaultchallenges(_level);
 	
 												}				
 											}
@@ -790,7 +821,10 @@ public class Level_5 {
 										else
 										{
 
-											DefaultSessionChallenge CurrentQuestionLocal = CurrentQuestion;
+											DefaultSessionChallenge CurrentQuestionLocal = new DefaultSessionChallenge().Clone(CurrentQuestion);
+											CurrentQuestionLocal.setAnswer(CurrentQuestionLocal.getAnswer().replaceAll("(\\p{Alpha})", "@"));
+											if(CurrentQuestionLocal.getChallengeType().equals("True or False") || CurrentQuestionLocal.getChallengeType().equals("Multiple Choice"))
+												CurrentQuestionLocal.setAnswer("@");
 											
 											MessageData messageData = new MessageData();
 											messageData.setCommand("SESSION_CHALLENGE");

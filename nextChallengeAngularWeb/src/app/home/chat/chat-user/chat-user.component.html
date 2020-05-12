@@ -6,7 +6,7 @@
                 <span [ngClass]="chatStatusClassesFrom" style="top: 50px; left: 35px;" ></span>
                 <div class="msg-preview">
                     <h6 class="text-ellipsis" style="width: 160px;" >{{chat["FromUsers"][0]["FirstName"]}} {{chat["FromUsers"][0]["LastName"]}}</h6>
-                    <p class="text-muted" style="height: 15px; width: 90%; text-overflow: ellipsis;" #messageContent  ></p>
+                    <p class="text-muted text-ellipsis" style="height: 20px; width: 90%;" #messageContent ></p>
                     <small class="text-muted">{{dateTime}}</small>
                     <div class="chat-alert" *ngIf="chat['UnreadMessagesCount'] > 0; else messageStatus" >{{chat['UnreadMessagesCount'] }}</div>
                     <ng-template #messageStatus>

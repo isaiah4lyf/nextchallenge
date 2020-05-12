@@ -13,7 +13,7 @@
             src="assets/icons/play_vid.svg" alt="" />
     </div>
     <div class="post-container" style="padding-bottom: 0; padding-top: 3px;">
-        <div *ngIf="challenge.Clue.Type == 'none' && challenge.Clue.Description != 'none'" style="font-size: 12px;">
+        <div *ngIf="challenge.Clue.Description != null && challenge.Clue.Description != 'none' && challenge.Clue.Type == 'none' && challenge.Clue.Description != ''" style="font-size: 12px;">
             <i>hint: {{challenge.Clue.Description}}</i></div>
         <div *ngIf="challenge.Clue.Source != 'null' && challenge.Clue.Source != null && challenge.Clue.Type == 'image'" style="font-size: 11px;">
             <i><a href="{{challenge.Clue.Source}}">Photo</a> by {{challenge.Clue.By}} / <a href="{{challenge.Clue.LicenceReference}}">{{challenge.Clue.Licence}}</a> </i></div>
@@ -38,7 +38,14 @@
         </table>
 
         <div class="line-divider"></div>
-        <p class="challenge-question">{{challenge["Question"]}}</p>
+        <p class="challenge-question">
+            <ng-container *ngIf="challenge['ChallengeType'] == 'True or False'">T or F: </ng-container> {{challenge["Question"]}}
+            <ng-container *ngIf="challenge['ChallengeType'] == 'Multiple Choice'">
+                <div *ngFor="let answer of challenge.MultipleAnswers">
+                    {{answer}}
+                </div>
+            </ng-container>            
+        </p>    
         <div class="line-divider"></div>
         <label *ngFor="let box of challenge['Answer'].split('')"
             [ngClass]="{ 'challenge-answer-box': box != ' ', 'challenge-answer-box-borderless': box == ' ' }"></label>
