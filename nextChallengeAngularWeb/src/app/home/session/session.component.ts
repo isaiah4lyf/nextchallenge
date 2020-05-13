@@ -172,14 +172,16 @@ export class SessionComponent implements OnInit {
       }
       if (pushData) this.sessionContents.push(data);
       this._appService.setSssionContents(this.sessionContents);
-      setTimeout(() => {
-        if (this.sessionContents.length > 3 && this.Settings.find(s => s.Name == "SESSION_SCROLL").Value) {
-          window.scrollTo(0, document.body.scrollHeight);
-          setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 200);
-          setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 500);
-          setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 800);
-        }
-      }, 100);
+      if (this.sessionContents.length > 3) {
+        setTimeout(() => {
+          if (this.sessionContents.length > 3 && this.Settings.find(s => s.Name == "SESSION_SCROLL").Value) {
+            window.scrollTo(0, document.body.scrollHeight);
+            setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 200);
+            setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 500);
+            setTimeout(() => { window.scrollTo(0, document.body.scrollHeight); }, 800);
+          }
+        }, 100);
+      }
     }
   };
   shuffle(a) {
@@ -236,6 +238,14 @@ export class SessionComponent implements OnInit {
         };
         this.Quit = true;
         this.sessionSocket.send(JSON.stringify(messageData));
+        setTimeout(() => {
+          this.sessionContents = null;
+          this._appService.sessionSocket = null;
+          this._appService.CurrentLevel = "";
+          this._appService.CurrentSession = "";
+          this.router.navigate(["/play"]);
+        }, 500);
+
       }
       else if (textarea.innerHTML.startsWith(".h") || textarea.innerHTML.startsWith(".H")) {
         let messageData = {
@@ -243,6 +253,15 @@ export class SessionComponent implements OnInit {
           CommandJsonData: "commands"
         };
         this.sessionContents.push(messageData);
+      }
+      else if (textarea.innerHTML.startsWith(".r") || textarea.innerHTML.startsWith(".R")) {
+        this.connectSessionServer();
+        this._appService.setSssionContents([]);
+        this.sessionContents = [];
+      }
+      else if (textarea.innerHTML.startsWith(".c") || textarea.innerHTML.startsWith(".C")) {
+        this._appService.setSssionContents([]);
+        this.sessionContents = [this.CurrentChallenge];
       }
       else {
         if (fileInput.files.length == 0)
@@ -254,7 +273,7 @@ export class SessionComponent implements OnInit {
           formData.append("FileUploaderID", this.UserData["_id"]);
           this._appService.uploadfiles(formData, this.filesUploadCallBack, this.MessageLocalIdInc, textarea.innerHTML);
         } else {
-          let messageToSend = textarea.innerHTML;
+          let messageToSend = textarea.innerHTML.trim();
           if (messageToSend.length == 1) {
             if (this.CurrentChallenge != null) {
               if (this.CurrentChallenge.ChallengeType == "Multiple Choice") {
@@ -274,9 +293,11 @@ export class SessionComponent implements OnInit {
           this.sessionSocket.send(JSON.stringify(messageData));
         }
       }
-      setTimeout(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 100);
+      if (this.sessionContents.length > 3) {
+        setTimeout(() => {
+          window.scrollTo(0, document.body.scrollHeight);
+        }, 100);
+      }
       filePreviewImg.style.display = "none";
       filePreviewVid.style.display = "none";
       fileInput.value = "";

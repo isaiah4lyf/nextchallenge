@@ -1,0 +1,12 @@
+[
+    {
+        "_id": "5e935bc44842ce60e86db205",
+        "AttemptsCount": 50,
+        "Price": 5.0
+    },
+    {
+        "_id": "5e935c424842ce60e86db206",
+        "AttemptsCount": 200,
+        "Price": 10.0
+    }
+]

@@ -223,6 +223,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Prize.cs" />
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\Server.cs" />

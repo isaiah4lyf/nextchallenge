@@ -1,0 +1,131 @@
+.prize-details {
+    position: relative;
+    min-height: 50px;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 3px;
+}
+.prize-form {
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+}
+.prize-fieldset {
+    position: relative;
+    margin-bottom: 3px;
+}
+
+.prize-fieldset:first-child {
+    margin-top: 0;
+}
+
+.prize-fieldset:last-child {
+    margin-bottom: 0;
+}
+
+.prize-label {
+    font-size: 14px;
+    font-size: 0.875rem;
+}
+
+.prize-label.image-replace {
+    /* replace text with an icon */
+    display: inline-block;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    bottom: auto;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    color: transparent;
+    text-shadow: none;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+}
+
+
+.prize-input {
+    margin: 0;
+    padding: 0;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 1px;
+}
+.prize-submit {
+    height: 35px;
+    cursor: pointer;
+    background: #2f889a;
+    color: #FFF;
+    font-weight: bold;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}
+.prize-input.full-width {
+    width: 100%;
+}
+
+.prize-input.has-padding {
+    padding: 12px 20px 12px 50px;
+}
+
+.prize-input.has-border {
+    border: 1px solid #d2d8d8;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}
+
+.prize-input.has-border:focus {
+    border-color: #343642;
+    box-shadow: 0 0 5px rgba(52, 54, 66, 0.1);
+    outline: none;
+}
+
+.prize-label.cd-bank {
+    background-image: url('/assets/icons/architecture-and-city.svg');
+}
+.prize-label.cd-branch {
+    background-image: url('/assets/icons/forgot.svg');
+}
+.prize-label.cd-account {
+    background-image: url('/assets/icons/wallet white.svg');
+}
+.prize-label.cd-cell {
+    background-image: url('/assets/icons/interface.svg');
+}
+.prize-label.cd-network {
+    background-image: url('/assets/icons/communications.svg');
+}
+.prize-label.cd-cell-email {
+    background-image: url('/assets/icons/email-phone.svg');
+}
+.prize-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: silver;
+    opacity: 1; /* Firefox */
+    font-weight: normal;
+  }
+  
+  .prize-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: silver;
+    font-weight: normal;
+  }
+  
+  .prize-input::-ms-input-placeholder { /* Microsoft Edge */
+    color: silver;
+    font-weight: normal;
+  }

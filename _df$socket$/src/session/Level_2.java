@@ -350,10 +350,10 @@ public class Level_2 {
 		if(checkattempts > 0) {
 
 			
-			String answer = def.getMessage().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").replace("!","").toLowerCase();
+			String answer = def.getMessage().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").replace("!","").replaceAll("&nbsp;", "").toLowerCase();
 			if(answer.equals("t") && question.getChallengeType().equals("True or False")) answer = "true";
 			if(answer.equals("f") && question.getChallengeType().equals("True or False")) answer = "false";
-			if(answer.equals(question.getAnswer().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").replace("!","").toLowerCase()))
+			if(answer.equals(question.getAnswer().replaceAll("\\s+","").replace(",","").replace(".","").replace(":","").replace("!","").replaceAll("&nbsp;", "").toLowerCase()))
 			{
 				if(!client.isCurrentChallengeAnswered()) {
 					int numQuestionsAnswered = sessionService.retrievechallengesanswered(client.getClientID());

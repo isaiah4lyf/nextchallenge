@@ -1,0 +1,32 @@
+[
+    {
+        "_id": "5eb92e4d4842ce6484ef1edf",
+        "_level": 1,
+        "UnlockedAt": 0,
+        "CreateDateTime": "2020-05-11T10:54:34.958Z"
+    },
+    {
+        "_id": "5eb92e4f4842ce6484ef1ee0",
+        "_level": 2,
+        "UnlockedAt": 500,
+        "CreateDateTime": "2020-05-11T10:54:34.959Z"
+    },
+    {
+        "_id": "5eb92e4f4842ce6484ef1ee1",
+        "_level": 3,
+        "UnlockedAt": 1500,
+        "CreateDateTime": "2020-05-11T10:54:34.96Z"
+    },
+    {
+        "_id": "5eb92e4f4842ce6484ef1ee2",
+        "_level": 4,
+        "UnlockedAt": 3500,
+        "CreateDateTime": "2020-05-11T10:54:34.961Z"
+    },
+    {
+        "_id": "5eb92ee44842ce6484ef1ee4",
+        "_level": 5,
+        "UnlockedAt": 7000,
+        "CreateDateTime": "2020-05-11T10:54:34.962Z"
+    }
+]

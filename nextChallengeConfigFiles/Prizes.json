@@ -1,0 +1,62 @@
+[
+    {
+        "_id": "5ebc51cc4842ce5738f8d4f8",
+        "Position": 1,
+        "Weekly": "R 350.00",
+        "Weekend": "R 300.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4f9",
+        "Position": 2,
+        "Weekly": "R 250.00",
+        "Weekend": "R 200.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4fa",
+        "Position": 3,
+        "Weekly": "R 200.00",
+        "Weekend": "R 150.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4fb",
+        "Position": 4,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4fc",
+        "Position": 5,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4fd",
+        "Position": 6,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4fe",
+        "Position": 7,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d4ff",
+        "Position": 8,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d500",
+        "Position": 9,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    },
+    {
+        "_id": "5ebc51cc4842ce5738f8d501",
+        "Position": 10,
+        "Weekly": "R 100.00",
+        "Weekend": "R 100.00"
+    }
+]

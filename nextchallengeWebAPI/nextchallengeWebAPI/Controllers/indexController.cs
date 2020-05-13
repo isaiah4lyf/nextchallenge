@@ -2580,5 +2580,59 @@ namespace nextchallengeWebAPI.Controllers
             var collection = database.GetCollection<Level>("Levels");
             return collection.Find(new BsonDocument()).ToList();
         }
+        [Route("api/index/updateprizes")]
+        [HttpPut]
+        public List<Prize> updateprizes([FromBody]List<PrizePost> prizes)
+        {
+            var collection = database.GetCollection<Prize>("Prizes");
+            List<Prize> prizesConverted = new PrizeConverter().ConvertMany(prizes);
+            foreach (Prize prize in prizesConverted)
+            {
+                if (prize._id == ObjectId.Parse("000000000000000000000000"))
+                    collection.InsertOne(prize);
+                if (prize._id != ObjectId.Parse("000000000000000000000000"))
+                    collection.ReplaceOne(s => s._id == prize._id, prize);
+            }
+            return prizesConverted;
+        }
+        [Route("api/index/deleteprize")]
+        [HttpDelete]
+        public string deleteprize(string prizeid)
+        {
+            var collection = database.GetCollection<Prize>("Prizes");
+            collection.DeleteOne(l => l._id == ObjectId.Parse(prizeid));
+            return "success";
+        }
+        [Route("api/index/updatedetailprize")]
+        [HttpPut]
+        public PrizeDetails updatedetailprize([FromBody]PrizeDetailsPost details)
+        {
+            var collection = database.GetCollection<PrizeDetails>("PrizeDetails");
+            PrizeDetails detailsConverted = new PrizeDetailsConverter().Convert(details);
+            if (detailsConverted._id == ObjectId.Parse("000000000000000000000000"))
+                collection.InsertOne(detailsConverted);
+            if (detailsConverted._id != ObjectId.Parse("000000000000000000000000"))
+                collection.ReplaceOne(s => s._id == detailsConverted._id, detailsConverted);
+            return detailsConverted;
+        }
+        [Route("api/index/retrieveprizes")]
+        [HttpGet]
+        public PrizesDetailed retrieveprizes(string userid)
+        {
+            var collection = database.GetCollection<Prize>("Prizes");
+            var collectionDetails = database.GetCollection<PrizeDetails>("PrizeDetails");
+            PrizeDetails details = collectionDetails.Find(d => d.UserId == ObjectId.Parse(userid)).FirstOrDefault();
+            if (details == null)
+            {
+                details = new PrizeDetails();
+                details.UserId = ObjectId.Parse(userid);
+                collectionDetails.InsertOne(details);
+            }
+            return new PrizesDetailed()
+            {
+                Prizes = (from p in collection.AsQueryable() orderby p.Position ascending select p).ToList(),
+                PrizeDetatils = details
+            };
+        }
     }
 }

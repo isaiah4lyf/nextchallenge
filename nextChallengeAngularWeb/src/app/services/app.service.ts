@@ -456,4 +456,10 @@ export class AppService {
   retrievelevels() {
     return this.http.get(this.configUrl + "retrievelevels", this.httpOptions);
   }
+  updatedetailprize(details) {
+    return this.http.put(this.configUrl + "updatedetailprize", details);
+  }
+  retrieveprizes(userid){
+    return this.http.get(this.configUrl + "retrieveprizes?userid=" + userid, this.httpOptions);
+  }
 }
