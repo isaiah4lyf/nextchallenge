@@ -55,6 +55,7 @@ import { NotificationsService } from './services/notifications.service';
 import { SuggestionComponent } from './suggestions/suggestion/suggestion.component';
 import { CompleteBuyComponent } from './home/complete-buy/complete-buy.component';
 import { CancelBuyComponent } from './home/cancel-buy/cancel-buy.component';
+import { ConfirmEmailComponent } from './home/confirm-email/confirm-email/confirm-email.component';
 
 
 @NgModule({
@@ -104,7 +105,8 @@ import { CancelBuyComponent } from './home/cancel-buy/cancel-buy.component';
     SessionLeaderboardsComponent,
     SuggestionComponent,
     CompleteBuyComponent,
-    CancelBuyComponent
+    CancelBuyComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     CommonModule,

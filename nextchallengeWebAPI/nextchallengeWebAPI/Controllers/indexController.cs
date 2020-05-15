@@ -67,6 +67,7 @@ namespace nextchallengeWebAPI.Controllers
                     Value = setting.Value,
                     ValueNum = setting.ValueNum
                 });
+            sendemail("user-registration-generic", user.EmailRegistration);
             database.GetCollection<Setting>("Settings").InsertMany(newUserSettings);
             return user;
         }
@@ -107,6 +108,9 @@ namespace nextchallengeWebAPI.Controllers
             collection.ReplaceOne(u => u._id == usertemp._id, usertemp);
             return usertemp;
         }
+        //[Route("api/index/updatechatstatus")]
+        //[HttpPut]
+        //public 
         [Route("api/index/updatechatstatus")]
         [HttpPut]
         public long updatechatstatus(string userid, string chatstatus)
@@ -216,9 +220,20 @@ namespace nextchallengeWebAPI.Controllers
         }
         [Route("api/index/sendemail")]
         [HttpGet]
-        public string sendemail()
+        public string sendemail(string emailtype,string emailto,string buttonlink)
         {
-            return new SendEmail().Send();
+            string root = HttpContext.Current.Server.MapPath("~/Helpers");
+            var collection = database.GetCollection<EmailConfiguration>("EmailConfigurations");
+            var collectionConfig = database.GetCollection<Configuration>("Configurations");
+            Configuration configurationApi = collectionConfig.Find(c => c.Name == "API_URL").FirstOrDefault();
+            Configuration configurationWeb = collectionConfig.Find(c => c.Name == "PRIMARY_WEB_URL").FirstOrDefault();
+            EmailConfiguration config = collection.Find(c => c.EmailType == emailtype).FirstOrDefault();
+            config.EmailFilePath = root + config.EmailFilePath; 
+            config.IconUrl = configurationApi.Value + config.IconUrl; 
+            config.IconLink = configurationWeb.Value;
+            config.EmailTo = emailto;
+            config.ButtonLink = configurationWeb.Value + "/" + buttonlink;
+            return new SendEmail().Send(config);
         }
         [Route("api/index/retrievelogonupdate")]
         [HttpGet]
@@ -2633,6 +2648,36 @@ namespace nextchallengeWebAPI.Controllers
                 Prizes = (from p in collection.AsQueryable() orderby p.Position ascending select p).ToList(),
                 PrizeDetatils = details
             };
+        }
+        [Route("api/index/updateemailconfigs")]
+        [HttpPut]
+        public List<EmailConfiguration> updateemailconfigs([FromBody]List<EmailConfigurationPost> configs)
+        {
+            var collection = database.GetCollection<EmailConfiguration>("EmailConfigurations");
+            List<EmailConfiguration> configsConverted = new EmailConfigurationConverter().ConvertMany(configs);
+            foreach (EmailConfiguration config in configsConverted)
+            {
+                if (config._id == ObjectId.Parse("000000000000000000000000"))
+                    collection.InsertOne(config);
+                if (config._id != ObjectId.Parse("000000000000000000000000"))
+                    collection.ReplaceOne(s => s._id == config._id, config);
+            }
+            return configsConverted;
+        }
+        [Route("api/index/deleteemailconfig")]
+        [HttpDelete]
+        public string deleteemailconfig(string configid)
+        {
+            var collection = database.GetCollection<EmailConfiguration>("EmailConfigurations");
+            collection.DeleteOne(l => l._id == ObjectId.Parse(configid));
+            return "success";
+        }
+        [Route("api/index/retrieveemailconfigs")]
+        [HttpGet]
+        public List<EmailConfiguration> retrieveemailconfigs()
+        {
+            var collection = database.GetCollection<EmailConfiguration>("EmailConfigurations");
+            return collection.Find(new BsonDocument()).ToList();
         }
     }
 }
