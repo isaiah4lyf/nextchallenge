@@ -17,4 +17,29 @@ export class ChangePasswordComponent implements OnInit {
       this._notificationsService.updateChatStatus();
     }
   }
+  changePassword(passwordVal, passwordNew, passwordConfirm, passwordValRef, passwordNewValRef, passwordConfirmValRef) {
+
+  }
+  passwordChange(passwordVal, passwordValRef) {
+    if (passwordVal.value == "") {
+      passwordValRef.style.visibility = "visible";
+    } else {
+      passwordValRef.style.visibility = "hidden";
+    }
+  }
+  passwordNewChange(passwordNew, passwordNewValRef) {
+    if (passwordNew.value == "") {
+      passwordNewValRef.style.visibility = "visible";
+    } else {
+      passwordNewValRef.style.visibility = "hidden";
+    }
+  }
+  passwordConfirmChange(passwordConfirm, passwordNew, passwordConfirmValRef) {
+    if (passwordConfirm.value != passwordNew.value) {
+      passwordConfirmValRef.style.visibility = "visible";
+      passwordConfirmValRef.innerText = "Passswords do not match";
+    } else {
+      passwordConfirmValRef.style.visibility = "hidden";
+    }
+  }
 }

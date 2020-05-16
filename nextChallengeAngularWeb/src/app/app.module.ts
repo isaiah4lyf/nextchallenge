@@ -55,7 +55,11 @@ import { NotificationsService } from './services/notifications.service';
 import { SuggestionComponent } from './suggestions/suggestion/suggestion.component';
 import { CompleteBuyComponent } from './home/complete-buy/complete-buy.component';
 import { CancelBuyComponent } from './home/cancel-buy/cancel-buy.component';
-import { ConfirmEmailComponent } from './home/confirm-email/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './index/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './index/reset-password/reset-password.component';
+import { ChangeEmailComponent } from './index/change-email/change-email.component';
+import { ConfirmEmailComponent } from './index/confirm-email/confirm-email.component';
+
 
 
 @NgModule({
@@ -106,6 +110,9 @@ import { ConfirmEmailComponent } from './home/confirm-email/confirm-email/confir
     SuggestionComponent,
     CompleteBuyComponent,
     CancelBuyComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    ChangeEmailComponent,
     ConfirmEmailComponent
   ],
   imports: [

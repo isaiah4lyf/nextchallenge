@@ -27,6 +27,7 @@ namespace nextchallengeWebAPI.Models
         public int ChallengesAnswered { set; get; }
         public FileUpload ProfilePic { get; set; }
         public FileUpload ProfileCoverPic { get; set; }
+
     }
     public class UserDetailed
     {
@@ -48,7 +49,7 @@ namespace nextchallengeWebAPI.Models
         public Company LatestWork { set; get; }
         public School LatestEducation { set; get; }
         public int FriendsCount { set; get; }
-
+        public List<ConfirmationDetails> Confirmations { set; get; }
     }
     public class UserMinInfo
     {

@@ -212,6 +212,7 @@
     <Compile Include="Models\AttemptsPurchase.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\ConfirmationDetails.cs" />
     <Compile Include="Models\DefaultSessionChallenge.cs" />
     <Compile Include="Models\EmailConfiguration.cs" />
     <Compile Include="Models\FileUpload.cs" />

@@ -75,6 +75,24 @@ export class AppService {
   register(form: NgForm) {
     return this.http.post(this.configUrl + "createuser", JSON.stringify(form.value), this.httpOptions);
   }
+  updatepassword(link,password){
+    return this.http.get(this.configUrl + "updatepassword?link=" + link + "&password=" + password, this.httpOptions);
+  }
+  sendpasswordresetlink(email) {
+    return this.http.get(this.configUrl + "sendpasswordresetlink?email=" + email, this.httpOptions);
+  }
+  sendemailchangerquestlink(userid) {
+    return this.http.get(this.configUrl + "sendemailchangerquestlink?userid=" + userid, this.httpOptions);
+  }
+  sendemailconfirmationlink(userid) {
+    return this.http.get(this.configUrl + "sendemailconfirmationlink?userid=" + userid, this.httpOptions);
+  }
+  changeemail(link) {
+    return this.http.get(this.configUrl + "changeemail?link=" + link, this.httpOptions);
+  }
+  confirmemail(link) {
+    return this.http.get(this.configUrl + "confirmemail?link=" + link, this.httpOptions);
+  }
   checkemail(email, userid) {
     return this.http.get(this.configUrl + "checkemail?email=" + email + "&userid=" + userid, this.httpOptions);
   }
@@ -459,7 +477,7 @@ export class AppService {
   updatedetailprize(details) {
     return this.http.put(this.configUrl + "updatedetailprize", details);
   }
-  retrieveprizes(userid){
+  retrieveprizes(userid) {
     return this.http.get(this.configUrl + "retrieveprizes?userid=" + userid, this.httpOptions);
   }
 }

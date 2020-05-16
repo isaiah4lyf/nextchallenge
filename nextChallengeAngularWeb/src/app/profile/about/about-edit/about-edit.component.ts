@@ -5,6 +5,7 @@ import { DateOfBirth } from "../../.././models/date-of-birth";
 import { AppService } from "../../.././services/app.service";
 import { NotificationsService } from "../../.././services/notifications.service";
 import { NgForm } from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-about-edit',
@@ -18,7 +19,8 @@ export class AboutEditComponent implements OnInit {
   public updateValid = false;
   public years: any = [];
   public daysInMonthArr: any = [];
-  constructor(private _appService: AppService, private router: Router, private _notificationsService: NotificationsService) { }
+  public EmailConfirmed = false;
+  constructor(private _appService: AppService, private router: Router, private _notificationsService: NotificationsService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserData = this._appService.getUserData();
@@ -31,6 +33,22 @@ export class AboutEditComponent implements OnInit {
     for (let i = 0; i < 75; i++) {
       this.years.push(yearCurrent - i);
     }
+    if (this.UserData["Confirmations"] != null)
+      this.EmailConfirmed = this.UserData["Confirmations"][0]["EmailConfirmed"];
+  }
+  sendemailchangerquestlink() {
+    this.basicInfoSpinner = true;
+    this._appService.sendemailchangerquestlink(this.UserData["_id"]).subscribe(data => {
+      this.toastr.info("", "Email change request link sent successfuly.");
+      this.basicInfoSpinner = false;
+    });
+  }
+  sendemailconfirmationlink() {
+    this.basicInfoSpinner = true;
+    this._appService.sendemailconfirmationlink(this.UserData["_id"]).subscribe(data => {
+      this.toastr.info("", "Confirmation link sent successfuly.");
+      this.basicInfoSpinner = false;
+    });
   }
   updateBasicInfo(form: NgForm) {
     if (this.updateValid) {
@@ -39,6 +57,7 @@ export class AboutEditComponent implements OnInit {
       data["Email"] = this.UserData["Email"];
       this.basicInfoSpinner = true;
       this._appService.updatebasicinfo(data).subscribe(data => {
+        this.toastr.info("", "Basic info update successfuly.");
         this._appService.setUserData(data);
         setTimeout(() => {
           this.basicInfoSpinner = false;
@@ -47,6 +66,9 @@ export class AboutEditComponent implements OnInit {
         }, 500);
         this._appService.retrievelogonupdate(this.UserData["_id"]).subscribe(data => {
           this._appService.setUserData(data);
+          this.UserData = data;
+          if (this.UserData["Confirmations"] != null)
+            this.EmailConfirmed = this.UserData["Confirmations"][0]["EmailConfirmed"];
         });
       });
     }

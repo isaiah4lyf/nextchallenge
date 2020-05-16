@@ -86,7 +86,7 @@ export class RegisterComponent implements OnInit {
     }
   }
   emailChange(form: NgForm, emailValRef) {
-    if (form.value.EmailRegistration == "") {
+    if (!this.emailIsValid(form.value.EmailRegistration)) {
       emailValRef.style.visibility = "visible";
     } else {
       emailValRef.style.visibility = "hidden";
@@ -116,5 +116,8 @@ export class RegisterComponent implements OnInit {
     else {
       termsConditionsValRef.style.visibility = "hidden";
     }
+  }
+  emailIsValid(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 }

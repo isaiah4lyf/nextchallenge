@@ -32,6 +32,10 @@ import { CompleteBuyComponent } from "./home/complete-buy/complete-buy.component
 import { CancelBuyComponent } from "./home/cancel-buy/cancel-buy.component";
 import { RegisterComponent } from "./index/register/register.component";
 import { LoginComponent } from "./index/login/login.component";
+import { ForgotPasswordComponent } from './index/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './index/reset-password/reset-password.component';
+import { ChangeEmailComponent } from './index/change-email/change-email.component';
+import { ConfirmEmailComponent } from './index/confirm-email/confirm-email.component';
 
 const routes: Routes = [
   {
@@ -61,6 +65,10 @@ const routes: Routes = [
     ]
   },
   { path: "help", component: HelpComponent },
+  { path: "confirm-email/:id", component: ConfirmEmailComponent },
+  { path: "change-email/:id", component: ChangeEmailComponent },
+  { path: "forgot-password", component: ForgotPasswordComponent },
+  { path: "reset-password/:id", component: ResetPasswordComponent },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   {

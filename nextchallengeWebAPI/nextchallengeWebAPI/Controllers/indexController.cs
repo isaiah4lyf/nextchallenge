@@ -67,9 +67,149 @@ namespace nextchallengeWebAPI.Controllers
                     Value = setting.Value,
                     ValueNum = setting.ValueNum
                 });
-            sendemail("user-registration-generic", user.EmailRegistration);
+            sendemailconfirmationlink(user._id.ToString());
             database.GetCollection<Setting>("Settings").InsertMany(newUserSettings);
             return user;
+        }
+        [Route("api/index/updatepassword")]
+        [HttpGet]
+        public string updatepassword(string link, string password)
+        {
+            var collection = database.GetCollection<User>("Users");
+            var collectionConfirm = database.GetCollection<EmailConfirmation>("EmailConfirmations");
+            EmailConfirmation confirmation = collectionConfirm.Find(c => c.Link == link && !c.Confirmed).FirstOrDefault();
+            if (confirmation == null)
+                return "invalid";
+            var update = Builders<User>.Update.Set(u => u.Password, password);
+            User user = collection.Find(u => u._id == confirmation.UserId).FirstOrDefault();
+            if (user == null)
+                return "invalid";
+            collection.UpdateOne(u => u._id == user._id, update);
+            return "success";
+        }
+        [Route("api/index/sendpasswordresetlink")]
+        [HttpGet]
+        public string sendpasswordresetlink(string email)
+        {
+            string confirmLink = Guid.NewGuid().ToString();
+            var collection = database.GetCollection<User>("Users");
+            User user = collection.Find(u => u.EmailRegistration == email).FirstOrDefault();
+            if (user == null)
+                return "invalid";
+            updateemailconfirmationlink(new EmailConfirmationPost()
+            {
+                UserId = user._id.ToString(),
+                Confirmed = false,
+                CreateDateTime = DateTime.Now,
+                Link = confirmLink
+            });
+            sendemail("reset-password-generic", user.EmailRegistration, "reset-password/" + confirmLink);
+            return "sent";
+        }
+        [Route("api/index/sendemailchangerquestlink")]
+        [HttpGet]
+        public string sendemailchangerquestlink(string userid)
+        {
+            string confirmLink = Guid.NewGuid().ToString();
+            var collection = database.GetCollection<User>("Users");
+            User user = collection.Find(u => u._id == ObjectId.Parse(userid)).FirstOrDefault();
+            updateemailconfirmationlink(new EmailConfirmationPost()
+            {
+                UserId = userid,
+                Confirmed = false,
+                CreateDateTime = DateTime.Now,
+                Link = confirmLink
+            });
+            sendemail("change-email-generic", user.EmailRegistration, "change-email/" + confirmLink);
+            return "sent";
+        }
+        [Route("api/index/sendemailconfirmationlink")]
+        [HttpGet]
+        public string sendemailconfirmationlink(string userid)
+        {
+            string confirmLink = Guid.NewGuid().ToString();
+            var collection = database.GetCollection<User>("Users");
+            User user = collection.Find(u => u._id == ObjectId.Parse(userid)).FirstOrDefault();
+            var collectionConfirm = database.GetCollection<ConfirmationDetails>("ConfirmationDetails");
+            ConfirmationDetails confirmation = collectionConfirm.Find(c => c.UserId == ObjectId.Parse(userid)).FirstOrDefault();
+            if (confirmation == null)
+                confirmation = new ConfirmationDetails()
+                {
+                    UserId = user._id,
+                    EmailConfirmed = false
+                };
+            if (confirmation._id == ObjectId.Parse("000000000000000000000000"))
+                collectionConfirm.InsertOne(confirmation);
+            updateemailconfirmationlink(new EmailConfirmationPost()
+            {
+                UserId = userid,
+                Confirmed = false,
+                CreateDateTime = DateTime.Now,
+                Link = confirmLink
+            });
+            sendemail("user-registration-generic", user.EmailRegistration, "confirm-email/" + confirmLink);
+            return "sent";
+        }
+        [Route("api/index/changeemail")]
+        [HttpGet]
+        public string changeemail(string link)
+        {
+            var collectionConfirm = database.GetCollection<EmailConfirmation>("EmailConfirmations");
+            EmailConfirmation confirmation = collectionConfirm.Find(c => c.Link == link && !c.Confirmed).FirstOrDefault();
+            var collectionConfirmDetails = database.GetCollection<ConfirmationDetails>("ConfirmationDetails");
+            ConfirmationDetails confirmationDetails = new ConfirmationDetails();
+            if (confirmation != null)
+                confirmationDetails = collectionConfirmDetails.Find(c => c.UserId == confirmation.UserId).FirstOrDefault();
+            if (confirmation == null)
+                return "invalid link";
+            updateemailconfirmationlink(new EmailConfirmationPost()
+            {
+                _id = confirmation._id.ToString(),
+                UserId = confirmation.UserId.ToString(),
+                Confirmed = true,
+                CreateDateTime = confirmation.CreateDateTime,
+                Link = confirmation.Link,
+                ConfirmedDateTime = confirmation.ConfirmedDateTime
+            });
+            confirmationDetails.EmailConfirmed = false;
+            collectionConfirmDetails.ReplaceOne(c => c._id == confirmationDetails._id, confirmationDetails);
+            return "confirmed";
+        }
+        [Route("api/index/confirmemail")]
+        [HttpGet]
+        public string confirmemail(string link)
+        {
+            var collectionConfirm = database.GetCollection<EmailConfirmation>("EmailConfirmations");
+            EmailConfirmation confirmation = collectionConfirm.Find(c => c.Link == link && !c.Confirmed).FirstOrDefault();
+            var collectionConfirmDetails = database.GetCollection<ConfirmationDetails>("ConfirmationDetails");
+            ConfirmationDetails confirmationDetails = new ConfirmationDetails();
+            if (confirmation != null)
+                confirmationDetails = collectionConfirmDetails.Find(c => c.UserId == confirmation.UserId).FirstOrDefault();
+            if (confirmation == null)
+                return "invalid link";
+            updateemailconfirmationlink(new EmailConfirmationPost()
+            {
+                _id = confirmation._id.ToString(),
+                UserId = confirmation.UserId.ToString(),
+                Confirmed = true,
+                CreateDateTime = confirmation.CreateDateTime,
+                Link = confirmation.Link,
+                ConfirmedDateTime = confirmation.ConfirmedDateTime
+            });
+            confirmationDetails.EmailConfirmed = true;
+            confirmationDetails.ConfirmedDateTime = DateTime.Now;
+            collectionConfirmDetails.ReplaceOne(c => c._id == confirmationDetails._id, confirmationDetails);
+            return "confirmed";
+        }
+        public EmailConfirmation updateemailconfirmationlink(EmailConfirmationPost confirm)
+        {
+            var collectionConfirm = database.GetCollection<EmailConfirmation>("EmailConfirmations");
+            EmailConfirmation confirmConverted = new EmailConfirmationConverter().Convert(confirm);
+            if (confirmConverted._id == ObjectId.Parse("000000000000000000000000"))
+                collectionConfirm.InsertOne(confirmConverted);
+            if (confirmConverted._id != ObjectId.Parse("000000000000000000000000"))
+                collectionConfirm.ReplaceOne(c => c._id == confirmConverted._id, confirmConverted);
+            return confirmConverted;
         }
         [Route("api/index/checkemail")]
         [HttpGet]
@@ -84,6 +224,7 @@ namespace nextchallengeWebAPI.Controllers
         public User updatebasicinfo([FromBody]UserPost user)
         {
             var collection = database.GetCollection<User>("Users");
+            var collectionConfirmDetails = database.GetCollection<ConfirmationDetails>("ConfirmationDetails");
             User usertemp = new UserConverter().Convert(user);
             User useroldData = collection.Find(u => u._id == usertemp._id).FirstOrDefault();
             usertemp.Password = useroldData.Password;
@@ -92,6 +233,12 @@ namespace nextchallengeWebAPI.Controllers
             usertemp.Attempts = useroldData.Attempts;
             usertemp.ChallengesAnswered = useroldData.ChallengesAnswered;
             usertemp.ChatStatus = useroldData.ChatStatus;
+            ConfirmationDetails confirmationDetails = collectionConfirmDetails.Find(c => c.UserId == usertemp._id).FirstOrDefault();
+            if (confirmationDetails == null)
+                usertemp.EmailRegistration = useroldData.EmailRegistration;
+            if (confirmationDetails != null)
+                if (!confirmationDetails.EmailConfirmed)
+                    usertemp.EmailRegistration = useroldData.EmailRegistration;
             string Email = usertemp.FirstName.ToLower() + "." + usertemp.LastName.ToLower();
             if ((Email + atNextMail) != user.Email)
             {
@@ -106,11 +253,13 @@ namespace nextchallengeWebAPI.Controllers
                 usertemp.Email = Email + atNextMail;
             }
             collection.ReplaceOne(u => u._id == usertemp._id, usertemp);
+            if (confirmationDetails == null)
+                sendemailconfirmationlink(usertemp._id.ToString());
+            if (confirmationDetails != null)
+                if (!confirmationDetails.EmailConfirmed)
+                    sendemailconfirmationlink(usertemp._id.ToString());
             return usertemp;
         }
-        //[Route("api/index/updatechatstatus")]
-        //[HttpPut]
-        //public 
         [Route("api/index/updatechatstatus")]
         [HttpPut]
         public long updatechatstatus(string userid, string chatstatus)
@@ -189,8 +338,10 @@ namespace nextchallengeWebAPI.Controllers
         public UserDetailed login(string email, string password)
         {
             var collection = database.GetCollection<User>("Users");
+            var confirmation = database.GetCollection<ConfirmationDetails>("ConfirmationDetails");
             var collectionFriendship = database.GetCollection<Friendship>("Friendships");
             UserDetailed user = (from u in collection.AsQueryable()
+                                 join c in confirmation.AsQueryable() on u._id equals c.UserId into confs
                                  where (u.EmailRegistration == email || u.Email == email) && u.Password == password
                                  select new UserDetailed()
                                  {
@@ -207,7 +358,8 @@ namespace nextchallengeWebAPI.Controllers
                                      Attempts = u.Attempts,
                                      ChallengesAnswered = u.ChallengesAnswered,
                                      ProfilePic = u.ProfilePic,
-                                     ProfileCoverPic = u.ProfileCoverPic
+                                     ProfileCoverPic = u.ProfileCoverPic,
+                                     Confirmations = (List<ConfirmationDetails>)confs
                                  }).FirstOrDefault();
             if (user != null)
             {
@@ -240,8 +392,10 @@ namespace nextchallengeWebAPI.Controllers
         public UserDetailed retrievelogonupdate(string userid)
         {
             var collection = database.GetCollection<User>("Users");
+            var confirmation = database.GetCollection<ConfirmationDetails>("ConfirmationDetails");
             var collectionFriendship = database.GetCollection<Friendship>("Friendships");
             UserDetailed user = (from u in collection.AsQueryable()
+                                 join c in confirmation.AsQueryable() on u._id equals c.UserId into confs
                                  where u._id == ObjectId.Parse(userid)
                                  select new UserDetailed()
                                  {
@@ -258,7 +412,8 @@ namespace nextchallengeWebAPI.Controllers
                                      Attempts = u.Attempts,
                                      ChallengesAnswered = u.ChallengesAnswered,
                                      ProfilePic = u.ProfilePic,
-                                     ProfileCoverPic = u.ProfileCoverPic
+                                     ProfileCoverPic = u.ProfileCoverPic,
+                                     Confirmations = (List<ConfirmationDetails>)confs
                                  }).FirstOrDefault();
             user.FriendsCount = Convert.ToInt32(collectionFriendship.CountDocuments(f => f.FriendshipApproved && (f.FriendshipStarterUserId == user._id || f.FriendUserId == user._id)));
             user.LatestWork = (from c in database.GetCollection<Company>("Companies").AsQueryable() where c.UserID == user._id orderby c.CreateDateTime descending select c).FirstOrDefault();

@@ -25,10 +25,12 @@
             <div class="row">
                 <div class="form-group col-xs-12">
                     <span for="email">Email<span class="text-red">*</span></span>
-                    <input #emailInput (change)="onFieldChange(emailInput,emailValRef,'Email')"  id="email" class="form-control input-group-lg" type="text" name="EmailRegistration"
+                    <input #emailInput (change)="onFieldChange(emailInput,emailValRef,'Email')" [readonly]="EmailConfirmed"   id="email" class="form-control input-group-lg" type="text" name="EmailRegistration"
                         title="Enter Email" type="email" required placeholder="Your Email"
                         [ngModel]="userModel['EmailRegistration']" />
                         <span #emailValRef class="validation-span" style="width: 150px; left: 15px;">Field required</span>
+                    <span *ngIf="EmailConfirmed" class="text-green" style="font-size: 11px; cursor: pointer;" (click)="sendemailchangerquestlink()"><i>Request change(Send link for changing the email).</i></span>
+                    <span *ngIf="!EmailConfirmed" class="text-red" style="font-size: 11px; cursor: pointer;" (click)="sendemailconfirmationlink()" ><i>Resend confirmation link(Please confirm your email so that you never lose the account).</i></span>
                 </div>
             </div>
             <div class="row" ngModelGroup="DateOfBirth">
